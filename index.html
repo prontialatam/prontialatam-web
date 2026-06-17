@@ -170,7 +170,7 @@
     backdrop-filter: blur(12px);
     border-bottom: 1px solid rgba(55,138,221,0.12);
     padding: 0 5%;
-    height: 90px;
+    height: 80px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -179,11 +179,11 @@
   .nav-brand {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     gap: 4px;
     position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
+    left: 5%;
+    transform: none;
   }
 
   .nav-claim-row {
@@ -220,10 +220,11 @@
   }
 
   .nav-logo-img {
-    height: 72px;
+    height: 65px;
     width: auto;
+    max-width: 700px;
     display: block;
-    border-radius: 8px;
+    object-fit: contain;
   }
 
   .nav-logo {
@@ -275,19 +276,12 @@
   /* HERO */
   .hero {
     min-height: 100vh;
-    padding: 120px 5% 80px;
+    padding: 100px 5% 80px;
     display: flex;
     align-items: center;
     position: relative;
     overflow: hidden;
-    background-image:
-      url('header-banner.jpg');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
+    background: linear-gradient(180deg, #f8fbff 0%, #ffffff 100%);
   }
 
   /* hero overlays removed to show the custom header banner design */
@@ -306,9 +300,9 @@
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    background: rgba(255,255,255,0.12);
-    border: 1px solid rgba(255,255,255,0.25);
-    color: var(--blue-100);
+    background: var(--blue-50);
+    border: 1px solid var(--blue-100);
+    color: var(--blue-700);
     font-size: 0.8rem;
     font-weight: 500;
     padding: 0.35rem 0.875rem;
@@ -336,18 +330,18 @@
     font-weight: 700;
     line-height: 1.08;
     letter-spacing: -0.01em;
-    color: var(--white);
+    color: var(--blue-900);
     margin-bottom: 1.25rem;
   }
 
   .hero h1 em {
     font-style: normal;
-    color: var(--blue-200);
+    color: var(--blue-600);
   }
 
   .hero p.subtitle {
     font-size: 1.05rem;
-    color: rgba(255,255,255,0.8);
+    color: var(--gray-600);
     line-height: 1.7;
     margin-bottom: 2rem;
     font-weight: 300;
@@ -1912,15 +1906,9 @@
 <nav>
   <div class="nav-brand">
     <a href="#" class="nav-logo">
-      <img src="logo-prontia.jpg" alt="ProntIA Latam" class="nav-logo-img">
+      <img src="header-banner.jpg" alt="ProntIA Latam" class="nav-logo-img">
     </a>
-    <div class="nav-claim-row">
-      <p class="nav-claim">🇪🇺 Creado en Europa · Pensado para Latinoamérica 🌎</p>
-      <span class="nav-247">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-        Asistencia 24/7
-      </span>
-    </div>
+    <!-- Claim removido: el banner ahora muestra el branding en la franja superior -->
   </div>
   <ul class="nav-links">
     <li><a href="#productos">Productos</a></li>
@@ -2570,6 +2558,23 @@
       document.getElementById('blog').scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   }
+
+  // Soporte para compartir enlace directo del Artículo 1 en RRSS
+  // Si visitas https://prontialatam.com/#blogArticle1 el artículo se abre automáticamente
+  function handleBlogArticleHash() {
+    if (window.location.hash === '#blogArticle1') {
+      const article = document.getElementById('blogArticle1');
+      if (article && !article.classList.contains('open')) {
+        article.classList.add('open');
+        setTimeout(() => {
+          article.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 350);
+      }
+    }
+  }
+
+  window.addEventListener('load', handleBlogArticleHash);
+  window.addEventListener('hashchange', handleBlogArticleHash);
 
   // TESTIMONIO FORM
   (function() {

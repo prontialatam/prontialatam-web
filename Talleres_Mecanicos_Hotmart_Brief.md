@@ -47,7 +47,7 @@ El link en el código del sitio ya está actualizado con placeholder `https://pa
 Reemplaza con el link exacto que obtengas después de publicar.
 
 ## Link actual en el sitio (después de fix)
-- Hostelería: https://pay.hotmart.com/50promptshosteleria (actualizado de la versión de test)
+- Hostelería: https://pay.hotmart.com/50promptshosteleria  ← ACTUALMENTE DA "Offer Not Found" - reemplaza YA con el link real
 - Talleres: https://pay.hotmart.com/100promptstalleres (placeholder - reemplaza con exacto)
 
 ## Pasos adicionales

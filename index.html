@@ -166,11 +166,11 @@
     position: fixed;
     top: 0; left: 0; right: 0;
     z-index: 100;
-    background: rgba(255,255,255,0.92);
+    background: rgba(255,255,255,0.95);
     backdrop-filter: blur(12px);
     border-bottom: 1px solid rgba(55,138,221,0.12);
     padding: 0 5%;
-    height: 80px;
+    height: 150px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -178,12 +178,10 @@
 
   .nav-brand {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 4px;
+    align-items: center;
     position: absolute;
-    left: 5%;
-    transform: none;
+    left: 50%;
+    transform: translateX(-50%);
   }
 
   .nav-claim-row {
@@ -220,11 +218,12 @@
   }
 
   .nav-logo-img {
-    height: 65px;
+    height: 130px;
     width: auto;
-    max-width: 700px;
+    max-width: 1000px;
     display: block;
     object-fit: contain;
+    /* Banner más grande y centrado en la franja blanca superior */
   }
 
   .nav-logo {
@@ -276,7 +275,7 @@
   /* HERO */
   .hero {
     min-height: 100vh;
-    padding: 100px 5% 80px;
+    padding: 165px 5% 80px;
     display: flex;
     align-items: center;
     position: relative;

@@ -281,29 +281,16 @@
     position: relative;
     overflow: hidden;
     background-image:
-      linear-gradient(120deg, rgba(4,44,83,0.97) 0%, rgba(24,95,165,0.88) 50%, rgba(55,138,221,0.75) 100%),
-      url('hero-bg.jpeg');
+      url('header-banner.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
   }
 
-  .hero::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: radial-gradient(ellipse at 70% 50%, rgba(55,138,221,0.18) 0%, transparent 65%);
-    pointer-events: none;
-  }
-
-  .hero::after {
-    content: '';
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    height: 120px;
-    background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.08));
-    pointer-events: none;
-  }
+  /* hero overlays removed to show the custom header banner design */
 
   .hero-inner {
     max-width: 1100px;
@@ -856,6 +843,28 @@
   .product-card-hosteleria .product-desc { color: rgba(255,255,255,0.75); }
   .product-card-hosteleria .product-features li { color: rgba(255,255,255,0.8); }
   .product-card-hosteleria .product-features li::before { background: var(--blue-300, #5fa8e0); }
+
+  .product-card-talleres {
+    background-image:
+      linear-gradient(to top, rgba(4,44,83,0.92) 30%, rgba(4,44,83,0.3) 60%, rgba(0,0,0,0.1) 100%),
+      url('talleres-bg.jpg');
+    background-size: cover;
+    background-position: center top;
+    border: none !important;
+    box-shadow: 0 4px 24px rgba(4,44,83,0.2) !important;
+  }
+
+  .product-card-talleres:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(4,44,83,0.3) !important;
+  }
+
+  .product-card-talleres .product-price { color: var(--white); }
+  .product-card-talleres .product-price span { color: rgba(255,255,255,0.6); }
+  .product-card-talleres .product-name { color: var(--white); }
+  .product-card-talleres .product-desc { color: rgba(255,255,255,0.75); }
+  .product-card-talleres .product-features li { color: rgba(255,255,255,0.8); }
+  .product-card-talleres .product-features li::before { background: var(--blue-300, #5fa8e0); }
 
   .btn-product-light {
     background: rgba(255,255,255,0.15) !important;
@@ -2087,7 +2096,7 @@
         </ul>
         <a href="https://pay.hotmart.com/50promptshosteleria" target="_blank" class="btn-product btn-product-light">Obtener ahora →</a>
       </div>
-      <div class="product-card">
+      <div class="product-card product-card-talleres">
         <div class="product-price">17€ <span>pago único</span></div>
         <div class="product-name">100 Prompts para Talleres Mecánicos</div>
         <div class="product-desc">Prompts específicos para talleres mecánicos — atrae clientes, gestiona reseñas, crea contenido y automatiza tu negocio.</div>

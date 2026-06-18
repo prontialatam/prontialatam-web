@@ -1083,6 +1083,107 @@
     font-weight: 300;
   }
 
+  /* DEMOS - VIDEOS ESPECIALES */
+  .demos {
+    background: var(--gray-50);
+  }
+
+  .demos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 2rem;
+    margin-top: 2.5rem;
+  }
+
+  .demo-card {
+    background: #fff;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--gray-100);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .demo-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  }
+
+  .demo-header {
+    padding: 1rem 1.25rem 0.75rem;
+    border-bottom: 1px solid var(--gray-100);
+  }
+
+  .demo-tag {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    background: var(--blue-50);
+    color: var(--blue-700);
+    margin-bottom: 0.5rem;
+  }
+
+  .demo-header h3 {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--blue-900);
+    margin: 0;
+  }
+
+  .demo-video {
+    width: 100%;
+    display: block;
+    max-height: 420px;
+    object-fit: contain;
+    background: #000;
+  }
+
+  .youtube-container {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    height: 0;
+    overflow: hidden;
+    background: #000;
+    border-radius: 12px;
+  }
+
+  .youtube-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .demo-body {
+    padding: 1rem 1.25rem 1.5rem;
+  }
+
+  .demo-body p {
+    font-size: 0.85rem;
+    color: var(--gray-600);
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  .demo-result {
+    margin-top: 0.75rem;
+    font-size: 0.8rem;
+    color: var(--blue-700);
+    font-weight: 500;
+    background: var(--blue-50);
+    padding: 0.35rem 0.6rem;
+    border-radius: 6px;
+    border-left: 3px solid var(--blue-600);
+  }
+
+  .demo-result strong {
+    color: var(--blue-600);
+  }
+
   /* TESTIMONIALS CARRUSEL — DISEÑO ORIGINAL */
   .testimonials {
     background: linear-gradient(135deg, #0C447C 0%, #185FA5 50%, #378ADD 100%);
@@ -1912,6 +2013,7 @@
   <ul class="nav-links">
     <li><a href="#productos">Productos</a></li>
     <li><a href="#como-funciona">Cómo funciona</a></li>
+    <li><a href="#demos">Demostraciones</a></li>
     <li><a href="#gratis">Recurso gratis</a></li>
     <li><a href="#productos" class="nav-cta">Ver productos</a></li>
     <li><a href="https://www.instagram.com/prontialatam" target="_blank" class="nav-social" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" width="18" height="18"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a></li>
@@ -2172,6 +2274,60 @@
   </div>
 </section>
 
+<!-- DEMOS -->
+<section class="section demos" id="demos">
+  <div class="section-inner">
+    <p class="section-label">En acción</p>
+    <h2 class="section-title">Mira cómo se usan los prompts en la práctica</h2>
+    <p class="section-subtitle">Resultados reales. Dueños de restaurantes y talleres usando IA para ahorrar tiempo y conseguir más clientes.</p>
+
+    <div class="demos-grid">
+      <!-- Restaurantes -->
+      <div class="demo-card">
+        <div class="demo-header">
+          <span class="demo-tag">🍽️ Hostelería</span>
+          <h3>Dueño de restaurante responde reseña de 1 estrella en 40 segundos con IA</h3>
+        </div>
+        <div class="youtube-container">
+          <iframe 
+            src="https://www.youtube.com/embed/UJCJZBtTI14" 
+            title="Dueño de restaurante responde reseña de 1 estrella en 40 segundos con IA | ProntIA LATAM"
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+            allowfullscreen>
+          </iframe>
+        </div>
+        <div class="demo-body">
+          <p>Ver cómo un propietario de restaurante genera en segundos una respuesta profesional a una reseña negativa que mejora su reputación.</p>
+          <p class="demo-result"><strong>Resultado:</strong> Mejoró su reputación y recibió más reservas en las siguientes semanas.</p>
+        </div>
+      </div>
+
+      <!-- Talleres -->
+      <div class="demo-card">
+        <div class="demo-header">
+          <span class="demo-tag">🔧 Talleres Mecánicos</span>
+          <h3>Cómo un taller mecánico consigue más clientes con un solo prompt de IA</h3>
+        </div>
+        <div class="youtube-container">
+          <!-- TODO: Reemplazar con el embed de YouTube del video de talleres cuando esté listo -->
+          <iframe 
+            src="https://www.youtube.com/embed/REEMPLAZA_ID_TALLERES" 
+            title="Cómo un taller mecánico consigue más clientes con un solo prompt de IA | ProntIA LATAM"
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+            allowfullscreen>
+          </iframe>
+        </div>
+        <div class="demo-body">
+          <p>Ver cómo un dueño de taller mecánico usa IA para atraer clientes, crear promociones y ahorrar horas de trabajo administrativo.</p>
+          <p class="demo-result"><strong>Resultado:</strong> Atrajo 12 nuevos clientes en el primer mes.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- TESTIMONIALS -->
 <section class="section testimonials">
   <div class="section-inner">
@@ -2425,6 +2581,7 @@
   <ul class="footer-links">
     <li><a href="#productos">Productos</a></li>
     <li><a href="#como-funciona">Cómo funciona</a></li>
+    <li><a href="#demos">Demostraciones</a></li>
     <li><a href="#gratis">Recurso gratis</a></li>
     <li><a href="mailto:hola@prontialatam.com">Contacto</a></li>
   </ul>
@@ -2616,6 +2773,7 @@
       this.textContent = '✓ ¡Enviado!';
     });
   })();
+
 
 
 </script>

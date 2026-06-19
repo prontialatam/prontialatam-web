@@ -272,30 +272,27 @@
   .nav-social:hover { color: var(--blue-600) !important; }
 
   /* HERO */
+  .top-banner {
+    margin-top: 100px; /* account for fixed nav */
+    overflow: hidden;
+    border-bottom: 1px solid var(--gray-100);
+  }
+
+  .top-banner img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-bottom: 1px solid var(--gray-100);
+  }
+
   .hero {
     min-height: 100vh;
-    padding: 120px 5% 100px;
+    padding: 60px 5% 100px;
     display: flex;
     align-items: center;
     position: relative;
     overflow: hidden;
-    background-image: url('header-banner.jpg');
-    background-size: cover;
-    background-position: center;
-    background-attachment: scroll;
-  }
-
-  .hero::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to right, rgba(248,245,240,0.92) 0%, rgba(248,245,240,0.75) 45%, rgba(248,245,240,0.55) 70%, transparent 100%);
-    z-index: 1;
-  }
-
-  .hero > * {
-    position: relative;
-    z-index: 2;
+    background: #F8F5F0;
   }
 
   /* hero overlays removed to show the custom header banner design */
@@ -837,10 +834,10 @@
 
   .product-card-hosteleria {
     background-image:
-      linear-gradient(to top, rgba(4,44,83,0.88) 25%, rgba(4,44,83,0.45) 55%, rgba(0,0,0,0.15) 100%),
-      url('bg-hosteleria.jpg');
+      linear-gradient(to top, rgba(4,44,83,0.85) 20%, rgba(4,44,83,0.4) 50%, rgba(0,0,0,0.2) 100%),
+      url('assets/elegant/bg-hosteleria-elegant.jpg');
     background-size: cover;
-    background-position: center top;
+    background-position: center;
     border: none !important;
     box-shadow: 0 8px 30px rgba(4,44,83,0.25) !important;
   }
@@ -859,10 +856,10 @@
 
   .product-card-talleres {
     background-image:
-      linear-gradient(to top, rgba(4,44,83,0.88) 25%, rgba(4,44,83,0.45) 55%, rgba(0,0,0,0.15) 100%),
-      url('talleres-bg.jpg');
+      linear-gradient(to top, rgba(4,44,83,0.85) 20%, rgba(4,44,83,0.4) 50%, rgba(0,0,0,0.2) 100%),
+      url('assets/elegant/bg-talleres-elegant.jpg');
     background-size: cover;
-    background-position: center top;
+    background-position: center;
     border: none !important;
     box-shadow: 0 8px 30px rgba(4,44,83,0.25) !important;
   }
@@ -2068,6 +2065,11 @@
   </ul>
 </nav>
 
+<!-- ELEGANT TOP BANNER -->
+<div class="top-banner">
+  <img src="assets/elegant/header-banner-elegant.jpg" alt="ProntIA LATAM - Prompts de IA para tu negocio" style="width:100%; height:auto; display:block;">
+</div>
+
 <!-- HERO -->
 <section class="hero">
   <div class="hero-inner">
@@ -2091,28 +2093,7 @@
       </div>
     </div>
     <div class="hero-visual">
-      <div class="hero-card">
-        <div class="floating-badge">✦ Nuevo — Pack de Prompts</div>
-        <div class="hero-card-header">
-          <div class="card-icon">
-            <svg viewBox="0 0 24 24"><path d="M9 12h6M9 16h6M17 21H7a2 2 0 01-2-2V5a2 2 0 012-2h7l5 5v11a2 2 0 01-2 2z"/></svg>
-          </div>
-          <div>
-            <h3>100 Prompts para Negocios</h3>
-            <p>Listos para usar en ChatGPT</p>
-          </div>
-        </div>
-        <ul class="prompt-list">
-          <li class="prompt-item">«Redacta un mensaje de ventas para mis clientes en WhatsApp...»</li>
-          <li class="prompt-item">«Crea 5 publicaciones para Instagram sobre mi producto...»</li>
-          <li class="prompt-item">«Genera respuestas para las objeciones más comunes de mis clientes...»</li>
-          <li class="prompt-item">«Escribe un email de seguimiento para prospectos que no respondieron...»</li>
-        </ul>
-        <div class="floating-stat">
-          <div class="stat-num">+300M</div>
-          <div class="stat-label">clientes<br>potenciales</div>
-        </div>
-      </div>
+      <img src="assets/elegant/hero-visual-elegant.jpg" alt="ProntIA en acción" style="width:100%; height:auto; border-radius:16px; box-shadow: 0 10px 40px rgba(0,0,0,0.1);">
     </div>
   </div>
 </section>

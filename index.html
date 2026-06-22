@@ -117,7 +117,7 @@
       "url": "https://pay.hotmart.com/100promptstalleres",  /* ⚠️ Reemplazar por link real de Hotmart */
       "offers": {
         "@type": "Offer",
-        "price": "17",
+        "price": "29",
         "priceCurrency": "EUR",
         "availability": "https://schema.org/InStock"
       }
@@ -145,10 +145,11 @@
     --gray-400: #888780;
     --gray-200: #B4B2A9;
     --gray-100: #D3D1C7;
-    --gray-50: #F1EFE8;
+    --gray-50: #F8F5F0;
     --white: #ffffff;
-    --font-display: 'Cormorant Garamond', serif;
-    --font-body: 'DM Sans', sans-serif;
+    --font-display: 'Cormorant Garamond', Georgia, serif;
+    --font-body: 'DM Sans', system-ui, sans-serif;
+    --spacing: 1.25rem;
   }
 
   html { scroll-behavior: smooth; }
@@ -158,7 +159,8 @@
     color: var(--gray-900);
     background: var(--white);
     overflow-x: hidden;
-    line-height: 1.6;
+    line-height: 1.65;
+    font-feature-settings: "kern" "liga" "tnum";
   }
 
   /* NAV */
@@ -166,11 +168,11 @@
     position: fixed;
     top: 0; left: 0; right: 0;
     z-index: 100;
-    background: rgba(255,255,255,0.92);
+    background: rgba(255,255,255,0.98);
     backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(55,138,221,0.12);
+    border-bottom: 1px solid rgba(4,44,83,0.08);
     padding: 0 5%;
-    height: 90px;
+    height: 100px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -178,9 +180,7 @@
 
   .nav-brand {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    gap: 4px;
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
@@ -220,10 +220,9 @@
   }
 
   .nav-logo-img {
-    height: 72px;
+    height: 48px;
     width: auto;
     display: block;
-    border-radius: 8px;
   }
 
   .nav-logo {
@@ -273,21 +272,27 @@
   .nav-social:hover { color: var(--blue-600) !important; }
 
   /* HERO */
+  .top-banner {
+    margin-top: 100px; /* account for fixed nav */
+    overflow: hidden;
+    border-bottom: 1px solid var(--gray-100);
+  }
+
+  .top-banner img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-bottom: 1px solid var(--gray-100);
+  }
+
   .hero {
     min-height: 100vh;
-    padding: 120px 5% 80px;
+    padding: 60px 5% 100px;
     display: flex;
     align-items: center;
     position: relative;
     overflow: hidden;
-    background-image:
-      url('header-banner.jpg');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
+    background: #F8F5F0;
   }
 
   /* hero overlays removed to show the custom header banner design */
@@ -306,9 +311,9 @@
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    background: rgba(255,255,255,0.12);
-    border: 1px solid rgba(255,255,255,0.25);
-    color: var(--blue-100);
+    background: var(--blue-50);
+    border: 1px solid var(--blue-100);
+    color: var(--blue-700);
     font-size: 0.8rem;
     font-weight: 500;
     padding: 0.35rem 0.875rem;
@@ -332,22 +337,22 @@
 
   .hero h1 {
     font-family: var(--font-display);
-    font-size: clamp(2.6rem, 4.5vw, 3.8rem);
+    font-size: clamp(3rem, 5vw, 4.2rem);
     font-weight: 700;
-    line-height: 1.08;
-    letter-spacing: -0.01em;
-    color: var(--white);
-    margin-bottom: 1.25rem;
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    color: var(--blue-900);
+    margin-bottom: 1.5rem;
   }
 
   .hero h1 em {
     font-style: normal;
-    color: var(--blue-200);
+    color: var(--blue-600);
   }
 
   .hero p.subtitle {
     font-size: 1.05rem;
-    color: rgba(255,255,255,0.8);
+    color: var(--gray-600);
     line-height: 1.7;
     margin-bottom: 2rem;
     font-weight: 300;
@@ -589,39 +594,41 @@
     gap: 0.4rem;
   }
 
-  /* PROBLEM */
+  /* SECTIONS */
   .section {
-    padding: 80px 5%;
+    padding: 100px 5%;
   }
 
   .section-inner {
-    max-width: 1100px;
+    max-width: 1140px;
     margin: 0 auto;
+    padding: 0 1rem;
   }
 
   .section-label {
-    font-size: 0.75rem;
+    font-size: 0.68rem;
     font-weight: 600;
-    color: var(--blue-400);
+    color: var(--blue-600);
     text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin-bottom: 0.75rem;
+    letter-spacing: 0.12em;
+    margin-bottom: 0.5rem;
   }
 
   .section-title {
     font-family: var(--font-display);
-    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-size: clamp(2.25rem, 4vw, 3.2rem);
     font-weight: 700;
-    line-height: 1.1;
-    letter-spacing: -0.01em;
+    line-height: 1.06;
+    letter-spacing: -0.025em;
     color: var(--blue-900);
-    margin-bottom: 1rem;
+    margin-bottom: 1.25rem;
   }
 
   .section-subtitle {
-    font-size: 1rem;
+    font-size: 1.05rem;
     color: var(--gray-600);
-    max-width: 540px;
+    max-width: 580px;
+    line-height: 1.5;
     line-height: 1.7;
     font-weight: 300;
   }
@@ -681,26 +688,26 @@
 
   .products-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.25rem;
-    margin-top: 3rem;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.75rem;
+    margin-top: 4rem;
   }
 
   .product-card {
     background: var(--white);
     border: 1px solid var(--gray-100);
-    border-radius: 14px;
-    padding: 1.75rem;
-    transition: all 0.2s;
+    border-radius: 20px;
+    padding: 2rem;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.03);
   }
 
   .product-card:hover {
     border-color: var(--blue-200);
-    transform: translateY(-3px);
-    box-shadow: 0 8px 32px rgba(24,95,165,0.1);
+    transform: translateY(-4px);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.06);
   }
 
   .product-card.featured {
@@ -770,40 +777,43 @@
 
   .product-price {
     font-family: var(--font-display);
-    font-size: 1.75rem;
-    font-weight: 800;
+    font-size: 2rem;
+    font-weight: 700;
     color: var(--blue-900);
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.01em;
   }
 
   .product-price span {
-    font-size: 0.875rem;
+    font-size: 0.8rem;
     font-weight: 400;
     color: var(--gray-400);
+    letter-spacing: 0;
   }
 
   .product-name {
     font-family: var(--font-display);
-    font-size: 1rem;
+    font-size: 1.1rem;
     font-weight: 700;
     color: var(--blue-900);
-    margin-bottom: 0.625rem;
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.01em;
   }
 
   .product-desc {
-    font-size: 0.82rem;
+    font-size: 0.9rem;
     color: var(--gray-600);
-    line-height: 1.6;
-    margin-bottom: 1.25rem;
-    font-weight: 300;
+    line-height: 1.55;
+    margin-bottom: 1.5rem;
+    font-weight: 400;
   }
 
   .product-features {
     list-style: none;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
-    margin-bottom: 1.5rem;
+    gap: 0.6rem;
+    margin-bottom: 1.75rem;
   }
 
   .product-features li {
@@ -824,12 +834,12 @@
 
   .product-card-hosteleria {
     background-image:
-      linear-gradient(to top, rgba(4,44,83,0.92) 30%, rgba(4,44,83,0.3) 60%, rgba(0,0,0,0.1) 100%),
-      url('bg-hosteleria.jpg');
+      linear-gradient(to top, rgba(4,44,83,0.85) 20%, rgba(4,44,83,0.4) 50%, rgba(0,0,0,0.2) 100%),
+      url('assets/elegant/bg-hosteleria-elegant.jpg');
     background-size: cover;
-    background-position: center top;
+    background-position: center;
     border: none !important;
-    box-shadow: 0 4px 24px rgba(4,44,83,0.2) !important;
+    box-shadow: 0 8px 30px rgba(4,44,83,0.25) !important;
   }
 
   .product-card-hosteleria:hover {
@@ -846,12 +856,12 @@
 
   .product-card-talleres {
     background-image:
-      linear-gradient(to top, rgba(4,44,83,0.92) 30%, rgba(4,44,83,0.3) 60%, rgba(0,0,0,0.1) 100%),
-      url('talleres-bg.jpg');
+      linear-gradient(to top, rgba(4,44,83,0.85) 20%, rgba(4,44,83,0.4) 50%, rgba(0,0,0,0.2) 100%),
+      url('assets/elegant/bg-talleres-elegant.jpg');
     background-size: cover;
-    background-position: center top;
+    background-position: center;
     border: none !important;
-    box-shadow: 0 4px 24px rgba(4,44,83,0.2) !important;
+    box-shadow: 0 8px 30px rgba(4,44,83,0.25) !important;
   }
 
   .product-card-talleres:hover {
@@ -866,6 +876,97 @@
   .product-card-talleres .product-features li { color: rgba(255,255,255,0.8); }
   .product-card-talleres .product-features li::before { background: var(--blue-300, #5fa8e0); }
 
+  /* New elegant backgrounds for other kits */
+  .product-card-ventas {
+    background-image:
+      linear-gradient(to top, rgba(4,44,83,0.88) 25%, rgba(4,44,83,0.45) 55%, rgba(0,0,0,0.15) 100%),
+      url('bg-ventas.jpg');
+    background-size: cover;
+    background-position: center;
+    border: none !important;
+    box-shadow: 0 8px 30px rgba(4,44,83,0.25) !important;
+  }
+
+  .product-card-ventas:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(4,44,83,0.3) !important;
+  }
+
+  .product-card-ventas .product-price,
+  .product-card-ventas .product-name,
+  .product-card-ventas .product-desc,
+  .product-card-ventas .product-features li {
+    color: var(--white);
+  }
+
+  .product-card-ventas .product-price span,
+  .product-card-ventas .product-desc,
+  .product-card-ventas .product-features li {
+    color: rgba(255,255,255,0.75);
+  }
+
+  .product-card-ventas .product-features li::before { background: var(--blue-300, #5fa8e0); }
+
+  .product-card-guia {
+    background-image:
+      linear-gradient(to top, rgba(4,44,83,0.88) 25%, rgba(4,44,83,0.45) 55%, rgba(0,0,0,0.15) 100%),
+      url('bg-guia.jpg');
+    background-size: cover;
+    background-position: center;
+    border: none !important;
+    box-shadow: 0 8px 30px rgba(4,44,83,0.25) !important;
+  }
+
+  .product-card-guia:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(4,44,83,0.3) !important;
+  }
+
+  .product-card-guia .product-price,
+  .product-card-guia .product-name,
+  .product-card-guia .product-desc,
+  .product-card-guia .product-features li {
+    color: var(--white);
+  }
+
+  .product-card-guia .product-price span,
+  .product-card-guia .product-desc,
+  .product-card-guia .product-features li {
+    color: rgba(255,255,255,0.75);
+  }
+
+  .product-card-guia .product-features li::before { background: var(--blue-300, #5fa8e0); }
+
+  .product-card-kit {
+    background-image:
+      linear-gradient(to top, rgba(4,44,83,0.88) 25%, rgba(4,44,83,0.45) 55%, rgba(0,0,0,0.15) 100%),
+      url('assets/elegant/bg-kit.jpg');
+    background-size: cover;
+    background-position: center;
+    border: none !important;
+    box-shadow: 0 8px 30px rgba(4,44,83,0.25) !important;
+  }
+
+  .product-card-kit:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(4,44,83,0.3) !important;
+  }
+
+  .product-card-kit .product-price,
+  .product-card-kit .product-name,
+  .product-card-kit .product-desc,
+  .product-card-kit .product-features li {
+    color: var(--white);
+  }
+
+  .product-card-kit .product-price span,
+  .product-card-kit .product-desc,
+  .product-card-kit .product-features li {
+    color: rgba(255,255,255,0.75);
+  }
+
+  .product-card-kit .product-features li::before { background: var(--blue-300, #5fa8e0); }
+
   .btn-product-light {
     background: rgba(255,255,255,0.15) !important;
     border: 1.5px solid rgba(255,255,255,0.4) !important;
@@ -877,19 +978,25 @@
     background: rgba(255,255,255,0.25) !important;
     border-color: rgba(255,255,255,0.7) !important;
   }
+
+  .btn-product {
+    display: block;
     text-align: center;
-    background: var(--blue-400);
+    background: var(--blue-600);
     color: var(--white);
     font-family: var(--font-body);
-    font-size: 0.875rem;
+    font-size: 0.9rem;
     font-weight: 500;
-    padding: 0.75rem;
-    border-radius: 8px;
+    padding: 0.85rem 1.5rem;
+    border-radius: 9999px;
     text-decoration: none;
-    transition: background 0.2s;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  .btn-product:hover { background: var(--blue-600); }
+  .btn-product:hover { 
+    background: var(--blue-800); 
+    transform: translateY(-1px);
+  }
 
   /* LEAD MAGNET */
   .leadmagnet { background: var(--blue-50); }
@@ -1088,6 +1195,127 @@
     color: var(--gray-600);
     line-height: 1.6;
     font-weight: 300;
+  }
+
+  /* DEMOS - VIDEOS ESPECIALES */
+  .demos {
+    background: var(--gray-50);
+  }
+
+  .demos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 2rem;
+    margin-top: 2.5rem;
+  }
+
+  .demo-card {
+    background: #fff;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--gray-100);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .demo-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  }
+
+  .demo-header {
+    padding: 1rem 1.25rem 0.75rem;
+    border-bottom: 1px solid var(--gray-100);
+  }
+
+  .demo-tag {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    background: var(--blue-50);
+    color: var(--blue-700);
+    margin-bottom: 0.5rem;
+  }
+
+  .demo-header h3 {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--blue-900);
+    margin: 0;
+  }
+
+  .demo-video {
+    width: 100%;
+    display: block;
+    max-height: 420px;
+    object-fit: contain;
+    background: #000;
+  }
+
+  .youtube-container {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    height: 0;
+    overflow: hidden;
+    background: #000;
+    border-radius: 12px;
+  }
+
+  .youtube-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .demo-body {
+    padding: 1rem 1.25rem 1.5rem;
+  }
+
+  .demo-body p {
+    font-size: 0.85rem;
+    color: var(--gray-600);
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  .demo-result {
+    margin-top: 0.75rem;
+    font-size: 0.8rem;
+    color: var(--blue-700);
+    font-weight: 500;
+    background: var(--blue-50);
+    padding: 0.35rem 0.6rem;
+    border-radius: 6px;
+    border-left: 3px solid var(--blue-600);
+  }
+
+  .demo-result strong {
+    color: var(--blue-600);
+  }
+
+  .btn-youtube {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin: 0.5rem 0 0.75rem 1.25rem;
+    padding: 0.35rem 0.7rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #FF0000;
+    background: rgba(255, 0, 0, 0.08);
+    border-radius: 4px;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .btn-youtube:hover {
+    background: rgba(255, 0, 0, 0.15);
+    color: #CC0000;
   }
 
   /* TESTIMONIALS CARRUSEL — DISEÑO ORIGINAL */
@@ -1914,17 +2142,12 @@
     <a href="#" class="nav-logo">
       <img src="logo-prontia.jpg" alt="ProntIA Latam" class="nav-logo-img">
     </a>
-    <div class="nav-claim-row">
-      <p class="nav-claim">🇪🇺 Creado en Europa · Pensado para Latinoamérica 🌎</p>
-      <span class="nav-247">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-        Asistencia 24/7
-      </span>
-    </div>
+    <!-- Claim removido: el banner ahora muestra el branding en la franja superior -->
   </div>
   <ul class="nav-links">
     <li><a href="#productos">Productos</a></li>
     <li><a href="#como-funciona">Cómo funciona</a></li>
+    <li><a href="#demos">Demostraciones</a></li>
     <li><a href="#gratis">Recurso gratis</a></li>
     <li><a href="#productos" class="nav-cta">Ver productos</a></li>
     <li><a href="https://www.instagram.com/prontialatam" target="_blank" class="nav-social" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" width="18" height="18"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a></li>
@@ -1932,6 +2155,11 @@
     <li><a href="https://www.youtube.com/@ProntiaLatam" target="_blank" class="nav-social" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 00-1.95 1.96A29 29 0 001 12a29 29 0 00.46 5.58a2.78 2.78 0 001.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 001.95-1.96A29 29 0 0023 12a29 29 0 00-.46-5.58zM9.75 15.02V8.98L15.5 12l-5.75 3.02z"/></svg></a></li>
   </ul>
 </nav>
+
+<!-- ELEGANT TOP BANNER -->
+<div class="top-banner">
+  <img src="header-banner-elegant.jpg" alt="ProntIA LATAM - Prompts de IA para tu negocio" style="width:100%; height:auto; display:block;">
+</div>
 
 <!-- HERO -->
 <section class="hero">
@@ -1956,28 +2184,7 @@
       </div>
     </div>
     <div class="hero-visual">
-      <div class="hero-card">
-        <div class="floating-badge">✦ Nuevo — Pack de Prompts</div>
-        <div class="hero-card-header">
-          <div class="card-icon">
-            <svg viewBox="0 0 24 24"><path d="M9 12h6M9 16h6M17 21H7a2 2 0 01-2-2V5a2 2 0 012-2h7l5 5v11a2 2 0 01-2 2z"/></svg>
-          </div>
-          <div>
-            <h3>100 Prompts para Negocios</h3>
-            <p>Listos para usar en ChatGPT</p>
-          </div>
-        </div>
-        <ul class="prompt-list">
-          <li class="prompt-item">«Redacta un mensaje de ventas para mis clientes en WhatsApp...»</li>
-          <li class="prompt-item">«Crea 5 publicaciones para Instagram sobre mi producto...»</li>
-          <li class="prompt-item">«Genera respuestas para las objeciones más comunes de mis clientes...»</li>
-          <li class="prompt-item">«Escribe un email de seguimiento para prospectos que no respondieron...»</li>
-        </ul>
-        <div class="floating-stat">
-          <div class="stat-num">+300M</div>
-          <div class="stat-label">clientes<br>potenciales</div>
-        </div>
-      </div>
+      <img src="hero-visual-elegant.jpg" alt="ProntIA en acción" style="width:100%; height:auto; border-radius:16px; box-shadow: 0 10px 40px rgba(0,0,0,0.1);">
     </div>
   </div>
 </section>
@@ -2047,7 +2254,7 @@
     <p class="section-subtitle">Descarga, aplica y ve resultados desde el primer día. Sin configuraciones complicadas.</p>
     <p style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--blue-200); letter-spacing: 0.04em; font-weight: 500;">🌍 Producto creado en Europa, pensado para Latinoamérica</p>
     <div class="products-grid">
-      <div class="product-card">
+      <div class="product-card product-card-ventas">
         <div class="product-price">19€ <span>pago único</span></div>
         <div class="product-name">Pack 100 Prompts para Vender Más</div>
         <div class="product-desc">Prompts listos para ChatGPT enfocados en ventas, captación de clientes y cierre de negocios.</div>
@@ -2057,9 +2264,9 @@
           <li>Compatible con ChatGPT y Claude</li>
           <li>Descarga inmediata en PDF</li>
         </ul>
-        <a href="https://prontialatam.gumroad.com/l/100prompts" target="_blank" class="btn-product">Obtener ahora →</a>
+        <a href="https://prontialatam.gumroad.com/l/100prompts" target="_blank" class="btn-product btn-product-light">Obtener ahora →</a>
       </div>
-      <div class="product-card featured">
+      <div class="product-card featured product-card-guia">
         <div class="product-featured-badge">Más vendido</div>
         <div class="product-price">29€ <span>pago único</span></div>
         <div class="product-name">Guía Automatiza tu Negocio con IA</div>
@@ -2070,9 +2277,9 @@
           <li>Casos de éxito en negocios latinos</li>
           <li>Acceso de por vida + actualizaciones</li>
         </ul>
-        <a href="https://prontialatam.gumroad.com/l/automatizatunegocio" target="_blank" class="btn-product">Obtener ahora →</a>
+        <a href="https://prontialatam.gumroad.com/l/automatizatunegocio" target="_blank" class="btn-product btn-product-light">Obtener ahora →</a>
       </div>
-      <div class="product-card">
+      <div class="product-card product-card-kit">
         <div class="product-price">49€ <span>pago único</span></div>
         <div class="product-name">Kit Completo Emprendedor Digital</div>
         <div class="product-desc">Todo lo que necesitas: prompts + guía completa + plantillas de Canva + checklist de implementación.</div>
@@ -2082,7 +2289,7 @@
           <li>30 plantillas de Canva editables</li>
           <li>Checklist de implementación</li>
         </ul>
-        <a href="https://prontialatam.gumroad.com/l/kitcompleto" target="_blank" class="btn-product">Obtener ahora →</a>
+        <a href="https://prontialatam.gumroad.com/l/kitcompleto" target="_blank" class="btn-product btn-product-light">Obtener ahora →</a>
       </div>
       <div class="product-card product-card-hosteleria">
         <div class="product-price">17€ <span>pago único</span></div>
@@ -2097,7 +2304,7 @@
         <a href="https://pay.hotmart.com/N106335432C?off=55y2b3g3&checkoutMode=10" target="_blank" class="btn-product btn-product-light">Obtener ahora →</a>
       </div>
       <div class="product-card product-card-talleres">
-        <div class="product-price">17€ <span>pago único</span></div>
+        <div class="product-price">29€ <span>pago único</span></div>
         <div class="product-name">100 Prompts para Talleres Mecánicos</div>
         <div class="product-desc">Prompts específicos para talleres mecánicos — atrae clientes, gestiona reseñas, crea contenido y automatiza tu negocio.</div>
         <ul class="product-features">
@@ -2107,7 +2314,7 @@
           <li>Descarga inmediata en PDF</li>
         </ul>
         <!-- ⚠️ LINK HOTMART TALLERES: Reemplaza "100promptstalleres" por el ID real después de publicar en Hotmart -->
-        <a href="https://pay.hotmart.com/100promptstalleres" target="_blank" class="btn-product">Obtener ahora →</a>
+        <a href="https://pay.hotmart.com/100promptstalleres" target="_blank" class="btn-product btn-product-light">Obtener ahora →</a>
       </div>
     </div>
   </div>
@@ -2180,6 +2387,61 @@
         <div class="step-number">4</div>
         <h3>Escala tu negocio</h3>
         <p>Combina los prompts con nuestras guías para crear un sistema de ventas automatizado que trabaja solo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DEMOS -->
+<section class="section demos" id="demos">
+  <div class="section-inner">
+    <p class="section-label">En acción</p>
+    <h2 class="section-title">Mira cómo se usan los prompts en la práctica</h2>
+    <p class="section-subtitle">Resultados reales. Dueños de restaurantes y talleres usando IA para ahorrar tiempo y conseguir más clientes.</p>
+
+    <div class="demos-grid">
+      <!-- Restaurantes -->
+      <div class="demo-card">
+        <div class="demo-header">
+          <span class="demo-tag">🍽️ Hostelería</span>
+          <h3>Dueño de restaurante responde reseña de 1 estrella en 40 segundos con IA</h3>
+        </div>
+        <div class="youtube-container">
+          <iframe 
+            src="https://www.youtube.com/embed/UJCJZBtTI14?rel=0&modestbranding=1" 
+            title="Dueño de restaurante responde reseña de 1 estrella en 40 segundos con IA | ProntIA LATAM"
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+            allowfullscreen>
+          </iframe>
+        </div>
+        <a href="https://youtu.be/UJCJZBtTI14" target="_blank" class="btn-youtube">Ver video completo en YouTube →</a>
+        <div class="demo-body">
+          <p>Mira cómo un propietario de restaurante genera en segundos una respuesta profesional y empática a una reseña de 1 estrella usando ProntIA.</p>
+          <p class="demo-result"><strong>Resultado:</strong> Mejoró su reputación y recibió más reservas en las siguientes semanas.</p>
+        </div>
+      </div>
+
+      <!-- Talleres -->
+      <div class="demo-card">
+        <div class="demo-header">
+          <span class="demo-tag">🔧 Talleres Mecánicos</span>
+          <h3>Cómo un taller mecánico consigue más clientes con un solo prompt de IA</h3>
+        </div>
+        <div class="youtube-container">
+          <iframe 
+            src="https://www.youtube.com/embed/7_GQ9vFxhoQ?rel=0&modestbranding=1" 
+            title="Cómo un taller mecánico consigue más clientes con un solo prompt de IA | ProntIA LATAM"
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+            allowfullscreen>
+          </iframe>
+        </div>
+        <a href="https://youtu.be/7_GQ9vFxhoQ" target="_blank" class="btn-youtube">Ver video completo en YouTube →</a>
+        <div class="demo-body">
+          <p>Mira cómo un dueño de taller mecánico usa un prompt de ProntIA para generar contenido y estrategias que atraen más clientes y promocionan sus servicios.</p>
+          <p class="demo-result"><strong>Resultado:</strong> Atrajo 12 nuevos clientes en el primer mes.</p>
+        </div>
       </div>
     </div>
   </div>
@@ -2438,6 +2700,7 @@
   <ul class="footer-links">
     <li><a href="#productos">Productos</a></li>
     <li><a href="#como-funciona">Cómo funciona</a></li>
+    <li><a href="#demos">Demostraciones</a></li>
     <li><a href="#gratis">Recurso gratis</a></li>
     <li><a href="mailto:hola@prontialatam.com">Contacto</a></li>
   </ul>
@@ -2571,6 +2834,23 @@
     }
   }
 
+  // Soporte para compartir enlace directo del Artículo 1 en RRSS
+  // Si visitas https://prontialatam.com/#blogArticle1 el artículo se abre automáticamente
+  function handleBlogArticleHash() {
+    if (window.location.hash === '#blogArticle1') {
+      const article = document.getElementById('blogArticle1');
+      if (article && !article.classList.contains('open')) {
+        article.classList.add('open');
+        setTimeout(() => {
+          article.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 350);
+      }
+    }
+  }
+
+  window.addEventListener('load', handleBlogArticleHash);
+  window.addEventListener('hashchange', handleBlogArticleHash);
+
   // TESTIMONIO FORM
   (function() {
     let rating = 5;
@@ -2612,6 +2892,7 @@
       this.textContent = '✓ ¡Enviado!';
     });
   })();
+
 
 
 </script>

@@ -1203,14 +1203,28 @@
     background: var(--gray-50);
   }
 
-  .demos-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-    gap: 2rem;
+  .demos-carousel {
+    position: relative;
+    max-width: 880px;
     margin-top: 2.5rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .demos-viewport {
+    overflow: hidden;
+    border-radius: 16px;
+  }
+
+  .demos-track {
+    display: flex;
+    transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
   }
 
   .demo-card {
+    flex: 0 0 100%;
+    min-width: 0;
     background: #fff;
     border-radius: 16px;
     overflow: hidden;
@@ -1220,8 +1234,59 @@
   }
 
   .demo-card:hover {
-    transform: translateY(-4px);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  }
+
+  .demos-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1.25rem;
+  }
+
+  .demos-arrow {
+    width: 42px;
+    height: 42px;
+    display: inline-grid;
+    place-items: center;
+    border: 1px solid var(--blue-200);
+    border-radius: 50%;
+    background: var(--white);
+    color: var(--blue-800);
+    font-size: 1.4rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+  }
+
+  .demos-arrow:hover {
+    background: var(--blue-800);
+    border-color: var(--blue-800);
+    color: var(--white);
+  }
+
+  .demos-dots {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .demos-dot {
+    width: 9px;
+    height: 9px;
+    border: 0;
+    border-radius: 50%;
+    background: var(--gray-200);
+    cursor: pointer;
+    padding: 0;
+    transition: width 0.2s, background 0.2s;
+  }
+
+  .demos-dot.active {
+    width: 24px;
+    border-radius: 999px;
+    background: var(--blue-600);
   }
 
   .demo-header {
@@ -2399,9 +2464,11 @@
     <h2 class="section-title">Mira cómo se usan los prompts en la práctica</h2>
     <p class="section-subtitle">Resultados reales. Dueños de restaurantes y talleres usando IA para ahorrar tiempo y conseguir más clientes.</p>
 
-    <div class="demos-grid">
+    <div class="demos-carousel" aria-label="Vídeos de ProntIA LATAM">
+      <div class="demos-viewport">
+        <div class="demos-track" id="demosTrack">
       <!-- Restaurantes -->
-      <div class="demo-card">
+      <article class="demo-card" aria-hidden="false">
         <div class="demo-header">
           <span class="demo-tag">🍽️ Hostelería</span>
           <h3>Dueño de restaurante responde reseña de 1 estrella en 40 segundos con IA</h3>
@@ -2420,10 +2487,10 @@
           <p>Mira cómo un propietario de restaurante genera en segundos una respuesta profesional y empática a una reseña de 1 estrella usando ProntIA.</p>
           <p class="demo-result"><strong>Resultado:</strong> Mejoró su reputación y recibió más reservas en las siguientes semanas.</p>
         </div>
-      </div>
+      </article>
 
       <!-- Talleres -->
-      <div class="demo-card">
+      <article class="demo-card" aria-hidden="true">
         <div class="demo-header">
           <span class="demo-tag">🔧 Talleres Mecánicos</span>
           <h3>Cómo un taller mecánico consigue más clientes con un solo prompt de IA</h3>
@@ -2442,6 +2509,36 @@
           <p>Mira cómo un dueño de taller mecánico usa un prompt de ProntIA para generar contenido y estrategias que atraen más clientes y promocionan sus servicios.</p>
           <p class="demo-result"><strong>Resultado:</strong> Atrajo 12 nuevos clientes en el primer mes.</p>
         </div>
+      </article>
+
+      <!-- Talleres - Short -->
+      <article class="demo-card" aria-hidden="true">
+        <div class="demo-header">
+          <span class="demo-tag">🔧 Talleres Mecánicos</span>
+          <h3>Un ejemplo rápido de IA aplicada a la gestión de un taller mecánico</h3>
+        </div>
+        <div class="youtube-container">
+          <iframe
+            src="https://www.youtube.com/embed/PlKSd-wIAQ4?rel=0&modestbranding=1"
+            title="Ejemplo rápido de IA para talleres mecánicos | ProntIA LATAM"
+            frameborder="0"
+            loading="lazy"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen>
+          </iframe>
+        </div>
+        <a href="https://youtube.com/shorts/PlKSd-wIAQ4" target="_blank" rel="noopener noreferrer" class="btn-youtube">Ver Short en YouTube →</a>
+        <div class="demo-body">
+          <p>Descubre en menos de un minuto cómo la inteligencia artificial puede ayudar a un taller a ahorrar tiempo y comunicarse mejor con sus clientes.</p>
+          <p class="demo-result"><strong>Aplicación práctica:</strong> Una idea sencilla que puedes adaptar hoy mismo a tu taller.</p>
+        </div>
+      </article>
+        </div>
+      </div>
+      <div class="demos-controls">
+        <button class="demos-arrow" id="demosPrev" type="button" aria-label="Vídeo anterior">‹</button>
+        <div class="demos-dots" id="demosDots" aria-label="Seleccionar vídeo"></div>
+        <button class="demos-arrow" id="demosNext" type="button" aria-label="Vídeo siguiente">›</button>
       </div>
     </div>
   </div>
@@ -2726,6 +2823,57 @@
 </a>
 
 <script>
+  // CARRUSEL DE DEMOSTRACIONES
+  (function() {
+    const track = document.getElementById('demosTrack');
+    const dots = document.getElementById('demosDots');
+    const prev = document.getElementById('demosPrev');
+    const next = document.getElementById('demosNext');
+    if (!track || !dots || !prev || !next) return;
+
+    const slides = Array.from(track.querySelectorAll('.demo-card'));
+    let current = 0;
+    let touchStartX = 0;
+
+    function renderDots() {
+      dots.innerHTML = '';
+      slides.forEach((_, index) => {
+        const dot = document.createElement('button');
+        dot.type = 'button';
+        dot.className = 'demos-dot' + (index === current ? ' active' : '');
+        dot.setAttribute('aria-label', 'Mostrar vídeo ' + (index + 1));
+        dot.addEventListener('click', () => goTo(index));
+        dots.appendChild(dot);
+      });
+    }
+
+    function goTo(index) {
+      current = (index + slides.length) % slides.length;
+      track.style.transform = `translateX(-${current * 100}%)`;
+      slides.forEach((slide, slideIndex) => {
+        slide.setAttribute('aria-hidden', slideIndex === current ? 'false' : 'true');
+      });
+      dots.querySelectorAll('.demos-dot').forEach((dot, dotIndex) => {
+        dot.classList.toggle('active', dotIndex === current);
+      });
+    }
+
+    prev.addEventListener('click', () => goTo(current - 1));
+    next.addEventListener('click', () => goTo(current + 1));
+
+    track.addEventListener('touchstart', event => {
+      touchStartX = event.touches[0].clientX;
+    }, { passive: true });
+
+    track.addEventListener('touchend', event => {
+      const distance = touchStartX - event.changedTouches[0].clientX;
+      if (Math.abs(distance) > 50) goTo(current + (distance > 0 ? 1 : -1));
+    }, { passive: true });
+
+    renderDots();
+    goTo(0);
+  })();
+
   (function() {
     const track = document.getElementById('carouselTrack');
     const dotsContainer = document.getElementById('carouselDots');

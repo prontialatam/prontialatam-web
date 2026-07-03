@@ -1,0 +1,21 @@
+{
+  "cleanUrls": true,
+  "rewrites": [
+    {
+      "source": "/talleres-mecanicos",
+      "destination": "/talleres-mecanicos.html"
+    },
+    {
+      "source": "/afiliados",
+      "destination": "/afiliados.html"
+    },
+    {
+      "source": "/checkout-success",
+      "destination": "/checkout-success.html"
+    },
+    {
+      "source": "/checkout-cancel",
+      "destination": "/checkout-cancel.html"
+    }
+  ]
+}

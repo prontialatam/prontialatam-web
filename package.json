@@ -1,0 +1,12 @@
+{
+  "name": "prontialatam-web",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Landing y capa minima de comercio para ProntIA LATAM",
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "stripe": "^18.4.0"
+  }
+}

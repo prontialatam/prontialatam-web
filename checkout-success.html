@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pago completado | ProntIA LATAM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/commerce-pages.css">
+</head>
+<body>
+  <div class="page-shell">
+    <main class="hero">
+      <div class="container">
+        <article class="notice-card" style="max-width:760px; margin:0 auto;">
+          <div class="eyebrow">Pago completado</div>
+          <h1 class="title" style="font-size:clamp(2.4rem,4vw,3.8rem);">Tu compra ya ha quedado <em>registrada</em></h1>
+          <p class="lede">Hemos confirmado el pago y el pedido ha entrado en el flujo de entrega. Si todo está bien configurado, deberías recibir el recurso y las indicaciones de acceso a continuación.</p>
+          <div class="cta-row">
+            <a href="/" class="btn-secondary">Volver a la web</a>
+            <a href="mailto:hola@prontialatam.com?subject=Consulta%20sobre%20mi%20pedido" class="btn-ghost">Contactar soporte</a>
+          </div>
+          <p class="microcopy" style="margin-top:1rem;">Referencia de sesión: <span id="sessionRef">pendiente</span></p>
+        </article>
+      </div>
+    </main>
+  </div>
+  <script>
+    (function () {
+      const params = new URLSearchParams(window.location.search);
+      document.getElementById('sessionRef').textContent = params.get('session_id') || 'no disponible';
+    })();
+  </script>
+</body>
+</html>

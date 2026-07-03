@@ -1102,6 +1102,75 @@
     line-height: 1.5;
   }
 
+  .leadmagnet-native-card {
+    background: var(--white);
+    border: 1px solid rgba(4,44,83,0.12);
+    border-radius: 16px;
+    padding: 1.35rem;
+    box-shadow: 0 18px 45px rgba(4,44,83,0.08);
+  }
+
+  .leadmagnet-native-head {
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--blue-900);
+    margin-bottom: 0.5rem;
+  }
+
+  .leadmagnet-native-desc {
+    font-size: 0.92rem;
+    color: var(--gray-600);
+    margin-bottom: 1rem;
+  }
+
+  .leadmagnet-trust-list {
+    display: grid;
+    gap: 0.6rem;
+    margin-bottom: 1rem;
+    list-style: none;
+  }
+
+  .leadmagnet-trust-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.65rem;
+    font-size: 0.84rem;
+    color: var(--gray-700);
+    line-height: 1.45;
+  }
+
+  .leadmagnet-trust-dot {
+    width: 10px;
+    height: 10px;
+    margin-top: 0.36rem;
+    border-radius: 50%;
+    background: var(--blue-400);
+    flex: 0 0 10px;
+  }
+
+  .leadmagnet-form-panel {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(4,44,83,0.1);
+  }
+
+  .leadmagnet-form-panel[hidden] { display: none; }
+
+  .leadmagnet-reveal-btn {
+    width: 100%;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+  }
+
+  .leadmagnet-helper-link {
+    display: block;
+    text-align: center;
+    margin-top: 0.875rem;
+    text-decoration: none;
+  }
+
   .leadmagnet-preview {
     background: var(--blue-900);
     border-radius: 16px;
@@ -2397,8 +2466,8 @@
     <h2 class="section-title">Empieza gratis hoy mismo</h2>
     <div class="leadmagnet-box">
       <div>
-        <h3 class="leadmagnet-title">Descarga gratis los <em>10 mejores prompts</em> para hacer crecer tu negocio</h3>
-        <p class="leadmagnet-desc">Seleccionamos los 10 prompts más efectivos de nuestro catálogo para que los pruebes ahora mismo y veas resultados reales.</p>
+        <h3 class="leadmagnet-title">Recibe gratis los <em>10 mejores prompts</em> para hacer crecer tu negocio</h3>
+        <p class="leadmagnet-desc">Te los enviaremos por email desde prontIA LATAM para que puedas probarlos en tu negocio. Solo usaremos tu correo para enviarte este recurso y, si lo autorizas, más ideas prácticas relacionadas con IA para ventas, atención al cliente y automatización.</p>
         <ul class="leadmagnet-includes">
           <li>
             <div class="check-icon"><svg viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
@@ -2417,15 +2486,39 @@
             3 prompts para automatizar atención al cliente
           </li>
         </ul>
+        <p class="form-note" style="margin-top:0.9rem;">Tu solicitud se realiza aquí, en la web de prontIA LATAM. Después de enviar el formulario, recibirás el recurso en tu email y podrás darte de baja cuando quieras.</p>
       </div>
       <div>
-        <iframe src="https://6070e10c.sibforms.com/serve/MUIFAGMNXzI_jmoXPTniQ0WIzZcmuFbgEw2GyFTjQmumKC59qqwSt4-lmX3F4fxcgHocjbqZkoFAmlhvc175cyFFzi8jXlRbdHy0csqtQGw-4qINcvG7Z3palY7M-iHNY01_2N1rfJSe8MG1b08Bh5FNN8PMSOwJvVSYQBPK0FdnqrAyCyN7dS-70nPTa83UhRXSrtMWTHrYlnMJQA=="
-          style="width:100%; height:280px; border:none; border-radius:8px; background:transparent;"
-          scrolling="no"
-          allowfullscreen>
-        </iframe>
-        <a href="https://prontialatam.gumroad.com/l/kitgratis" target="_blank" class="btn-primary" style="display:block; text-align:center; margin-top:0.875rem; text-decoration:none;">🎁 Descargar directamente gratis →</a>
-        <p class="form-note" style="margin-top:0.75rem;">Sin spam. Después de descargar el kit, haz clic en el botón de WhatsApp flotante para unirte a nuestra Comunidad y recibir más prompts y soporte. Puedes darte de baja cuando quieras.</p>
+        <div class="leadmagnet-native-card">
+          <div class="leadmagnet-native-head">Solicítalo desde aquí</div>
+          <p class="leadmagnet-native-desc">Antes de pedirte el email, te explicamos exactamente qué va a pasar y cómo recibirás el recurso.</p>
+          <ul class="leadmagnet-trust-list">
+            <li class="leadmagnet-trust-item">
+              <span class="leadmagnet-trust-dot"></span>
+              <span>La solicitud se inicia en la web de <strong>prontIA LATAM</strong>, no desde un enlace largo pegado en un correo.</span>
+            </li>
+            <li class="leadmagnet-trust-item">
+              <span class="leadmagnet-trust-dot"></span>
+              <span>Usamos un formulario seguro de nuestro proveedor de email marketing para enviarte el recurso y gestionar tu consentimiento.</span>
+            </li>
+            <li class="leadmagnet-trust-item">
+              <span class="leadmagnet-trust-dot"></span>
+              <span>Podrás darte de baja cuando quieras y no compartiremos tu correo fuera de esta finalidad.</span>
+            </li>
+          </ul>
+          <button id="revealLeadmagnetForm" class="btn-primary leadmagnet-reveal-btn" type="button" aria-expanded="false" aria-controls="leadmagnetFormPanel">Continuar al formulario seguro →</button>
+          <div id="leadmagnetFormPanel" class="leadmagnet-form-panel" hidden>
+            <iframe src="https://6070e10c.sibforms.com/serve/MUIFAGMNXzI_jmoXPTniQ0WIzZcmuFbgEw2GyFTjQmumKC59qqwSt4-lmX3F4fxcgHocjbqZkoFAmlhvc175cyFFzi8jXlRbdHy0csqtQGw-4qINcvG7Z3palY7M-iHNY01_2N1rfJSe8MG1b08Bh5FNN8PMSOwJvVSYQBPK0FdnqrAyCyN7dS-70nPTa83UhRXSrtMWTHrYlnMJQA=="
+              title="Formulario seguro de prontIA LATAM"
+              style="width:100%; height:280px; border:none; border-radius:8px; background:transparent;"
+              scrolling="no"
+              allowfullscreen>
+            </iframe>
+            <p class="form-note" style="margin-top:0.75rem;">Si el formulario tarda en cargar, puedes abrirlo igualmente dentro de nuestro flujo de captación desde el botón inferior.</p>
+          </div>
+          <a href="https://prontialatam.gumroad.com/l/kitgratis" target="_blank" class="btn-primary leadmagnet-helper-link">Ver el recurso antes de dejar tu email →</a>
+          <p class="form-note" style="margin-top:0.75rem;">Sin spam. Si te unes, te enviaremos el recurso y más contenidos útiles de prontIA LATAM. Si prefieres revisar primero el material, puedes abrir el enlace anterior antes de registrarte.</p>
+        </div>
       </div>
     </div>
   </div>
@@ -3158,6 +3251,29 @@
 
   window.addEventListener('load', handleBlogArticleHash);
   window.addEventListener('hashchange', handleBlogArticleHash);
+
+  // LEAD MAGNET TRUST FLOW
+  (function() {
+    const revealBtn = document.getElementById('revealLeadmagnetForm');
+    const panel = document.getElementById('leadmagnetFormPanel');
+    if (!revealBtn || !panel) return;
+
+    revealBtn.addEventListener('click', function() {
+      const isHidden = panel.hasAttribute('hidden');
+      if (isHidden) {
+        panel.removeAttribute('hidden');
+        revealBtn.setAttribute('aria-expanded', 'true');
+        revealBtn.textContent = 'Formulario abierto debajo ↓';
+        setTimeout(() => {
+          panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 120);
+      } else {
+        panel.setAttribute('hidden', '');
+        revealBtn.setAttribute('aria-expanded', 'false');
+        revealBtn.textContent = 'Continuar al formulario seguro →';
+      }
+    });
+  })();
 
   // TESTIMONIO FORM
   (function() {

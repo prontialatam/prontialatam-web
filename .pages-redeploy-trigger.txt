@@ -1,0 +1,2 @@
+Redeploy trigger for GitHub Pages.
+Created on 2026-07-04 to force a fresh deployment after queued workflow issues.

@@ -1,0 +1,20 @@
+KIT BASE DE AFILIADOS - PRONTIA LATAM - TALLERES MECANICOS
+
+Este paquete esta pensado para que un afiliado aprobado pueda empezar a promocionar el producto el mismo dia.
+
+ORDEN RECOMENDADO:
+1. Leer 01_DOSSIER_MARCA_PRONTIA_LATAM.txt
+2. Leer 02_DOSSIER_PRODUCTO_TALLERES.txt
+3. Revisar 03_COPIES_Y_GANCHOS_TALLERES.txt
+4. Elegir las piezas visuales en la carpeta social
+5. Publicar usando siempre el enlace personal de afiliado
+
+CONTENIDO DEL PAQUETE:
+- Documentacion comercial y operativa
+- Piezas visuales para feed, reels y formatos anchos
+- Fondos y recursos de marca
+- Videos base reutilizables
+- Plantillas de calendario y medicion
+
+SI HAY DUDA:
+hola@prontialatam.com

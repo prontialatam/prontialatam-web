@@ -10,6 +10,10 @@
       "destination": "/afiliados.html"
     },
     {
+      "source": "/portal-afiliados",
+      "destination": "/portal-afiliados.html"
+    },
+    {
       "source": "/recurso-10-prompts",
       "destination": "/recurso-10-prompts.html"
     },

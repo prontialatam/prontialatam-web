@@ -422,6 +422,136 @@ a {
   font-size: 0.92rem;
 }
 
+.stat-grid,
+.download-grid,
+.step-stack {
+  display: grid;
+  gap: 1.2rem;
+}
+
+.stat-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.stat-card,
+.download-card,
+.media-tile,
+.timeline-card {
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(4, 44, 83, 0.08);
+  border-radius: 1.25rem;
+  box-shadow: 0 24px 60px rgba(24, 95, 165, 0.08);
+}
+
+.stat-card,
+.timeline-card {
+  padding: 1.35rem;
+}
+
+.stat-card strong {
+  display: block;
+  margin-bottom: 0.35rem;
+  color: var(--blue-900);
+  font-size: 1.2rem;
+}
+
+.stat-card span {
+  color: var(--gray-700);
+  font-size: 0.94rem;
+}
+
+.download-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.download-card {
+  padding: 1.5rem;
+}
+
+.download-card h3,
+.timeline-card h3 {
+  margin-top: 0;
+  margin-bottom: 0.7rem;
+  color: var(--blue-900);
+}
+
+.download-card p,
+.timeline-card p {
+  margin: 0;
+  color: var(--gray-700);
+}
+
+.resource-list,
+.pill-list {
+  list-style: none;
+  margin: 1rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.7rem;
+}
+
+.resource-list li,
+.pill-list li {
+  color: var(--gray-700);
+}
+
+.resource-list a {
+  color: var(--blue-600);
+  text-decoration: none;
+}
+
+.resource-list a:hover {
+  text-decoration: underline;
+}
+
+.pill-list {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.pill-list li {
+  padding: 0.8rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid rgba(4, 44, 83, 0.1);
+  background: rgba(230, 241, 251, 0.55);
+  text-align: center;
+  font-size: 0.92rem;
+}
+
+.media-strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.media-tile {
+  overflow: hidden;
+}
+
+.media-tile img {
+  width: 100%;
+  display: block;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+}
+
+.media-tile .caption {
+  padding: 0.9rem 1rem 1rem;
+  color: var(--gray-700);
+  font-size: 0.9rem;
+}
+
+.timeline-card {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.timeline-card strong {
+  color: var(--blue-600);
+  font-size: 0.82rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
 .form-grid {
   display: grid;
   gap: 0.9rem;
@@ -476,7 +606,11 @@ textarea {
   .grid-3,
   .grid-2,
   .form-grid.two,
-  .meta-list {
+  .meta-list,
+  .stat-grid,
+  .download-grid,
+  .media-strip,
+  .pill-list {
     grid-template-columns: 1fr;
   }
 

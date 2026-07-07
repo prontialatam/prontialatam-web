@@ -156,29 +156,14 @@ async function sendPurchaseConfirmationEmail(options) {
           </div>
           <div style="padding:20px 40px 34px;border-top:1px solid #ece4d8;color:#6d7581;font-size:13px;line-height:1.8;">
             <div style="margin:0 0 14px;text-align:center;">
-              <a href="${instagramUrl}" style="display:inline-block;text-decoration:none;margin:0 6px;" aria-label="Instagram">
-                <span style="display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:999px;background:#f4ede2;border:1px solid #decfb8;">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="3.5" y="3.5" width="17" height="17" rx="4.5" stroke="#12385b" stroke-width="1.8"/>
-                    <circle cx="12" cy="12" r="4.2" stroke="#12385b" stroke-width="1.8"/>
-                    <circle cx="17.2" cy="6.9" r="1.2" fill="#12385b"/>
-                  </svg>
-                </span>
+              <a href="${instagramUrl}" style="display:inline-block;text-decoration:none;margin:0 6px 8px;" aria-label="Instagram">
+                <span style="display:inline-block;padding:8px 14px;border-radius:999px;background:#f4ede2;border:1px solid #decfb8;color:#12385b;font-weight:700;font-size:13px;line-height:1;">Instagram</span>
               </a>
-              <a href="${facebookUrl}" style="display:inline-block;text-decoration:none;margin:0 6px;" aria-label="Facebook">
-                <span style="display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:999px;background:#f4ede2;border:1px solid #decfb8;">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M13.3 20V12.7H15.8L16.2 9.9H13.3V8.1C13.3 7.3 13.5 6.8 14.7 6.8H16.3V4.2C16 4.1 15.1 4 14.1 4C11.8 4 10.3 5.4 10.3 8V9.9H7.8V12.7H10.3V20H13.3Z" fill="#12385b"/>
-                  </svg>
-                </span>
+              <a href="${facebookUrl}" style="display:inline-block;text-decoration:none;margin:0 6px 8px;" aria-label="Facebook">
+                <span style="display:inline-block;padding:8px 14px;border-radius:999px;background:#f4ede2;border:1px solid #decfb8;color:#12385b;font-weight:700;font-size:13px;line-height:1;">Facebook</span>
               </a>
-              <a href="${youtubeUrl}" style="display:inline-block;text-decoration:none;margin:0 6px;" aria-label="YouTube">
-                <span style="display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:999px;background:#f4ede2;border:1px solid #decfb8;">
-                  <svg width="20" height="14" viewBox="0 0 24 18" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="1.5" y="1.5" width="21" height="15" rx="4.5" stroke="#12385b" stroke-width="1.8"/>
-                    <path d="M10 6.2V11.8L14.8 9L10 6.2Z" fill="#12385b"/>
-                  </svg>
-                </span>
+              <a href="${youtubeUrl}" style="display:inline-block;text-decoration:none;margin:0 6px 8px;" aria-label="YouTube">
+                <span style="display:inline-block;padding:8px 14px;border-radius:999px;background:#f4ede2;border:1px solid #decfb8;color:#12385b;font-weight:700;font-size:13px;line-height:1;">YouTube</span>
               </a>
             </div>
             <div>Este email confirma una compra realizada en ProntIA LATAM.</div>

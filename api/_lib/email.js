@@ -49,6 +49,7 @@ async function sendAffiliateOnboardingEmail(options) {
         <p>Tu solicitud ha sido aprobada. Desde este momento ya puedes empezar a trabajar con el producto de talleres mecánicos de ProntIA LATAM.</p>
         <p><strong>Tu comisión base es del 60% sobre la venta neta</strong>.</p>
         <p><strong>Tu código de afiliado:</strong> ${options.trackingCode}</p>
+        <p><strong>Tu cupón de apoyo:</strong> ${options.couponCode}</p>
         <p><strong>Tu enlace principal:</strong><br><a href="${options.affiliateLink}">${options.affiliateLink}</a></p>
         <p><strong>Portal de afiliados:</strong><br><a href="${options.portalUrl}">${options.portalUrl}</a></p>
         <p><strong>Kit descargable:</strong><br><a href="${options.kitUrl}">${options.kitUrl}</a></p>
@@ -66,6 +67,7 @@ async function sendAffiliateOnboardingEmail(options) {
       "Tu acceso de afiliado ya está listo.",
       `Comisión base: 60% sobre la venta neta.`,
       `Código de afiliado: ${options.trackingCode}`,
+      `Cupón de apoyo: ${options.couponCode}`,
       `Enlace principal: ${options.affiliateLink}`,
       `Portal: ${options.portalUrl}`,
       `Kit: ${options.kitUrl}`

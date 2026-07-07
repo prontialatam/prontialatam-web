@@ -11,11 +11,13 @@ module.exports = async function handler(req, res) {
     const fullName = (body.fullName || "").trim();
     const email = (body.email || "").trim().toLowerCase();
     const country = (body.country || "").trim();
+    const phoneCountryCode = (body.phoneCountryCode || "").trim();
+    const phoneNumber = (body.phoneNumber || "").trim();
     const mainChannel = (body.mainChannel || "").trim();
     const audienceType = (body.audienceType || "").trim();
     const notes = (body.notes || "").trim();
 
-    if (!fullName || !email || !country || !mainChannel || !audienceType || !notes) {
+    if (!fullName || !email || !country || !phoneCountryCode || !phoneNumber || !mainChannel || !audienceType || !notes) {
       return sendJson(res, 400, { error: "Faltan campos obligatorios." });
     }
 
@@ -24,6 +26,8 @@ module.exports = async function handler(req, res) {
         full_name: fullName,
         email,
         country,
+        phone_country_code: phoneCountryCode,
+        phone_number: phoneNumber,
         main_channel: mainChannel,
         audience_type: audienceType,
         notes,

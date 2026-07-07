@@ -52,10 +52,16 @@ async function update(table, filters, payload) {
   });
 }
 
+async function list(table, filters) {
+  const query = filters ? `${table}?${filters}` : table;
+  return request(query, { method: "GET", prefer: "return=representation" });
+}
+
 module.exports = {
   findOne,
   insert,
   isConfigured,
+  list,
   update,
   upsert
 };

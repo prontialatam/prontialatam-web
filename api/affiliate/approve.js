@@ -26,6 +26,12 @@ async function generateTrackingCode(fullName, email) {
   return `${base}-${crypto.randomBytes(3).toString("hex")}`;
 }
 
+async function generateCouponCode(fullName) {
+  const base = (sanitizeSegment(fullName) || "prontia").replace(/-/g, "").slice(0, 8).toUpperCase();
+  const suffix = crypto.randomBytes(2).toString("hex").toUpperCase();
+  return `PRONTIA-${base}-${suffix}`;
+}
+
 module.exports = async function handler(req, res) {
   if (req.method !== "POST") {
     return sendJson(res, 405, { error: "Method not allowed" });
@@ -61,6 +67,9 @@ module.exports = async function handler(req, res) {
     const trackingCode = existingAffiliate && existingAffiliate.tracking_code
       ? existingAffiliate.tracking_code
       : await generateTrackingCode(application.full_name, application.email);
+    const couponCode = existingAffiliate && existingAffiliate.coupon_code
+      ? existingAffiliate.coupon_code
+      : await generateCouponCode(application.full_name);
 
     const commissionRate = Number(process.env.AFFILIATE_DEFAULT_COMMISSION_RATE || "0.60");
     const affiliatePayload = {
@@ -68,7 +77,10 @@ module.exports = async function handler(req, res) {
       full_name: application.full_name,
       email: application.email,
       country: application.country,
+      phone_country_code: application.phone_country_code || null,
+      phone_number: application.phone_number || null,
       tracking_code: trackingCode,
+      coupon_code: couponCode,
       commission_rate: commissionRate
     };
 
@@ -88,6 +100,7 @@ module.exports = async function handler(req, res) {
       email: application.email,
       fullName: application.full_name,
       trackingCode,
+      couponCode,
       portalUrl,
       affiliateLink,
       kitUrl
@@ -97,6 +110,7 @@ module.exports = async function handler(req, res) {
       ok: true,
       affiliateId: affiliate ? affiliate.id : null,
       trackingCode,
+      couponCode,
       affiliateLink,
       portalUrl,
       kitUrl,

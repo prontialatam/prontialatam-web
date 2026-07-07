@@ -403,6 +403,12 @@ a {
   color: var(--success);
 }
 
+.field-row {
+  display: grid;
+  grid-template-columns: 0.78fr 1.22fr;
+  gap: 0.75rem;
+}
+
 .quote-band {
   padding: 1.3rem 1.4rem;
   border-radius: 1.1rem;
@@ -462,6 +468,10 @@ a {
 
 .download-grid {
   grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.download-grid.four {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
 .download-card {
@@ -552,6 +562,73 @@ a {
   text-transform: uppercase;
 }
 
+.admin-shell {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.admin-toolbar,
+.app-card,
+.config-card {
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(4, 44, 83, 0.08);
+  border-radius: 1.25rem;
+  box-shadow: 0 24px 60px rgba(24, 95, 165, 0.08);
+  padding: 1.4rem;
+}
+
+.admin-grid {
+  display: grid;
+  grid-template-columns: 0.95fr 1.05fr;
+  gap: 1.2rem;
+}
+
+.app-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.app-card h3,
+.config-card h3 {
+  margin-top: 0;
+  color: var(--blue-900);
+}
+
+.app-meta {
+  display: grid;
+  gap: 0.35rem;
+  color: var(--gray-700);
+  font-size: 0.94rem;
+}
+
+.config-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 0.7rem;
+}
+
+.config-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.8rem 0.9rem;
+  border-radius: 0.9rem;
+  background: rgba(230, 241, 251, 0.5);
+  color: var(--gray-700);
+}
+
+.config-ok {
+  color: var(--success);
+  font-weight: 700;
+}
+
+.config-missing {
+  color: var(--danger);
+  font-weight: 700;
+}
+
 .form-grid {
   display: grid;
   gap: 0.9rem;
@@ -609,8 +686,11 @@ textarea {
   .meta-list,
   .stat-grid,
   .download-grid,
+  .download-grid.four,
   .media-strip,
-  .pill-list {
+  .pill-list,
+  .field-row,
+  .admin-grid {
     grid-template-columns: 1fr;
   }
 

@@ -30,6 +30,10 @@
       "destination": "/biblioteca-social-talleres.html"
     },
     {
+      "source": "/operativa-afiliados",
+      "destination": "/operativa-afiliados.html"
+    },
+    {
       "source": "/recurso-10-prompts",
       "destination": "/recurso-10-prompts.html"
     },

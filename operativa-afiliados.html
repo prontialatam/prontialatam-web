@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Operativa de Afiliados | ProntIA LATAM</title>
+  <meta name="description" content="Consola interna básica para revisar solicitudes de afiliados, ver checklist operativo y aprobar afiliados en ProntIA LATAM.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="logo-prontia.jpg" type="image/jpeg">
+  <link rel="stylesheet" href="assets/css/commerce-pages.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="topbar">
+      <a href="/portal-afiliados" class="brand">
+        <img src="logo-prontia.jpg" alt="ProntIA LATAM">
+        <span>Operativa interna de afiliados</span>
+      </a>
+      <nav class="topbar-links">
+        <a href="/portal-afiliados">Portal</a>
+        <a href="/afiliados">Solicitud pública</a>
+      </nav>
+    </header>
+    <main>
+      <section class="hero">
+        <div class="container hero-grid">
+          <div>
+            <div class="eyebrow">Consola interna Fase 1</div>
+            <h1 class="title">Revisar solicitudes, validar configuración y aprobar afiliados sin salir de la web</h1>
+            <p class="lede">Esta consola nos sirve para operar mejor el programa: cargar solicitudes, comprobar si la infraestructura mínima está lista y lanzar la aprobación con onboarding cuando toque.</p>
+          </div>
+          <aside class="hero-card">
+            <div class="hero-card-note">
+              <strong>Qué cubre hoy</strong>
+              <ul class="bullet-list" style="margin-top:0.9rem;">
+                <li>Checklist de variables y servicios.</li>
+                <li>Lectura de solicitudes desde Supabase.</li>
+                <li>Aprobación con código, cupón y email de onboarding.</li>
+                <li>Base para payout y tracking posterior.</li>
+              </ul>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container admin-shell">
+          <article class="admin-toolbar">
+            <div class="form-grid two">
+              <label>
+                Token de operativa
+                <input type="password" id="adminToken" placeholder="Pega aquí el token interno">
+              </label>
+              <label>
+                Acción
+                <div class="cta-row" style="margin-top:0;">
+                  <button id="loadApplications" type="button" class="btn-primary">Cargar solicitudes</button>
+                </div>
+              </label>
+            </div>
+            <p id="adminStatus" class="inline-status"></p>
+          </article>
+
+          <div class="admin-grid">
+            <article class="config-card">
+              <h3>Checklist operativo</h3>
+              <ul id="configList" class="config-list">
+                <li><span>Supabase</span><span>-</span></li>
+                <li><span>Brevo</span><span>-</span></li>
+                <li><span>Stripe</span><span>-</span></li>
+                <li><span>Token de aprobación</span><span>-</span></li>
+              </ul>
+              <p class="microcopy" style="margin-top:1rem;">Cuando Brevo o Stripe falten, la consola te deja verlo antes de aprobar a nadie.</p>
+            </article>
+
+            <article class="config-card">
+              <h3>Siguiente tramo recomendado</h3>
+              <ul class="trust-list">
+                <li>Meter variables reales en Vercel.</li>
+                <li>Hacer una aprobación de prueba con una solicitud real.</li>
+                <li>Añadir dashboard de ventas y comisiones.</li>
+                <li>Preparar la siguiente vertical: estética o inmobiliaria.</li>
+              </ul>
+            </article>
+          </div>
+
+          <div id="applicationsList" class="app-list"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    (function () {
+      const tokenInput = document.getElementById('adminToken');
+      const loadButton = document.getElementById('loadApplications');
+      const status = document.getElementById('adminStatus');
+      const list = document.getElementById('applicationsList');
+      const configList = document.getElementById('configList');
+
+      function setStatus(message, type) {
+        status.textContent = message || '';
+        status.className = 'inline-status' + (type ? ' ' + type : '');
+      }
+
+      function renderConfig(config) {
+        const rows = [
+          ['Supabase', config.supabase],
+          ['Brevo', config.brevo],
+          ['Stripe', config.stripe],
+          ['Token de aprobación', config.approvalToken]
+        ];
+        configList.innerHTML = rows.map(function (row) {
+          const ok = row[1];
+          return '<li><span>' + row[0] + '</span><span class="' + (ok ? 'config-ok' : 'config-missing') + '">' + (ok ? 'Listo' : 'Falta') + '</span></li>';
+        }).join('');
+      }
+
+      function escapeHtml(value) {
+        return String(value || '')
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;');
+      }
+
+      function renderApplications(applications, adminToken) {
+        if (!applications.length) {
+          list.innerHTML = '<article class="app-card"><h3>No hay solicitudes cargadas</h3><p>Todavía no hay registros o el filtro no devolvió resultados.</p></article>';
+          return;
+        }
+
+        list.innerHTML = applications.map(function (app) {
+          return '' +
+            '<article class="app-card" data-application-id="' + escapeHtml(app.id) + '">' +
+              '<h3>' + escapeHtml(app.full_name) + '</h3>' +
+              '<div class="app-meta">' +
+                '<div><strong>Email:</strong> ' + escapeHtml(app.email) + '</div>' +
+                '<div><strong>País:</strong> ' + escapeHtml(app.country) + '</div>' +
+                '<div><strong>Teléfono:</strong> ' + escapeHtml(app.phone_country_code) + ' ' + escapeHtml(app.phone_number) + '</div>' +
+                '<div><strong>Canal:</strong> ' + escapeHtml(app.main_channel) + '</div>' +
+                '<div><strong>Audiencia:</strong> ' + escapeHtml(app.audience_type) + '</div>' +
+                '<div><strong>Estado:</strong> ' + escapeHtml(app.status) + '</div>' +
+                '<div><strong>Notas:</strong> ' + escapeHtml(app.notes) + '</div>' +
+              '</div>' +
+              '<div class="cta-row">' +
+                '<button type="button" class="btn-primary approve-button">Aprobar y enviar onboarding</button>' +
+              '</div>' +
+              '<p class="inline-status card-status"></p>' +
+            '</article>';
+        }).join('');
+
+        list.querySelectorAll('.approve-button').forEach(function (button) {
+          button.addEventListener('click', async function () {
+            const card = button.closest('.app-card');
+            const cardStatus = card.querySelector('.card-status');
+            const applicationId = card.getAttribute('data-application-id');
+            button.disabled = true;
+            button.textContent = 'Aprobando...';
+            cardStatus.textContent = 'Creando afiliado y preparando onboarding...';
+
+            try {
+              const response = await fetch('/api/affiliate/approve', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'x-affiliate-admin-token': adminToken
+                },
+                body: JSON.stringify({ applicationId: applicationId })
+              });
+              const payload = await response.json();
+              if (!response.ok || !payload.ok) {
+                throw new Error(payload.error || 'No se pudo aprobar la solicitud.');
+              }
+
+              cardStatus.className = 'inline-status success';
+              cardStatus.textContent = 'Aprobado. Código: ' + payload.trackingCode + ' | Cupón: ' + payload.couponCode;
+              button.remove();
+            } catch (error) {
+              cardStatus.className = 'inline-status error';
+              cardStatus.textContent = error.message || 'No se pudo aprobar la solicitud.';
+              button.disabled = false;
+              button.textContent = 'Aprobar y enviar onboarding';
+            }
+          });
+        });
+      }
+
+      loadButton.addEventListener('click', async function () {
+        const adminToken = tokenInput.value.trim();
+        if (!adminToken) {
+          setStatus('Necesitamos el token interno para cargar la operativa.', 'error');
+          return;
+        }
+
+        loadButton.disabled = true;
+        loadButton.textContent = 'Cargando...';
+        setStatus('Consultando solicitudes y configuración...', '');
+
+        try {
+          const response = await fetch('/api/affiliate/applications', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ adminToken: adminToken })
+          });
+          const payload = await response.json();
+          if (!response.ok || !payload.ok) {
+            throw new Error(payload.error || 'No se pudo cargar la operativa.');
+          }
+
+          renderConfig(payload.config || {});
+          renderApplications(payload.applications || [], adminToken);
+          setStatus('Operativa cargada correctamente.', 'success');
+        } catch (error) {
+          setStatus(error.message || 'No se pudo cargar la operativa.', 'error');
+        } finally {
+          loadButton.disabled = false;
+          loadButton.textContent = 'Cargar solicitudes';
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

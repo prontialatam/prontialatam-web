@@ -119,12 +119,12 @@ async function sendPurchaseConfirmationEmail(options) {
     htmlContent: `
       <div style="margin:0;background:#f3efe7;padding:32px 16px;font-family:'DM Sans',Arial,sans-serif;color:#203040;">
         <div style="max-width:720px;margin:0 auto;background:#ffffff;border:1px solid #d9d1c4;border-radius:24px;overflow:hidden;">
-          <div style="background:linear-gradient(180deg,#153b5d 0%,#1f557a 100%);padding:18px 32px 20px;color:#ffffff;text-align:center;">
-            ${brandLogoUrl ? `<div style="margin:0 0 8px;"><img src="${brandLogoUrl}" alt="ProntIA LATAM" style="display:block;height:112px;width:auto;max-width:340px;margin:0 auto;"></div>` : ""}
-            <h1 style="margin:0;font-size:26px;line-height:1.04;font-family:'Cormorant Garamond',Georgia,serif;font-weight:700;letter-spacing:0.01em;">Tu compra ya está confirmada</h1>
-            <p style="margin:8px auto 0;font-size:14px;line-height:1.55;max-width:500px;opacity:0.94;">Hola ${firstName}, ya tienes preparado el acceso a tu material para empezar hoy mismo.</p>
+          <div style="background:linear-gradient(180deg,#153b5d 0%,#1f557a 100%);padding:12px 28px 14px;color:#ffffff;text-align:center;">
+            ${brandLogoUrl ? `<div style="margin:0 0 4px;"><img src="${brandLogoUrl}" alt="ProntIA LATAM" style="display:block;height:112px;width:auto;max-width:340px;margin:0 auto;"></div>` : ""}
+            <h1 style="margin:0;font-size:23px;line-height:1.02;font-family:'Cormorant Garamond',Georgia,serif;font-weight:700;letter-spacing:0.01em;">Tu compra ya está confirmada</h1>
           </div>
           <div style="padding:36px 40px 20px;">
+            <p style="margin:0 0 20px;font-size:16px;line-height:1.75;color:#314354;">Hola ${firstName}, ya tienes preparado el acceso a tu material para empezar hoy mismo. Debajo encontrarás el resumen del pedido y los enlaces para descargar el kit y consultar la guía.</p>
             <div style="background:#f7f3ec;border:1px solid #e4dacb;border-radius:18px;padding:22px 24px;margin-bottom:28px;">
               <div style="font-size:13px;letter-spacing:0.12em;text-transform:uppercase;color:#7a6d5c;margin-bottom:10px;">Resumen del pedido</div>
               <div style="font-size:24px;font-weight:700;color:#12385b;margin-bottom:8px;">${options.productName}</div>

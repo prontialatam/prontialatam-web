@@ -119,11 +119,10 @@ async function sendPurchaseConfirmationEmail(options) {
     htmlContent: `
       <div style="margin:0;background:#f3efe7;padding:32px 16px;font-family:'DM Sans',Arial,sans-serif;color:#203040;">
         <div style="max-width:720px;margin:0 auto;background:#ffffff;border:1px solid #d9d1c4;border-radius:24px;overflow:hidden;">
-          <div style="background:linear-gradient(135deg,#12385b 0%,#245f86 100%);padding:26px 40px 28px;color:#ffffff;text-align:center;">
-            ${brandLogoUrl ? `<div style="margin:0 0 12px;"><img src="${brandLogoUrl}" alt="ProntIA LATAM" style="display:block;height:78px;width:auto;max-width:280px;margin:0 auto;"></div>` : ""}
-            <div style="font-size:11px;letter-spacing:0.18em;text-transform:uppercase;opacity:0.8;margin-bottom:10px;">ProntIA LATAM</div>
-            <h1 style="margin:0;font-size:30px;line-height:1.08;font-family:'Cormorant Garamond',Georgia,serif;font-weight:700;">Compra confirmada y acceso preparado</h1>
-            <p style="margin:12px auto 0;font-size:15px;line-height:1.65;max-width:540px;">Hola ${firstName}, muchas gracias por confiar en ProntIA LATAM. Ya tienes preparado el acceso al material para que puedas empezar hoy mismo.</p>
+          <div style="background:linear-gradient(180deg,#153b5d 0%,#1f557a 100%);padding:18px 32px 20px;color:#ffffff;text-align:center;">
+            ${brandLogoUrl ? `<div style="margin:0 0 8px;"><img src="${brandLogoUrl}" alt="ProntIA LATAM" style="display:block;height:112px;width:auto;max-width:340px;margin:0 auto;"></div>` : ""}
+            <h1 style="margin:0;font-size:26px;line-height:1.04;font-family:'Cormorant Garamond',Georgia,serif;font-weight:700;letter-spacing:0.01em;">Tu compra ya está confirmada</h1>
+            <p style="margin:8px auto 0;font-size:14px;line-height:1.55;max-width:500px;opacity:0.94;">Hola ${firstName}, ya tienes preparado el acceso a tu material para empezar hoy mismo.</p>
           </div>
           <div style="padding:36px 40px 20px;">
             <div style="background:#f7f3ec;border:1px solid #e4dacb;border-radius:18px;padding:22px 24px;margin-bottom:28px;">

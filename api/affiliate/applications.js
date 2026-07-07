@@ -27,10 +27,39 @@ module.exports = async function handler(req, res) {
       "affiliate_applications",
       "select=id,status,full_name,email,country,phone_country_code,phone_number,main_channel,audience_type,notes,created_at&order=created_at.desc"
     );
+    const affiliates = await supabase.list(
+      "affiliates",
+      "select=id,status,full_name,email,country,phone_country_code,phone_number,tracking_code,coupon_code,commission_rate,created_at&order=created_at.desc&limit=12"
+    );
+    const orders = await supabase.list(
+      "orders",
+      "select=id,customer_email,product_name,affiliate_id,affiliate_code,payment_status,fulfillment_status,amount_total,commission_amount,currency,created_at&order=created_at.desc&limit=20"
+    );
+
+    const totalSales = orders.reduce(function (sum, order) {
+      return sum + Number(order.amount_total || 0);
+    }, 0);
+    const totalCommissions = orders.reduce(function (sum, order) {
+      return sum + Number(order.commission_amount || 0);
+    }, 0);
+    const approvedAffiliates = affiliates.filter(function (item) {
+      return item.status === "approved";
+    }).length;
+    const pendingApplications = applications.filter(function (item) {
+      return item.status === "pending";
+    }).length;
 
     return sendJson(res, 200, {
       ok: true,
       applications,
+      affiliates,
+      orders,
+      stats: {
+        pendingApplications,
+        approvedAffiliates,
+        totalSales: Number(totalSales.toFixed(2)),
+        totalCommissions: Number(totalCommissions.toFixed(2))
+      },
       config: {
         supabase: supabase.isConfigured(),
         brevo: Boolean((process.env.BREVO_API_KEY || "").trim()),

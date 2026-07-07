@@ -45,9 +45,17 @@ async function upsert(table, payload, onConflict) {
   });
 }
 
+async function update(table, filters, payload) {
+  return request(`${table}?${filters}`, {
+    method: "PATCH",
+    body: payload
+  });
+}
+
 module.exports = {
   findOne,
   insert,
   isConfigured,
+  update,
   upsert
 };

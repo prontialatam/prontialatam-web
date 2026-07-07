@@ -17,7 +17,7 @@ create table if not exists affiliates (
   country text,
   tracking_code text unique not null,
   coupon_code text,
-  commission_rate numeric(5,2) default 0.30,
+  commission_rate numeric(5,2) default 0.60,
   created_at timestamptz not null default now()
 );
 

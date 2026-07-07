@@ -81,7 +81,7 @@ module.exports = async function handler(req, res) {
     const customer = await findOrCreateCustomer(session);
     const affiliate = await resolveAffiliate(session);
     const amountTotal = typeof session.amount_total === "number" ? Number((session.amount_total / 100).toFixed(2)) : null;
-    const commissionRate = Number(process.env.AFFILIATE_DEFAULT_COMMISSION_RATE || "0.30");
+    const commissionRate = Number(process.env.AFFILIATE_DEFAULT_COMMISSION_RATE || "0.60");
     const commissionAmount = affiliate && amountTotal ? Number((amountTotal * commissionRate).toFixed(2)) : null;
 
     const baseOrder = {

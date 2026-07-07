@@ -14,6 +14,22 @@
       "destination": "/portal-afiliados.html"
     },
     {
+      "source": "/dossier-marca-afiliados",
+      "destination": "/dossier-marca-afiliados.html"
+    },
+    {
+      "source": "/dossier-producto-talleres",
+      "destination": "/dossier-producto-talleres.html"
+    },
+    {
+      "source": "/playbook-afiliados-talleres",
+      "destination": "/playbook-afiliados-talleres.html"
+    },
+    {
+      "source": "/biblioteca-social-talleres",
+      "destination": "/biblioteca-social-talleres.html"
+    },
+    {
       "source": "/recurso-10-prompts",
       "destination": "/recurso-10-prompts.html"
     },

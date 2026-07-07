@@ -1,11 +1,14 @@
 const Stripe = require("stripe");
-const { readRawBody, sendJson } = require("../_lib/http");
+const { getSiteUrl, readRawBody, sendJson } = require("../_lib/http");
+const { sendPurchaseConfirmationEmail } = require("../_lib/email");
 const supabase = require("../_lib/supabase");
+const { summarizeAccount } = require("../_lib/stripe-connect");
+const { getProduct } = require("../_lib/stripe-products");
 
 async function queueFulfillment(payload) {
   const target = (process.env.ORDER_FULFILLMENT_WEBHOOK_URL || "").trim();
   if (!target) {
-    return "pending_manual";
+    return "not_configured";
   }
 
   const response = await fetch(target, {
@@ -21,6 +24,64 @@ async function queueFulfillment(payload) {
   }
 
   return "queued";
+}
+
+function buildAbsoluteUrl(siteUrl, path) {
+  if (!path) return siteUrl;
+  if (/^https?:\/\//i.test(path)) return path;
+  const base = (siteUrl || "").replace(/\/$/, "");
+  const suffix = path.startsWith("/") ? path : `/${path}`;
+  return `${base}${suffix}`;
+}
+
+async function deliverOrder(options) {
+  const product = getProduct(options.order.product_slug || "");
+  const siteUrl = options.siteUrl;
+  const deliveryAssetUrl = buildAbsoluteUrl(siteUrl, product && product.deliveryAssetUrl ? product.deliveryAssetUrl : "/");
+  const deliveryPageUrl = buildAbsoluteUrl(siteUrl, product && product.deliveryPageUrl ? product.deliveryPageUrl : "/");
+  const supportEmail = product && product.supportEmail ? product.supportEmail : "hola@prontialatam.com";
+
+  const emailResult = await sendPurchaseConfirmationEmail({
+    amountTotal: options.order.amount_total,
+    currency: options.order.currency,
+    deliveryAssetUrl,
+    deliveryPageUrl,
+    email: options.order.customer_email,
+    fullName: options.order.customer_name,
+    productName: options.order.product_name || (product ? product.name : "Tu compra"),
+    sessionId: options.order.stripe_checkout_session_id,
+    supportEmail
+  });
+
+  let fulfillmentStatus = "delivered_email";
+  if (emailResult && emailResult.skipped) {
+    fulfillmentStatus = "delivery_missing_sender";
+  }
+
+  const externalStatus = await queueFulfillment({
+    event: "order.paid",
+    order: options.order,
+    customer: options.customer,
+    affiliate: options.affiliate,
+    delivery: {
+      asset_url: deliveryAssetUrl,
+      guide_url: deliveryPageUrl,
+      email_result: emailResult
+    }
+  });
+
+  if (externalStatus === "queued") {
+    fulfillmentStatus = fulfillmentStatus === "delivered_email"
+      ? "delivered_and_queued"
+      : "delivery_partial_and_queued";
+  }
+
+  return {
+    deliveryAssetUrl,
+    deliveryPageUrl,
+    emailResult,
+    fulfillmentStatus
+  };
 }
 
 async function findOrCreateCustomer(session) {
@@ -57,6 +118,31 @@ async function resolveAffiliate(session) {
   return supabase.findOne("affiliates", `tracking_code=eq.${encodeURIComponent(code)}`);
 }
 
+async function updateAffiliateConnectStatus(account) {
+  if (!supabase.isConfigured() || !account || !account.id) {
+    return false;
+  }
+
+  const affiliate = await supabase.findOne("affiliates", `stripe_connect_account_id=eq.${encodeURIComponent(account.id)}`);
+  if (!affiliate) {
+    return false;
+  }
+
+  const summary = summarizeAccount(account);
+  const payload = {
+    stripe_connect_status: summary.status,
+    stripe_connect_requirements_due: summary.requirementsDue,
+    stripe_connect_metadata: summary.metadata
+  };
+
+  if (summary.status === "ready" || summary.status === "submitted") {
+    payload.connect_onboarding_completed_at = new Date().toISOString();
+  }
+
+  await supabase.update("affiliates", `id=eq.${encodeURIComponent(affiliate.id)}`, payload);
+  return true;
+}
+
 module.exports = async function handler(req, res) {
   if (req.method !== "POST") {
     return sendJson(res, 405, { error: "Method not allowed" });
@@ -72,6 +158,11 @@ module.exports = async function handler(req, res) {
     const rawBody = await readRawBody(req);
     const signature = req.headers["stripe-signature"];
     const event = stripe.webhooks.constructEvent(rawBody, signature, process.env.STRIPE_WEBHOOK_SECRET);
+
+    if (event.type === "account.updated" || event.type.indexOf("v2.core.account") === 0) {
+      const updated = await updateAffiliateConnectStatus(event.data.object);
+      return sendJson(res, 200, { received: true, connectUpdated: updated });
+    }
 
     if (event.type !== "checkout.session.completed") {
       return sendJson(res, 200, { received: true, ignored: event.type });
@@ -108,17 +199,24 @@ module.exports = async function handler(req, res) {
       }
     };
 
-    const fulfillmentStatus = await queueFulfillment({
-      event: "order.paid",
+    const siteUrl = getSiteUrl(req);
+    const delivery = await deliverOrder({
       order: baseOrder,
       customer,
-      affiliate
+      affiliate,
+      siteUrl
     });
 
     if (supabase.isConfigured()) {
       await supabase.upsert("orders", {
         ...baseOrder,
-        fulfillment_status: fulfillmentStatus
+        fulfillment_status: delivery.fulfillmentStatus,
+        source_metadata: {
+          ...baseOrder.source_metadata,
+          delivery_asset_url: delivery.deliveryAssetUrl,
+          delivery_page_url: delivery.deliveryPageUrl,
+          email_delivery: delivery.emailResult
+        }
       }, "stripe_checkout_session_id");
     }
 

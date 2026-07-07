@@ -52,6 +52,9 @@ module.exports = async function handler(req, res) {
     const deliveryAssetUrl = buildAbsoluteUrl(siteUrl, product && product.deliveryAssetUrl ? product.deliveryAssetUrl : "/");
     const deliveryPageUrl = buildAbsoluteUrl(siteUrl, product && product.deliveryPageUrl ? product.deliveryPageUrl : "/");
     const brandLogoUrl = buildAbsoluteUrl(siteUrl, "/logo-prontia.jpg");
+    const instagramIconUrl = buildAbsoluteUrl(siteUrl, "/assets/email-social/instagram.png");
+    const facebookIconUrl = buildAbsoluteUrl(siteUrl, "/assets/email-social/facebook.png");
+    const youtubeIconUrl = buildAbsoluteUrl(siteUrl, "/assets/email-social/youtube.png");
     const supportEmail = product && product.supportEmail ? product.supportEmail : "hola@prontialatam.com";
 
     const emailResult = await sendPurchaseConfirmationEmail({
@@ -61,11 +64,14 @@ module.exports = async function handler(req, res) {
       deliveryAssetUrl,
       deliveryPageUrl,
       email: order.customer_email,
+      facebookIconUrl,
       fullName: order.customer_name,
+      instagramIconUrl,
       productName: order.product_name || (product ? product.name : "Tu compra"),
       sessionId: order.stripe_checkout_session_id,
       supportEmail,
-      supportWhatsApp: "+34 697 47 46 46"
+      supportWhatsApp: "+34 697 47 46 46",
+      youtubeIconUrl
     });
 
     await supabase.update("orders", `id=eq.${encodeURIComponent(order.id)}`, {

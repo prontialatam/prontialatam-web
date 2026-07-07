@@ -40,6 +40,9 @@ async function deliverOrder(options) {
   const deliveryAssetUrl = buildAbsoluteUrl(siteUrl, product && product.deliveryAssetUrl ? product.deliveryAssetUrl : "/");
   const deliveryPageUrl = buildAbsoluteUrl(siteUrl, product && product.deliveryPageUrl ? product.deliveryPageUrl : "/");
   const brandLogoUrl = buildAbsoluteUrl(siteUrl, "/logo-prontia.jpg");
+  const instagramIconUrl = buildAbsoluteUrl(siteUrl, "/assets/email-social/instagram.png");
+  const facebookIconUrl = buildAbsoluteUrl(siteUrl, "/assets/email-social/facebook.png");
+  const youtubeIconUrl = buildAbsoluteUrl(siteUrl, "/assets/email-social/youtube.png");
   const supportEmail = product && product.supportEmail ? product.supportEmail : "hola@prontialatam.com";
   let emailResult = { ok: false, skipped: true, reason: "not_attempted" };
   let fulfillmentStatus = "delivery_not_attempted";
@@ -52,11 +55,14 @@ async function deliverOrder(options) {
       deliveryPageUrl,
       brandLogoUrl,
       email: options.order.customer_email,
+      facebookIconUrl,
       fullName: options.order.customer_name,
+      instagramIconUrl,
       productName: options.order.product_name || (product ? product.name : "Tu compra"),
       sessionId: options.order.stripe_checkout_session_id,
       supportEmail,
-      supportWhatsApp: "+34 697 47 46 46"
+      supportWhatsApp: "+34 697 47 46 46",
+      youtubeIconUrl
     });
 
     fulfillmentStatus = "delivered_email";

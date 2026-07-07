@@ -106,6 +106,9 @@ async function sendPurchaseConfirmationEmail(options) {
   const instagramUrl = options.instagramUrl || "https://www.instagram.com/prontialatam";
   const facebookUrl = options.facebookUrl || "https://www.facebook.com/profile.php?id=61590596812173";
   const youtubeUrl = options.youtubeUrl || "https://www.youtube.com/@ProntiaLatam";
+  const instagramIconUrl = options.instagramIconUrl || "";
+  const facebookIconUrl = options.facebookIconUrl || "";
+  const youtubeIconUrl = options.youtubeIconUrl || "";
 
   const payload = {
     sender: {
@@ -157,13 +160,13 @@ async function sendPurchaseConfirmationEmail(options) {
           <div style="padding:20px 40px 34px;border-top:1px solid #ece4d8;color:#6d7581;font-size:13px;line-height:1.8;">
             <div style="margin:0 0 14px;text-align:center;">
               <a href="${instagramUrl}" style="display:inline-block;text-decoration:none;margin:0 6px 8px;" aria-label="Instagram">
-                <span style="display:inline-block;padding:8px 14px;border-radius:999px;background:#f4ede2;border:1px solid #decfb8;color:#12385b;font-weight:700;font-size:13px;line-height:1;">Instagram</span>
+                ${instagramIconUrl ? `<img src="${instagramIconUrl}" alt="Instagram" width="38" height="38" style="display:block;width:38px;height:38px;border:0;">` : `<span style="display:inline-block;padding:8px 14px;border-radius:999px;background:#f4ede2;border:1px solid #decfb8;color:#12385b;font-weight:700;font-size:13px;line-height:1;">Instagram</span>`}
               </a>
               <a href="${facebookUrl}" style="display:inline-block;text-decoration:none;margin:0 6px 8px;" aria-label="Facebook">
-                <span style="display:inline-block;padding:8px 14px;border-radius:999px;background:#f4ede2;border:1px solid #decfb8;color:#12385b;font-weight:700;font-size:13px;line-height:1;">Facebook</span>
+                ${facebookIconUrl ? `<img src="${facebookIconUrl}" alt="Facebook" width="38" height="38" style="display:block;width:38px;height:38px;border:0;">` : `<span style="display:inline-block;padding:8px 14px;border-radius:999px;background:#f4ede2;border:1px solid #decfb8;color:#12385b;font-weight:700;font-size:13px;line-height:1;">Facebook</span>`}
               </a>
               <a href="${youtubeUrl}" style="display:inline-block;text-decoration:none;margin:0 6px 8px;" aria-label="YouTube">
-                <span style="display:inline-block;padding:8px 14px;border-radius:999px;background:#f4ede2;border:1px solid #decfb8;color:#12385b;font-weight:700;font-size:13px;line-height:1;">YouTube</span>
+                ${youtubeIconUrl ? `<img src="${youtubeIconUrl}" alt="YouTube" width="38" height="38" style="display:block;width:38px;height:38px;border:0;">` : `<span style="display:inline-block;padding:8px 14px;border-radius:999px;background:#f4ede2;border:1px solid #decfb8;color:#12385b;font-weight:700;font-size:13px;line-height:1;">YouTube</span>`}
               </a>
             </div>
             <div>Este email confirma una compra realizada en ProntIA LATAM.</div>

@@ -29,11 +29,11 @@ module.exports = async function handler(req, res) {
     );
     const affiliates = await supabase.list(
       "affiliates",
-      "select=id,status,full_name,email,country,phone_country_code,phone_number,tracking_code,coupon_code,commission_rate,created_at&order=created_at.desc&limit=12"
+      "select=id,status,full_name,email,country,phone_country_code,phone_number,tracking_code,coupon_code,commission_rate,stripe_connect_account_id,stripe_connect_status,stripe_connect_country,stripe_connect_dashboard,stripe_connect_requirements_due,connect_onboarding_started_at,connect_onboarding_completed_at,created_at&order=created_at.desc&limit=12"
     );
     const orders = await supabase.list(
       "orders",
-      "select=id,customer_email,product_name,affiliate_id,affiliate_code,payment_status,fulfillment_status,amount_total,commission_amount,currency,created_at&order=created_at.desc&limit=20"
+      "select=id,stripe_checkout_session_id,customer_email,customer_name,product_slug,product_name,affiliate_id,affiliate_code,payment_status,fulfillment_status,amount_total,commission_amount,currency,source_metadata,created_at&order=created_at.desc&limit=20"
     );
 
     const totalSales = orders.reduce(function (sum, order) {
@@ -64,6 +64,7 @@ module.exports = async function handler(req, res) {
         supabase: supabase.isConfigured(),
         brevo: Boolean((process.env.BREVO_API_KEY || "").trim()),
         stripe: Boolean((process.env.STRIPE_SECRET_KEY || "").trim() && (process.env.STRIPE_WEBHOOK_SECRET || "").trim()),
+        stripeConnect: Boolean((process.env.STRIPE_SECRET_KEY || "").trim()),
         approvalToken: Boolean((process.env.AFFILIATE_APPROVAL_TOKEN || "").trim())
       }
     });

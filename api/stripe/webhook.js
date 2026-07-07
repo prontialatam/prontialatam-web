@@ -40,22 +40,32 @@ async function deliverOrder(options) {
   const deliveryAssetUrl = buildAbsoluteUrl(siteUrl, product && product.deliveryAssetUrl ? product.deliveryAssetUrl : "/");
   const deliveryPageUrl = buildAbsoluteUrl(siteUrl, product && product.deliveryPageUrl ? product.deliveryPageUrl : "/");
   const supportEmail = product && product.supportEmail ? product.supportEmail : "hola@prontialatam.com";
+  let emailResult = { ok: false, skipped: true, reason: "not_attempted" };
+  let fulfillmentStatus = "delivery_not_attempted";
 
-  const emailResult = await sendPurchaseConfirmationEmail({
-    amountTotal: options.order.amount_total,
-    currency: options.order.currency,
-    deliveryAssetUrl,
-    deliveryPageUrl,
-    email: options.order.customer_email,
-    fullName: options.order.customer_name,
-    productName: options.order.product_name || (product ? product.name : "Tu compra"),
-    sessionId: options.order.stripe_checkout_session_id,
-    supportEmail
-  });
+  try {
+    emailResult = await sendPurchaseConfirmationEmail({
+      amountTotal: options.order.amount_total,
+      currency: options.order.currency,
+      deliveryAssetUrl,
+      deliveryPageUrl,
+      email: options.order.customer_email,
+      fullName: options.order.customer_name,
+      productName: options.order.product_name || (product ? product.name : "Tu compra"),
+      sessionId: options.order.stripe_checkout_session_id,
+      supportEmail
+    });
 
-  let fulfillmentStatus = "delivered_email";
-  if (emailResult && emailResult.skipped) {
-    fulfillmentStatus = "delivery_missing_sender";
+    fulfillmentStatus = "delivered_email";
+    if (emailResult && emailResult.skipped) {
+      fulfillmentStatus = "delivery_missing_sender";
+    }
+  } catch (error) {
+    emailResult = {
+      ok: false,
+      error: error.message || "No se pudo enviar el email de compra"
+    };
+    fulfillmentStatus = "delivery_email_failed";
   }
 
   const externalStatus = await queueFulfillment({

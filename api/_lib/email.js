@@ -119,11 +119,11 @@ async function sendPurchaseConfirmationEmail(options) {
     htmlContent: `
       <div style="margin:0;background:#f3efe7;padding:32px 16px;font-family:'DM Sans',Arial,sans-serif;color:#203040;">
         <div style="max-width:720px;margin:0 auto;background:#ffffff;border:1px solid #d9d1c4;border-radius:24px;overflow:hidden;">
-          <div style="background:linear-gradient(135deg,#12385b 0%,#245f86 100%);padding:36px 40px;color:#ffffff;">
-            ${brandLogoUrl ? `<div style="margin-bottom:18px;"><img src="${brandLogoUrl}" alt="ProntIA LATAM" style="display:block;height:48px;width:auto;max-width:220px;"></div>` : ""}
-            <div style="font-size:12px;letter-spacing:0.18em;text-transform:uppercase;opacity:0.78;margin-bottom:14px;">ProntIA LATAM</div>
-            <h1 style="margin:0;font-size:34px;line-height:1.05;font-family:'Cormorant Garamond',Georgia,serif;font-weight:700;">Compra confirmada y acceso preparado</h1>
-            <p style="margin:16px 0 0;font-size:16px;line-height:1.7;max-width:560px;">Hola ${firstName}, muchas gracias por confiar en ProntIA LATAM. Hemos confirmado tu pago y ya tienes preparado el acceso al material para que puedas empezar hoy mismo.</p>
+          <div style="background:linear-gradient(135deg,#12385b 0%,#245f86 100%);padding:26px 40px 28px;color:#ffffff;text-align:center;">
+            ${brandLogoUrl ? `<div style="margin:0 0 12px;"><img src="${brandLogoUrl}" alt="ProntIA LATAM" style="display:block;height:78px;width:auto;max-width:280px;margin:0 auto;"></div>` : ""}
+            <div style="font-size:11px;letter-spacing:0.18em;text-transform:uppercase;opacity:0.8;margin-bottom:10px;">ProntIA LATAM</div>
+            <h1 style="margin:0;font-size:30px;line-height:1.08;font-family:'Cormorant Garamond',Georgia,serif;font-weight:700;">Compra confirmada y acceso preparado</h1>
+            <p style="margin:12px auto 0;font-size:15px;line-height:1.65;max-width:540px;">Hola ${firstName}, muchas gracias por confiar en ProntIA LATAM. Ya tienes preparado el acceso al material para que puedas empezar hoy mismo.</p>
           </div>
           <div style="padding:36px 40px 20px;">
             <div style="background:#f7f3ec;border:1px solid #e4dacb;border-radius:18px;padding:22px 24px;margin-bottom:28px;">

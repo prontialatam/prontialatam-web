@@ -101,6 +101,8 @@ async function sendPurchaseConfirmationEmail(options) {
     ? `${options.amountTotal.toFixed(2)} ${options.currency}`
     : options.currency || "confirmado";
   const supportEmail = options.supportEmail || "hola@prontialatam.com";
+  const supportWhatsApp = options.supportWhatsApp || "+34 697 47 46 46";
+  const brandLogoUrl = options.brandLogoUrl || "";
 
   const payload = {
     sender: {
@@ -118,9 +120,10 @@ async function sendPurchaseConfirmationEmail(options) {
       <div style="margin:0;background:#f3efe7;padding:32px 16px;font-family:'DM Sans',Arial,sans-serif;color:#203040;">
         <div style="max-width:720px;margin:0 auto;background:#ffffff;border:1px solid #d9d1c4;border-radius:24px;overflow:hidden;">
           <div style="background:linear-gradient(135deg,#12385b 0%,#245f86 100%);padding:36px 40px;color:#ffffff;">
+            ${brandLogoUrl ? `<div style="margin-bottom:18px;"><img src="${brandLogoUrl}" alt="ProntIA LATAM" style="display:block;height:48px;width:auto;max-width:220px;"></div>` : ""}
             <div style="font-size:12px;letter-spacing:0.18em;text-transform:uppercase;opacity:0.78;margin-bottom:14px;">ProntIA LATAM</div>
             <h1 style="margin:0;font-size:34px;line-height:1.05;font-family:'Cormorant Garamond',Georgia,serif;font-weight:700;">Compra confirmada y acceso preparado</h1>
-            <p style="margin:16px 0 0;font-size:16px;line-height:1.7;max-width:560px;">Hola ${firstName}, hemos confirmado tu pago y ya tienes disponible el acceso al material del producto.</p>
+            <p style="margin:16px 0 0;font-size:16px;line-height:1.7;max-width:560px;">Hola ${firstName}, muchas gracias por confiar en ProntIA LATAM. Hemos confirmado tu pago y ya tienes preparado el acceso al material para que puedas empezar hoy mismo.</p>
           </div>
           <div style="padding:36px 40px 20px;">
             <div style="background:#f7f3ec;border:1px solid #e4dacb;border-radius:18px;padding:22px 24px;margin-bottom:28px;">
@@ -133,7 +136,7 @@ async function sendPurchaseConfirmationEmail(options) {
             </div>
 
             <h2 style="margin:0 0 14px;font-size:24px;line-height:1.2;font-family:'Cormorant Garamond',Georgia,serif;color:#12385b;">Tu acceso inmediato</h2>
-            <p style="margin:0 0 18px;font-size:16px;line-height:1.8;">Hemos preparado dos accesos para que puedas empezar sin fricción: descarga directa del kit y una página con contexto del producto para orientarte mejor.</p>
+            <p style="margin:0 0 18px;font-size:16px;line-height:1.8;">Hemos preparado dos accesos para que empieces sin fricción: una descarga directa del kit y una guía del producto con contexto, recomendaciones y próximos pasos.</p>
 
             <div style="margin:0 0 24px;">
               <a href="${options.deliveryAssetUrl}" style="display:inline-block;background:#12385b;color:#ffffff;text-decoration:none;padding:14px 22px;border-radius:999px;font-weight:700;margin:0 12px 12px 0;">Descargar tu kit ahora</a>
@@ -147,7 +150,7 @@ async function sendPurchaseConfirmationEmail(options) {
             </div>
 
             <h3 style="margin:0 0 10px;font-size:20px;font-family:'Cormorant Garamond',Georgia,serif;color:#12385b;">Si necesitas ayuda</h3>
-            <p style="margin:0 0 18px;font-size:15px;line-height:1.8;">Si tienes cualquier duda sobre la compra, el acceso o el uso del material, responde a este correo o escríbenos a <a href="mailto:${supportEmail}" style="color:#12385b;">${supportEmail}</a>.</p>
+            <p style="margin:0 0 18px;font-size:15px;line-height:1.8;">Si tienes cualquier duda sobre la compra, el acceso o el uso del material, responde a este correo, escríbenos a <a href="mailto:${supportEmail}" style="color:#12385b;">${supportEmail}</a> o contáctanos por WhatsApp en el <a href="https://wa.me/34697474646" style="color:#12385b;">${supportWhatsApp}</a>.</p>
           </div>
           <div style="padding:20px 40px 34px;border-top:1px solid #ece4d8;color:#6d7581;font-size:13px;line-height:1.8;">
             <div>Este email confirma una compra realizada en ProntIA LATAM.</div>
@@ -167,7 +170,8 @@ async function sendPurchaseConfirmationEmail(options) {
       `Descarga directa: ${options.deliveryAssetUrl}`,
       `Guía del producto: ${options.deliveryPageUrl}`,
       "",
-      `Soporte: ${supportEmail}`
+      `Soporte email: ${supportEmail}`,
+      `WhatsApp: ${supportWhatsApp}`
     ].join("\n")
   };
 

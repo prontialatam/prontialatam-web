@@ -51,10 +51,12 @@ module.exports = async function handler(req, res) {
     const product = getProduct(order.product_slug || "");
     const deliveryAssetUrl = buildAbsoluteUrl(siteUrl, product && product.deliveryAssetUrl ? product.deliveryAssetUrl : "/");
     const deliveryPageUrl = buildAbsoluteUrl(siteUrl, product && product.deliveryPageUrl ? product.deliveryPageUrl : "/");
+    const brandLogoUrl = buildAbsoluteUrl(siteUrl, "/logo-prontia.jpg");
     const supportEmail = product && product.supportEmail ? product.supportEmail : "hola@prontialatam.com";
 
     const emailResult = await sendPurchaseConfirmationEmail({
       amountTotal: Number(order.amount_total || 0),
+      brandLogoUrl,
       currency: order.currency,
       deliveryAssetUrl,
       deliveryPageUrl,
@@ -62,7 +64,8 @@ module.exports = async function handler(req, res) {
       fullName: order.customer_name,
       productName: order.product_name || (product ? product.name : "Tu compra"),
       sessionId: order.stripe_checkout_session_id,
-      supportEmail
+      supportEmail,
+      supportWhatsApp: "+34 697 47 46 46"
     });
 
     await supabase.update("orders", `id=eq.${encodeURIComponent(order.id)}`, {

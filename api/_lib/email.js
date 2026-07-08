@@ -22,13 +22,13 @@ async function sendBrevoEmail(payload) {
 }
 
 async function sendAffiliateOnboardingEmail(options) {
-  const senderEmail = (process.env.AFFILIATE_ONBOARDING_FROM_EMAIL || "").trim();
+  const senderEmail = (process.env.AFFILIATE_ONBOARDING_FROM_EMAIL || process.env.PURCHASE_CONFIRMATION_FROM_EMAIL || "").trim();
   if (!senderEmail) {
     return { ok: false, skipped: true, reason: "missing_sender_email" };
   }
 
-  const senderName = (process.env.AFFILIATE_ONBOARDING_FROM_NAME || "ProntIA LATAM").trim();
-  const replyTo = (process.env.AFFILIATE_ONBOARDING_REPLY_TO || "").trim();
+  const senderName = (process.env.AFFILIATE_ONBOARDING_FROM_NAME || process.env.PURCHASE_CONFIRMATION_FROM_NAME || "ProntIA LATAM").trim();
+  const replyTo = (process.env.AFFILIATE_ONBOARDING_REPLY_TO || process.env.PURCHASE_CONFIRMATION_REPLY_TO || "").trim();
   const supportEmail = options.supportEmail || replyTo || senderEmail;
   const supportWhatsApp = options.supportWhatsApp || "+34 697 47 46 46";
   const brandLogoUrl = options.brandLogoUrl || "";

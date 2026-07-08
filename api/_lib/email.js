@@ -51,7 +51,7 @@ async function sendAffiliateOnboardingEmail(options) {
         name: options.fullName || options.email
       }
     ],
-    subject: "Tu acceso al programa de afiliados de ProntIA LATAM",
+    subject: "Bienvenido al programa de afiliados de ProntIA LATAM",
     htmlContent: `
       <div style="margin:0;background:#f3efe7;padding:32px 16px;font-family:'DM Sans',Arial,sans-serif;color:#203040;">
         <div style="max-width:720px;margin:0 auto;background:#ffffff;border:1px solid #d9d1c4;border-radius:24px;overflow:hidden;">
@@ -116,7 +116,6 @@ async function sendAffiliateOnboardingEmail(options) {
           <div style="padding:20px 40px 32px;border-top:1px solid #ece4d8;color:#6d7581;font-size:13px;line-height:1.8;">
             <div>Equipo ProntIA LATAM</div>
             <div>Onboarding de afiliados para productos digitales orientados a negocios reales en LATAM.</div>
-            <div style="margin-top:10px;">Si necesitas ayuda con tu enfoque, una adaptación a tu nicho o soporte comercial, responde a este correo, escríbenos a <a href="mailto:${supportEmail}" style="color:#12385b;">${supportEmail}</a> o contáctanos por WhatsApp en el <a href="https://wa.me/34697474646" style="color:#12385b;">${supportWhatsApp}</a>.</div>
           </div>
         </div>
       </div>

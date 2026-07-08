@@ -107,10 +107,10 @@ async function sendAffiliateOnboardingEmail(options) {
               <li>Base documental para mantener una comunicación de marca sólida y profesional.</li>
             </ul>
 
-            <div style="margin:0 0 18px;padding:22px 24px;background:linear-gradient(135deg,#12385b 0%,#1f557a 100%);border-radius:20px;color:#ffffff;">
-              <div style="font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.72);margin-bottom:10px;">Acompañamiento directo</div>
-              <div style="margin:0 0 10px;font-family:'Cormorant Garamond',Georgia,serif;font-size:28px;line-height:1.06;color:#ffffff;">Estamos aquí para ayudarte a vender mejor</div>
-              <p style="margin:0;font-size:15px;line-height:1.85;color:rgba(255,255,255,0.9);">Si necesitas ayuda con tu enfoque, una adaptación a tu nicho o soporte comercial, responde a este correo, escríbenos a <a href="mailto:${supportEmail}" style="color:#ffffff;font-weight:700;">${supportEmail}</a> o contáctanos por WhatsApp en el <a href="https://wa.me/34697474646" style="color:#ffffff;font-weight:700;">${supportWhatsApp}</a>.</p>
+            <div style="margin:0 0 18px;padding:24px 24px 22px;background:linear-gradient(135deg,#f8f3ea 0%,#fffdf9 100%);border:1px solid #e4dacb;border-radius:20px;box-shadow:inset 0 1px 0 rgba(255,255,255,0.7);">
+              <div style="font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:#8a775c;margin-bottom:10px;">Acompañamiento directo</div>
+              <div style="margin:0 0 10px;font-family:'Cormorant Garamond',Georgia,serif;font-size:31px;line-height:1.04;color:#12385b;">Estamos aquí para ayudarte a vender mejor</div>
+              <p style="margin:0;font-size:16px;line-height:1.82;color:#314354;">Si necesitas ayuda con tu enfoque, una adaptación a tu nicho o soporte comercial, responde a este correo, escríbenos a <a href="mailto:${supportEmail}" style="color:#12385b;font-weight:700;">${supportEmail}</a> o contáctanos por WhatsApp en el <a href="https://wa.me/34697474646" style="color:#12385b;font-weight:700;">${supportWhatsApp}</a>.</p>
             </div>
           </div>
           <div style="padding:20px 40px 32px;border-top:1px solid #ece4d8;color:#6d7581;font-size:13px;line-height:1.8;">

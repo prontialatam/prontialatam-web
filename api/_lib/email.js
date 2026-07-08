@@ -61,8 +61,8 @@ async function sendAffiliateOnboardingEmail(options) {
           </div>
           <div style="padding:34px 40px 20px;">
             <div style="margin:0 0 24px;padding:24px 24px 22px;background:linear-gradient(135deg,#f8f3ea 0%,#fffdf9 100%);border:1px solid #e4dacb;border-radius:20px;box-shadow:inset 0 1px 0 rgba(255,255,255,0.7);">
-              <div style="font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:#8a775c;margin-bottom:10px;">Bienvenida al programa</div>
-              <div style="margin:0 0 10px;font-family:'Cormorant Garamond',Georgia,serif;font-size:31px;line-height:1.04;color:#12385b;">Gracias por incorporarte al Programa de Afiliados de ProntIA LATAM</div>
+              <div style="font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:#8a775c;margin-bottom:10px;">Bienvenido al programa</div>
+              <div style="margin:0 0 10px;font-family:'Cormorant Garamond',Georgia,serif;font-size:31px;line-height:1.04;color:#12385b;">Felicidades por incorporarte al Programa de Afiliados de ProntIA LATAM</div>
               <p style="margin:0;font-size:16px;line-height:1.82;color:#314354;">Hola ${options.fullName || ""}, nos alegra darte la bienvenida. Ya tienes una base real de producto, material gráfico, activos comerciales y trazabilidad de ventas para empezar con una presencia profesional desde el primer día.</p>
             </div>
 
@@ -116,6 +116,7 @@ async function sendAffiliateOnboardingEmail(options) {
           <div style="padding:20px 40px 32px;border-top:1px solid #ece4d8;color:#6d7581;font-size:13px;line-height:1.8;">
             <div>Equipo ProntIA LATAM</div>
             <div>Onboarding de afiliados para productos digitales orientados a negocios reales en LATAM.</div>
+            <div style="margin-top:10px;">Si necesitas ayuda con tu enfoque, una adaptación a tu nicho o soporte comercial, responde a este correo, escríbenos a <a href="mailto:${supportEmail}" style="color:#12385b;">${supportEmail}</a> o contáctanos por WhatsApp en el <a href="https://wa.me/34697474646" style="color:#12385b;">${supportWhatsApp}</a>.</div>
           </div>
         </div>
       </div>

@@ -2,6 +2,7 @@ const crypto = require("crypto");
 const { getSiteUrl, parseJsonBody, sendJson } = require("../_lib/http");
 const supabase = require("../_lib/supabase");
 const { sendAffiliateOnboardingEmail } = require("../_lib/email");
+const { generateConnectOnboardingToken } = require("../_lib/stripe-connect");
 
 function sanitizeSegment(value) {
   return (value || "")
@@ -70,6 +71,9 @@ module.exports = async function handler(req, res) {
     const couponCode = existingAffiliate && existingAffiliate.coupon_code
       ? existingAffiliate.coupon_code
       : await generateCouponCode(application.full_name);
+    const connectOnboardingToken = existingAffiliate && existingAffiliate.connect_onboarding_token
+      ? existingAffiliate.connect_onboarding_token
+      : generateConnectOnboardingToken();
 
     const commissionRate = Number(process.env.AFFILIATE_DEFAULT_COMMISSION_RATE || "0.60");
     const affiliatePayload = {
@@ -81,7 +85,11 @@ module.exports = async function handler(req, res) {
       phone_number: application.phone_number || null,
       tracking_code: trackingCode,
       coupon_code: couponCode,
-      commission_rate: commissionRate
+      commission_rate: commissionRate,
+      connect_onboarding_token: connectOnboardingToken,
+      stripe_connect_status: existingAffiliate && existingAffiliate.stripe_connect_status
+        ? existingAffiliate.stripe_connect_status
+        : "not_started"
     };
 
     const affiliateResult = await supabase.upsert("affiliates", affiliatePayload, "email");
@@ -95,6 +103,11 @@ module.exports = async function handler(req, res) {
     const portalUrl = `${siteUrl}/portal-afiliados`;
     const affiliateLink = `${siteUrl}/talleres-mecanicos?ref=${trackingCode}`;
     const kitUrl = `${siteUrl}/downloads/kit-base-afiliados-talleres.zip`;
+    const connectUrl = `${siteUrl}/api/affiliate/connect/start?token=${connectOnboardingToken}`;
+    const brandLogoUrl = `${siteUrl}/logo-prontia.jpg`;
+    const dossierUrl = `${siteUrl}/dossier-marca-afiliados`;
+    const productDossierUrl = `${siteUrl}/dossier-producto-talleres`;
+    const socialLibraryUrl = `${siteUrl}/biblioteca-social-talleres`;
 
     const emailResult = await sendAffiliateOnboardingEmail({
       email: application.email,
@@ -103,7 +116,14 @@ module.exports = async function handler(req, res) {
       couponCode,
       portalUrl,
       affiliateLink,
-      kitUrl
+      kitUrl,
+      connectUrl,
+      brandLogoUrl,
+      dossierUrl,
+      productDossierUrl,
+      socialLibraryUrl,
+      supportEmail: "hola@prontialatam.com",
+      supportWhatsApp: "+34 697 47 46 46"
     });
 
     return sendJson(res, 200, {
@@ -114,6 +134,7 @@ module.exports = async function handler(req, res) {
       affiliateLink,
       portalUrl,
       kitUrl,
+      connectUrl,
       emailResult
     });
   } catch (error) {

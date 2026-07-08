@@ -96,6 +96,24 @@ a {
   color: var(--blue-600);
 }
 
+.topbar-links .topbar-cta {
+  padding: 0.72rem 1.15rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #12385b, #1b6cba);
+  color: var(--white);
+  font-family: var(--font-display);
+  font-size: 1.16rem;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  box-shadow: 0 16px 36px rgba(12, 68, 124, 0.18);
+}
+
+.topbar-links .topbar-cta:hover {
+  color: var(--white);
+  transform: translateY(-1px);
+  box-shadow: 0 20px 42px rgba(12, 68, 124, 0.24);
+}
+
 .container {
   width: min(1180px, calc(100% - 2.5rem));
   margin: 0 auto;
@@ -178,6 +196,18 @@ a {
 .btn-primary:hover {
   background: var(--blue-800);
   transform: translateY(-1px);
+}
+
+.btn-hero-join {
+  background: linear-gradient(135deg, #12385b, #1b6cba);
+  box-shadow: 0 18px 40px rgba(12, 68, 124, 0.18);
+  font-family: var(--font-display);
+  font-size: 1.22rem;
+  letter-spacing: 0.02em;
+}
+
+.btn-hero-join:hover {
+  background: linear-gradient(135deg, #0d2f4c, #185fa5);
 }
 
 .btn-secondary {
@@ -321,6 +351,17 @@ a {
   margin-bottom: 0.65rem;
   color: var(--blue-900);
   font-size: 1.08rem;
+}
+
+.affiliate-form-card h3 {
+  font-family: var(--font-display);
+  font-size: 2.05rem;
+  line-height: 1;
+}
+
+.form-intro {
+  margin: 0 0 1.2rem;
+  color: var(--gray-700);
 }
 
 .info-card p,
@@ -697,6 +738,11 @@ textarea {
   .topbar {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .topbar-links .topbar-cta {
+    font-size: 1.02rem;
+    padding: 0.66rem 1rem;
   }
 }
 

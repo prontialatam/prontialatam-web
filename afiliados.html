@@ -22,7 +22,7 @@
         <a href="/">Inicio</a>
         <a href="/talleres-mecanicos">Producto talleres</a>
         <a href="/portal-afiliados">Portal afiliados</a>
-        <a href="#solicitud">Solicitar acceso</a>
+        <a href="#solicitud" class="topbar-cta">Quiero darme de alta</a>
       </nav>
     </header>
 
@@ -48,6 +48,7 @@
               </div>
             </div>
             <div class="cta-row">
+              <a href="#solicitud" class="btn-primary btn-hero-join">Quiero darme de alta</a>
               <a href="/portal-afiliados" class="btn-secondary">Ver portal y kit base</a>
             </div>
           </div>
@@ -117,7 +118,8 @@
       <section class="section" id="solicitud">
         <div class="container grid-2">
           <article class="affiliate-form-card">
-            <h3>Solicita acceso al programa</h3>
+            <h3>Quiero darme de alta en el programa</h3>
+            <p class="form-intro">Déjanos tus datos y revisaremos tu perfil para activarte con onboarding, portal, material gráfico, código de afiliado y seguimiento comercial.</p>
             <form id="affiliateForm" class="form-grid">
               <div class="form-grid two">
                 <label>
@@ -182,7 +184,7 @@
                 Cuéntanos cómo venderías el producto
                 <textarea name="notes" placeholder="Qué nicho atacarías, qué piezas usarías y cómo moverías el kit de talleres mecánicos" required></textarea>
               </label>
-              <button id="affiliateSubmit" type="submit" class="btn-primary">Enviar solicitud</button>
+              <button id="affiliateSubmit" type="submit" class="btn-primary">Quiero darme de alta</button>
               <p id="affiliateStatus" class="inline-status"></p>
             </form>
           </article>
@@ -222,7 +224,7 @@
       form.addEventListener('submit', async function (event) {
         event.preventDefault();
         button.disabled = true;
-        button.textContent = 'Enviando solicitud...';
+        button.textContent = 'Enviando alta...';
         setStatus('Registrando tu solicitud...', '');
 
         const data = Object.fromEntries(new FormData(form).entries());
@@ -240,12 +242,12 @@
           }
 
           form.reset();
-          setStatus('Solicitud enviada. Revisaremos tu perfil y, si encaja, te enviaremos el onboarding.', 'success');
+          setStatus('Alta recibida. Revisaremos tu perfil y, si encaja, te enviaremos el onboarding completo.', 'success');
         } catch (error) {
           setStatus(error.message || 'No se pudo enviar la solicitud.', 'error');
         } finally {
           button.disabled = false;
-          button.textContent = 'Enviar solicitud';
+          button.textContent = 'Quiero darme de alta';
         }
       });
     })();

@@ -29,8 +29,14 @@ async function sendAffiliateOnboardingEmail(options) {
 
   const senderName = (process.env.AFFILIATE_ONBOARDING_FROM_NAME || "ProntIA LATAM").trim();
   const replyTo = (process.env.AFFILIATE_ONBOARDING_REPLY_TO || "").trim();
+  const supportEmail = options.supportEmail || replyTo || senderEmail;
+  const supportWhatsApp = options.supportWhatsApp || "+34 697 47 46 46";
+  const brandLogoUrl = options.brandLogoUrl || "";
+  const dossierUrl = options.dossierUrl || "";
+  const productDossierUrl = options.productDossierUrl || "";
+  const socialLibraryUrl = options.socialLibraryUrl || "";
   const connectHtml = options.connectUrl
-    ? `<p><strong>Configurar cobros con Stripe Connect:</strong><br><a href="${options.connectUrl}">${options.connectUrl}</a></p>`
+    ? `<tr><td style="padding:0 0 14px;"><strong style="display:block;color:#12385b;font-size:14px;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px;">Configurar cobros</strong><a href="${options.connectUrl}" style="color:#185fa5;text-decoration:none;word-break:break-word;">Activar Stripe Connect</a></td></tr>`
     : "";
   const connectText = options.connectUrl ? `Stripe Connect: ${options.connectUrl}` : "";
 
@@ -47,26 +53,63 @@ async function sendAffiliateOnboardingEmail(options) {
     ],
     subject: "Tu acceso al programa de afiliados de ProntIA LATAM",
     htmlContent: `
-      <div style="font-family:Arial,sans-serif;line-height:1.6;color:#24303f;max-width:680px;margin:0 auto;">
-        <h1 style="font-size:28px;line-height:1.1;color:#0c447c;">Tu acceso de afiliado ya está listo</h1>
-        <p>Hola ${options.fullName || ""},</p>
-        <p>Tu solicitud ha sido aprobada. Desde este momento ya puedes empezar a trabajar con el producto de talleres mecánicos de ProntIA LATAM.</p>
-        <p><strong>Tu comisión base es del 60% sobre la venta neta</strong>.</p>
-        <p><strong>Tu código de afiliado:</strong> ${options.trackingCode}</p>
-        <p><strong>Tu cupón de apoyo:</strong> ${options.couponCode}</p>
-        <p><strong>Tu enlace principal:</strong><br><a href="${options.affiliateLink}">${options.affiliateLink}</a></p>
-        <p><strong>Portal de afiliados:</strong><br><a href="${options.portalUrl}">${options.portalUrl}</a></p>
-        <p><strong>Kit descargable:</strong><br><a href="${options.kitUrl}">${options.kitUrl}</a></p>
-        ${connectHtml}
-        <p>Te recomendamos seguir este orden:</p>
-        <ol>
-          <li>Revisa el dossier de marca y el dossier del producto.</li>
-          <li>Elige el canal con el que vas a empezar.</li>
-          <li>Configura Stripe Connect para dejar listos tus datos de cobro.</li>
-          <li>Usa una pieza del kit y publica siempre con tu enlace.</li>
-        </ol>
-        <p>Si necesitas material adaptado a tu nicho o una pieza personalizada, responde a este email.</p>
-        <p>Equipo ProntIA LATAM</p>
+      <div style="margin:0;background:#f3efe7;padding:32px 16px;font-family:'DM Sans',Arial,sans-serif;color:#203040;">
+        <div style="max-width:720px;margin:0 auto;background:#ffffff;border:1px solid #d9d1c4;border-radius:24px;overflow:hidden;">
+          <div style="background:linear-gradient(180deg,#153b5d 0%,#1f557a 100%);padding:16px 28px 18px;color:#ffffff;text-align:center;">
+            ${brandLogoUrl ? `<div style="margin:0 0 6px;"><img src="${brandLogoUrl}" alt="ProntIA LATAM" style="display:block;height:92px;width:auto;max-width:300px;margin:0 auto;"></div>` : ""}
+            <h1 style="margin:0;font-size:28px;line-height:1.02;font-family:'Cormorant Garamond',Georgia,serif;font-weight:700;letter-spacing:0.01em;">Tu acceso de afiliado ya está listo</h1>
+          </div>
+          <div style="padding:34px 40px 20px;">
+            <p style="margin:0 0 18px;font-size:16px;line-height:1.75;color:#314354;">Hola ${options.fullName || ""}, hemos aprobado tu acceso al programa de afiliados de ProntIA LATAM. Ya puedes empezar con una base real de producto, material gráfico, activos comerciales y trazabilidad de ventas.</p>
+
+            <div style="background:#f7f3ec;border:1px solid #e4dacb;border-radius:18px;padding:22px 24px;margin-bottom:28px;">
+              <div style="font-size:13px;letter-spacing:0.12em;text-transform:uppercase;color:#7a6d5c;margin-bottom:10px;">Resumen de activación</div>
+              <div style="font-size:24px;font-weight:700;color:#12385b;margin-bottom:8px;">Programa de afiliados ProntIA LATAM</div>
+              <div style="font-size:15px;line-height:1.85;">
+                <div><strong>Comisión base:</strong> 60% sobre la venta neta</div>
+                <div><strong>Código de afiliado:</strong> ${options.trackingCode}</div>
+                <div><strong>Cupón de apoyo:</strong> ${options.couponCode}</div>
+              </div>
+            </div>
+
+            <h2 style="margin:0 0 14px;font-size:24px;line-height:1.2;font-family:'Cormorant Garamond',Georgia,serif;color:#12385b;">Tus accesos principales</h2>
+            <table role="presentation" cellspacing="0" cellpadding="0" border="0" style="width:100%;margin:0 0 18px;">
+              <tr>
+                <td style="padding:0 0 14px;"><strong style="display:block;color:#12385b;font-size:14px;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px;">Enlace de ventas</strong><a href="${options.affiliateLink}" style="color:#185fa5;text-decoration:none;word-break:break-word;">${options.affiliateLink}</a></td>
+              </tr>
+              <tr>
+                <td style="padding:0 0 14px;"><strong style="display:block;color:#12385b;font-size:14px;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px;">Portal privado</strong><a href="${options.portalUrl}" style="color:#185fa5;text-decoration:none;word-break:break-word;">${options.portalUrl}</a></td>
+              </tr>
+              <tr>
+                <td style="padding:0 0 14px;"><strong style="display:block;color:#12385b;font-size:14px;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px;">Kit descargable</strong><a href="${options.kitUrl}" style="color:#185fa5;text-decoration:none;word-break:break-word;">Descargar kit base</a></td>
+              </tr>
+              ${dossierUrl ? `<tr><td style="padding:0 0 14px;"><strong style="display:block;color:#12385b;font-size:14px;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px;">Dossier de marca</strong><a href="${dossierUrl}" style="color:#185fa5;text-decoration:none;word-break:break-word;">Abrir dossier de marca</a></td></tr>` : ""}
+              ${productDossierUrl ? `<tr><td style="padding:0 0 14px;"><strong style="display:block;color:#12385b;font-size:14px;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px;">Dossier del producto</strong><a href="${productDossierUrl}" style="color:#185fa5;text-decoration:none;word-break:break-word;">Ver dossier de talleres mecánicos</a></td></tr>` : ""}
+              ${socialLibraryUrl ? `<tr><td style="padding:0 0 14px;"><strong style="display:block;color:#12385b;font-size:14px;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px;">Biblioteca visual</strong><a href="${socialLibraryUrl}" style="color:#185fa5;text-decoration:none;word-break:break-word;">Ver piezas para RRSS</a></td></tr>` : ""}
+              ${connectHtml}
+            </table>
+
+            <div style="background:#fbf8f2;border-left:4px solid #c4a972;padding:18px 20px;border-radius:12px;margin:0 0 24px;">
+              <div style="font-size:15px;line-height:1.8;">
+                <strong>Siguiente secuencia recomendada:</strong> revisa el dossier de marca, abre el dossier del producto, configura Stripe Connect para dejar listos tus cobros y publica tu primera pieza usando siempre tu enlace de seguimiento.
+              </div>
+            </div>
+
+            <h3 style="margin:0 0 10px;font-size:20px;font-family:'Cormorant Garamond',Georgia,serif;color:#12385b;">Qué te entregamos con esta alta</h3>
+            <ul style="margin:0 0 20px;padding:0 0 0 20px;color:#314354;font-size:15px;line-height:1.8;">
+              <li>Material gráfico listo para feed, stories, reels, formatos anchos y WhatsApp.</li>
+              <li>Copies y argumentos comerciales para vender sin improvisar.</li>
+              <li>Código de afiliado y trazabilidad de ventas.</li>
+              <li>Base documental para mantener una comunicación de marca sólida y profesional.</li>
+            </ul>
+
+            <p style="margin:0 0 18px;font-size:15px;line-height:1.8;">Si necesitas ayuda con tu enfoque, una adaptación a tu nicho o soporte comercial, responde a este correo, escríbenos a <a href="mailto:${supportEmail}" style="color:#12385b;">${supportEmail}</a> o contáctanos por WhatsApp en el <a href="https://wa.me/34697474646" style="color:#12385b;">${supportWhatsApp}</a>.</p>
+          </div>
+          <div style="padding:20px 40px 32px;border-top:1px solid #ece4d8;color:#6d7581;font-size:13px;line-height:1.8;">
+            <div>Equipo ProntIA LATAM</div>
+            <div>Onboarding de afiliados para productos digitales orientados a negocios reales en LATAM.</div>
+          </div>
+        </div>
       </div>
     `,
     textContent: [
@@ -77,7 +120,12 @@ async function sendAffiliateOnboardingEmail(options) {
       `Enlace principal: ${options.affiliateLink}`,
       `Portal: ${options.portalUrl}`,
       `Kit: ${options.kitUrl}`,
-      connectText
+      dossierUrl ? `Dossier de marca: ${dossierUrl}` : "",
+      productDossierUrl ? `Dossier del producto: ${productDossierUrl}` : "",
+      socialLibraryUrl ? `Biblioteca visual: ${socialLibraryUrl}` : "",
+      connectText,
+      `Soporte email: ${supportEmail}`,
+      `WhatsApp: ${supportWhatsApp}`
     ].filter(Boolean).join("\n")
   };
 

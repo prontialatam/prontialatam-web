@@ -60,7 +60,11 @@ async function sendAffiliateOnboardingEmail(options) {
             <h1 style="margin:0;font-size:28px;line-height:1.02;font-family:'Cormorant Garamond',Georgia,serif;font-weight:700;letter-spacing:0.01em;">Tu acceso de afiliado ya está listo</h1>
           </div>
           <div style="padding:34px 40px 20px;">
-            <p style="margin:0 0 18px;font-size:16px;line-height:1.75;color:#314354;">Hola ${options.fullName || ""}, hemos aprobado tu acceso al programa de afiliados de ProntIA LATAM. Ya puedes empezar con una base real de producto, material gráfico, activos comerciales y trazabilidad de ventas.</p>
+            <div style="margin:0 0 24px;padding:24px 24px 22px;background:linear-gradient(135deg,#f8f3ea 0%,#fffdf9 100%);border:1px solid #e4dacb;border-radius:20px;box-shadow:inset 0 1px 0 rgba(255,255,255,0.7);">
+              <div style="font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:#8a775c;margin-bottom:10px;">Bienvenida al programa</div>
+              <div style="margin:0 0 10px;font-family:'Cormorant Garamond',Georgia,serif;font-size:31px;line-height:1.04;color:#12385b;">Gracias por incorporarte al Programa de Afiliados de ProntIA LATAM</div>
+              <p style="margin:0;font-size:16px;line-height:1.82;color:#314354;">Hola ${options.fullName || ""}, nos alegra darte la bienvenida. Ya tienes una base real de producto, material gráfico, activos comerciales y trazabilidad de ventas para empezar con una presencia profesional desde el primer día.</p>
+            </div>
 
             <div style="background:#f7f3ec;border:1px solid #e4dacb;border-radius:18px;padding:22px 24px;margin-bottom:28px;">
               <div style="font-size:13px;letter-spacing:0.12em;text-transform:uppercase;color:#7a6d5c;margin-bottom:10px;">Resumen de activación</div>
@@ -103,7 +107,11 @@ async function sendAffiliateOnboardingEmail(options) {
               <li>Base documental para mantener una comunicación de marca sólida y profesional.</li>
             </ul>
 
-            <p style="margin:0 0 18px;font-size:15px;line-height:1.8;">Si necesitas ayuda con tu enfoque, una adaptación a tu nicho o soporte comercial, responde a este correo, escríbenos a <a href="mailto:${supportEmail}" style="color:#12385b;">${supportEmail}</a> o contáctanos por WhatsApp en el <a href="https://wa.me/34697474646" style="color:#12385b;">${supportWhatsApp}</a>.</p>
+            <div style="margin:0 0 18px;padding:22px 24px;background:linear-gradient(135deg,#12385b 0%,#1f557a 100%);border-radius:20px;color:#ffffff;">
+              <div style="font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.72);margin-bottom:10px;">Acompañamiento directo</div>
+              <div style="margin:0 0 10px;font-family:'Cormorant Garamond',Georgia,serif;font-size:28px;line-height:1.06;color:#ffffff;">Estamos aquí para ayudarte a vender mejor</div>
+              <p style="margin:0;font-size:15px;line-height:1.85;color:rgba(255,255,255,0.9);">Si necesitas ayuda con tu enfoque, una adaptación a tu nicho o soporte comercial, responde a este correo, escríbenos a <a href="mailto:${supportEmail}" style="color:#ffffff;font-weight:700;">${supportEmail}</a> o contáctanos por WhatsApp en el <a href="https://wa.me/34697474646" style="color:#ffffff;font-weight:700;">${supportWhatsApp}</a>.</p>
+            </div>
           </div>
           <div style="padding:20px 40px 32px;border-top:1px solid #ece4d8;color:#6d7581;font-size:13px;line-height:1.8;">
             <div>Equipo ProntIA LATAM</div>

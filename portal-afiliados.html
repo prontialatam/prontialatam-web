@@ -16,14 +16,20 @@
     <header class="topbar">
       <a href="/" class="brand">
         <img src="logo-prontia.jpg" alt="ProntIA LATAM">
-        <span>Portal base Fase 1 para afiliados</span>
+        <span>Portal privado de afiliados</span>
       </a>
       <nav class="topbar-links">
         <a href="/">Inicio</a>
-        <a href="/talleres-mecanicos">Producto talleres</a>
-        <a href="/afiliados">Programa</a>
-        <a href="/operativa-afiliados">Operativa</a>
-        <a href="#descargas">Descargas</a>
+        <div class="nav-dropdown">
+          <button type="button" class="nav-dropdown-trigger">Nichos</button>
+          <div class="nav-dropdown-menu">
+            <a href="/talleres-mecanicos">Talleres mecánicos</a>
+            <a href="/restaurantes-hosteleria">Restaurantes &amp; hostelería</a>
+          </div>
+        </div>
+        <a href="#seguimiento">Seguimiento</a>
+        <a href="#descargas">Biblioteca</a>
+        <a href="mailto:hola@prontialatam.com?subject=Soporte%20Afiliados">Contacto</a>
       </nav>
     </header>
 
@@ -32,52 +38,112 @@
         <div class="container hero-grid">
           <div>
             <div class="eyebrow">Onboarding real para afiliados</div>
-            <h1 class="title">Todo lo que necesita un afiliado para vender el kit de <em>talleres mecánicos</em> sin improvisar</h1>
-            <p class="lede">Este portal reúne la biblioteca base de ProntIA LATAM para afiliados aprobados: identidad de marca, argumentos, copies, piezas visuales, vídeos y un paquete descargable listo para distribuir.</p>
+            <h1 class="title">Tu portal privado para vender el kit de <em>talleres mecánicos</em> con seguimiento real</h1>
+            <p class="lede">Aquí centralizamos tus materiales, tu enlace personal, tu código comercial y el seguimiento de ventas y comisiones para que trabajes con visibilidad real, no a ciegas.</p>
             <div class="cta-row">
               <a href="/downloads/kit-base-afiliados-talleres.zip" class="btn-primary">Descargar kit completo</a>
-              <a href="#descargas" class="btn-secondary">Ver biblioteca</a>
-              <a href="/operativa-afiliados" class="btn-ghost">Abrir operativa interna</a>
+              <a href="#seguimiento" class="btn-secondary">Ver mis ventas</a>
+              <a href="#enlaces" class="btn-ghost">Copiar mi enlace</a>
             </div>
             <div class="pill-list" style="margin-top:1.5rem;">
               <li>Marca</li>
               <li>Producto</li>
-              <li>Copies</li>
-              <li>Creatividades</li>
+              <li>Comisiones</li>
+              <li>Seguimiento</li>
             </div>
           </div>
           <aside class="hero-card">
-            <div class="hero-card-note">
-              <strong>Qué resuelve este portal</strong>
+            <div class="hero-card-note" id="portalWelcomeCard">
+              <strong>Cargando tu estado de afiliado...</strong>
               <ul class="bullet-list" style="margin-top:0.9rem;">
-                <li>Evita que el afiliado invente mensajes o piezas fuera de marca.</li>
-                <li>Reduce fricción al empezar a promocionar el producto.</li>
-                <li>Da una imagen de empresa seria y preparada para escalar.</li>
-                <li>Sirve como base para futuras verticales como estética o inmobiliaria.</li>
+                <li>Estamos preparando tu resumen privado.</li>
+                <li>En unos segundos verás enlace, código y ventas.</li>
               </ul>
             </div>
           </aside>
         </div>
       </section>
 
+      <section class="section" id="seguimiento">
+        <div class="container stat-grid" id="portalStats">
+          <article class="stat-card">
+            <strong>...</strong>
+            <span>Cargando ventas</span>
+          </article>
+          <article class="stat-card">
+            <strong>...</strong>
+            <span>Cargando comisiones</span>
+          </article>
+          <article class="stat-card">
+            <strong>...</strong>
+            <span>Cargando pedidos</span>
+          </article>
+          <article class="stat-card">
+            <strong>...</strong>
+            <span>Cargando clics</span>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="enlaces">
+        <div class="container grid-2">
+          <article class="notice-card">
+            <h3>Tu enlace y tu código</h3>
+            <div id="affiliateLinkCard" class="portal-kv-list">
+              <div><strong>Enlace personal:</strong> Cargando...</div>
+              <div><strong>Código afiliado:</strong> Cargando...</div>
+              <div><strong>Cupón comercial:</strong> Cargando...</div>
+              <div><strong>Comisión:</strong> Cargando...</div>
+            </div>
+            <p class="microcopy" style="margin-top:0.9rem;">Tu cliente puede comprar entrando por tu enlace o escribiendo tu código/cupón antes de pagar. Ambas vías quedan vinculadas a tu cuenta.</p>
+          </article>
+          <article class="info-card">
+            <h3>Estado de cobros</h3>
+            <div id="connectStatusCard" class="portal-kv-list">
+              <div><strong>Estado:</strong> Cargando...</div>
+              <div><strong>País:</strong> Cargando...</div>
+              <div><strong>Requisitos:</strong> Cargando...</div>
+            </div>
+            <div class="cta-row" style="margin-top:1rem;">
+              <a id="connectActionLink" href="#" class="btn-secondary">Configurar cobros</a>
+              <a href="mailto:hola@prontialatam.com?subject=Soporte%20Afiliados" class="btn-ghost">Pedir soporte</a>
+            </div>
+          </article>
+        </div>
+      </section>
+
       <section class="section">
-        <div class="container stat-grid">
-          <article class="stat-card">
-            <strong>1 kit ZIP</strong>
-            <span>Todo el material base empaquetado para descarga inmediata.</span>
-          </article>
-          <article class="stat-card">
-            <strong>10+ piezas visuales</strong>
-            <span>Feed, carrusel, portadas y formatos pensados para RRSS.</span>
-          </article>
-          <article class="stat-card">
-            <strong>6 documentos base</strong>
-            <span>Marca, producto, copies, objeciones, calendario y reglas.</span>
-          </article>
-          <article class="stat-card">
-            <strong>60% comisión</strong>
-            <span>Comisión agresiva para competir bien en el ecosistema LATAM de infoproductos.</span>
-          </article>
+        <div class="container">
+          <div class="section-head">
+            <h2>Operativa por nicho</h2>
+            <p>Seguimos sumando verticales dentro del mismo portal. Las ventas y comisiones se consolidan en tu seguimiento general.</p>
+          </div>
+          <div class="download-grid">
+            <article class="download-card">
+              <h3>Talleres mecánicos</h3>
+              <p>Vertical ya operativa con material base, biblioteca social y enlace listo para compartir.</p>
+              <ul class="resource-list">
+                <li><a href="/talleres-mecanicos">Ver landing y comprar</a></li>
+                <li><a href="/dossier-producto-talleres">Ver dossier del producto</a></li>
+              </ul>
+            </article>
+            <article class="download-card">
+              <h3>Restaurantes y hostelería</h3>
+              <p>Venta propia activada en la web con kit descargable, creatividades corporativas, playbook y biblioteca social protegida para afiliados.</p>
+              <ul class="resource-list">
+                <li><a href="/restaurantes-hosteleria">Ver landing y comprar</a></li>
+                <li><a href="/dossier-producto-restaurantes">Ver dossier del producto</a></li>
+                <li><a href="/biblioteca-social-restaurantes">Abrir biblioteca social</a></li>
+              </ul>
+            </article>
+            <article class="download-card">
+              <h3>Consolidado del afiliado</h3>
+              <p>No necesitas entrar y salir de varios paneles. Todas tus ventas se siguen viendo en esta misma zona privada.</p>
+              <ul class="resource-list">
+                <li><a href="#seguimiento">Ver mis ventas y comisiones</a></li>
+              </ul>
+            </article>
+          </div>
         </div>
       </section>
 
@@ -87,7 +153,7 @@
             <h2>Biblioteca de descargas</h2>
             <p>La base de onboarding ya está ordenada como si el afiliado fuese a usarla hoy mismo.</p>
           </div>
-          <div class="download-grid">
+          <div class="download-grid four">
             <article class="download-card">
               <h3>Paquete completo</h3>
               <p>Incluye documentos, piezas visuales, vídeos y plantillas de seguimiento en un solo archivo comprimido.</p>
@@ -113,7 +179,34 @@
                 <li><a href="/downloads/affiliate-kit-talleres/docs/05_PLAN_7_DIAS_PUBLICACION.txt">Plan de 7 días</a></li>
               </ul>
             </article>
+            <article class="download-card">
+              <h3>Kit base hostelería</h3>
+              <p>Material corporativo para restaurantes, bares y cafeterías: dossier, playbook, piezas listas y vídeo demo con identidad ProntIA LATAM.</p>
+              <ul class="resource-list">
+                <li><a href="/downloads/kit-base-afiliados-restaurantes.zip">Descargar kit completo hostelería (.zip)</a></li>
+                <li><a href="/dossier-producto-restaurantes">Mini dossier del producto</a></li>
+                <li><a href="/playbook-afiliados-restaurantes">Playbook comercial y operativo</a></li>
+                <li><a href="/biblioteca-social-restaurantes">Biblioteca social y formatos RRSS</a></li>
+              </ul>
+            </article>
           </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container grid-2">
+          <article class="notice-card">
+            <h3>Ventas recientes</h3>
+            <div id="portalOrders" class="portal-list">
+              <p class="microcopy">Cargando historial de ventas...</p>
+            </div>
+          </article>
+          <article class="notice-card">
+            <h3>Actividad reciente del enlace</h3>
+            <div id="portalClicks" class="portal-list">
+              <p class="microcopy">Cargando actividad de clics...</p>
+            </div>
+          </article>
         </div>
       </section>
 
@@ -209,5 +302,150 @@
       </div>
     </footer>
   </div>
+
+  <script>
+    (function () {
+      const params = new URLSearchParams(window.location.search);
+      const access = params.get("access") || "";
+      const statsNode = document.getElementById("portalStats");
+      const welcomeNode = document.getElementById("portalWelcomeCard");
+      const affiliateLinkNode = document.getElementById("affiliateLinkCard");
+      const connectNode = document.getElementById("connectStatusCard");
+      const ordersNode = document.getElementById("portalOrders");
+      const clicksNode = document.getElementById("portalClicks");
+      const connectActionLink = document.getElementById("connectActionLink");
+
+      function escapeHtml(value) {
+        return String(value || "")
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/\"/g, "&quot;")
+          .replace(/'/g, "&#39;");
+      }
+
+      function formatMoney(value, currency) {
+        return new Intl.NumberFormat("es-ES", {
+          style: "currency",
+          currency: currency || "USD",
+          minimumFractionDigits: 2
+        }).format(Number(value || 0));
+      }
+
+      function formatDate(value) {
+        if (!value) return "-";
+        return new Date(value).toLocaleString("es-ES", {
+          dateStyle: "medium",
+          timeStyle: "short"
+        });
+      }
+
+      function renderError(message) {
+        const safeMessage = escapeHtml(message || "No se pudo cargar tu portal.");
+        if (welcomeNode) {
+          welcomeNode.innerHTML = "<strong>No hemos podido cargar tu perfil</strong><ul class=\"bullet-list\" style=\"margin-top:0.9rem;\"><li>" + safeMessage + "</li><li>Si el problema continúa, responde al email de onboarding.</li></ul>";
+        }
+        if (ordersNode) ordersNode.innerHTML = "<p class=\"inline-status error\">" + safeMessage + "</p>";
+        if (clicksNode) clicksNode.innerHTML = "<p class=\"inline-status error\">" + safeMessage + "</p>";
+      }
+
+      function renderStats(payload) {
+        const affiliate = payload.affiliate || {};
+        const stats = payload.stats || {};
+        const currency = payload.currency || "USD";
+
+        if (welcomeNode) {
+          welcomeNode.innerHTML =
+            "<strong>Bienvenido, " + escapeHtml(affiliate.fullName || "Afiliado") + "</strong>" +
+            "<ul class=\"bullet-list\" style=\"margin-top:0.9rem;\">" +
+            "<li>Tu código principal es <strong>" + escapeHtml(affiliate.trackingCode || "-") + "</strong>.</li>" +
+            "<li>Tu comisión actual es del <strong>" + escapeHtml(String(Math.round(Number(affiliate.commissionRate || 0) * 100))) + "%</strong>.</li>" +
+            "<li>Ya puedes compartir tu enlace, tu cupón o ambos.</li>" +
+            "</ul>";
+        }
+
+        if (statsNode) {
+          statsNode.innerHTML =
+            "<article class=\"stat-card\"><strong>" + escapeHtml(formatMoney(stats.totalSales, currency)) + "</strong><span>Ventas pagadas acumuladas</span></article>" +
+            "<article class=\"stat-card\"><strong>" + escapeHtml(formatMoney(stats.totalCommissions, currency)) + "</strong><span>Comisiones acumuladas</span></article>" +
+            "<article class=\"stat-card\"><strong>" + escapeHtml(String(stats.paidOrders || 0)) + "</strong><span>Pedidos pagados registrados</span></article>" +
+            "<article class=\"stat-card\"><strong>" + escapeHtml(String(stats.totalClicks || 0)) + "</strong><span>Clics recientes detectados</span></article>";
+        }
+
+        if (affiliateLinkNode) {
+          affiliateLinkNode.innerHTML =
+            "<div><strong>Enlace personal:</strong> <a href=\"" + escapeHtml(affiliate.affiliateLink || "#") + "\">" + escapeHtml(affiliate.affiliateLink || "-") + "</a></div>" +
+            "<div><strong>Código afiliado:</strong> " + escapeHtml(affiliate.trackingCode || "-") + "</div>" +
+            "<div><strong>Cupón comercial:</strong> " + escapeHtml(affiliate.couponCode || "-") + "</div>" +
+            "<div><strong>Comisión:</strong> " + escapeHtml(String(Math.round(Number(affiliate.commissionRate || 0) * 100))) + "% por venta neta</div>";
+        }
+
+        if (connectNode) {
+          connectNode.innerHTML =
+            "<div><strong>Estado:</strong> " + escapeHtml(affiliate.stripeConnectStatus || "not_started") + "</div>" +
+            "<div><strong>País:</strong> " + escapeHtml(affiliate.stripeConnectCountry || affiliate.country || "-") + "</div>" +
+            "<div><strong>Requisitos:</strong> " + escapeHtml((affiliate.requirementsDue || []).length ? affiliate.requirementsDue.join(", ") : "Sin pendientes visibles") + "</div>";
+        }
+
+        if (connectActionLink) {
+          connectActionLink.href = "/api/affiliate/connect/start?token=" + encodeURIComponent(access);
+          connectActionLink.textContent = affiliate.stripeConnectStatus === "ready" ? "Revisar cobros" : "Configurar cobros";
+        }
+
+        if (ordersNode) {
+          if (!payload.orders || !payload.orders.length) {
+            ordersNode.innerHTML = "<p class=\"microcopy\">Todavía no hay ventas registradas en tu cuenta.</p>";
+          } else {
+            ordersNode.innerHTML = payload.orders.map(function (order) {
+              return "<article class=\"portal-list-card\">" +
+                "<strong>" + escapeHtml(order.product_name || "Producto") + "</strong>" +
+                "<div>Cliente: " + escapeHtml(order.customer_name || order.customer_email || "-") + "</div>" +
+                "<div>Venta: " + escapeHtml(formatMoney(order.amount_total, order.currency || currency)) + "</div>" +
+                "<div>Comisión: " + escapeHtml(formatMoney(order.commission_amount, order.currency || currency)) + "</div>" +
+                "<div>Estado: " + escapeHtml(order.payment_status || "-") + " · " + escapeHtml(order.fulfillment_status || "-") + "</div>" +
+                "<div>Fecha: " + escapeHtml(formatDate(order.created_at)) + "</div>" +
+                "</article>";
+            }).join("");
+          }
+        }
+
+        if (clicksNode) {
+          if (!payload.clicks || !payload.clicks.length) {
+            clicksNode.innerHTML = "<p class=\"microcopy\">Todavía no hay clics recientes asociados a tu enlace.</p>";
+          } else {
+            clicksNode.innerHTML = payload.clicks.map(function (click) {
+              return "<article class=\"portal-list-card\">" +
+                "<strong>" + escapeHtml(click.landing_path || "/talleres-mecanicos") + "</strong>" +
+                "<div>Origen: " + escapeHtml(click.referrer || "Directo o sin referencia") + "</div>" +
+                "<div>UTM: " + escapeHtml([click.utm_source, click.utm_medium, click.utm_campaign].filter(Boolean).join(" / ") || "-") + "</div>" +
+                "<div>Fecha: " + escapeHtml(formatDate(click.clicked_at)) + "</div>" +
+                "</article>";
+            }).join("");
+          }
+        }
+      }
+
+      if (!access) {
+        renderError("Falta el acceso privado del afiliado.");
+        return;
+      }
+
+      fetch("/api/affiliate/portal-summary?access=" + encodeURIComponent(access), {
+        headers: {
+          "Accept": "application/json"
+        }
+      })
+        .then(function (response) {
+          return response.json().then(function (data) {
+            if (!response.ok) throw new Error(data.error || "No se pudo cargar tu portal.");
+            return data;
+          });
+        })
+        .then(renderStats)
+        .catch(function (error) {
+          renderError(error.message || "No se pudo cargar tu portal.");
+        });
+    })();
+  </script>
 </body>
 </html>

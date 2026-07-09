@@ -642,6 +642,36 @@ a {
   font-size: 0.94rem;
 }
 
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 5.5rem;
+  padding: 0.28rem 0.7rem;
+  border-radius: 999px;
+  background: rgba(4, 44, 83, 0.08);
+  color: var(--blue-900);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.status-badge.pending {
+  background: rgba(196, 169, 114, 0.18);
+  color: #8b6a2c;
+}
+
+.status-badge.approved {
+  background: rgba(31, 122, 77, 0.14);
+  color: var(--success);
+}
+
+.status-badge.rejected {
+  background: rgba(181, 69, 69, 0.14);
+  color: var(--danger);
+}
+
 .config-list {
   list-style: none;
   padding: 0;

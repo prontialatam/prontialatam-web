@@ -1,5 +1,9 @@
 const { parseJsonBody, sendJson } = require("../_lib/http");
 const supabase = require("../_lib/supabase");
+const {
+  sendAffiliateApplicationAdminNotificationEmail,
+  sendAffiliateApplicationReceivedEmail
+} = require("../_lib/email");
 
 module.exports = async function handler(req, res) {
   if (req.method !== "POST") {
@@ -48,8 +52,9 @@ module.exports = async function handler(req, res) {
       .join(" | ");
     const notesWithProfiles = `Perfiles: ${profileSummary}\n\n${notes}`;
 
+    let insertResult = null;
     if (supabase.isConfigured()) {
-      await supabase.insert("affiliate_applications", {
+      insertResult = await supabase.insert("affiliate_applications", {
         full_name: fullName,
         email,
         country,
@@ -62,7 +67,37 @@ module.exports = async function handler(req, res) {
       });
     }
 
-    return sendJson(res, 200, { ok: true });
+    const siteUrl = ((process.env.SITE_URL || "").trim().replace(/\/$/, "")) || `${req.headers["x-forwarded-proto"] || "https"}://${req.headers.host}`;
+    const adminUrl = `${siteUrl}/operativa-afiliados.html`;
+    const brandLogoUrl = `${siteUrl}/logo-prontia.jpg`;
+
+    const applicantEmailResult = await sendAffiliateApplicationReceivedEmail({
+      email,
+      fullName,
+      brandLogoUrl,
+      supportEmail: "hola@prontialatam.com",
+      supportWhatsApp: "+34 697 47 46 46"
+    });
+
+    const adminEmailResult = await sendAffiliateApplicationAdminNotificationEmail({
+      fullName,
+      email,
+      country,
+      phoneCountryCode,
+      phoneNumber,
+      mainChannel: mainChannel.join(", "),
+      audienceType,
+      profileSummary,
+      notes,
+      adminUrl
+    });
+
+    return sendJson(res, 200, {
+      ok: true,
+      applicationId: Array.isArray(insertResult) && insertResult[0] ? insertResult[0].id : null,
+      applicantEmailResult,
+      adminEmailResult
+    });
   } catch (error) {
     return sendJson(res, 500, { error: error.message || "No se pudo registrar la solicitud." });
   }

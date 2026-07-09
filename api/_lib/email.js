@@ -21,14 +21,176 @@ async function sendBrevoEmail(payload) {
   return { ok: true };
 }
 
+function resolveEmailIdentity(prefix, fallbackPrefix) {
+  const senderEmail = (process.env[`${prefix}_FROM_EMAIL`] || process.env[`${fallbackPrefix}_FROM_EMAIL`] || "").trim();
+  const senderName = (process.env[`${prefix}_FROM_NAME`] || process.env[`${fallbackPrefix}_FROM_NAME`] || "ProntIA LATAM").trim();
+  const replyTo = (process.env[`${prefix}_REPLY_TO`] || process.env[`${fallbackPrefix}_REPLY_TO`] || "").trim();
+
+  return {
+    senderEmail,
+    senderName,
+    replyTo
+  };
+}
+
+function buildEmailSignature(options) {
+  const supportEmail = options.supportEmail || "hola@prontialatam.com";
+  const supportWhatsApp = options.supportWhatsApp || "+34 697 47 46 46";
+  return `
+    <div style="padding:20px 40px 32px;border-top:1px solid #ece4d8;color:#6d7581;font-size:13px;line-height:1.8;">
+      <div>Equipo ProntIA LATAM</div>
+      <div>Afiliación, distribución y crecimiento comercial para productos digitales en LATAM.</div>
+      <div style="margin-top:8px;">Soporte: <a href="mailto:${supportEmail}" style="color:#12385b;">${supportEmail}</a> | WhatsApp: <a href="https://wa.me/34697474646" style="color:#12385b;">${supportWhatsApp}</a></div>
+    </div>
+  `;
+}
+
+async function sendAffiliateApplicationReceivedEmail(options) {
+  const identity = resolveEmailIdentity("AFFILIATE_APPLICATION", "AFFILIATE_ONBOARDING");
+  if (!identity.senderEmail) {
+    return { ok: false, skipped: true, reason: "missing_sender_email" };
+  }
+
+  const supportEmail = options.supportEmail || identity.replyTo || identity.senderEmail;
+  const supportWhatsApp = options.supportWhatsApp || "+34 697 47 46 46";
+  const brandLogoUrl = options.brandLogoUrl || "";
+  const payload = {
+    sender: {
+      email: identity.senderEmail,
+      name: identity.senderName
+    },
+    to: [
+      {
+        email: options.email,
+        name: options.fullName || options.email
+      }
+    ],
+    subject: "Hemos recibido tu solicitud para el Programa de Afiliados de ProntIA LATAM",
+    htmlContent: `
+      <div style="margin:0;background:#f3efe7;padding:32px 16px;font-family:'DM Sans',Arial,sans-serif;color:#203040;">
+        <div style="max-width:720px;margin:0 auto;background:#ffffff;border:1px solid #d9d1c4;border-radius:24px;overflow:hidden;">
+          <div style="background:linear-gradient(180deg,#153b5d 0%,#1f557a 100%);padding:16px 28px 18px;color:#ffffff;text-align:center;">
+            ${brandLogoUrl ? `<div style="margin:0 0 6px;"><img src="${brandLogoUrl}" alt="ProntIA LATAM" style="display:block;height:92px;width:auto;max-width:300px;margin:0 auto;"></div>` : ""}
+            <h1 style="margin:0;font-size:28px;line-height:1.02;font-family:'Cormorant Garamond',Georgia,serif;font-weight:700;letter-spacing:0.01em;">Solicitud recibida correctamente</h1>
+          </div>
+          <div style="padding:34px 40px 20px;">
+            <div style="margin:0 0 24px;padding:24px;background:linear-gradient(135deg,#f8f3ea 0%,#fffdf9 100%);border:1px solid #e4dacb;border-radius:20px;">
+              <div style="font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:#8a775c;margin-bottom:10px;">Programa de afiliados</div>
+              <div style="margin:0 0 10px;font-family:'Cormorant Garamond',Georgia,serif;font-size:31px;line-height:1.04;color:#12385b;">Gracias por solicitar tu alta en ProntIA LATAM</div>
+              <p style="margin:0;font-size:16px;line-height:1.82;color:#314354;">Hola ${options.fullName || ""}, hemos recibido tu solicitud y ya la tenemos en revisión.</p>
+            </div>
+            <p style="margin:0 0 18px;font-size:16px;line-height:1.82;color:#314354;">Nuestro equipo revisará tu perfil, tus canales y el encaje con la marca. En un plazo máximo de <strong>24 horas</strong> te daremos una respuesta por email.</p>
+            <div style="background:#fbf8f2;border-left:4px solid #c4a972;padding:18px 20px;border-radius:12px;margin:0 0 24px;">
+              <div style="font-size:15px;line-height:1.8;">
+                <strong>Qué revisaremos:</strong> coherencia de tus redes, capacidad real de distribución, enfoque comercial y compatibilidad con la propuesta de valor de ProntIA LATAM.
+              </div>
+            </div>
+            <p style="margin:0 0 16px;font-size:15px;line-height:1.8;color:#314354;">Si tu perfil encaja, te enviaremos el onboarding completo, tu acceso privado, tu enlace de seguimiento y el kit base para empezar a promocionar.</p>
+            <p style="margin:0;font-size:15px;line-height:1.8;color:#314354;">Si necesitas añadir alguna aclaración antes de que revisemos tu solicitud, responde a este correo o escríbenos a <a href="mailto:${supportEmail}" style="color:#12385b;font-weight:700;">${supportEmail}</a>. También puedes contactar por WhatsApp en el <a href="https://wa.me/34697474646" style="color:#12385b;font-weight:700;">${supportWhatsApp}</a>.</p>
+          </div>
+          ${buildEmailSignature({ supportEmail, supportWhatsApp })}
+        </div>
+      </div>
+    `,
+    textContent: [
+      `Hola ${options.fullName || ""},`,
+      "",
+      "Hemos recibido tu solicitud para el Programa de Afiliados de ProntIA LATAM.",
+      "Nuestro equipo revisará tu perfil y te dará una respuesta en un plazo máximo de 24 horas.",
+      "",
+      `Soporte email: ${supportEmail}`,
+      `WhatsApp: ${supportWhatsApp}`
+    ].join("\n")
+  };
+
+  if (identity.replyTo) {
+    payload.replyTo = { email: identity.replyTo };
+  }
+
+  return sendBrevoEmail(payload);
+}
+
+async function sendAffiliateApplicationAdminNotificationEmail(options) {
+  const identity = resolveEmailIdentity("AFFILIATE_APPLICATION", "AFFILIATE_ONBOARDING");
+  const recipientEmail = (process.env.AFFILIATE_NOTIFICATION_TO_EMAIL || process.env.AFFILIATE_ONBOARDING_REPLY_TO || process.env.PURCHASE_CONFIRMATION_REPLY_TO || "").trim();
+  if (!identity.senderEmail || !recipientEmail) {
+    return { ok: false, skipped: true, reason: "missing_admin_notification_config" };
+  }
+
+  const payload = {
+    sender: {
+      email: identity.senderEmail,
+      name: identity.senderName
+    },
+    to: [
+      {
+        email: recipientEmail,
+        name: "Gestión ProntIA LATAM"
+      }
+    ],
+    subject: `Nueva solicitud de afiliado: ${options.fullName}`,
+    htmlContent: `
+      <div style="margin:0;background:#f3efe7;padding:32px 16px;font-family:'DM Sans',Arial,sans-serif;color:#203040;">
+        <div style="max-width:760px;margin:0 auto;background:#ffffff;border:1px solid #d9d1c4;border-radius:24px;overflow:hidden;">
+          <div style="background:linear-gradient(180deg,#153b5d 0%,#1f557a 100%);padding:18px 28px;color:#ffffff;">
+            <div style="font-size:12px;letter-spacing:0.14em;text-transform:uppercase;opacity:0.8;margin-bottom:8px;">Notificación interna</div>
+            <h1 style="margin:0;font-size:28px;line-height:1.05;font-family:'Cormorant Garamond',Georgia,serif;">Nueva solicitud de afiliado recibida</h1>
+          </div>
+          <div style="padding:30px 34px 24px;">
+            <div style="display:grid;gap:14px;">
+              <div style="padding:18px 20px;border-radius:16px;background:#f8f3ea;border:1px solid #e4dacb;">
+                <div style="font-size:22px;font-weight:700;color:#12385b;">${options.fullName}</div>
+                <div style="margin-top:6px;font-size:15px;line-height:1.8;color:#314354;">${options.email}</div>
+              </div>
+              <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;">
+                <div style="padding:16px;border:1px solid #e7e0d4;border-radius:14px;"><strong>País:</strong><br>${options.country}</div>
+                <div style="padding:16px;border:1px solid #e7e0d4;border-radius:14px;"><strong>Teléfono:</strong><br>${options.phoneCountryCode} ${options.phoneNumber}</div>
+                <div style="padding:16px;border:1px solid #e7e0d4;border-radius:14px;"><strong>Canales:</strong><br>${options.mainChannel}</div>
+                <div style="padding:16px;border:1px solid #e7e0d4;border-radius:14px;"><strong>Audiencia:</strong><br>${options.audienceType}</div>
+              </div>
+              <div style="padding:18px;border:1px solid #e7e0d4;border-radius:14px;">
+                <strong>Perfiles a revisar</strong>
+                <div style="margin-top:8px;font-size:15px;line-height:1.8;color:#314354;">${options.profileSummary}</div>
+              </div>
+              <div style="padding:18px;border:1px solid #e7e0d4;border-radius:14px;">
+                <strong>Enfoque comercial propuesto</strong>
+                <div style="margin-top:8px;font-size:15px;line-height:1.8;color:#314354;white-space:pre-wrap;">${options.notes}</div>
+              </div>
+              ${options.adminUrl ? `<div style="padding:18px;border-left:4px solid #c4a972;background:#fbf8f2;border-radius:12px;"><strong>Siguiente paso:</strong> revisa esta solicitud desde la consola interna: <a href="${options.adminUrl}" style="color:#12385b;font-weight:700;">Abrir operativa de afiliados</a></div>` : ""}
+            </div>
+          </div>
+        </div>
+      </div>
+    `,
+    textContent: [
+      "Nueva solicitud de afiliado recibida",
+      `Nombre: ${options.fullName}`,
+      `Email: ${options.email}`,
+      `País: ${options.country}`,
+      `Teléfono: ${options.phoneCountryCode} ${options.phoneNumber}`,
+      `Canales: ${options.mainChannel}`,
+      `Audiencia: ${options.audienceType}`,
+      `Perfiles: ${options.profileSummary}`,
+      "",
+      options.notes,
+      "",
+      options.adminUrl ? `Operativa: ${options.adminUrl}` : ""
+    ].filter(Boolean).join("\n")
+  };
+
+  if (identity.replyTo) {
+    payload.replyTo = { email: identity.replyTo };
+  }
+
+  return sendBrevoEmail(payload);
+}
+
 async function sendAffiliateOnboardingEmail(options) {
-  const senderEmail = (process.env.AFFILIATE_ONBOARDING_FROM_EMAIL || process.env.PURCHASE_CONFIRMATION_FROM_EMAIL || "").trim();
+  const { senderEmail, senderName, replyTo } = resolveEmailIdentity("AFFILIATE_ONBOARDING", "PURCHASE_CONFIRMATION");
   if (!senderEmail) {
     return { ok: false, skipped: true, reason: "missing_sender_email" };
   }
 
-  const senderName = (process.env.AFFILIATE_ONBOARDING_FROM_NAME || process.env.PURCHASE_CONFIRMATION_FROM_NAME || "ProntIA LATAM").trim();
-  const replyTo = (process.env.AFFILIATE_ONBOARDING_REPLY_TO || process.env.PURCHASE_CONFIRMATION_REPLY_TO || "").trim();
   const supportEmail = options.supportEmail || replyTo || senderEmail;
   const supportWhatsApp = options.supportWhatsApp || "+34 697 47 46 46";
   const brandLogoUrl = options.brandLogoUrl || "";
@@ -145,13 +307,11 @@ async function sendAffiliateOnboardingEmail(options) {
 }
 
 async function sendPurchaseConfirmationEmail(options) {
-  const senderEmail = (process.env.PURCHASE_CONFIRMATION_FROM_EMAIL || process.env.AFFILIATE_ONBOARDING_FROM_EMAIL || "").trim();
+  const { senderEmail, senderName, replyTo } = resolveEmailIdentity("PURCHASE_CONFIRMATION", "AFFILIATE_ONBOARDING");
   if (!senderEmail) {
     return { ok: false, skipped: true, reason: "missing_sender_email" };
   }
 
-  const senderName = (process.env.PURCHASE_CONFIRMATION_FROM_NAME || process.env.AFFILIATE_ONBOARDING_FROM_NAME || "ProntIA LATAM").trim();
-  const replyTo = (process.env.PURCHASE_CONFIRMATION_REPLY_TO || process.env.AFFILIATE_ONBOARDING_REPLY_TO || "").trim();
   const firstName = (options.fullName || options.email || "cliente").trim().split(/\s+/)[0];
   const amountLabel = typeof options.amountTotal === "number" && options.currency
     ? `${options.amountTotal.toFixed(2)} ${options.currency}`
@@ -258,6 +418,9 @@ async function sendPurchaseConfirmationEmail(options) {
 }
 
 module.exports = {
+  sendAffiliateApplicationAdminNotificationEmail,
+  sendAffiliateApplicationReceivedEmail,
+  sendBrevoEmail,
   sendAffiliateOnboardingEmail,
   sendPurchaseConfirmationEmail
 };

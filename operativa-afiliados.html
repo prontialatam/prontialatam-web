@@ -71,6 +71,7 @@
                 <li><span>Brevo</span><span>-</span></li>
                 <li><span>Stripe</span><span>-</span></li>
                 <li><span>Token de aprobación</span><span>-</span></li>
+                <li><span>Emails de solicitud</span><span>-</span></li>
               </ul>
               <p class="microcopy" style="margin-top:1rem;">Cuando Brevo o Stripe falten, la consola te deja verlo antes de aprobar a nadie.</p>
             </article>
@@ -116,7 +117,8 @@
           ['Supabase', config.supabase],
           ['Brevo', config.brevo],
           ['Stripe', config.stripe],
-          ['Token de aprobación', config.approvalToken]
+          ['Token de aprobación', config.approvalToken],
+          ['Emails de solicitud', config.affiliateApplicationEmail]
         ];
         configList.innerHTML = rows.map(function (row) {
           const ok = row[1];
@@ -131,6 +133,27 @@
           .replace(/>/g, '&gt;')
           .replace(/"/g, '&quot;')
           .replace(/'/g, '&#39;');
+      }
+
+      function formatDate(value) {
+        if (!value) return '-';
+        const date = new Date(value);
+        if (Number.isNaN(date.getTime())) return value;
+        return date.toLocaleString('es-ES', {
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit'
+        });
+      }
+
+      function statusClass(statusValue) {
+        const normalized = String(statusValue || '').toLowerCase();
+        if (normalized === 'approved') return 'status-badge approved';
+        if (normalized === 'pending') return 'status-badge pending';
+        if (normalized === 'rejected') return 'status-badge rejected';
+        return 'status-badge';
       }
 
       function renderApplications(applications, adminToken) {
@@ -149,7 +172,8 @@
                 '<div><strong>Teléfono:</strong> ' + escapeHtml(app.phone_country_code) + ' ' + escapeHtml(app.phone_number) + '</div>' +
                 '<div><strong>Canal:</strong> ' + escapeHtml(app.main_channel) + '</div>' +
                 '<div><strong>Audiencia:</strong> ' + escapeHtml(app.audience_type) + '</div>' +
-                '<div><strong>Estado:</strong> ' + escapeHtml(app.status) + '</div>' +
+                '<div><strong>Estado:</strong> <span class="' + statusClass(app.status) + '">' + escapeHtml(app.status) + '</span></div>' +
+                '<div><strong>Fecha solicitud:</strong> ' + escapeHtml(formatDate(app.created_at)) + '</div>' +
                 '<div><strong>Notas:</strong> ' + escapeHtml(app.notes) + '</div>' +
               '</div>' +
               '<div class="cta-row">' +
@@ -199,6 +223,7 @@
         const items = [
           ['Solicitudes pendientes', stats.pendingApplications || 0],
           ['Afiliados aprobados', stats.approvedAffiliates || 0],
+          ['Solicitudes no aprobadas', stats.rejectedApplications || 0],
           ['Ventas registradas', '$' + Number(stats.totalSales || 0).toFixed(2)],
           ['Comisiones calculadas', '$' + Number(stats.totalCommissions || 0).toFixed(2)]
         ];
@@ -209,18 +234,21 @@
 
       function renderAffiliates(affiliates, adminToken) {
         if (!affiliates.length) {
-          recentAffiliates.innerHTML = '';
+          recentAffiliates.innerHTML = '<article class="app-card"><h3>Listado de afiliados</h3><p>Todavía no hay afiliados aprobados.</p></article>';
           return;
         }
 
-        recentAffiliates.innerHTML = '<article class="app-card"><h3>Afiliados recientes</h3>' + affiliates.map(function (affiliate) {
+        recentAffiliates.innerHTML = '<article class="app-card"><h3>Listado de afiliados</h3><p class="microcopy">Vista operativa con estado, contacto, código, Stripe Connect y fecha de alta.</p>' + affiliates.map(function (affiliate) {
           return '' +
             '<div class="app-card" data-affiliate-id="' + escapeHtml(affiliate.id) + '" style="margin-top:1rem;">' +
               '<div class="app-meta">' +
                 '<div><strong>' + escapeHtml(affiliate.full_name) + '</strong></div>' +
                 '<div>' + escapeHtml(affiliate.email) + '</div>' +
+                '<div><strong>Estado:</strong> <span class="' + statusClass(affiliate.status) + '">' + escapeHtml(affiliate.status || '-') + '</span></div>' +
+                '<div><strong>País:</strong> ' + escapeHtml(affiliate.country || '-') + ' | <strong>Teléfono:</strong> ' + escapeHtml(affiliate.phone_country_code || '') + ' ' + escapeHtml(affiliate.phone_number || '-') + '</div>' +
+                '<div><strong>Fecha de alta:</strong> ' + escapeHtml(formatDate(affiliate.created_at)) + '</div>' +
                 '<div><strong>Código:</strong> ' + escapeHtml(affiliate.tracking_code) + ' | <strong>Cupón:</strong> ' + escapeHtml(affiliate.coupon_code || '-') + '</div>' +
-                '<div><strong>Comisión:</strong> ' + escapeHtml(String(affiliate.commission_rate || '0')) + '</div>' +
+                '<div><strong>Comisión:</strong> ' + escapeHtml(String(affiliate.commission_rate || '0')) + ' | <strong>Stripe Connect:</strong> ' + escapeHtml(affiliate.stripe_connect_status || 'not_started') + '</div>' +
               '</div>' +
               '<div class="cta-row">' +
                 '<button type="button" class="btn-secondary resend-button">Reenviar onboarding</button>' +

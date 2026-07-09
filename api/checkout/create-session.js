@@ -2,6 +2,17 @@ const Stripe = require("stripe");
 const { getSiteUrl, parseJsonBody, sendJson } = require("../_lib/http");
 const { getProduct, getStripePriceId } = require("../_lib/stripe-products");
 
+function summarizeStripeError(error) {
+  return {
+    message: error && error.message ? error.message : "Stripe error",
+    type: error && error.type ? error.type : null,
+    code: error && error.code ? error.code : null,
+    decline_code: error && error.decline_code ? error.decline_code : null,
+    statusCode: error && error.statusCode ? error.statusCode : null,
+    requestId: error && error.requestId ? error.requestId : null
+  };
+}
+
 module.exports = async function handler(req, res) {
   if (req.method !== "POST") {
     return sendJson(res, 405, { error: "Method not allowed" });
@@ -18,7 +29,9 @@ module.exports = async function handler(req, res) {
       return sendJson(res, 400, { error: "Producto no soportado en esta fase." });
     }
 
-    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+      maxNetworkRetries: 1
+    });
     const siteUrl = getSiteUrl(req);
     const priceId = getStripePriceId(product);
 
@@ -53,6 +66,7 @@ module.exports = async function handler(req, res) {
       sessionId: session.id
     });
   } catch (error) {
+    console.error("checkout_create_session_failed", summarizeStripeError(error));
     return sendJson(res, 500, {
       error: error.message || "No se pudo crear la sesión de checkout."
     });

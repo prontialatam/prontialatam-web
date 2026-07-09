@@ -1,5 +1,67 @@
 {
   "cleanUrls": true,
+  "redirects": [
+    {
+      "source": "/portal-afiliados",
+      "destination": "/api/affiliate/page?page=portal",
+      "permanent": false
+    },
+    {
+      "source": "/portal-afiliados.html",
+      "destination": "/api/affiliate/page?page=portal",
+      "permanent": false
+    },
+    {
+      "source": "/dossier-marca-afiliados",
+      "destination": "/api/affiliate/page?page=brand",
+      "permanent": false
+    },
+    {
+      "source": "/dossier-marca-afiliados.html",
+      "destination": "/api/affiliate/page?page=brand",
+      "permanent": false
+    },
+    {
+      "source": "/dossier-producto-talleres",
+      "destination": "/api/affiliate/page?page=product",
+      "permanent": false
+    },
+    {
+      "source": "/dossier-producto-talleres.html",
+      "destination": "/api/affiliate/page?page=product",
+      "permanent": false
+    },
+    {
+      "source": "/playbook-afiliados-talleres",
+      "destination": "/api/affiliate/page?page=playbook",
+      "permanent": false
+    },
+    {
+      "source": "/playbook-afiliados-talleres.html",
+      "destination": "/api/affiliate/page?page=playbook",
+      "permanent": false
+    },
+    {
+      "source": "/biblioteca-social-talleres",
+      "destination": "/api/affiliate/page?page=social",
+      "permanent": false
+    },
+    {
+      "source": "/biblioteca-social-talleres.html",
+      "destination": "/api/affiliate/page?page=social",
+      "permanent": false
+    },
+    {
+      "source": "/downloads/kit-base-afiliados-talleres.zip",
+      "destination": "/api/affiliate/resource?asset=downloads/kit-base-afiliados-talleres.zip",
+      "permanent": false
+    },
+    {
+      "source": "/downloads/affiliate-kit-talleres/:path*",
+      "destination": "/api/affiliate/resource?asset=downloads/affiliate-kit-talleres/:path*",
+      "permanent": false
+    }
+  ],
   "rewrites": [
     {
       "source": "/talleres-mecanicos",
@@ -8,54 +70,6 @@
     {
       "source": "/afiliados",
       "destination": "/afiliados.html"
-    },
-    {
-      "source": "/portal-afiliados",
-      "destination": "/api/affiliate/page?page=portal"
-    },
-    {
-      "source": "/portal-afiliados.html",
-      "destination": "/api/affiliate/page?page=portal"
-    },
-    {
-      "source": "/dossier-marca-afiliados",
-      "destination": "/api/affiliate/page?page=brand"
-    },
-    {
-      "source": "/dossier-marca-afiliados.html",
-      "destination": "/api/affiliate/page?page=brand"
-    },
-    {
-      "source": "/dossier-producto-talleres",
-      "destination": "/api/affiliate/page?page=product"
-    },
-    {
-      "source": "/dossier-producto-talleres.html",
-      "destination": "/api/affiliate/page?page=product"
-    },
-    {
-      "source": "/playbook-afiliados-talleres",
-      "destination": "/api/affiliate/page?page=playbook"
-    },
-    {
-      "source": "/playbook-afiliados-talleres.html",
-      "destination": "/api/affiliate/page?page=playbook"
-    },
-    {
-      "source": "/biblioteca-social-talleres",
-      "destination": "/api/affiliate/page?page=social"
-    },
-    {
-      "source": "/biblioteca-social-talleres.html",
-      "destination": "/api/affiliate/page?page=social"
-    },
-    {
-      "source": "/downloads/kit-base-afiliados-talleres.zip",
-      "destination": "/api/affiliate/resource?asset=downloads/kit-base-afiliados-talleres.zip"
-    },
-    {
-      "source": "/downloads/affiliate-kit-talleres/:path*",
-      "destination": "/api/affiliate/resource?asset=downloads/affiliate-kit-talleres/:path*"
     },
     {
       "source": "/operativa-afiliados",

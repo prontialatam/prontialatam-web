@@ -48,6 +48,12 @@ function buildEmailSignature(options) {
 async function sendAffiliateApplicationReceivedEmail(options) {
   const identity = resolveEmailIdentity("AFFILIATE_APPLICATION", "AFFILIATE_ONBOARDING");
   if (!identity.senderEmail) {
+    const purchaseIdentity = resolveEmailIdentity("PURCHASE_CONFIRMATION", "AFFILIATE_ONBOARDING");
+    identity.senderEmail = purchaseIdentity.senderEmail;
+    identity.senderName = identity.senderName || purchaseIdentity.senderName;
+    identity.replyTo = identity.replyTo || purchaseIdentity.replyTo;
+  }
+  if (!identity.senderEmail) {
     return { ok: false, skipped: true, reason: "missing_sender_email" };
   }
 
@@ -112,7 +118,19 @@ async function sendAffiliateApplicationReceivedEmail(options) {
 
 async function sendAffiliateApplicationAdminNotificationEmail(options) {
   const identity = resolveEmailIdentity("AFFILIATE_APPLICATION", "AFFILIATE_ONBOARDING");
-  const recipientEmail = (process.env.AFFILIATE_NOTIFICATION_TO_EMAIL || process.env.AFFILIATE_ONBOARDING_REPLY_TO || process.env.PURCHASE_CONFIRMATION_REPLY_TO || "").trim();
+  if (!identity.senderEmail) {
+    const purchaseIdentity = resolveEmailIdentity("PURCHASE_CONFIRMATION", "AFFILIATE_ONBOARDING");
+    identity.senderEmail = purchaseIdentity.senderEmail;
+    identity.senderName = identity.senderName || purchaseIdentity.senderName;
+    identity.replyTo = identity.replyTo || purchaseIdentity.replyTo;
+  }
+  const recipientEmail = (
+    process.env.AFFILIATE_NOTIFICATION_TO_EMAIL ||
+    process.env.AFFILIATE_APPLICATION_REPLY_TO ||
+    process.env.AFFILIATE_ONBOARDING_REPLY_TO ||
+    process.env.PURCHASE_CONFIRMATION_REPLY_TO ||
+    "hola@prontialatam.com"
+  ).trim();
   if (!identity.senderEmail || !recipientEmail) {
     return { ok: false, skipped: true, reason: "missing_admin_notification_config" };
   }

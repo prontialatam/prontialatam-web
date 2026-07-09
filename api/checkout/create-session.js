@@ -3,13 +3,23 @@ const { getSiteUrl, parseJsonBody, sendJson } = require("../_lib/http");
 const { getProduct, getStripePriceId } = require("../_lib/stripe-products");
 
 function summarizeStripeError(error) {
+  const cause = error && error.cause ? error.cause : null;
   return {
     message: error && error.message ? error.message : "Stripe error",
     type: error && error.type ? error.type : null,
     code: error && error.code ? error.code : null,
     decline_code: error && error.decline_code ? error.decline_code : null,
     statusCode: error && error.statusCode ? error.statusCode : null,
-    requestId: error && error.requestId ? error.requestId : null
+    requestId: error && error.requestId ? error.requestId : null,
+    cause: cause ? {
+      name: cause.name || null,
+      code: cause.code || null,
+      message: cause.message || null,
+      errno: cause.errno || null,
+      syscall: cause.syscall || null,
+      host: cause.host || null,
+      port: cause.port || null
+    } : null
   };
 }
 

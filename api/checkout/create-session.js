@@ -23,6 +23,11 @@ function summarizeStripeError(error) {
   };
 }
 
+function suffix(value) {
+  if (!value) return null;
+  return String(value).slice(-4);
+}
+
 module.exports = async function handler(req, res) {
   if (req.method !== "POST") {
     return sendJson(res, 405, { error: "Method not allowed" });
@@ -44,6 +49,12 @@ module.exports = async function handler(req, res) {
     });
     const siteUrl = getSiteUrl(req);
     const priceId = getStripePriceId(product);
+
+    console.log("checkout_env_snapshot", {
+      stripeSecretSuffix: suffix(process.env.STRIPE_SECRET_KEY),
+      priceIdSuffix: suffix(priceId),
+      productSlug: product.slug
+    });
 
     const session = await stripe.checkout.sessions.create({
       mode: "payment",

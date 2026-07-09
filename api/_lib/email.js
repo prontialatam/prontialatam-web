@@ -82,7 +82,7 @@ async function sendAffiliateApplicationReceivedEmail(options) {
           <div style="padding:34px 40px 20px;">
             <div style="margin:0 0 24px;padding:24px;background:linear-gradient(135deg,#f8f3ea 0%,#fffdf9 100%);border:1px solid #e4dacb;border-radius:20px;">
               <div style="font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:#8a775c;margin-bottom:10px;">Programa de afiliados</div>
-              <div style="margin:0 0 10px;font-family:'Cormorant Garamond',Georgia,serif;font-size:31px;line-height:1.04;color:#12385b;">Gracias por solicitar tu alta en ProntIA LATAM</div>
+              <div style="margin:0 0 10px;font-family:'Cormorant Garamond',Georgia,serif;font-size:31px;line-height:1.04;color:#12385b;">Enhorabuena por solicitar tu alta en ProntIA LATAM</div>
               <p style="margin:0;font-size:16px;line-height:1.82;color:#314354;">Hola ${options.fullName || ""}, hemos recibido tu solicitud y ya la tenemos en revisión.</p>
             </div>
             <p style="margin:0 0 18px;font-size:16px;line-height:1.82;color:#314354;">Nuestro equipo revisará tu perfil, tus canales y el encaje con la marca. En un plazo máximo de <strong>24 horas</strong> te daremos una respuesta por email.</p>

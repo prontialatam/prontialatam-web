@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <rect width="1280" height="720" fill="#12385b"/>
+  <text x="64" y="94" font-family="Arial, sans-serif" font-size="26" font-weight="700" fill="#ffffff">ProntIA LATAM</text>
+  <text x="64" y="282" font-family="Georgia, serif" font-size="88" font-weight="700" fill="#ffffff">El restaurante</text>
+  <text x="64" y="382" font-family="Georgia, serif" font-size="88" font-weight="700" fill="#ffd9a3">no puede frenar</text>
+  <text x="64" y="470" font-family="Arial, sans-serif" font-size="38" fill="#d5e5f5">Pero sí puede comunicarse mejor y vender con más orden.</text>
+  <rect x="64" y="548" width="428" height="92" rx="20" fill="#f8f5f0"/>
+  <text x="100" y="603" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#12385b">Miniatura o anuncio informativo</text>
+</svg>

@@ -8,6 +8,16 @@ const PRODUCTS = {
     deliveryPageUrl: "/dossier-producto-talleres",
     successPath: "/checkout-success",
     cancelPath: "/checkout-cancel"
+  },
+  "restaurantes-hosteleria": {
+    slug: "restaurantes-hosteleria",
+    name: "50 Prompts para Restaurantes y Hostelería",
+    stripePriceEnv: "STRIPE_RESTAURANTES_PRICE_ID",
+    supportEmail: "hola@prontialatam.com",
+    deliveryAssetUrl: "/recurso-restaurantes-hosteleria",
+    deliveryPageUrl: "/recurso-restaurantes-hosteleria",
+    successPath: "/checkout-success",
+    cancelPath: "/checkout-cancel"
   }
 };
 

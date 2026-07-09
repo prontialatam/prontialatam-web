@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1080" viewBox="0 0 1080 1080">
+  <rect width="1080" height="1080" fill="#f8f5f0"/>
+  <rect x="64" y="64" width="952" height="952" rx="38" fill="#ffffff" stroke="#d9d1c7"/>
+  <rect x="104" y="104" width="250" height="58" rx="29" fill="#12385b"/>
+  <text x="138" y="142" font-family="Arial, sans-serif" font-size="26" font-weight="700" fill="#ffffff">ProntIA LATAM</text>
+  <text x="104" y="270" font-family="Georgia, serif" font-size="82" font-weight="700" fill="#12385b">Responder reseñas</text>
+  <text x="104" y="360" font-family="Georgia, serif" font-size="82" font-weight="700" fill="#12385b">también vende</text>
+  <text x="104" y="455" font-family="Arial, sans-serif" font-size="34" fill="#5f5e5a">Tu reputación se gana en cada respuesta.</text>
+  <g transform="translate(104 560)">
+    <rect width="872" height="280" rx="28" fill="#e6f1fb"/>
+    <text x="44" y="74" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#12385b">Ángulo de afiliado</text>
+    <text x="44" y="126" font-family="Arial, sans-serif" font-size="36" fill="#2c2c2a">“No basta con cocinar bien.</text>
+    <text x="44" y="176" font-family="Arial, sans-serif" font-size="36" fill="#2c2c2a">También hay que responder con criterio.”</text>
+    <text x="44" y="236" font-family="Arial, sans-serif" font-size="26" fill="#5f5e5a">Úsalo para posts, carruseles o anuncios suaves.</text>
+  </g>
+</svg>

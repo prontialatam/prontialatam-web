@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1920" viewBox="0 0 1080 1920">
+  <rect width="1080" height="1920" fill="#f8f5f0"/>
+  <rect x="76" y="82" width="260" height="60" rx="30" fill="#12385b"/>
+  <text x="110" y="120" font-family="Arial, sans-serif" font-size="26" font-weight="700" fill="#ffffff">ProntIA LATAM</text>
+  <text x="76" y="540" font-family="Georgia, serif" font-size="104" font-weight="700" fill="#12385b">Llena horas</text>
+  <text x="76" y="654" font-family="Georgia, serif" font-size="104" font-weight="700" fill="#12385b">valle con</text>
+  <text x="76" y="768" font-family="Georgia, serif" font-size="104" font-weight="700" fill="#1c6db6">mejores mensajes</text>
+  <text x="76" y="896" font-family="Arial, sans-serif" font-size="42" fill="#5f5e5a">Prompts para promociones, eventos y reservas</text>
+  <rect x="76" y="1450" width="928" height="192" rx="34" fill="#e6f1fb"/>
+  <text x="122" y="1540" font-family="Arial, sans-serif" font-size="38" font-weight="700" fill="#12385b">Uso recomendado</text>
+  <text x="122" y="1604" font-family="Arial, sans-serif" font-size="31" fill="#2c2c2a">Portada de reel, story o anuncio vertical de captación.</text>
+</svg>

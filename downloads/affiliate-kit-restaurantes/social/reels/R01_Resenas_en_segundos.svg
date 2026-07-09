@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1920" viewBox="0 0 1080 1920">
+  <rect width="1080" height="1920" fill="#12385b"/>
+  <rect x="78" y="80" width="260" height="60" rx="30" fill="#ffffff"/>
+  <text x="112" y="119" font-family="Arial, sans-serif" font-size="26" font-weight="700" fill="#12385b">ProntIA LATAM</text>
+  <text x="78" y="520" font-family="Georgia, serif" font-size="108" font-weight="700" fill="#ffffff">Reseñas</text>
+  <text x="78" y="642" font-family="Georgia, serif" font-size="108" font-weight="700" fill="#ffd9a3">en segundos</text>
+  <text x="78" y="768" font-family="Arial, sans-serif" font-size="44" fill="#d5e5f5">Para restaurantes, bares y cafeterías</text>
+  <rect x="78" y="1460" width="924" height="180" rx="34" fill="#f8f5f0"/>
+  <text x="124" y="1545" font-family="Arial, sans-serif" font-size="40" font-weight="700" fill="#12385b">Hook para reel afiliado</text>
+  <text x="124" y="1608" font-family="Arial, sans-serif" font-size="32" fill="#2c2c2a">“Responder tarde una mala reseña también cuesta dinero.”</text>
+</svg>

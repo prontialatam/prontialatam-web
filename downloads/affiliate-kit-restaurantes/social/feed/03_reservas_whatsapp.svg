@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1080" viewBox="0 0 1080 1080">
+  <rect width="1080" height="1080" fill="#12385b"/>
+  <rect x="70" y="76" width="270" height="60" rx="30" fill="#ffffff"/>
+  <text x="108" y="116" font-family="Arial, sans-serif" font-size="26" font-weight="700" fill="#12385b">ProntIA LATAM</text>
+  <text x="76" y="264" font-family="Georgia, serif" font-size="86" font-weight="700" fill="#ffffff">WhatsApp puede</text>
+  <text x="76" y="358" font-family="Georgia, serif" font-size="86" font-weight="700" fill="#ffffff">llenar más mesas</text>
+  <text x="76" y="448" font-family="Arial, sans-serif" font-size="34" fill="#d5e5f5">Si tus mensajes dejan de improvisarse.</text>
+  <rect x="76" y="566" width="928" height="320" rx="34" fill="#f8f5f0"/>
+  <text x="120" y="646" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#12385b">Promesa práctica</text>
+  <text x="120" y="706" font-family="Arial, sans-serif" font-size="40" fill="#2c2c2a">Prompts para reservas, seguimiento,</text>
+  <text x="120" y="758" font-family="Arial, sans-serif" font-size="40" fill="#2c2c2a">promociones y atención al cliente.</text>
+  <text x="120" y="828" font-family="Arial, sans-serif" font-size="28" fill="#5f5e5a">Pieza pensada para feed, carrusel o anuncio estático.</text>
+</svg>

@@ -1,6 +1,7 @@
 const Stripe = require("stripe");
 const { getSiteUrl, parseJsonBody, sendJson } = require("../_lib/http");
 const { getProduct, getStripePriceId } = require("../_lib/stripe-products");
+const { resolveAffiliateByCode, sanitizeTrackingCode } = require("../_lib/affiliate-codes");
 
 function summarizeStripeError(error) {
   const cause = error && error.cause ? error.cause : null;
@@ -44,6 +45,19 @@ module.exports = async function handler(req, res) {
       return sendJson(res, 400, { error: "Producto no soportado en esta fase." });
     }
 
+    const enteredAffiliateCode = String(body.refCode || "").trim();
+    let resolvedAffiliate = null;
+    if (enteredAffiliateCode) {
+      try {
+        resolvedAffiliate = await resolveAffiliateByCode(enteredAffiliateCode);
+      } catch (_error) {
+        resolvedAffiliate = null;
+      }
+    }
+    const affiliateTrackingCode = resolvedAffiliate
+      ? resolvedAffiliate.affiliate.tracking_code
+      : sanitizeTrackingCode(enteredAffiliateCode);
+
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
       maxNetworkRetries: 1
     });
@@ -72,7 +86,9 @@ module.exports = async function handler(req, res) {
       metadata: {
         product_slug: product.slug,
         product_name: product.name,
-        affiliate_code: body.refCode || "",
+        affiliate_code: affiliateTrackingCode || "",
+        affiliate_entered_code: enteredAffiliateCode || "",
+        affiliate_match_type: resolvedAffiliate ? resolvedAffiliate.matchedBy : "",
         landing_path: body.landingPath || "",
         utm_source: body.utmSource || "",
         utm_medium: body.utmMedium || "",

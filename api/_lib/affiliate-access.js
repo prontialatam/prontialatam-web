@@ -14,13 +14,25 @@ const PROTECTED_PAGES = {
     route: "/dossier-producto-talleres",
     file: "dossier-producto-talleres.html"
   },
+  productRestaurant: {
+    route: "/dossier-producto-restaurantes",
+    file: "dossier-producto-restaurantes.html"
+  },
   playbook: {
     route: "/playbook-afiliados-talleres",
     file: "playbook-afiliados-talleres.html"
   },
+  playbookRestaurant: {
+    route: "/playbook-afiliados-restaurantes",
+    file: "playbook-afiliados-restaurantes.html"
+  },
   social: {
     route: "/biblioteca-social-talleres",
     file: "biblioteca-social-talleres.html"
+  },
+  socialRestaurant: {
+    route: "/biblioteca-social-restaurantes",
+    file: "biblioteca-social-restaurantes.html"
   }
 };
 

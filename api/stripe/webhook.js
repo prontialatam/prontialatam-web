@@ -4,6 +4,7 @@ const { sendPurchaseConfirmationEmail } = require("../_lib/email");
 const supabase = require("../_lib/supabase");
 const { summarizeAccount } = require("../_lib/stripe-connect");
 const { getProduct } = require("../_lib/stripe-products");
+const { resolveAffiliateByCode } = require("../_lib/affiliate-codes");
 
 async function queueFulfillment(payload) {
   const target = (process.env.ORDER_FULFILLMENT_WEBHOOK_URL || "").trim();
@@ -132,9 +133,21 @@ async function resolveAffiliate(session) {
   }
 
   const code = session.metadata && session.metadata.affiliate_code ? session.metadata.affiliate_code : "";
-  if (!code) return null;
+  if (code) {
+    const byTracking = await supabase.findOne(
+      "affiliates",
+      `tracking_code=eq.${encodeURIComponent(code)}&status=eq.approved`
+    );
+    if (byTracking) return byTracking;
+  }
 
-  return supabase.findOne("affiliates", `tracking_code=eq.${encodeURIComponent(code)}`);
+  const enteredCode = session.metadata && session.metadata.affiliate_entered_code
+    ? session.metadata.affiliate_entered_code
+    : "";
+  if (!enteredCode) return null;
+
+  const resolved = await resolveAffiliateByCode(enteredCode);
+  return resolved ? resolved.affiliate : null;
 }
 
 async function updateAffiliateConnectStatus(account) {
@@ -191,7 +204,9 @@ module.exports = async function handler(req, res) {
     const customer = await findOrCreateCustomer(session);
     const affiliate = await resolveAffiliate(session);
     const amountTotal = typeof session.amount_total === "number" ? Number((session.amount_total / 100).toFixed(2)) : null;
-    const commissionRate = Number(process.env.AFFILIATE_DEFAULT_COMMISSION_RATE || "0.60");
+    const commissionRate = affiliate
+      ? Number(affiliate.commission_rate || process.env.AFFILIATE_DEFAULT_COMMISSION_RATE || "0.60")
+      : Number(process.env.AFFILIATE_DEFAULT_COMMISSION_RATE || "0.60");
     const commissionAmount = affiliate && amountTotal ? Number((amountTotal * commissionRate).toFixed(2)) : null;
 
     const baseOrder = {
@@ -214,7 +229,9 @@ module.exports = async function handler(req, res) {
       commission_amount: commissionAmount,
       source_metadata: {
         stripe_event_id: event.id,
-        stripe_customer_id: session.customer || null
+        stripe_customer_id: session.customer || null,
+        affiliate_entered_code: session.metadata ? session.metadata.affiliate_entered_code || null : null,
+        affiliate_match_type: session.metadata ? session.metadata.affiliate_match_type || null : null
       }
     };
 

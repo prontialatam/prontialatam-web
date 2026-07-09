@@ -350,6 +350,14 @@ async function sendPurchaseConfirmationEmail(options) {
   const instagramIconUrl = options.instagramIconUrl || "";
   const facebookIconUrl = options.facebookIconUrl || "";
   const youtubeIconUrl = options.youtubeIconUrl || "";
+  const hasSeparateGuide = Boolean(options.deliveryPageUrl && options.deliveryPageUrl !== options.deliveryAssetUrl);
+  const accessIntro = hasSeparateGuide
+    ? "Hemos preparado dos accesos para que empieces sin fricción: una descarga directa del kit y una guía del producto con contexto, recomendaciones y próximos pasos."
+    : "Hemos preparado un acceso inmediato para que empieces sin fricción: abre tu recurso, revisa la orientación del producto y empieza a aplicarlo hoy mismo.";
+  const primaryCtaLabel = hasSeparateGuide ? "Descargar tu kit ahora" : "Abrir tu recurso ahora";
+  const usageRecommendation = hasSeparateGuide
+    ? "abre primero la guía del producto, identifica los bloques que mejor encajan con tu negocio y después descarga el material para empezar a aplicar los prompts de forma práctica."
+    : "abre el recurso, identifica los bloques que mejor encajan con tu negocio y empieza a aplicar los prompts de forma práctica desde el primer día.";
 
   const payload = {
     sender: {
@@ -382,16 +390,16 @@ async function sendPurchaseConfirmationEmail(options) {
             </div>
 
             <h2 style="margin:0 0 14px;font-size:24px;line-height:1.2;font-family:'Cormorant Garamond',Georgia,serif;color:#12385b;">Tu acceso inmediato</h2>
-            <p style="margin:0 0 18px;font-size:16px;line-height:1.8;">Hemos preparado dos accesos para que empieces sin fricción: una descarga directa del kit y una guía del producto con contexto, recomendaciones y próximos pasos.</p>
+            <p style="margin:0 0 18px;font-size:16px;line-height:1.8;">${accessIntro}</p>
 
             <div style="margin:0 0 24px;">
-              <a href="${options.deliveryAssetUrl}" style="display:inline-block;background:#12385b;color:#ffffff;text-decoration:none;padding:14px 22px;border-radius:999px;font-weight:700;margin:0 12px 12px 0;">Descargar tu kit ahora</a>
-              <a href="${options.deliveryPageUrl}" style="display:inline-block;background:#f4ede2;color:#12385b;text-decoration:none;padding:14px 22px;border-radius:999px;font-weight:700;border:1px solid #d9cdb8;margin:0 12px 12px 0;">Ver guía del producto</a>
+              <a href="${options.deliveryAssetUrl}" style="display:inline-block;background:#12385b;color:#ffffff;text-decoration:none;padding:14px 22px;border-radius:999px;font-weight:700;margin:0 12px 12px 0;">${primaryCtaLabel}</a>
+              ${hasSeparateGuide ? `<a href="${options.deliveryPageUrl}" style="display:inline-block;background:#f4ede2;color:#12385b;text-decoration:none;padding:14px 22px;border-radius:999px;font-weight:700;border:1px solid #d9cdb8;margin:0 12px 12px 0;">Ver guía del producto</a>` : ""}
             </div>
 
             <div style="background:#fbf8f2;border-left:4px solid #c4a972;padding:18px 20px;border-radius:12px;margin:0 0 26px;">
               <div style="font-size:15px;line-height:1.8;">
-                <strong>Recomendación de uso:</strong> abre primero la guía del producto, identifica los bloques que mejor encajan con tu negocio y después descarga el material para empezar a aplicar los prompts de forma práctica.
+                <strong>Recomendación de uso:</strong> ${usageRecommendation}
               </div>
             </div>
 
@@ -424,8 +432,8 @@ async function sendPurchaseConfirmationEmail(options) {
       `Importe: ${amountLabel}`,
       `Referencia: ${options.sessionId}`,
       "",
-      `Descarga directa: ${options.deliveryAssetUrl}`,
-      `Guía del producto: ${options.deliveryPageUrl}`,
+      `${hasSeparateGuide ? "Descarga directa" : "Acceso inmediato"}: ${options.deliveryAssetUrl}`,
+      ...(hasSeparateGuide ? [`Guía del producto: ${options.deliveryPageUrl}`] : []),
       "",
       `Soporte email: ${supportEmail}`,
       `WhatsApp: ${supportWhatsApp}`,

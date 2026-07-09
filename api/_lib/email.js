@@ -215,10 +215,15 @@ async function sendAffiliateOnboardingEmail(options) {
   const dossierUrl = options.dossierUrl || "";
   const productDossierUrl = options.productDossierUrl || "";
   const socialLibraryUrl = options.socialLibraryUrl || "";
+  const whatsappCommunityUrl = options.whatsappCommunityUrl || "";
   const connectHtml = options.connectUrl
     ? `<tr><td style="padding:0 0 14px;"><strong style="display:block;color:#12385b;font-size:14px;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px;">Configurar cobros</strong><a href="${options.connectUrl}" style="color:#185fa5;text-decoration:none;word-break:break-word;">Activar Stripe Connect</a></td></tr>`
     : "";
   const connectText = options.connectUrl ? `Stripe Connect: ${options.connectUrl}` : "";
+  const communityHtml = whatsappCommunityUrl
+    ? `<tr><td style="padding:0 0 14px;"><strong style="display:block;color:#12385b;font-size:14px;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px;">Comunidad de WhatsApp</strong><a href="${whatsappCommunityUrl}" style="color:#185fa5;text-decoration:none;word-break:break-word;">Unirme a la Comunidad de Afiliados</a></td></tr>`
+    : "";
+  const communityText = whatsappCommunityUrl ? `Comunidad de WhatsApp: ${whatsappCommunityUrl}` : "";
 
   const payload = {
     sender: {
@@ -270,12 +275,13 @@ async function sendAffiliateOnboardingEmail(options) {
               ${dossierUrl ? `<tr><td style="padding:0 0 14px;"><strong style="display:block;color:#12385b;font-size:14px;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px;">Dossier de marca</strong><a href="${dossierUrl}" style="color:#185fa5;text-decoration:none;word-break:break-word;">Abrir dossier de marca</a></td></tr>` : ""}
               ${productDossierUrl ? `<tr><td style="padding:0 0 14px;"><strong style="display:block;color:#12385b;font-size:14px;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px;">Dossier del producto</strong><a href="${productDossierUrl}" style="color:#185fa5;text-decoration:none;word-break:break-word;">Ver dossier de talleres mecánicos</a></td></tr>` : ""}
               ${socialLibraryUrl ? `<tr><td style="padding:0 0 14px;"><strong style="display:block;color:#12385b;font-size:14px;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px;">Biblioteca visual</strong><a href="${socialLibraryUrl}" style="color:#185fa5;text-decoration:none;word-break:break-word;">Ver piezas para RRSS</a></td></tr>` : ""}
+              ${communityHtml}
               ${connectHtml}
             </table>
 
             <div style="background:#fbf8f2;border-left:4px solid #c4a972;padding:18px 20px;border-radius:12px;margin:0 0 24px;">
               <div style="font-size:15px;line-height:1.8;">
-                <strong>Siguiente secuencia recomendada:</strong> revisa el dossier de marca, abre el dossier del producto, configura Stripe Connect para dejar listos tus cobros y publica tu primera pieza usando siempre tu enlace de seguimiento.
+                <strong>Siguiente secuencia recomendada:</strong> revisa el dossier de marca, abre el dossier del producto, únete a la Comunidad de WhatsApp, configura Stripe Connect para dejar listos tus cobros y publica tu primera pieza usando siempre tu enlace de seguimiento.
               </div>
             </div>
 
@@ -311,6 +317,7 @@ async function sendAffiliateOnboardingEmail(options) {
       dossierUrl ? `Dossier de marca: ${dossierUrl}` : "",
       productDossierUrl ? `Dossier del producto: ${productDossierUrl}` : "",
       socialLibraryUrl ? `Biblioteca visual: ${socialLibraryUrl}` : "",
+      communityText,
       connectText,
       `Soporte email: ${supportEmail}`,
       `WhatsApp: ${supportWhatsApp}`

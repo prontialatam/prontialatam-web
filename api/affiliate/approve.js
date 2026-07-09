@@ -109,6 +109,7 @@ module.exports = async function handler(req, res) {
     const dossierUrl = buildProtectedPageUrl(siteUrl, "/dossier-marca-afiliados", connectOnboardingToken);
     const productDossierUrl = buildProtectedPageUrl(siteUrl, "/dossier-producto-talleres", connectOnboardingToken);
     const socialLibraryUrl = buildProtectedPageUrl(siteUrl, "/biblioteca-social-talleres", connectOnboardingToken);
+    const whatsappCommunityUrl = (process.env.AFFILIATE_WHATSAPP_COMMUNITY_URL || "https://chat.whatsapp.com/L87FnfrSKmb2h7FJjmZkzk").trim();
 
     const emailResult = await sendAffiliateOnboardingEmail({
       email: application.email,
@@ -123,6 +124,7 @@ module.exports = async function handler(req, res) {
       dossierUrl,
       productDossierUrl,
       socialLibraryUrl,
+      whatsappCommunityUrl,
       supportEmail: "hola@prontialatam.com",
       supportWhatsApp: "+34 697 47 46 46"
     });

@@ -679,6 +679,17 @@ a {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+.field-stack {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.field-label {
+  color: var(--gray-700);
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
 label {
   display: grid;
   gap: 0.35rem;
@@ -701,6 +712,92 @@ textarea {
 textarea {
   min-height: 7rem;
   resize: vertical;
+}
+
+.channel-grid {
+  display: grid;
+  gap: 0.7rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.choice-chip {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.85rem 0.95rem;
+  border: 1px solid rgba(4, 44, 83, 0.14);
+  border-radius: 0.9rem;
+  background: rgba(255, 255, 255, 0.92);
+  cursor: pointer;
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.choice-chip:hover,
+.social-profile-row:hover {
+  border-color: rgba(22, 95, 168, 0.26);
+  box-shadow: 0 10px 24px rgba(18, 40, 72, 0.08);
+  transform: translateY(-1px);
+}
+
+.choice-chip input,
+.social-toggle input {
+  width: 1rem;
+  height: 1rem;
+  margin: 0;
+}
+
+.social-profile-grid {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.social-profile-row {
+  display: grid;
+  gap: 0.8rem;
+  grid-template-columns: minmax(190px, 240px) minmax(0, 1fr);
+  align-items: center;
+  padding: 0.85rem 0.95rem;
+  border: 1px solid rgba(4, 44, 83, 0.14);
+  border-radius: 0.95rem;
+  background: rgba(255, 255, 255, 0.94);
+  cursor: pointer;
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.social-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  color: var(--gray-900);
+  font-weight: 600;
+}
+
+.social-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.3rem;
+  height: 2.3rem;
+  padding: 0 0.45rem;
+  border-radius: 999px;
+  color: var(--white);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.social-instagram { background: linear-gradient(135deg, #d62976, #f58529); }
+.social-facebook { background: #1877f2; }
+.social-linkedin { background: #0a66c2; }
+.social-whatsapp { background: #25d366; }
+.social-youtube { background: #ff0033; }
+.social-tiktok { background: #111111; }
+.social-x { background: #1a1a1a; }
+.social-web { background: #165fa8; }
+
+.social-profile-row input[type="text"]:disabled {
+  background: rgba(233, 239, 245, 0.9);
+  color: var(--gray-400);
 }
 
 .footer {
@@ -728,10 +825,15 @@ textarea {
   .stat-grid,
   .download-grid,
   .download-grid.four,
+  .channel-grid,
   .media-strip,
   .pill-list,
   .field-row,
   .admin-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .social-profile-row {
     grid-template-columns: 1fr;
   }
 

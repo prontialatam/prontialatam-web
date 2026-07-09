@@ -161,18 +161,43 @@
                   País
                   <input type="text" name="country" required>
                 </label>
-                <label>
-                  Canal principal
-                  <select name="mainChannel" required>
-                    <option value="">Selecciona una opción</option>
-                    <option value="instagram">Instagram</option>
-                    <option value="facebook">Facebook</option>
-                    <option value="linkedin">LinkedIn</option>
-                    <option value="whatsapp">WhatsApp</option>
-                    <option value="youtube">YouTube</option>
-                    <option value="otra">Otra</option>
-                  </select>
-                </label>
+                <div class="field-stack">
+                  <span class="field-label">Canales donde te mueves</span>
+                  <div class="channel-grid">
+                    <label class="choice-chip">
+                      <input type="checkbox" name="mainChannel" value="instagram">
+                      <span>Instagram</span>
+                    </label>
+                    <label class="choice-chip">
+                      <input type="checkbox" name="mainChannel" value="facebook">
+                      <span>Facebook</span>
+                    </label>
+                    <label class="choice-chip">
+                      <input type="checkbox" name="mainChannel" value="linkedin">
+                      <span>LinkedIn</span>
+                    </label>
+                    <label class="choice-chip">
+                      <input type="checkbox" name="mainChannel" value="whatsapp">
+                      <span>WhatsApp</span>
+                    </label>
+                    <label class="choice-chip">
+                      <input type="checkbox" name="mainChannel" value="youtube">
+                      <span>YouTube</span>
+                    </label>
+                    <label class="choice-chip">
+                      <input type="checkbox" name="mainChannel" value="tiktok">
+                      <span>TikTok</span>
+                    </label>
+                    <label class="choice-chip">
+                      <input type="checkbox" name="mainChannel" value="x">
+                      <span>X</span>
+                    </label>
+                    <label class="choice-chip">
+                      <input type="checkbox" name="mainChannel" value="otra">
+                      <span>Otra</span>
+                    </label>
+                  </div>
+                </div>
               </div>
               <div class="field-row">
                 <label>
@@ -205,15 +230,81 @@
                 Tipo de perfil o audiencia
                 <input type="text" name="audienceType" placeholder="Ej.: talleres, pymes, marketing, negocios locales" required>
               </label>
-              <label>
-                URL de redes sociales o perfil profesional
-                <textarea name="profileLinks" placeholder="Pega aquí Instagram, LinkedIn, YouTube, web o cualquier perfil que debamos revisar para validar tu alta." required></textarea>
-              </label>
+              <div class="field-stack">
+                <span class="field-label">Perfiles a revisar</span>
+                <p class="microcopy">Marca cada red que uses e indica el nombre de perfil, usuario o URL correspondiente.</p>
+                <div class="social-profile-grid">
+                  <label class="social-profile-row">
+                    <span class="social-toggle">
+                      <input type="checkbox" name="socialNetwork" value="instagram">
+                      <span class="social-badge social-instagram">IG</span>
+                      <span>Instagram</span>
+                    </span>
+                    <input type="text" name="socialProfile_instagram" placeholder="@tuperfil o URL" disabled>
+                  </label>
+                  <label class="social-profile-row">
+                    <span class="social-toggle">
+                      <input type="checkbox" name="socialNetwork" value="facebook">
+                      <span class="social-badge social-facebook">FB</span>
+                      <span>Facebook</span>
+                    </span>
+                    <input type="text" name="socialProfile_facebook" placeholder="Nombre o URL de la página" disabled>
+                  </label>
+                  <label class="social-profile-row">
+                    <span class="social-toggle">
+                      <input type="checkbox" name="socialNetwork" value="linkedin">
+                      <span class="social-badge social-linkedin">in</span>
+                      <span>LinkedIn</span>
+                    </span>
+                    <input type="text" name="socialProfile_linkedin" placeholder="Perfil o URL" disabled>
+                  </label>
+                  <label class="social-profile-row">
+                    <span class="social-toggle">
+                      <input type="checkbox" name="socialNetwork" value="whatsapp">
+                      <span class="social-badge social-whatsapp">WA</span>
+                      <span>WhatsApp</span>
+                    </span>
+                    <input type="text" name="socialProfile_whatsapp" placeholder="Número, enlace o canal" disabled>
+                  </label>
+                  <label class="social-profile-row">
+                    <span class="social-toggle">
+                      <input type="checkbox" name="socialNetwork" value="youtube">
+                      <span class="social-badge social-youtube">YT</span>
+                      <span>YouTube</span>
+                    </span>
+                    <input type="text" name="socialProfile_youtube" placeholder="Canal o URL" disabled>
+                  </label>
+                  <label class="social-profile-row">
+                    <span class="social-toggle">
+                      <input type="checkbox" name="socialNetwork" value="tiktok">
+                      <span class="social-badge social-tiktok">TT</span>
+                      <span>TikTok</span>
+                    </span>
+                    <input type="text" name="socialProfile_tiktok" placeholder="@usuario o URL" disabled>
+                  </label>
+                  <label class="social-profile-row">
+                    <span class="social-toggle">
+                      <input type="checkbox" name="socialNetwork" value="x">
+                      <span class="social-badge social-x">X</span>
+                      <span>X</span>
+                    </span>
+                    <input type="text" name="socialProfile_x" placeholder="@usuario o URL" disabled>
+                  </label>
+                  <label class="social-profile-row">
+                    <span class="social-toggle">
+                      <input type="checkbox" name="socialNetwork" value="web">
+                      <span class="social-badge social-web">WEB</span>
+                      <span>Web</span>
+                    </span>
+                    <input type="text" name="socialProfile_web" placeholder="URL del sitio web" disabled>
+                  </label>
+                </div>
+              </div>
               <label>
                 Cuéntanos cómo venderías el producto
                 <textarea name="notes" placeholder="Qué nicho atacarías, qué piezas usarías y cómo moverías el kit de talleres mecánicos" required></textarea>
               </label>
-              <button id="affiliateSubmit" type="submit" class="btn-primary">Quiero darme de alta</button>
+              <button id="affiliateSubmit" type="submit" class="btn-primary">Enviar mi solicitud</button>
               <p class="microcopy">La solicitud es gratuita. Nuestro equipo revisa manualmente cada candidatura y responde en un máximo de 24 horas.</p>
               <p id="affiliateStatus" class="inline-status"></p>
             </form>
@@ -246,11 +337,26 @@
       const form = document.getElementById('affiliateForm');
       const button = document.getElementById('affiliateSubmit');
       const status = document.getElementById('affiliateStatus');
+      const socialToggles = Array.from(form.querySelectorAll('input[name="socialNetwork"]'));
 
       function setStatus(message, type) {
         status.textContent = message;
         status.className = 'inline-status' + (type ? ' ' + type : '');
       }
+
+      function syncSocialInputs() {
+        socialToggles.forEach(function (toggle) {
+          const input = form.querySelector('[name="socialProfile_' + toggle.value + '"]');
+          if (!input) return;
+          input.disabled = !toggle.checked;
+          if (!toggle.checked) input.value = '';
+        });
+      }
+
+      syncSocialInputs();
+      socialToggles.forEach(function (toggle) {
+        toggle.addEventListener('change', syncSocialInputs);
+      });
 
       form.addEventListener('submit', async function (event) {
         event.preventDefault();
@@ -258,7 +364,47 @@
         button.textContent = 'Enviando solicitud...';
         setStatus('Registrando tu solicitud gratuita...', '');
 
-        const data = Object.fromEntries(new FormData(form).entries());
+        const rawData = Object.fromEntries(new FormData(form).entries());
+        const selectedChannels = Array.from(form.querySelectorAll('input[name="mainChannel"]:checked')).map(function (input) {
+          return input.value;
+        });
+        const selectedProfiles = socialToggles.filter(function (toggle) {
+          return toggle.checked;
+        }).map(function (toggle) {
+          const input = form.querySelector('[name="socialProfile_' + toggle.value + '"]');
+          return {
+            network: toggle.value,
+            profile: input ? input.value.trim() : ''
+          };
+        }).filter(function (item) {
+          return item.profile;
+        });
+
+        if (!selectedChannels.length) {
+          setStatus('Marca al menos un canal donde te mueves.', 'error');
+          button.disabled = false;
+          button.textContent = 'Enviar mi solicitud';
+          return;
+        }
+
+        if (!selectedProfiles.length) {
+          setStatus('Indica al menos un perfil de red o web para revisar tu solicitud.', 'error');
+          button.disabled = false;
+          button.textContent = 'Enviar mi solicitud';
+          return;
+        }
+
+        const data = {
+          fullName: rawData.fullName,
+          email: rawData.email,
+          country: rawData.country,
+          phoneCountryCode: rawData.phoneCountryCode,
+          phoneNumber: rawData.phoneNumber,
+          mainChannel: selectedChannels,
+          audienceType: rawData.audienceType,
+          profileLinks: selectedProfiles,
+          notes: rawData.notes
+        };
 
         try {
           const response = await fetch('/api/affiliate/register', {
@@ -278,7 +424,7 @@
           setStatus(error.message || 'No se pudo enviar la solicitud.', 'error');
         } finally {
           button.disabled = false;
-          button.textContent = 'Quiero darme de alta';
+          button.textContent = 'Enviar mi solicitud';
         }
       });
     })();

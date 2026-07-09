@@ -1,6 +1,7 @@
 const { getSiteUrl, parseJsonBody, sendJson } = require("../_lib/http");
 const supabase = require("../_lib/supabase");
 const { sendAffiliateOnboardingEmail } = require("../_lib/email");
+const { buildProtectedPageUrl, buildProtectedResourceUrl } = require("../_lib/affiliate-access");
 const { generateConnectOnboardingToken } = require("../_lib/stripe-connect");
 
 function isAuthorized(req, body) {
@@ -48,14 +49,14 @@ module.exports = async function handler(req, res) {
     }
 
     const siteUrl = getSiteUrl(req);
-    const portalUrl = `${siteUrl}/portal-afiliados`;
+    const portalUrl = buildProtectedPageUrl(siteUrl, "/portal-afiliados", connectOnboardingToken);
     const affiliateLink = `${siteUrl}/talleres-mecanicos?ref=${affiliate.tracking_code}`;
-    const kitUrl = `${siteUrl}/downloads/kit-base-afiliados-talleres.zip`;
+    const kitUrl = buildProtectedResourceUrl(siteUrl, "downloads/kit-base-afiliados-talleres.zip", connectOnboardingToken);
     const connectUrl = `${siteUrl}/api/affiliate/connect/start?token=${connectOnboardingToken}`;
     const brandLogoUrl = `${siteUrl}/logo-prontia.jpg`;
-    const dossierUrl = `${siteUrl}/dossier-marca-afiliados`;
-    const productDossierUrl = `${siteUrl}/dossier-producto-talleres`;
-    const socialLibraryUrl = `${siteUrl}/biblioteca-social-talleres`;
+    const dossierUrl = buildProtectedPageUrl(siteUrl, "/dossier-marca-afiliados", connectOnboardingToken);
+    const productDossierUrl = buildProtectedPageUrl(siteUrl, "/dossier-producto-talleres", connectOnboardingToken);
+    const socialLibraryUrl = buildProtectedPageUrl(siteUrl, "/biblioteca-social-talleres", connectOnboardingToken);
 
     const emailResult = await sendAffiliateOnboardingEmail({
       email: affiliate.email,

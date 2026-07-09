@@ -1,5 +1,6 @@
 const { getSiteUrl, sendJson } = require("../../_lib/http");
 const supabase = require("../../_lib/supabase");
+const { buildProtectedPageUrl } = require("../../_lib/affiliate-access");
 const { retrieveAccount, summarizeAccount } = require("../../_lib/stripe-connect");
 
 function getQueryParam(req, name) {
@@ -19,21 +20,21 @@ module.exports = async function handler(req, res) {
   }
 
   const siteUrl = getSiteUrl(req);
-  const fallbackUrl = `${siteUrl}/portal-afiliados?connect=returned`;
+  const token = getQueryParam(req, "token");
+  const fallbackUrl = buildProtectedPageUrl(siteUrl, "/portal-afiliados", token, { connect: "returned" });
 
   if (!supabase.isConfigured() || !process.env.STRIPE_SECRET_KEY) {
-    return redirect(res, `${siteUrl}/portal-afiliados?connect=config_error`);
+    return redirect(res, buildProtectedPageUrl(siteUrl, "/portal-afiliados", token, { connect: "config_error" }));
   }
 
   try {
-    const token = getQueryParam(req, "token");
     if (!token) {
-      return redirect(res, `${siteUrl}/portal-afiliados?connect=missing_token`);
+      return redirect(res, buildProtectedPageUrl(siteUrl, "/portal-afiliados", token, { connect: "missing_token" }));
     }
 
     const affiliate = await supabase.findOne("affiliates", `connect_onboarding_token=eq.${encodeURIComponent(token)}`);
     if (!affiliate || !affiliate.stripe_connect_account_id) {
-      return redirect(res, `${siteUrl}/portal-afiliados?connect=not_found`);
+      return redirect(res, buildProtectedPageUrl(siteUrl, "/portal-afiliados", token, { connect: "not_found" }));
     }
 
     const account = await retrieveAccount(affiliate.stripe_connect_account_id);
@@ -49,7 +50,7 @@ module.exports = async function handler(req, res) {
     }
 
     await supabase.update("affiliates", `id=eq.${encodeURIComponent(affiliate.id)}`, updatePayload);
-    return redirect(res, `${siteUrl}/portal-afiliados?connect=${encodeURIComponent(summary.status)}`);
+    return redirect(res, buildProtectedPageUrl(siteUrl, "/portal-afiliados", token, { connect: summary.status }));
   } catch (error) {
     return redirect(res, `${fallbackUrl}&error=${encodeURIComponent(error.message || "stripe_connect")}`);
   }

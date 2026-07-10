@@ -18,6 +18,16 @@ const PRODUCTS = {
     deliveryPageUrl: "/recurso-restaurantes-hosteleria",
     successPath: "/checkout-success",
     cancelPath: "/checkout-cancel"
+  },
+  "centros-estetica": {
+    slug: "centros-estetica",
+    name: "Kit Agenda Llena 30 Días para Centros de Estética",
+    stripePriceEnv: "STRIPE_ESTETICA_PRICE_ID",
+    supportEmail: "hola@prontialatam.com",
+    deliveryAssetUrl: "/downloads/kit-agenda-llena-centros-estetica.zip",
+    deliveryPageUrl: "/kit-agenda-llena-centros-estetica",
+    successPath: "/checkout-success",
+    cancelPath: "/checkout-cancel"
   }
 };
 

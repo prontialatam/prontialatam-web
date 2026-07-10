@@ -52,6 +52,66 @@
       "permanent": false
     },
     {
+      "source": "/dossier-producto-restaurantes",
+      "destination": "/api/affiliate/page?page=productRestaurant",
+      "permanent": false
+    },
+    {
+      "source": "/dossier-producto-restaurantes.html",
+      "destination": "/api/affiliate/page?page=productRestaurant",
+      "permanent": false
+    },
+    {
+      "source": "/playbook-afiliados-restaurantes",
+      "destination": "/api/affiliate/page?page=playbookRestaurant",
+      "permanent": false
+    },
+    {
+      "source": "/playbook-afiliados-restaurantes.html",
+      "destination": "/api/affiliate/page?page=playbookRestaurant",
+      "permanent": false
+    },
+    {
+      "source": "/biblioteca-social-restaurantes",
+      "destination": "/api/affiliate/page?page=socialRestaurant",
+      "permanent": false
+    },
+    {
+      "source": "/biblioteca-social-restaurantes.html",
+      "destination": "/api/affiliate/page?page=socialRestaurant",
+      "permanent": false
+    },
+    {
+      "source": "/dossier-producto-estetica",
+      "destination": "/api/affiliate/page?page=productEstetica",
+      "permanent": false
+    },
+    {
+      "source": "/dossier-producto-estetica.html",
+      "destination": "/api/affiliate/page?page=productEstetica",
+      "permanent": false
+    },
+    {
+      "source": "/playbook-afiliados-estetica",
+      "destination": "/api/affiliate/page?page=playbookEstetica",
+      "permanent": false
+    },
+    {
+      "source": "/playbook-afiliados-estetica.html",
+      "destination": "/api/affiliate/page?page=playbookEstetica",
+      "permanent": false
+    },
+    {
+      "source": "/biblioteca-social-estetica",
+      "destination": "/api/affiliate/page?page=socialEstetica",
+      "permanent": false
+    },
+    {
+      "source": "/biblioteca-social-estetica.html",
+      "destination": "/api/affiliate/page?page=socialEstetica",
+      "permanent": false
+    },
+    {
       "source": "/downloads/kit-base-afiliados-talleres.zip",
       "destination": "/api/affiliate/resource?asset=downloads/kit-base-afiliados-talleres.zip",
       "permanent": false
@@ -60,12 +120,40 @@
       "source": "/downloads/affiliate-kit-talleres/:path*",
       "destination": "/api/affiliate/resource?asset=downloads/affiliate-kit-talleres/:path*",
       "permanent": false
+    },
+    {
+      "source": "/downloads/kit-base-afiliados-restaurantes.zip",
+      "destination": "/api/affiliate/resource?asset=downloads/kit-base-afiliados-restaurantes.zip",
+      "permanent": false
+    },
+    {
+      "source": "/downloads/affiliate-kit-restaurantes/:path*",
+      "destination": "/api/affiliate/resource?asset=downloads/affiliate-kit-restaurantes/:path*",
+      "permanent": false
+    },
+    {
+      "source": "/downloads/kit-base-afiliados-estetica.zip",
+      "destination": "/api/affiliate/resource?asset=downloads/kit-base-afiliados-estetica.zip",
+      "permanent": false
+    },
+    {
+      "source": "/downloads/affiliate-kit-estetica/:path*",
+      "destination": "/api/affiliate/resource?asset=downloads/affiliate-kit-estetica/:path*",
+      "permanent": false
     }
   ],
   "rewrites": [
     {
       "source": "/talleres-mecanicos",
       "destination": "/talleres-mecanicos.html"
+    },
+    {
+      "source": "/centros-estetica",
+      "destination": "/centros-estetica.html"
+    },
+    {
+      "source": "/kit-agenda-llena-centros-estetica",
+      "destination": "/kit-agenda-llena-centros-estetica.html"
     },
     {
       "source": "/afiliados",

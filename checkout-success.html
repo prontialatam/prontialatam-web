@@ -17,6 +17,15 @@
           <div class="eyebrow">Pago completado</div>
           <h1 class="title" style="font-size:clamp(2.4rem,4vw,3.8rem);">Tu compra ya ha quedado <em>registrada</em></h1>
           <p class="lede">Hemos confirmado el pago y el pedido ha entrado en el flujo de entrega automática. Deberías recibir en tu email la confirmación de compra, el acceso al kit y las indicaciones de uso en los próximos minutos.</p>
+          <div id="deliveryBox" class="notice-card" style="display:none; margin:1.5rem 0; background:rgba(255,255,255,0.72);">
+            <h2 id="deliveryTitle" style="margin-top:0;">Tu material está listo</h2>
+            <p id="deliveryText" class="microcopy">Puedes descargar el recurso comprado desde aquí. También recibirás una copia por email.</p>
+            <div class="cta-row">
+              <a id="deliveryDownload" href="#" class="btn-primary">Descargar material</a>
+              <a id="deliveryPage" href="#" class="btn-secondary">Abrir página del recurso</a>
+            </div>
+          </div>
+          <p id="deliveryStatus" class="inline-status">Verificando el acceso de descarga...</p>
           <div class="cta-row">
             <a href="/" class="btn-secondary">Volver a la web</a>
             <a href="mailto:hola@prontialatam.com?subject=Consulta%20sobre%20mi%20pedido" class="btn-ghost">Contactar soporte</a>
@@ -30,7 +39,44 @@
   <script>
     (function () {
       const params = new URLSearchParams(window.location.search);
-      document.getElementById('sessionRef').textContent = params.get('session_id') || 'no disponible';
+      const sessionId = params.get('session_id') || '';
+      const sessionRef = document.getElementById('sessionRef');
+      const deliveryBox = document.getElementById('deliveryBox');
+      const deliveryStatus = document.getElementById('deliveryStatus');
+      const deliveryTitle = document.getElementById('deliveryTitle');
+      const deliveryText = document.getElementById('deliveryText');
+      const deliveryDownload = document.getElementById('deliveryDownload');
+      const deliveryPage = document.getElementById('deliveryPage');
+
+      sessionRef.textContent = sessionId || 'no disponible';
+      if (!sessionId) {
+        deliveryStatus.textContent = 'No hay referencia de pago para mostrar una descarga directa. Revisa tu email de confirmación.';
+        deliveryStatus.className = 'inline-status error';
+        return;
+      }
+
+      fetch('/api/checkout/session?session_id=' + encodeURIComponent(sessionId))
+        .then(function (response) {
+          return response.json().then(function (data) {
+            if (!response.ok) throw new Error(data.error || 'No se pudo verificar el pago.');
+            return data;
+          });
+        })
+        .then(function (data) {
+          deliveryTitle.textContent = data.productName || 'Tu material está listo';
+          deliveryText.textContent = data.customerEmail
+            ? 'Compra verificada. También enviaremos el acceso a ' + data.customerEmail + '.'
+            : 'Compra verificada. También recibirás una copia por email.';
+          deliveryDownload.href = data.delivery.assetUrl;
+          deliveryPage.href = data.delivery.pageUrl;
+          deliveryBox.style.display = 'block';
+          deliveryStatus.textContent = 'Acceso verificado correctamente.';
+          deliveryStatus.className = 'inline-status success';
+        })
+        .catch(function (error) {
+          deliveryStatus.textContent = error.message || 'No se pudo mostrar la descarga directa. Revisa tu email de confirmación.';
+          deliveryStatus.className = 'inline-status error';
+        });
     })();
   </script>
 </body>

@@ -18,6 +18,10 @@ const PROTECTED_PAGES = {
     route: "/dossier-producto-restaurantes",
     file: "dossier-producto-restaurantes.html"
   },
+  productEstetica: {
+    route: "/dossier-producto-estetica",
+    file: "dossier-producto-estetica.html"
+  },
   playbook: {
     route: "/playbook-afiliados-talleres",
     file: "playbook-afiliados-talleres.html"
@@ -26,6 +30,10 @@ const PROTECTED_PAGES = {
     route: "/playbook-afiliados-restaurantes",
     file: "playbook-afiliados-restaurantes.html"
   },
+  playbookEstetica: {
+    route: "/playbook-afiliados-estetica",
+    file: "playbook-afiliados-estetica.html"
+  },
   social: {
     route: "/biblioteca-social-talleres",
     file: "biblioteca-social-talleres.html"
@@ -33,6 +41,10 @@ const PROTECTED_PAGES = {
   socialRestaurant: {
     route: "/biblioteca-social-restaurantes",
     file: "biblioteca-social-restaurantes.html"
+  },
+  socialEstetica: {
+    route: "/biblioteca-social-estetica",
+    file: "biblioteca-social-estetica.html"
   }
 };
 

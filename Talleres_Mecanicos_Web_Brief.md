@@ -1,4 +1,4 @@
-# Instrucciones para crear el nuevo producto "100 Prompts para Talleres Mecánicos" en Hotmart
+# Instrucciones para crear el nuevo producto "100 Prompts para Talleres Mecánicos" en prontialatam.com
 
 ## Detalles del Producto
 - **Nombre:** 100 Prompts para Talleres Mecánicos - ProntIA Latam
@@ -17,9 +17,9 @@ Incluye 100 prompts en categorías prácticas:
 - Descarga inmediata en PDF.
 - Creado para el contexto de talleres mecánicos latinos.
 
-## Pasos para crear el producto en Hotmart (similar al de Hostelería)
+## Pasos para crear el producto en prontialatam.com (similar al de Hostelería)
 
-1. Inicia sesión en https://app.hotmart.com
+1. Inicia sesión en https://prontialatam.com
 2. Ve a Productos > Crear nuevo producto.
 3. Tipo: Producto Digital.
 4. Nombre: "100 Prompts para Talleres Mecánicos - ProntIA Latam"
@@ -34,7 +34,7 @@ Incluye 100 prompts en categorías prácticas:
    - Email de soporte: hola@prontialatam.com
    - Nombre en factura: ProntIA Latam
    - Activa notificaciones y soporte WhatsApp.
-10. Publica y copia el link exacto (formato pay.hotmart.com/XXXXXX).
+10. Publica y copia el link exacto (formato pay.prontialatam.com.com/XXXXXX).
 11. Actualiza el sitio web con el link exacto.
 
 ## Imágenes recomendadas para la página de pago
@@ -43,12 +43,12 @@ Incluye 100 prompts en categorías prácticas:
 - Para el card en la web: usamos un card estándar (puedes agregar clase especial como hostelería si quieres background).
 
 ## Actualización en el sitio web
-El link en el código del sitio ya está actualizado con placeholder `https://pay.hotmart.com/100promptstalleres`.
+El link en el código del sitio ya está actualizado con placeholder `https://prontialatam.com/talleres-mecanicos`.
 Reemplaza con el link exacto que obtengas después de publicar.
 
 ## Link actual en el sitio (después de fix)
-- Hostelería: https://pay.hotmart.com/N106335432C?off=55y2b3g3&checkoutMode=10 (link real publicado)
-- Talleres: https://pay.hotmart.com/100promptstalleres (placeholder - reemplaza con exacto cuando publiques)
+- Hostelería: https://prontialatam.com/talleres-mecanicos (link real publicado)
+- Talleres: https://prontialatam.com/talleres-mecanicos (placeholder - reemplaza con exacto cuando publiques)
 
 ## Pasos adicionales
 - Prueba el flujo de compra.

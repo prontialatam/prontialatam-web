@@ -104,7 +104,7 @@
       "url": "https://www.prontialatam.com/restaurantes-hosteleria",
       "offers": {
         "@type": "Offer",
-        "price": "29",
+        "price": "20",
         "priceCurrency": "USD",
         "availability": "https://schema.org/InStock"
       }
@@ -118,6 +118,19 @@
       "offers": {
         "@type": "Offer",
         "price": "29",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock"
+      }
+    },
+    {
+      "@type": "Product",
+      "position": 6,
+      "name": "Kit Agenda Llena 30 Días para Centros de Estética",
+      "description": "Kit descargable para centros de estética en LATAM con calendario de campañas, WhatsApp, prompts de IA, Reels, promociones, reseñas y CRM.",
+      "url": "https://prontialatam.com/centros-estetica",
+      "offers": {
+        "@type": "Offer",
+        "price": "37",
         "priceCurrency": "USD",
         "availability": "https://schema.org/InStock"
       }
@@ -889,6 +902,28 @@
   .product-card-talleres .product-desc { color: rgba(255,255,255,0.75); }
   .product-card-talleres .product-features li { color: rgba(255,255,255,0.8); }
   .product-card-talleres .product-features li::before { background: var(--blue-300, #5fa8e0); }
+
+  .product-card-estetica {
+    background-image:
+      linear-gradient(to top, rgba(75,15,115,0.88) 20%, rgba(75,15,115,0.45) 50%, rgba(0,0,0,0.12) 100%),
+      url('assets/estetica/header_banner_checkout_centros_estetica.jpg');
+    background-size: cover;
+    background-position: center;
+    border: none !important;
+    box-shadow: 0 8px 30px rgba(75,15,115,0.22) !important;
+  }
+
+  .product-card-estetica:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(75,15,115,0.3) !important;
+  }
+
+  .product-card-estetica .product-price { color: var(--white); }
+  .product-card-estetica .product-price span { color: rgba(255,255,255,0.68); }
+  .product-card-estetica .product-name { color: var(--white); }
+  .product-card-estetica .product-desc { color: rgba(255,255,255,0.82); }
+  .product-card-estetica .product-features li { color: rgba(255,255,255,0.85); }
+  .product-card-estetica .product-features li::before { background: #ff9a1f; }
 
   /* New elegant backgrounds for other kits */
   .product-card-ventas {
@@ -2478,6 +2513,18 @@
           <li>Descarga inmediata en PDF</li>
         </ul>
         <a href="/talleres-mecanicos" class="btn-product btn-product-light">Ver landing y comprar →</a>
+      </div>
+      <div class="product-card product-card-estetica">
+        <div class="product-price">37 USD <span>pago único lanzamiento</span></div>
+        <div class="product-name">Kit Agenda Llena 30 Días para Centros de Estética</div>
+        <div class="product-desc">Campañas, WhatsApp, RRSS, reseñas, bonos y CRM para llenar mejor la agenda de centros de estética.</div>
+        <ul class="product-features">
+          <li>Calendario comercial de 30 días</li>
+          <li>100 prompts y plantillas de WhatsApp</li>
+          <li>Guiones de Reels, promociones y bonos</li>
+          <li>CRM/KPIs editable y descarga inmediata</li>
+        </ul>
+        <a href="/centros-estetica" class="btn-product btn-product-light">Ver landing y comprar →</a>
       </div>
     </div>
   </div>

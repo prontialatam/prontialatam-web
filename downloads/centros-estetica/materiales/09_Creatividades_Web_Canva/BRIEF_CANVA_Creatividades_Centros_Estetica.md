@@ -25,6 +25,7 @@ La conexión de Canva pidió reautenticación durante esta sesión. Las piezas J
 ### 2. Story/Reel vertical
 
 - Tamaño: 1080 x 1920.
+- Fondo: usar encuadre vertical del tratamiento facial, mostrando paciente y esteticista en el lado derecho y parte inferior.
 - Texto principal: "Tu centro no necesita más likes. Necesita una agenda llena."
 - CTA: "Kit Agenda Llena".
 - Uso: anuncio vertical, portada de Reel, Story.

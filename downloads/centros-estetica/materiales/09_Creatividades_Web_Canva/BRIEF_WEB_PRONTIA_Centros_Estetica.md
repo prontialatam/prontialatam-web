@@ -34,6 +34,7 @@ Incluye calendario de campañas, mensajes de WhatsApp, 100 prompts de IA, guione
 3. `mockup_3d_kit_agenda_llena_centros_estetica.jpg` - mockup premium.
 4. `producto_vertical_reel_story_centros_estetica.jpg` - stories/anuncios verticales.
 5. `miniatura_youtube_short_centros_estetica.jpg` - miniatura de video.
+6. `fondo_vertical_tratamiento_facial_centros_estetica.jpg` - fondo vertical con paciente y esteticista visibles.
 
 ## Order bump recomendado
 

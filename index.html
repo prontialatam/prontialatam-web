@@ -288,6 +288,12 @@
     transition: background 0.2s !important;
   }
 
+  .nav-links a.nav-cta {
+    background: var(--blue-600);
+    color: var(--white) !important;
+    border-color: transparent !important;
+  }
+
   .nav-cta:hover { background: var(--blue-800) !important; color: var(--white) !important; }
 
   .nav-social {
@@ -2293,7 +2299,25 @@
   }
 
   @media (max-width: 480px) {
+    nav .nav-links {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      max-width: 360px;
+      margin: 0 auto;
+    }
+    nav .nav-links li {
+      min-width: 0;
+    }
+    nav .nav-links li:first-child {
+      grid-column: 1 / -1;
+    }
     .nav-links a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      width: 100%;
+      text-align: center;
       font-size: 0.92rem;
       letter-spacing: 0.03em;
       padding: 0.5rem 0.8rem;

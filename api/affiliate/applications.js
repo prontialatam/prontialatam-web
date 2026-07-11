@@ -33,7 +33,7 @@ module.exports = async function handler(req, res) {
     );
     const orders = await supabase.list(
       "orders",
-      "select=id,stripe_checkout_session_id,customer_email,customer_name,product_slug,product_name,affiliate_id,affiliate_code,payment_status,fulfillment_status,amount_total,commission_amount,currency,source_metadata,created_at&order=created_at.desc&limit=20"
+      "select=id,stripe_checkout_session_id,stripe_payment_intent_id,customer_email,customer_name,product_slug,product_name,affiliate_id,affiliate_code,payment_status,fulfillment_status,amount_total,commission_amount,currency,landing_path,utm_source,utm_medium,utm_campaign,source_metadata,created_at&order=created_at.desc&limit=500"
     );
 
     const totalSales = orders.reduce(function (sum, order) {
@@ -77,7 +77,8 @@ module.exports = async function handler(req, res) {
         purchaseConfirmationEmail: Boolean(
           ((process.env.PURCHASE_CONFIRMATION_FROM_EMAIL || "").trim() || (process.env.AFFILIATE_ONBOARDING_FROM_EMAIL || "").trim()) &&
           ((process.env.PURCHASE_CONFIRMATION_REPLY_TO || "").trim() || (process.env.AFFILIATE_ONBOARDING_REPLY_TO || "").trim())
-        )
+        ),
+        operationsExport: Boolean((process.env.OPERATIONS_EXPORT_TOKEN || "").trim())
       }
     });
   } catch (error) {

@@ -10,6 +10,176 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="icon" href="logo-prontia.jpg" type="image/jpeg">
   <link rel="stylesheet" href="assets/css/commerce-pages.css">
+  <style>
+    .ops-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.7rem;
+      align-items: center;
+      margin-top: 0.9rem;
+    }
+
+    .ops-panel {
+      background: #fff;
+      border: 1px solid #e7e0d4;
+      border-radius: 16px;
+      padding: 1.2rem;
+      box-shadow: 0 10px 28px rgba(18, 56, 91, 0.06);
+      margin-top: 1.25rem;
+    }
+
+    .ops-panel-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .ops-panel-header h3 {
+      margin: 0;
+    }
+
+    .ops-table-wrap {
+      overflow-x: auto;
+      border: 1px solid #ece4d8;
+      border-radius: 14px;
+    }
+
+    .ops-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 940px;
+      background: #fff;
+    }
+
+    .ops-table th,
+    .ops-table td {
+      padding: 0.85rem 0.95rem;
+      border-bottom: 1px solid #ece4d8;
+      text-align: left;
+      vertical-align: top;
+      font-size: 0.9rem;
+    }
+
+    .ops-table th {
+      background: #f8f3ea;
+      color: #6d5d48;
+      font-size: 0.76rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .ops-table tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .ops-table .amount-cell {
+      white-space: nowrap;
+      font-weight: 700;
+      color: #12385b;
+    }
+
+    .row-toggle {
+      appearance: none;
+      border: 0;
+      background: transparent;
+      color: #12385b;
+      padding: 0;
+      font: inherit;
+      font-weight: 700;
+      text-align: left;
+      cursor: pointer;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .row-toggle:hover {
+      color: #185fa5;
+    }
+
+    .detail-row[hidden] {
+      display: none;
+    }
+
+    .detail-row td {
+      background: #fbf8f2;
+      padding: 1rem;
+    }
+
+    .detail-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 0.8rem;
+    }
+
+    .detail-item {
+      background: #fff;
+      border: 1px solid #ece4d8;
+      border-radius: 12px;
+      padding: 0.8rem;
+      min-width: 0;
+    }
+
+    .detail-item strong {
+      display: block;
+      color: #6d5d48;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 0.35rem;
+    }
+
+    .detail-item span {
+      color: #203040;
+      overflow-wrap: anywhere;
+    }
+
+    .sheet-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .sheet-formula {
+      width: 100%;
+      min-height: 96px;
+      resize: vertical;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.8rem;
+    }
+
+    .compact-input {
+      max-width: 360px;
+    }
+
+    @media (max-width: 760px) {
+      .ops-panel {
+        padding: 1rem;
+        border-radius: 12px;
+      }
+
+      .ops-panel-header {
+        display: block;
+      }
+
+      .ops-panel-header .ops-actions {
+        margin-top: 0.8rem;
+      }
+
+      .ops-table {
+        min-width: 760px;
+      }
+
+      .ops-table th,
+      .ops-table td {
+        padding: 0.75rem;
+        font-size: 0.84rem;
+      }
+    }
+  </style>
 </head>
 <body>
   <div class="page-shell">
@@ -73,6 +243,7 @@
                 <li><span>Token de aprobación</span><span>-</span></li>
                 <li><span>Emails de solicitud</span><span>-</span></li>
                 <li><span>Emails de compra</span><span>-</span></li>
+                <li><span>Exportación Sheets</span><span>-</span></li>
               </ul>
               <p class="microcopy" style="margin-top:1rem;">Cuando Brevo o Stripe falten, la consola te deja verlo antes de aprobar a nadie.</p>
             </article>
@@ -89,6 +260,7 @@
           </div>
 
           <div id="statsGrid" class="stat-grid"></div>
+          <div id="opsSheetsPanel"></div>
           <div id="recentAffiliates" class="app-list"></div>
           <div id="recentOrders" class="app-list"></div>
           <div id="applicationsList" class="app-list"></div>
@@ -107,6 +279,7 @@
       const statsGrid = document.getElementById('statsGrid');
       const recentAffiliates = document.getElementById('recentAffiliates');
       const recentOrders = document.getElementById('recentOrders');
+      const opsSheetsPanel = document.getElementById('opsSheetsPanel');
 
       function setStatus(message, type) {
         status.textContent = message || '';
@@ -120,7 +293,8 @@
           ['Stripe', config.stripe],
           ['Token de aprobación', config.approvalToken],
           ['Emails de solicitud', config.affiliateApplicationEmail],
-          ['Emails de compra', config.purchaseConfirmationEmail]
+          ['Emails de compra', config.purchaseConfirmationEmail],
+          ['Exportación Sheets', config.operationsExport]
         ];
         configList.innerHTML = rows.map(function (row) {
           const ok = row[1];
@@ -158,38 +332,147 @@
         return 'status-badge';
       }
 
+      function moneyLabel(amount, currency) {
+        const numeric = Number(amount || 0);
+        return numeric.toFixed(2) + (currency ? ' ' + currency : '');
+      }
+
+      function detailItem(label, value) {
+        return '<div class="detail-item"><strong>' + escapeHtml(label) + '</strong><span>' + escapeHtml(value || '-') + '</span></div>';
+      }
+
+      function renderEmptyPanel(target, title, text) {
+        target.innerHTML = '<article class="ops-panel"><div class="ops-panel-header"><div><h3>' + escapeHtml(title) + '</h3><p class="microcopy">' + escapeHtml(text) + '</p></div></div></article>';
+      }
+
+      function bindRowToggles(scope) {
+        scope.querySelectorAll('.row-toggle').forEach(function (button) {
+          button.addEventListener('click', function () {
+            const detailId = button.getAttribute('aria-controls');
+            const detailRow = document.getElementById(detailId);
+            if (!detailRow) return;
+            const nextExpanded = button.getAttribute('aria-expanded') !== 'true';
+            button.setAttribute('aria-expanded', String(nextExpanded));
+            detailRow.hidden = !nextExpanded;
+          });
+        });
+      }
+
+      function copyText(text, statusNode) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          return navigator.clipboard.writeText(text);
+        }
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+        if (statusNode) statusNode.textContent = 'Copiado.';
+        return Promise.resolve();
+      }
+
+      function sheetsFormula(type, token) {
+        const url = window.location.origin + '/api/operations/export?type=' + encodeURIComponent(type) + '&token=' + encodeURIComponent(token || '');
+        return '=IMPORTDATA("' + url + '")';
+      }
+
+      function renderSheetsPanel(adminToken, config) {
+        const exportReady = config && config.operationsExport;
+        const affiliatesFormula = sheetsFormula('affiliates', adminToken);
+        const ordersFormula = sheetsFormula('orders', adminToken);
+        opsSheetsPanel.innerHTML = '' +
+          '<article class="ops-panel">' +
+            '<div class="ops-panel-header">' +
+              '<div>' +
+                '<h3>Conexión con Google Sheets</h3>' +
+                '<p class="microcopy">Pega estas fórmulas en dos pestañas de Google Sheets para consultar afiliados y ventas sin entrar al portal. Si configuras un token de exportación de solo lectura, usa ese token en lugar del token operativo.</p>' +
+              '</div>' +
+              '<span class="' + (exportReady ? 'config-ok' : 'config-missing') + '">' + (exportReady ? 'Exportación lista' : 'Usa token operativo') + '</span>' +
+            '</div>' +
+            '<div class="sheet-grid">' +
+              '<label>Fórmula Afiliados' +
+                '<textarea class="sheet-formula" readonly data-copy-text="' + escapeHtml(affiliatesFormula) + '">' + escapeHtml(affiliatesFormula) + '</textarea>' +
+                '<button type="button" class="btn-secondary copy-sheet-button" data-copy-kind="affiliates">Copiar fórmula</button>' +
+              '</label>' +
+              '<label>Fórmula Ventas / Clientes' +
+                '<textarea class="sheet-formula" readonly data-copy-text="' + escapeHtml(ordersFormula) + '">' + escapeHtml(ordersFormula) + '</textarea>' +
+                '<button type="button" class="btn-secondary copy-sheet-button" data-copy-kind="orders">Copiar fórmula</button>' +
+              '</label>' +
+            '</div>' +
+            '<p class="inline-status sheet-copy-status"></p>' +
+          '</article>';
+
+        const copyStatus = opsSheetsPanel.querySelector('.sheet-copy-status');
+        opsSheetsPanel.querySelectorAll('.copy-sheet-button').forEach(function (button) {
+          button.addEventListener('click', function () {
+            const textarea = button.parentElement.querySelector('.sheet-formula');
+            copyText(textarea.value, copyStatus).then(function () {
+              copyStatus.className = 'inline-status success';
+              copyStatus.textContent = 'Fórmula copiada. Pégala en una celda A1 de Google Sheets.';
+            }).catch(function () {
+              copyStatus.className = 'inline-status error';
+              copyStatus.textContent = 'No se pudo copiar automáticamente. Selecciona la fórmula y cópiala manualmente.';
+            });
+          });
+        });
+      }
+
       function renderApplications(applications, adminToken) {
         if (!applications.length) {
-          list.innerHTML = '<article class="app-card"><h3>No hay solicitudes cargadas</h3><p>Todavía no hay registros o el filtro no devolvió resultados.</p></article>';
+          renderEmptyPanel(list, 'Solicitudes de afiliación', 'No hay solicitudes pendientes o recientes.');
           return;
         }
 
-        list.innerHTML = applications.map(function (app) {
+        list.innerHTML = '' +
+          '<article class="ops-panel">' +
+            '<div class="ops-panel-header">' +
+              '<div>' +
+                '<h3>Solicitudes de afiliación</h3>' +
+                '<p class="microcopy">Solicitudes entrantes para revisar, aprobar y convertir en afiliados activos.</p>' +
+              '</div>' +
+            '</div>' +
+            '<div class="ops-table-wrap">' +
+              '<table class="ops-table">' +
+                '<thead><tr><th>Solicitante</th><th>Estado</th><th>País</th><th>Canal</th><th>Audiencia</th><th>Fecha</th><th>Acción</th></tr></thead>' +
+                '<tbody>' + applications.map(function (app, index) {
+          const detailId = 'application-detail-' + index;
           return '' +
-            '<article class="app-card" data-application-id="' + escapeHtml(app.id) + '">' +
-              '<h3>' + escapeHtml(app.full_name) + '</h3>' +
-              '<div class="app-meta">' +
-                '<div><strong>Email:</strong> ' + escapeHtml(app.email) + '</div>' +
-                '<div><strong>País:</strong> ' + escapeHtml(app.country) + '</div>' +
-                '<div><strong>Teléfono:</strong> ' + escapeHtml(app.phone_country_code) + ' ' + escapeHtml(app.phone_number) + '</div>' +
-                '<div><strong>Canal:</strong> ' + escapeHtml(app.main_channel) + '</div>' +
-                '<div><strong>Audiencia:</strong> ' + escapeHtml(app.audience_type) + '</div>' +
-                '<div><strong>Estado:</strong> <span class="' + statusClass(app.status) + '">' + escapeHtml(app.status) + '</span></div>' +
-                '<div><strong>Fecha solicitud:</strong> ' + escapeHtml(formatDate(app.created_at)) + '</div>' +
-                '<div><strong>Notas:</strong> ' + escapeHtml(app.notes) + '</div>' +
-              '</div>' +
-              '<div class="cta-row">' +
-                '<button type="button" class="btn-primary approve-button">Aprobar y enviar onboarding</button>' +
-              '</div>' +
-              '<p class="inline-status card-status"></p>' +
-            '</article>';
-        }).join('');
+            '<tr data-application-id="' + escapeHtml(app.id) + '">' +
+              '<td><button type="button" class="row-toggle" aria-expanded="false" aria-controls="' + detailId + '">' + escapeHtml(app.full_name) + '</button><div class="microcopy">' + escapeHtml(app.email) + '</div></td>' +
+              '<td><span class="' + statusClass(app.status) + '">' + escapeHtml(app.status || '-') + '</span></td>' +
+              '<td>' + escapeHtml(app.country || '-') + '</td>' +
+              '<td>' + escapeHtml(app.main_channel || '-') + '</td>' +
+              '<td>' + escapeHtml(app.audience_type || '-') + '</td>' +
+              '<td>' + escapeHtml(formatDate(app.created_at)) + '</td>' +
+              '<td><button type="button" class="btn-secondary approve-button">Aprobar</button></td>' +
+            '</tr>' +
+            '<tr id="' + detailId + '" class="detail-row" hidden>' +
+              '<td colspan="7">' +
+                '<div class="detail-grid">' +
+                  detailItem('Email', app.email) +
+                  detailItem('Teléfono', (app.phone_country_code || '') + ' ' + (app.phone_number || '')) +
+                  detailItem('Canal principal', app.main_channel) +
+                  detailItem('Audiencia', app.audience_type) +
+                  detailItem('Notas', app.notes) +
+                  detailItem('ID solicitud', app.id) +
+                '</div>' +
+                '<p class="inline-status card-status"></p>' +
+              '</td>' +
+            '</tr>';
+        }).join('') + '</tbody></table></div></article>';
+
+        bindRowToggles(list);
 
         list.querySelectorAll('.approve-button').forEach(function (button) {
           button.addEventListener('click', async function () {
-            const card = button.closest('.app-card');
-            const cardStatus = card.querySelector('.card-status');
-            const applicationId = card.getAttribute('data-application-id');
+            const row = button.closest('[data-application-id]');
+            const detailRow = row.nextElementSibling;
+            const cardStatus = detailRow.querySelector('.card-status');
+            const applicationId = row.getAttribute('data-application-id');
+            detailRow.hidden = false;
+            const toggle = row.querySelector('.row-toggle');
+            if (toggle) toggle.setAttribute('aria-expanded', 'true');
             button.disabled = true;
             button.textContent = 'Aprobando...';
             cardStatus.textContent = 'Creando afiliado y preparando onboarding...';
@@ -236,34 +519,63 @@
 
       function renderAffiliates(affiliates, adminToken) {
         if (!affiliates.length) {
-          recentAffiliates.innerHTML = '<article class="app-card"><h3>Listado de afiliados</h3><p>Todavía no hay afiliados aprobados.</p></article>';
+          renderEmptyPanel(recentAffiliates, 'Afiliados', 'Todavía no hay afiliados aprobados.');
           return;
         }
 
-        recentAffiliates.innerHTML = '<article class="app-card"><h3>Listado de afiliados</h3><p class="microcopy">Vista operativa con estado, contacto, código, Stripe Connect y fecha de alta.</p>' + affiliates.map(function (affiliate) {
+        recentAffiliates.innerHTML = '' +
+          '<article class="ops-panel">' +
+            '<div class="ops-panel-header">' +
+              '<div>' +
+                '<h3>Afiliados</h3>' +
+                '<p class="microcopy">Altas aprobadas, códigos comerciales, estado de cobros y acciones de onboarding.</p>' +
+              '</div>' +
+            '</div>' +
+            '<div class="ops-table-wrap">' +
+              '<table class="ops-table">' +
+                '<thead><tr><th>Afiliado</th><th>Estado</th><th>País</th><th>Código</th><th>Cupón</th><th>Comisión</th><th>Stripe Connect</th><th>Alta</th></tr></thead>' +
+                '<tbody>' + affiliates.map(function (affiliate, index) {
+          const detailId = 'affiliate-detail-' + index;
           return '' +
-            '<div class="app-card" data-affiliate-id="' + escapeHtml(affiliate.id) + '" style="margin-top:1rem;">' +
-              '<div class="app-meta">' +
-                '<div><strong>' + escapeHtml(affiliate.full_name) + '</strong></div>' +
-                '<div>' + escapeHtml(affiliate.email) + '</div>' +
-                '<div><strong>Estado:</strong> <span class="' + statusClass(affiliate.status) + '">' + escapeHtml(affiliate.status || '-') + '</span></div>' +
-                '<div><strong>País:</strong> ' + escapeHtml(affiliate.country || '-') + ' | <strong>Teléfono:</strong> ' + escapeHtml(affiliate.phone_country_code || '') + ' ' + escapeHtml(affiliate.phone_number || '-') + '</div>' +
-                '<div><strong>Fecha de alta:</strong> ' + escapeHtml(formatDate(affiliate.created_at)) + '</div>' +
-                '<div><strong>Código:</strong> ' + escapeHtml(affiliate.tracking_code) + ' | <strong>Cupón:</strong> ' + escapeHtml(affiliate.coupon_code || '-') + '</div>' +
-                '<div><strong>Comisión:</strong> ' + escapeHtml(String(affiliate.commission_rate || '0')) + ' | <strong>Stripe Connect:</strong> ' + escapeHtml(affiliate.stripe_connect_status || 'not_started') + '</div>' +
-              '</div>' +
-              '<div class="cta-row">' +
-                '<button type="button" class="btn-secondary resend-button">Reenviar onboarding</button>' +
-              '</div>' +
-              '<p class="inline-status resend-status"></p>' +
-            '</div>';
-        }).join('') + '</article>';
+            '<tr data-affiliate-id="' + escapeHtml(affiliate.id) + '">' +
+              '<td><button type="button" class="row-toggle" aria-expanded="false" aria-controls="' + detailId + '">' + escapeHtml(affiliate.full_name) + '</button><div class="microcopy">' + escapeHtml(affiliate.email) + '</div></td>' +
+              '<td><span class="' + statusClass(affiliate.status) + '">' + escapeHtml(affiliate.status || '-') + '</span></td>' +
+              '<td>' + escapeHtml(affiliate.country || '-') + '</td>' +
+              '<td>' + escapeHtml(affiliate.tracking_code || '-') + '</td>' +
+              '<td>' + escapeHtml(affiliate.coupon_code || '-') + '</td>' +
+              '<td>' + escapeHtml(String(affiliate.commission_rate || '0')) + '</td>' +
+              '<td>' + escapeHtml(affiliate.stripe_connect_status || 'not_started') + '</td>' +
+              '<td>' + escapeHtml(formatDate(affiliate.created_at)) + '</td>' +
+            '</tr>' +
+            '<tr id="' + detailId + '" class="detail-row" hidden>' +
+              '<td colspan="8">' +
+                '<div class="detail-grid">' +
+                  detailItem('Email', affiliate.email) +
+                  detailItem('Teléfono', (affiliate.phone_country_code || '') + ' ' + (affiliate.phone_number || '')) +
+                  detailItem('Código afiliado', affiliate.tracking_code) +
+                  detailItem('Cupón', affiliate.coupon_code) +
+                  detailItem('Comisión', affiliate.commission_rate) +
+                  detailItem('Stripe Connect', affiliate.stripe_connect_status || 'not_started') +
+                  detailItem('Cuenta Stripe', affiliate.stripe_connect_account_id) +
+                  detailItem('Requisitos pendientes', Array.isArray(affiliate.stripe_connect_requirements_due) ? affiliate.stripe_connect_requirements_due.join(', ') : affiliate.stripe_connect_requirements_due) +
+                  detailItem('Onboarding iniciado', formatDate(affiliate.connect_onboarding_started_at)) +
+                  detailItem('Onboarding completado', formatDate(affiliate.connect_onboarding_completed_at)) +
+                  detailItem('ID afiliado', affiliate.id) +
+                '</div>' +
+                '<div class="ops-actions"><button type="button" class="btn-secondary resend-button">Reenviar onboarding</button></div>' +
+                '<p class="inline-status resend-status"></p>' +
+              '</td>' +
+            '</tr>';
+        }).join('') + '</tbody></table></div></article>';
+
+        bindRowToggles(recentAffiliates);
 
         recentAffiliates.querySelectorAll('.resend-button').forEach(function (button) {
           button.addEventListener('click', async function () {
-            const card = button.closest('[data-affiliate-id]');
-            const cardStatus = card.querySelector('.resend-status');
-            const affiliateId = card.getAttribute('data-affiliate-id');
+            const detailRow = button.closest('.detail-row');
+            const row = detailRow.previousElementSibling;
+            const cardStatus = detailRow.querySelector('.resend-status');
+            const affiliateId = row.getAttribute('data-affiliate-id');
             button.disabled = true;
             button.textContent = 'Reenviando...';
 
@@ -295,45 +607,88 @@
 
       function renderOrders(orders, adminToken) {
         if (!orders.length) {
-          recentOrders.innerHTML = '';
+          renderEmptyPanel(recentOrders, 'Clientes y ventas', 'Todavía no hay ventas registradas.');
           return;
         }
 
-        recentOrders.innerHTML = '<article class="app-card"><h3>Ventas recientes</h3>' + orders.map(function (order) {
+        recentOrders.innerHTML = '' +
+          '<article class="ops-panel">' +
+            '<div class="ops-panel-header">' +
+              '<div>' +
+                '<h3>Clientes y ventas</h3>' +
+                '<p class="microcopy">Cada línea es una operación de compra. Pincha en el cliente para desplegar pedido, producto, pago y entrega.</p>' +
+              '</div>' +
+            '</div>' +
+            '<div class="ops-table-wrap">' +
+              '<table class="ops-table">' +
+                '<thead><tr><th>Cliente</th><th>Producto</th><th>Nicho</th><th>Importe</th><th>Pago</th><th>Entrega</th><th>Afiliado</th><th>Fecha</th></tr></thead>' +
+                '<tbody>' + orders.map(function (order, index) {
+          const detailId = 'order-detail-' + index;
+          const niche = order.product_slug === 'centros-estetica'
+            ? 'Estética'
+            : order.product_slug === 'talleres-mecanicos'
+              ? 'Talleres'
+              : order.product_slug === 'restaurantes-hosteleria'
+                ? 'Restaurantes'
+                : order.product_slug || '-';
+          const metadata = order.source_metadata && typeof order.source_metadata === 'object' ? order.source_metadata : {};
           return '' +
-            '<div class="app-card" data-order-id="' + escapeHtml(order.id) + '" style="margin-top:1rem;">' +
-              '<div class="app-meta">' +
-                '<div><strong>' + escapeHtml(order.product_name) + '</strong></div>' +
-                '<div><strong>Cliente:</strong> ' + escapeHtml(order.customer_email || '-') + '</div>' +
-                '<div><strong>Nombre:</strong> ' + escapeHtml(order.customer_name || '-') + '</div>' +
-                '<div><strong>Afiliado:</strong> ' + escapeHtml(order.affiliate_code || '-') + '</div>' +
-                '<div><strong>Venta:</strong> ' + escapeHtml(String(order.amount_total || '0')) + ' ' + escapeHtml(order.currency || '') + '</div>' +
-                '<div><strong>Comisión:</strong> ' + escapeHtml(String(order.commission_amount || '0')) + '</div>' +
-                '<div><strong>Estado:</strong> ' + escapeHtml(order.payment_status || '-') + ' / ' + escapeHtml(order.fulfillment_status || '-') + '</div>' +
-                '<div><strong>Referencia Stripe:</strong> ' + escapeHtml(order.stripe_checkout_session_id || '-') + '</div>' +
-                '<div><strong>Fecha:</strong> ' + escapeHtml(formatDate(order.created_at)) + '</div>' +
-              '</div>' +
-              '<div class="form-grid two" style="margin-top:1rem;">' +
-                '<label>Email alternativo para prueba' +
-                  '<input type="email" class="purchase-recipient-email" placeholder="Vacío = comprador original">' +
-                '</label>' +
-                '<label>Entrega' +
-                  '<div class="cta-row" style="margin-top:0;">' +
-                    '<button type="button" class="btn-secondary resend-purchase-button">Reenviar email de compra</button>' +
-                  '</div>' +
-                '</label>' +
-              '</div>' +
-              '<p class="microcopy">Si dejas el campo vacío, se reenvía al email original del comprador. Si escribes otro email, se envía una copia de prueba sin modificar el pedido.</p>' +
-              '<p class="inline-status purchase-resend-status"></p>' +
-            '</div>';
-        }).join('') + '</article>';
+            '<tr data-order-id="' + escapeHtml(order.id) + '">' +
+              '<td><button type="button" class="row-toggle" aria-expanded="false" aria-controls="' + detailId + '">' + escapeHtml(order.customer_name || order.customer_email || 'Cliente') + '</button><div class="microcopy">' + escapeHtml(order.customer_email || '-') + '</div></td>' +
+              '<td>' + escapeHtml(order.product_name || '-') + '</td>' +
+              '<td>' + escapeHtml(niche) + '</td>' +
+              '<td class="amount-cell">' + escapeHtml(moneyLabel(order.amount_total, order.currency)) + '</td>' +
+              '<td>' + escapeHtml(order.payment_status || '-') + '</td>' +
+              '<td>' + escapeHtml(order.fulfillment_status || '-') + '</td>' +
+              '<td>' + escapeHtml(order.affiliate_code || '-') + '</td>' +
+              '<td>' + escapeHtml(formatDate(order.created_at)) + '</td>' +
+            '</tr>' +
+            '<tr id="' + detailId + '" class="detail-row" hidden>' +
+              '<td colspan="8">' +
+                '<div class="detail-grid">' +
+                  detailItem('Cliente', order.customer_name) +
+                  detailItem('Email cliente', order.customer_email) +
+                  detailItem('Producto', order.product_name) +
+                  detailItem('Nicho', niche) +
+                  detailItem('Importe', moneyLabel(order.amount_total, order.currency)) +
+                  detailItem('Pago', order.payment_status) +
+                  detailItem('Entrega', order.fulfillment_status) +
+                  detailItem('Afiliado', order.affiliate_code) +
+                  detailItem('Comisión', order.commission_amount ? moneyLabel(order.commission_amount, order.currency) : '-') +
+                  detailItem('Stripe session', order.stripe_checkout_session_id) +
+                  detailItem('Stripe event', metadata.stripe_event_id) +
+                  detailItem('Stripe customer', metadata.stripe_customer_id) +
+                  detailItem('Landing', order.landing_path) +
+                  detailItem('UTM source', order.utm_source) +
+                  detailItem('UTM medium', order.utm_medium) +
+                  detailItem('UTM campaign', order.utm_campaign) +
+                  detailItem('ID pedido', order.id) +
+                '</div>' +
+                '<div class="form-grid two" style="margin-top:1rem;">' +
+                  '<label>Email alternativo para prueba' +
+                    '<input type="email" class="purchase-recipient-email compact-input" placeholder="Vacío = comprador original">' +
+                  '</label>' +
+                  '<label>Entrega' +
+                    '<div class="cta-row" style="margin-top:0;">' +
+                      '<button type="button" class="btn-secondary resend-purchase-button">Reenviar email de compra</button>' +
+                    '</div>' +
+                  '</label>' +
+                '</div>' +
+                '<p class="microcopy">Vacío: reenvía al comprador original. Con otro email: envía copia de prueba sin modificar el pedido.</p>' +
+                '<p class="inline-status purchase-resend-status"></p>' +
+              '</td>' +
+            '</tr>';
+        }).join('') + '</tbody></table></div></article>';
+
+        bindRowToggles(recentOrders);
 
         recentOrders.querySelectorAll('.resend-purchase-button').forEach(function (button) {
           button.addEventListener('click', async function () {
-            const card = button.closest('[data-order-id]');
-            const cardStatus = card.querySelector('.purchase-resend-status');
-            const recipientInput = card.querySelector('.purchase-recipient-email');
-            const orderId = card.getAttribute('data-order-id');
+            const detailRow = button.closest('.detail-row');
+            const row = detailRow.previousElementSibling;
+            const cardStatus = detailRow.querySelector('.purchase-resend-status');
+            const recipientInput = detailRow.querySelector('.purchase-recipient-email');
+            const orderId = row.getAttribute('data-order-id');
             const recipientEmail = recipientInput.value.trim();
 
             button.disabled = true;
@@ -401,6 +756,7 @@
           }
 
           renderConfig(payload.config || {});
+          renderSheetsPanel(adminToken, payload.config || {});
           renderStats(payload.stats || {});
           renderAffiliates(payload.affiliates || [], adminToken);
           renderOrders(payload.orders || [], adminToken);

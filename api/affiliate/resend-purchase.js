@@ -18,6 +18,14 @@ function buildAbsoluteUrl(siteUrl, path) {
   return `${base}${suffix}`;
 }
 
+function normalizeEmail(value) {
+  return String(value || "").trim().toLowerCase();
+}
+
+function isValidEmail(value) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+}
+
 module.exports = async function handler(req, res) {
   if (req.method !== "POST") {
     return sendJson(res, 405, { error: "Method not allowed" });
@@ -35,6 +43,7 @@ module.exports = async function handler(req, res) {
   try {
     const orderId = String(body.orderId || "").trim();
     const sessionId = String(body.sessionId || "").trim();
+    const requestedRecipientEmail = normalizeEmail(body.recipientEmail || body.emailOverride || "");
 
     let order = null;
     if (orderId) {
@@ -47,6 +56,17 @@ module.exports = async function handler(req, res) {
       return sendJson(res, 404, { error: "No se encontró el pedido." });
     }
 
+    if (requestedRecipientEmail && !isValidEmail(requestedRecipientEmail)) {
+      return sendJson(res, 400, { error: "El email alternativo no tiene un formato válido." });
+    }
+
+    const originalCustomerEmail = normalizeEmail(order.customer_email);
+    const targetEmail = requestedRecipientEmail || originalCustomerEmail;
+    if (!targetEmail || !isValidEmail(targetEmail)) {
+      return sendJson(res, 400, { error: "El pedido no tiene un email de comprador válido." });
+    }
+
+    const sentToOriginalCustomer = targetEmail === originalCustomerEmail;
     const siteUrl = getSiteUrl(req);
     const product = getProduct(order.product_slug || "");
     const deliveryAssetUrl = buildAbsoluteUrl(siteUrl, product && product.deliveryAssetUrl ? product.deliveryAssetUrl : "/");
@@ -63,7 +83,7 @@ module.exports = async function handler(req, res) {
       currency: order.currency,
       deliveryAssetUrl,
       deliveryPageUrl,
-      email: order.customer_email,
+      email: targetEmail,
       facebookIconUrl,
       fullName: order.customer_name,
       instagramIconUrl,
@@ -74,20 +94,35 @@ module.exports = async function handler(req, res) {
       youtubeIconUrl
     });
 
+    const existingMetadata = order.source_metadata && typeof order.source_metadata === "object"
+      ? order.source_metadata
+      : {};
+    const resendEntry = {
+      at: new Date().toISOString(),
+      to: targetEmail,
+      original_customer_email: originalCustomerEmail || null,
+      sent_to_original_customer: sentToOriginalCustomer,
+      email_result: emailResult
+    };
+
     await supabase.update("orders", `id=eq.${encodeURIComponent(order.id)}`, {
-      fulfillment_status: emailResult && emailResult.ok ? "delivered_email" : "delivery_missing_sender",
+      fulfillment_status: emailResult && emailResult.ok && sentToOriginalCustomer
+        ? "delivered_email"
+        : order.fulfillment_status,
       source_metadata: {
-        ...(order.source_metadata || {}),
+        ...existingMetadata,
         delivery_asset_url: deliveryAssetUrl,
         delivery_page_url: deliveryPageUrl,
-        email_delivery: emailResult,
-        resent_at: new Date().toISOString()
+        email_delivery: sentToOriginalCustomer ? emailResult : existingMetadata.email_delivery,
+        last_purchase_email_resend: resendEntry
       }
     });
 
     return sendJson(res, 200, {
       ok: true,
       orderId: order.id,
+      recipientEmail: targetEmail,
+      sentToOriginalCustomer,
       emailResult
     });
   } catch (error) {

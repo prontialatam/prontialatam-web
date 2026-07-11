@@ -73,6 +73,10 @@ module.exports = async function handler(req, res) {
         affiliateApplicationEmail: Boolean(
           ((process.env.AFFILIATE_APPLICATION_FROM_EMAIL || "").trim() || (process.env.AFFILIATE_ONBOARDING_FROM_EMAIL || "").trim()) &&
           ((process.env.AFFILIATE_NOTIFICATION_TO_EMAIL || "").trim() || (process.env.AFFILIATE_ONBOARDING_REPLY_TO || "").trim() || (process.env.PURCHASE_CONFIRMATION_REPLY_TO || "").trim())
+        ),
+        purchaseConfirmationEmail: Boolean(
+          ((process.env.PURCHASE_CONFIRMATION_FROM_EMAIL || "").trim() || (process.env.AFFILIATE_ONBOARDING_FROM_EMAIL || "").trim()) &&
+          ((process.env.PURCHASE_CONFIRMATION_REPLY_TO || "").trim() || (process.env.AFFILIATE_ONBOARDING_REPLY_TO || "").trim())
         )
       }
     });

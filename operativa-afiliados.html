@@ -72,6 +72,7 @@
                 <li><span>Stripe</span><span>-</span></li>
                 <li><span>Token de aprobación</span><span>-</span></li>
                 <li><span>Emails de solicitud</span><span>-</span></li>
+                <li><span>Emails de compra</span><span>-</span></li>
               </ul>
               <p class="microcopy" style="margin-top:1rem;">Cuando Brevo o Stripe falten, la consola te deja verlo antes de aprobar a nadie.</p>
             </article>
@@ -118,7 +119,8 @@
           ['Brevo', config.brevo],
           ['Stripe', config.stripe],
           ['Token de aprobación', config.approvalToken],
-          ['Emails de solicitud', config.affiliateApplicationEmail]
+          ['Emails de solicitud', config.affiliateApplicationEmail],
+          ['Emails de compra', config.purchaseConfirmationEmail]
         ];
         configList.innerHTML = rows.map(function (row) {
           const ok = row[1];
@@ -291,7 +293,7 @@
         });
       }
 
-      function renderOrders(orders) {
+      function renderOrders(orders, adminToken) {
         if (!orders.length) {
           recentOrders.innerHTML = '';
           return;
@@ -299,17 +301,81 @@
 
         recentOrders.innerHTML = '<article class="app-card"><h3>Ventas recientes</h3>' + orders.map(function (order) {
           return '' +
-            '<div class="app-card" style="margin-top:1rem;">' +
+            '<div class="app-card" data-order-id="' + escapeHtml(order.id) + '" style="margin-top:1rem;">' +
               '<div class="app-meta">' +
                 '<div><strong>' + escapeHtml(order.product_name) + '</strong></div>' +
                 '<div><strong>Cliente:</strong> ' + escapeHtml(order.customer_email || '-') + '</div>' +
+                '<div><strong>Nombre:</strong> ' + escapeHtml(order.customer_name || '-') + '</div>' +
                 '<div><strong>Afiliado:</strong> ' + escapeHtml(order.affiliate_code || '-') + '</div>' +
                 '<div><strong>Venta:</strong> ' + escapeHtml(String(order.amount_total || '0')) + ' ' + escapeHtml(order.currency || '') + '</div>' +
                 '<div><strong>Comisión:</strong> ' + escapeHtml(String(order.commission_amount || '0')) + '</div>' +
                 '<div><strong>Estado:</strong> ' + escapeHtml(order.payment_status || '-') + ' / ' + escapeHtml(order.fulfillment_status || '-') + '</div>' +
+                '<div><strong>Referencia Stripe:</strong> ' + escapeHtml(order.stripe_checkout_session_id || '-') + '</div>' +
+                '<div><strong>Fecha:</strong> ' + escapeHtml(formatDate(order.created_at)) + '</div>' +
               '</div>' +
+              '<div class="form-grid two" style="margin-top:1rem;">' +
+                '<label>Email alternativo para prueba' +
+                  '<input type="email" class="purchase-recipient-email" placeholder="Vacío = comprador original">' +
+                '</label>' +
+                '<label>Entrega' +
+                  '<div class="cta-row" style="margin-top:0;">' +
+                    '<button type="button" class="btn-secondary resend-purchase-button">Reenviar email de compra</button>' +
+                  '</div>' +
+                '</label>' +
+              '</div>' +
+              '<p class="microcopy">Si dejas el campo vacío, se reenvía al email original del comprador. Si escribes otro email, se envía una copia de prueba sin modificar el pedido.</p>' +
+              '<p class="inline-status purchase-resend-status"></p>' +
             '</div>';
         }).join('') + '</article>';
+
+        recentOrders.querySelectorAll('.resend-purchase-button').forEach(function (button) {
+          button.addEventListener('click', async function () {
+            const card = button.closest('[data-order-id]');
+            const cardStatus = card.querySelector('.purchase-resend-status');
+            const recipientInput = card.querySelector('.purchase-recipient-email');
+            const orderId = card.getAttribute('data-order-id');
+            const recipientEmail = recipientInput.value.trim();
+
+            button.disabled = true;
+            button.textContent = 'Reenviando...';
+            cardStatus.className = 'inline-status';
+            cardStatus.textContent = recipientEmail
+              ? 'Enviando copia al email alternativo...'
+              : 'Reenviando al comprador original...';
+
+            try {
+              const body = { orderId: orderId };
+              if (recipientEmail) {
+                body.recipientEmail = recipientEmail;
+              }
+
+              const response = await fetch('/api/affiliate/resend-purchase', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'x-affiliate-admin-token': adminToken
+                },
+                body: JSON.stringify(body)
+              });
+              const payload = await response.json();
+              if (!response.ok || !payload.ok) {
+                throw new Error(payload.error || 'No se pudo reenviar el email de compra.');
+              }
+              if (!payload.emailResult || !payload.emailResult.ok) {
+                throw new Error('El pedido está registrado, pero el proveedor de email no confirmó el envío.');
+              }
+
+              cardStatus.className = 'inline-status success';
+              cardStatus.textContent = 'Email de compra enviado a ' + payload.recipientEmail + '.';
+            } catch (error) {
+              cardStatus.className = 'inline-status error';
+              cardStatus.textContent = error.message || 'No se pudo reenviar el email de compra.';
+            } finally {
+              button.disabled = false;
+              button.textContent = 'Reenviar email de compra';
+            }
+          });
+        });
       }
 
       loadButton.addEventListener('click', async function () {
@@ -337,7 +403,7 @@
           renderConfig(payload.config || {});
           renderStats(payload.stats || {});
           renderAffiliates(payload.affiliates || [], adminToken);
-          renderOrders(payload.orders || []);
+          renderOrders(payload.orders || [], adminToken);
           renderApplications(payload.applications || [], adminToken);
           setStatus('Operativa cargada correctamente.', 'success');
         } catch (error) {

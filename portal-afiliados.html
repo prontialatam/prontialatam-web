@@ -4,313 +4,404 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Portal de Afiliados | ProntIA LATAM</title>
-  <meta name="description" content="Portal base de afiliados de ProntIA LATAM con dossier de marca, mini dossier del producto de talleres, creatividades, copies, FAQ comercial y kit descargable.">
+  <meta name="description" content="Dashboard privado para afiliados de ProntIA LATAM con métricas, enlaces comerciales, biblioteca por nichos y seguimiento operativo.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="icon" href="logo-prontia.jpg" type="image/jpeg">
   <link rel="stylesheet" href="assets/css/commerce-pages.css">
+  <style>
+    .portal-hero-shell {
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: 1.25rem;
+      align-items: stretch;
+    }
+
+    .portal-profile-card,
+    .portal-highlight-card,
+    .portal-section-card,
+    .portal-empty-card {
+      background: rgba(255, 255, 255, 0.94);
+      border: 1px solid rgba(4, 44, 83, 0.08);
+      border-radius: 1.3rem;
+      box-shadow: 0 24px 60px rgba(24, 95, 165, 0.08);
+    }
+
+    .portal-profile-card {
+      padding: 1.6rem;
+      display: grid;
+      gap: 1.1rem;
+    }
+
+    .portal-profile-top {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .portal-avatar {
+      width: 76px;
+      height: 76px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #12385b, #1b6cba);
+      color: #fff;
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      letter-spacing: 0.04em;
+      flex: 0 0 auto;
+      box-shadow: 0 16px 36px rgba(12, 68, 124, 0.18);
+    }
+
+    .portal-profile-copy h1 {
+      margin: 0;
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 4vw, 3.6rem);
+      line-height: 0.96;
+      color: var(--blue-900);
+    }
+
+    .portal-profile-copy p {
+      margin: 0.45rem 0 0;
+      color: var(--gray-700);
+    }
+
+    .portal-pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.7rem;
+    }
+
+    .portal-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.55rem 0.8rem;
+      border-radius: 999px;
+      background: rgba(230, 241, 251, 0.72);
+      border: 1px solid rgba(4, 44, 83, 0.08);
+      color: var(--blue-900);
+      font-size: 0.88rem;
+    }
+
+    .portal-highlight-card {
+      padding: 1.45rem;
+      display: grid;
+      gap: 1rem;
+      background:
+        radial-gradient(circle at top right, rgba(55, 138, 221, 0.18), transparent 34%),
+        linear-gradient(180deg, rgba(251, 250, 247, 0.98), rgba(255, 255, 255, 0.94));
+    }
+
+    .portal-highlight-card h2,
+    .portal-section-card h2 {
+      margin: 0;
+      color: var(--blue-900);
+      font-family: var(--font-display);
+      font-size: 2rem;
+      line-height: 1;
+    }
+
+    .portal-section-card {
+      padding: 1.45rem;
+    }
+
+    .portal-section-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+    }
+
+    .portal-section-head p {
+      margin: 0.35rem 0 0;
+      color: var(--gray-700);
+    }
+
+    .portal-stat-figure {
+      font-family: var(--font-display);
+      font-size: 2.6rem;
+      line-height: 1;
+      color: var(--blue-900);
+    }
+
+    .portal-stat-caption {
+      color: var(--gray-700);
+      font-size: 0.92rem;
+    }
+
+    .portal-grid-two {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.2rem;
+    }
+
+    .portal-niche-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.2rem;
+    }
+
+    .portal-niche-card {
+      padding: 1.25rem;
+      border-radius: 1.1rem;
+      border: 1px solid rgba(4, 44, 83, 0.08);
+      background: rgba(255, 255, 255, 0.78);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
+    }
+
+    .portal-niche-card h3 {
+      margin: 0 0 0.55rem;
+      color: var(--blue-900);
+    }
+
+    .portal-niche-card p {
+      margin: 0;
+      color: var(--gray-700);
+    }
+
+    .portal-action-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.7rem;
+      margin-top: 1rem;
+    }
+
+    .portal-action-grid a {
+      text-align: center;
+    }
+
+    .portal-table-wrap {
+      overflow-x: auto;
+      border: 1px solid rgba(4, 44, 83, 0.08);
+      border-radius: 1rem;
+    }
+
+    .portal-table {
+      width: 100%;
+      min-width: 720px;
+      border-collapse: collapse;
+      background: #fff;
+    }
+
+    .portal-table th,
+    .portal-table td {
+      padding: 0.9rem 1rem;
+      border-bottom: 1px solid rgba(4, 44, 83, 0.08);
+      text-align: left;
+      vertical-align: top;
+      font-size: 0.92rem;
+    }
+
+    .portal-table th {
+      color: var(--gray-400);
+      font-size: 0.76rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: #fbf8f2;
+    }
+
+    .portal-table tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .portal-table strong {
+      color: var(--blue-900);
+    }
+
+    .portal-activity-list {
+      display: grid;
+      gap: 0.8rem;
+    }
+
+    .portal-activity-item {
+      padding: 0.95rem 1rem;
+      border-radius: 1rem;
+      background: rgba(230, 241, 251, 0.45);
+      border: 1px solid rgba(4, 44, 83, 0.06);
+    }
+
+    .portal-activity-item strong {
+      display: block;
+      color: var(--blue-900);
+      margin-bottom: 0.2rem;
+    }
+
+    .portal-activity-item span {
+      color: var(--gray-700);
+      font-size: 0.92rem;
+    }
+
+    .portal-empty-card {
+      padding: 1.35rem;
+      text-align: center;
+      color: var(--gray-700);
+      background: linear-gradient(180deg, rgba(251, 248, 242, 0.95), rgba(255, 255, 255, 0.94));
+    }
+
+    .portal-lock {
+      max-width: 760px;
+      margin: 0 auto;
+      text-align: center;
+      padding: 1.7rem;
+    }
+
+    .status-badge.connect-ready {
+      background: rgba(31, 122, 77, 0.14);
+      color: var(--success);
+    }
+
+    .status-badge.connect-pending {
+      background: rgba(196, 169, 114, 0.18);
+      color: #8b6a2c;
+    }
+
+    .status-badge.connect-review,
+    .status-badge.connect-not-started {
+      background: rgba(4, 44, 83, 0.08);
+      color: var(--blue-900);
+    }
+
+    .status-badge.connect-restricted {
+      background: rgba(181, 69, 69, 0.14);
+      color: var(--danger);
+    }
+
+    @media (max-width: 980px) {
+      .portal-hero-shell,
+      .portal-grid-two,
+      .portal-niche-grid,
+      .portal-action-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 <body>
   <div class="page-shell">
     <header class="topbar">
-      <a href="/" class="brand">
+      <a href="/portal-afiliados" class="brand">
         <img src="logo-prontia.jpg" alt="ProntIA LATAM">
-        <span>Portal privado de afiliados</span>
+        <span>Dashboard privado de afiliados</span>
       </a>
       <nav class="topbar-links">
-        <a href="/">Inicio</a>
-        <div class="nav-dropdown">
-          <button type="button" class="nav-dropdown-trigger">Nichos</button>
-          <div class="nav-dropdown-menu">
-            <a href="/talleres-mecanicos">Talleres mecánicos</a>
-            <a href="/restaurantes-hosteleria">Restaurantes &amp; hostelería</a>
-            <a href="/centros-estetica">Centros de estética</a>
-          </div>
-        </div>
-        <a href="#seguimiento">Seguimiento</a>
-        <a href="#descargas">Biblioteca</a>
-        <a href="mailto:hola@prontialatam.com?subject=Soporte%20Afiliados">Contacto</a>
+        <a href="#metricas">Métricas</a>
+        <a href="#nichos">Nichos</a>
+        <a href="#ventas">Ventas</a>
+        <a href="#actividad">Actividad</a>
+        <a href="#cobros">Cobros</a>
       </nav>
     </header>
 
     <main>
       <section class="hero">
-        <div class="container hero-grid">
-          <div>
-            <div class="eyebrow">Onboarding real para afiliados</div>
-            <h1 class="title">Tu portal privado para vender el kit de <em>talleres mecánicos</em> con seguimiento real</h1>
-            <p class="lede">Aquí centralizamos tus materiales, tu enlace personal, tu código comercial y el seguimiento de ventas y comisiones para que trabajes con visibilidad real, no a ciegas.</p>
-            <div class="cta-row">
-              <a href="/downloads/kit-base-afiliados-talleres.zip" class="btn-primary">Descargar kit completo</a>
-              <a href="#seguimiento" class="btn-secondary">Ver mis ventas</a>
-              <a href="#enlaces" class="btn-ghost">Copiar mi enlace</a>
-            </div>
-            <div class="pill-list" style="margin-top:1.5rem;">
-              <li>Marca</li>
-              <li>Producto</li>
-              <li>Comisiones</li>
-              <li>Seguimiento</li>
-            </div>
-          </div>
-          <aside class="hero-card">
-            <div class="hero-card-note" id="portalWelcomeCard">
-              <strong>Cargando tu estado de afiliado...</strong>
-              <ul class="bullet-list" style="margin-top:0.9rem;">
-                <li>Estamos preparando tu resumen privado.</li>
-                <li>En unos segundos verás enlace, código y ventas.</li>
-              </ul>
-            </div>
-          </aside>
-        </div>
-      </section>
-
-      <section class="section" id="seguimiento">
-        <div class="container stat-grid" id="portalStats">
-          <article class="stat-card">
-            <strong>...</strong>
-            <span>Cargando ventas</span>
-          </article>
-          <article class="stat-card">
-            <strong>...</strong>
-            <span>Cargando comisiones</span>
-          </article>
-          <article class="stat-card">
-            <strong>...</strong>
-            <span>Cargando pedidos</span>
-          </article>
-          <article class="stat-card">
-            <strong>...</strong>
-            <span>Cargando clics</span>
-          </article>
-        </div>
-      </section>
-
-      <section class="section" id="enlaces">
-        <div class="container grid-2">
-          <article class="notice-card">
-            <h3>Tu enlace y tu código</h3>
-            <div id="affiliateLinkCard" class="portal-kv-list">
-              <div><strong>Enlace personal:</strong> Cargando...</div>
-              <div><strong>Código afiliado:</strong> Cargando...</div>
-              <div><strong>Cupón comercial:</strong> Cargando...</div>
-              <div><strong>Comisión:</strong> Cargando...</div>
-            </div>
-            <p class="microcopy" style="margin-top:0.9rem;">Tu cliente puede comprar entrando por tu enlace o escribiendo tu código/cupón antes de pagar. Ambas vías quedan vinculadas a tu cuenta.</p>
-          </article>
-          <article class="info-card">
-            <h3>Estado de cobros</h3>
-            <div id="connectStatusCard" class="portal-kv-list">
-              <div><strong>Estado:</strong> Cargando...</div>
-              <div><strong>País:</strong> Cargando...</div>
-              <div><strong>Requisitos:</strong> Cargando...</div>
-            </div>
-            <div class="cta-row" style="margin-top:1rem;">
-              <a id="connectActionLink" href="#" class="btn-secondary">Configurar cobros</a>
-              <a href="mailto:hola@prontialatam.com?subject=Soporte%20Afiliados" class="btn-ghost">Pedir soporte</a>
-            </div>
-          </article>
-        </div>
-      </section>
-
-      <section class="section">
         <div class="container">
-          <div class="section-head">
-            <h2>Operativa por nicho</h2>
-            <p>Seguimos sumando verticales dentro del mismo portal. Las ventas y comisiones se consolidan en tu seguimiento general.</p>
+          <div id="portalLoading" class="hero-card">
+            <div class="hero-card-note">
+              <strong>Cargando tu portal privado</strong>
+              <p class="microcopy" style="margin-top:0.55rem;">Estamos preparando tus métricas, tus enlaces de venta y el acceso a la biblioteca por nichos.</p>
+            </div>
           </div>
-          <div class="download-grid">
-            <article class="download-card">
-              <h3>Talleres mecánicos</h3>
-              <p>Vertical ya operativa con material base, biblioteca social y enlace listo para compartir.</p>
-              <ul class="resource-list">
-                <li><a href="/talleres-mecanicos">Ver landing y comprar</a></li>
-                <li><a href="/dossier-producto-talleres">Ver dossier del producto</a></li>
-              </ul>
-            </article>
-            <article class="download-card">
-              <h3>Restaurantes y hostelería</h3>
-              <p>Venta propia activada en la web con kit descargable, creatividades corporativas, playbook y biblioteca social protegida para afiliados.</p>
-              <ul class="resource-list">
-                <li><a href="/restaurantes-hosteleria">Ver landing y comprar</a></li>
-                <li><a href="/dossier-producto-restaurantes">Ver dossier del producto</a></li>
-                <li><a href="/biblioteca-social-restaurantes">Abrir biblioteca social</a></li>
-              </ul>
-            </article>
-            <article class="download-card">
-              <h3>Centros de estética</h3>
-              <p>Kit Agenda Llena 30 Días con landing propia, checkout Stripe, dossier comercial, playbook y biblioteca social para afiliados.</p>
-              <ul class="resource-list">
-                <li><a href="/centros-estetica">Ver landing y comprar</a></li>
-                <li><a href="/dossier-producto-estetica">Ver dossier del producto</a></li>
-                <li><a href="/biblioteca-social-estetica">Abrir biblioteca social</a></li>
-              </ul>
-            </article>
-            <article class="download-card">
-              <h3>Consolidado del afiliado</h3>
-              <p>No necesitas entrar y salir de varios paneles. Todas tus ventas se siguen viendo en esta misma zona privada.</p>
-              <ul class="resource-list">
-                <li><a href="#seguimiento">Ver mis ventas y comisiones</a></li>
-              </ul>
-            </article>
+
+          <div id="portalError" class="portal-empty-card portal-lock" hidden>
+            <h2 style="margin-top:0; color:var(--blue-900); font-family:var(--font-display); font-size:2.3rem;">Acceso privado no disponible</h2>
+            <p>Este portal solo se abre desde tu enlace personal de afiliado. Si entraste desde un marcador antiguo o un enlace incompleto, responde al email de aprobación y te reenviamos el acceso actualizado.</p>
+            <div class="cta-row" style="justify-content:center;">
+              <a class="btn-primary" href="mailto:hola@prontialatam.com?subject=Acceso%20portal%20afiliados">Solicitar nuevo acceso</a>
+            </div>
+          </div>
+
+          <div id="portalApp" hidden>
+            <div class="portal-hero-shell">
+              <article class="portal-profile-card">
+                <div class="eyebrow">Portal privado de afiliado</div>
+                <div class="portal-profile-top">
+                  <div id="affiliateAvatar" class="portal-avatar">PL</div>
+                  <div class="portal-profile-copy">
+                    <h1 id="affiliateName">Afiliado ProntIA</h1>
+                    <p id="affiliateIntro">Tu espacio central para mover producto, seguir ventas y operar con claridad.</p>
+                  </div>
+                </div>
+                <div id="affiliatePills" class="portal-pill-row"></div>
+                <div class="cta-row" style="margin-top:0;">
+                  <a id="primaryAffiliateLink" class="btn-primary" href="#" target="_blank" rel="noreferrer">Abrir enlace de venta</a>
+                  <a id="primaryPortalKit" class="btn-secondary" href="#" target="_blank" rel="noreferrer">Descargar kit principal</a>
+                </div>
+              </article>
+
+              <aside class="portal-highlight-card" id="cobros">
+                <div>
+                  <h2>Estado de cobros</h2>
+                  <p id="connectSummary" class="portal-stat-caption" style="margin-top:0.55rem;">Sincronizando estado de Stripe Connect.</p>
+                </div>
+                <div>
+                  <span id="connectBadge" class="status-badge connect-not-started">Pendiente</span>
+                </div>
+                <div id="connectRequirements" class="portal-list"></div>
+                <div class="cta-row" style="margin-top:0;">
+                  <a id="connectCta" class="btn-ghost" href="mailto:hola@prontialatam.com?subject=Configurar%20cobros%20de%20afiliado">Solicitar configuración</a>
+                  <a id="stripeDashboardLink" class="btn-secondary" href="#" target="_blank" rel="noreferrer" hidden>Ver dashboard Stripe</a>
+                </div>
+              </aside>
+            </div>
           </div>
         </div>
       </section>
 
-      <section class="section" id="descargas">
+      <section class="section" id="metricas">
         <div class="container">
-          <div class="section-head">
-            <h2>Biblioteca de descargas</h2>
-            <p>La base de onboarding ya está ordenada como si el afiliado fuese a usarla hoy mismo.</p>
-          </div>
-          <div class="download-grid four">
-            <article class="download-card">
-              <h3>Paquete completo</h3>
-              <p>Incluye documentos, piezas visuales, vídeos y plantillas de seguimiento en un solo archivo comprimido.</p>
-              <ul class="resource-list">
-                <li><a href="/downloads/kit-base-afiliados-talleres.zip">Descargar kit base completo (.zip)</a></li>
-              </ul>
-            </article>
-            <article class="download-card">
-              <h3>Documentación comercial</h3>
-              <p>Los textos que dan contexto y fijan discurso, claims y normas de uso.</p>
-              <ul class="resource-list">
-                <li><a href="/dossier-marca-afiliados">Dossier de marca</a></li>
-                <li><a href="/dossier-producto-talleres">Mini dossier del producto</a></li>
-                <li><a href="/playbook-afiliados-talleres">Playbook comercial y operativo</a></li>
-              </ul>
-            </article>
-            <article class="download-card">
-              <h3>Banco de mensajes y RRSS</h3>
-              <p>Hooks, copies, objeciones, formatos y una biblioteca social más presentable para arrancar sin escribir ni diseñar desde cero.</p>
-              <ul class="resource-list">
-                <li><a href="/biblioteca-social-talleres">Biblioteca social y formatos RRSS</a></li>
-                <li><a href="/downloads/affiliate-kit-talleres/docs/03_COPIES_Y_GANCHOS_TALLERES.txt">Copies y ganchos</a></li>
-                <li><a href="/downloads/affiliate-kit-talleres/docs/05_PLAN_7_DIAS_PUBLICACION.txt">Plan de 7 días</a></li>
-              </ul>
-            </article>
-            <article class="download-card">
-              <h3>Kit base hostelería</h3>
-              <p>Material corporativo para restaurantes, bares y cafeterías: dossier, playbook, piezas listas y vídeo demo con identidad ProntIA LATAM.</p>
-              <ul class="resource-list">
-                <li><a href="/downloads/kit-base-afiliados-restaurantes.zip">Descargar kit completo hostelería (.zip)</a></li>
-                <li><a href="/dossier-producto-restaurantes">Mini dossier del producto</a></li>
-                <li><a href="/playbook-afiliados-restaurantes">Playbook comercial y operativo</a></li>
-                <li><a href="/biblioteca-social-restaurantes">Biblioteca social y formatos RRSS</a></li>
-              </ul>
-            </article>
-            <article class="download-card">
-              <h3>Kit base estética</h3>
-              <p>Material para promocionar el Kit Agenda Llena 30 Días: dossier, copies, reglas, calendario y creatividades listas para publicar.</p>
-              <ul class="resource-list">
-                <li><a href="/downloads/kit-base-afiliados-estetica.zip">Descargar kit completo estética (.zip)</a></li>
-                <li><a href="/dossier-producto-estetica">Mini dossier del producto</a></li>
-                <li><a href="/playbook-afiliados-estetica">Playbook comercial y operativo</a></li>
-                <li><a href="/biblioteca-social-estetica">Biblioteca social y formatos RRSS</a></li>
-              </ul>
-            </article>
-          </div>
+          <div id="statsGrid" class="stat-grid"></div>
         </div>
       </section>
 
-      <section class="section">
-        <div class="container grid-2">
-          <article class="notice-card">
-            <h3>Ventas recientes</h3>
-            <div id="portalOrders" class="portal-list">
-              <p class="microcopy">Cargando historial de ventas...</p>
+      <section class="section" id="nichos">
+        <div class="container portal-grid-two">
+          <article class="portal-section-card">
+            <div class="portal-section-head">
+              <div>
+                <h2>Tu perfil comercial</h2>
+                <p>Datos operativos, código asignado y punto de partida para campañas y contenidos.</p>
+              </div>
             </div>
+            <div id="affiliateDetails" class="portal-kv-list"></div>
           </article>
-          <article class="notice-card">
-            <h3>Actividad reciente del enlace</h3>
-            <div id="portalClicks" class="portal-list">
-              <p class="microcopy">Cargando actividad de clics...</p>
+
+          <article class="portal-section-card">
+            <div class="portal-section-head">
+              <div>
+                <h2>Material listo para usar</h2>
+                <p>Biblioteca activa por vertical para que publiques sin improvisar piezas ni mensajes.</p>
+              </div>
             </div>
+            <div id="nicheCards" class="portal-niche-grid"></div>
           </article>
         </div>
       </section>
 
-      <section class="section">
-        <div class="container">
-          <div class="section-head">
-            <h2>Vista rápida del kit visual</h2>
-            <p>El kit base ya sale con piezas útiles para talleres mecánicos, no con promesas vacías.</p>
-          </div>
-          <div class="media-strip">
-            <article class="media-tile">
-              <img src="/downloads/affiliate-kit-talleres/social/feed/01_portada.jpg" alt="Pieza de portada para talleres mecánicos">
-              <div class="caption">Carrusel de portada para captar atención en feed.</div>
-            </article>
-            <article class="media-tile">
-              <img src="/downloads/affiliate-kit-talleres/social/feed/03_resenas.jpg" alt="Pieza sobre reseñas para talleres mecánicos">
-              <div class="caption">Pieza centrada en reputación y reseñas del taller.</div>
-            </article>
-            <article class="media-tile">
-              <img src="/downloads/affiliate-kit-talleres/social/reels/R01_Presupuestos_en_segundos.jpg" alt="Portada de reel para talleres mecánicos">
-              <div class="caption">Portada vertical para reels con gancho comercial.</div>
-            </article>
-            <article class="media-tile">
-              <img src="/downloads/affiliate-kit-talleres/social/wide/Y01_El_taller_es_dueno_de_ti.jpg" alt="Miniatura larga para YouTube de talleres">
-              <div class="caption">Formato ancho para YouTube o anuncios informativos.</div>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section class="section">
-        <div class="container">
-          <div class="section-head">
-            <h2>Secuencia recomendada de onboarding</h2>
-            <p>Así debería usarlo un afiliado aprobado para estar publicando en el mismo día.</p>
-          </div>
-          <div class="step-stack">
-            <article class="timeline-card">
-              <strong>Paso 1</strong>
-              <h3>Leer el dossier de marca</h3>
-              <p>Entender qué vende ProntIA LATAM, a quién se dirige y qué tono puede usar sin dañar confianza.</p>
-            </article>
-            <article class="timeline-card">
-              <strong>Paso 2</strong>
-              <h3>Abrir el mini dossier del producto</h3>
-              <p>Interiorizar el problema que resuelve el kit de talleres, beneficios y objeciones principales.</p>
-            </article>
-            <article class="timeline-card">
-              <strong>Paso 3</strong>
-              <h3>Elegir canal y copy</h3>
-              <p>Seleccionar la pieza adecuada para Instagram, Facebook, LinkedIn, YouTube o WhatsApp y reutilizar el copy ya preparado.</p>
-            </article>
-            <article class="timeline-card">
-              <strong>Paso 4</strong>
-              <h3>Publicar con enlace de afiliado</h3>
-              <p>Distribuir siempre con tracking propio para que la atribución y la comisión sean verificables.</p>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section class="section">
-        <div class="container grid-2">
-          <article class="notice-card">
-            <h3>Mensajes autorizados</h3>
-            <ul class="trust-list">
-              <li>Ahorro de tiempo y orden comercial.</li>
-              <li>Mejor atención al cliente y seguimiento.</li>
-              <li>Aplicación práctica para talleres reales de LATAM.</li>
-              <li>Uso simple de IA sin necesidad de ser técnico.</li>
-            </ul>
-          </article>
-          <article class="affiliate-form-card">
-            <h3>Lo que no debe comunicar un afiliado</h3>
-            <ul class="bullet-list">
-              <li>Ingresos garantizados o automatización mágica.</li>
-              <li>Que la IA sustituye al dueño del taller.</li>
-              <li>Promesas agresivas o tácticas de spam.</li>
-              <li>Puja con marca sin permiso o descuentos inventados.</li>
-            </ul>
-            <div class="cta-row" style="margin-top:1.25rem;">
-              <a href="/afiliados#solicitud" class="btn-primary">Quiero darme de alta</a>
-              <a href="mailto:hola@prontialatam.com?subject=Portal%20de%20Afiliados" class="btn-ghost">Pedir material personalizado</a>
+      <section class="section" id="ventas">
+        <div class="container portal-grid-two">
+          <article class="portal-section-card">
+            <div class="portal-section-head">
+              <div>
+                <h2>Historial de ventas</h2>
+                <p>Pedidos atribuidos a tu código y estado de cada operación.</p>
+              </div>
             </div>
+            <div id="ordersTable"></div>
+          </article>
+
+          <article class="portal-section-card" id="actividad">
+            <div class="portal-section-head">
+              <div>
+                <h2>Actividad reciente</h2>
+                <p>Clics y tráfico captado en tus enlaces para validar qué canal está empujando mejor.</p>
+              </div>
+            </div>
+            <div id="clicksList" class="portal-activity-list"></div>
           </article>
         </div>
       </section>
@@ -318,154 +409,354 @@
 
     <footer class="footer">
       <div class="container">
-        <p>Portal base Fase 1 de ProntIA LATAM. Se ampliará con verticales nuevas, más formatos y automatización completa del onboarding.</p>
+        <p>Portal privado de afiliados de ProntIA LATAM. Si necesitas ayuda con tu enfoque, una adaptación a tu nicho o soporte comercial, responde al correo de aprobación o escríbenos a <a href="mailto:hola@prontialatam.com">hola@prontialatam.com</a>.</p>
       </div>
     </footer>
   </div>
 
   <script>
     (function () {
-      const params = new URLSearchParams(window.location.search);
-      const access = params.get("access") || "";
-      const statsNode = document.getElementById("portalStats");
-      const welcomeNode = document.getElementById("portalWelcomeCard");
-      const affiliateLinkNode = document.getElementById("affiliateLinkCard");
-      const connectNode = document.getElementById("connectStatusCard");
-      const ordersNode = document.getElementById("portalOrders");
-      const clicksNode = document.getElementById("portalClicks");
-      const connectActionLink = document.getElementById("connectActionLink");
+      const loading = document.getElementById('portalLoading');
+      const errorCard = document.getElementById('portalError');
+      const app = document.getElementById('portalApp');
+      const statsGrid = document.getElementById('statsGrid');
+      const affiliateName = document.getElementById('affiliateName');
+      const affiliateIntro = document.getElementById('affiliateIntro');
+      const affiliateAvatar = document.getElementById('affiliateAvatar');
+      const affiliatePills = document.getElementById('affiliatePills');
+      const affiliateDetails = document.getElementById('affiliateDetails');
+      const nicheCards = document.getElementById('nicheCards');
+      const ordersTable = document.getElementById('ordersTable');
+      const clicksList = document.getElementById('clicksList');
+      const primaryAffiliateLink = document.getElementById('primaryAffiliateLink');
+      const primaryPortalKit = document.getElementById('primaryPortalKit');
+      const connectSummary = document.getElementById('connectSummary');
+      const connectBadge = document.getElementById('connectBadge');
+      const connectRequirements = document.getElementById('connectRequirements');
+      const connectCta = document.getElementById('connectCta');
+      const stripeDashboardLink = document.getElementById('stripeDashboardLink');
+      const accessToken = new URLSearchParams(window.location.search).get('access') || '';
+
+      const niches = [
+        {
+          key: 'talleres',
+          label: 'Talleres mecánicos',
+          description: 'Kit de venta ya operativo para talleres con landing, dossier, playbook y biblioteca social.',
+          route: '/talleres-mecanicos',
+          asset: 'downloads/kit-base-afiliados-talleres.zip',
+          dossier: '/dossier-producto-talleres',
+          playbook: '/playbook-afiliados-talleres',
+          social: '/biblioteca-social-talleres'
+        },
+        {
+          key: 'restaurantes',
+          label: 'Restaurantes y hostelería',
+          description: 'Material completo para restauración, hostelería y negocios de sala con enfoque de captación.',
+          route: '/restaurantes-hosteleria',
+          asset: 'downloads/kit-base-afiliados-restaurantes.zip',
+          dossier: '/dossier-producto-restaurantes',
+          playbook: '/playbook-afiliados-restaurantes',
+          social: '/biblioteca-social-restaurantes'
+        },
+        {
+          key: 'estetica',
+          label: 'Centros de estética',
+          description: 'Vertical lista para cabinas, estudios y centros de estética con piezas y discurso comercial.',
+          route: '/centros-estetica',
+          asset: 'downloads/kit-base-afiliados-estetica.zip',
+          dossier: '/dossier-producto-estetica',
+          playbook: '/playbook-afiliados-estetica',
+          social: '/biblioteca-social-estetica'
+        }
+      ];
 
       function escapeHtml(value) {
-        return String(value || "")
-          .replace(/&/g, "&amp;")
-          .replace(/</g, "&lt;")
-          .replace(/>/g, "&gt;")
-          .replace(/\"/g, "&quot;")
-          .replace(/'/g, "&#39;");
+        return String(value || '')
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;');
       }
 
-      function formatMoney(value, currency) {
-        return new Intl.NumberFormat("es-ES", {
-          style: "currency",
-          currency: currency || "USD",
-          minimumFractionDigits: 2
+      function initialsFromName(name) {
+        const parts = String(name || '')
+          .trim()
+          .split(/\s+/)
+          .filter(Boolean)
+          .slice(0, 2);
+        if (!parts.length) return 'PL';
+        return parts.map(function (part) { return part.charAt(0).toUpperCase(); }).join('');
+      }
+
+      function formatCurrency(value, currency) {
+        return new Intl.NumberFormat('es-ES', {
+          style: 'currency',
+          currency: currency || 'USD',
+          maximumFractionDigits: 2
         }).format(Number(value || 0));
       }
 
       function formatDate(value) {
-        if (!value) return "-";
-        return new Date(value).toLocaleString("es-ES", {
-          dateStyle: "medium",
-          timeStyle: "short"
+        if (!value) return '-';
+        const date = new Date(value);
+        if (Number.isNaN(date.getTime())) return value;
+        return date.toLocaleString('es-ES', {
+          dateStyle: 'medium',
+          timeStyle: 'short'
         });
       }
 
-      function renderError(message) {
-        const safeMessage = escapeHtml(message || "No se pudo cargar tu portal.");
-        if (welcomeNode) {
-          welcomeNode.innerHTML = "<strong>No hemos podido cargar tu perfil</strong><ul class=\"bullet-list\" style=\"margin-top:0.9rem;\"><li>" + safeMessage + "</li><li>Si el problema continúa, responde al email de onboarding.</li></ul>";
+      function relativeDate(value) {
+        if (!value) return '';
+        const date = new Date(value);
+        if (Number.isNaN(date.getTime())) return '';
+        const diffMs = Date.now() - date.getTime();
+        const diffHours = Math.round(diffMs / (1000 * 60 * 60));
+        if (Math.abs(diffHours) < 24) {
+          return 'Hace ' + Math.max(diffHours, 1) + ' h';
         }
-        if (ordersNode) ordersNode.innerHTML = "<p class=\"inline-status error\">" + safeMessage + "</p>";
-        if (clicksNode) clicksNode.innerHTML = "<p class=\"inline-status error\">" + safeMessage + "</p>";
+        const diffDays = Math.round(diffHours / 24);
+        return 'Hace ' + Math.max(diffDays, 1) + ' días';
       }
 
-      function renderStats(payload) {
-        const affiliate = payload.affiliate || {};
-        const stats = payload.stats || {};
-        const currency = payload.currency || "USD";
-
-        if (welcomeNode) {
-          welcomeNode.innerHTML =
-            "<strong>Bienvenido, " + escapeHtml(affiliate.fullName || "Afiliado") + "</strong>" +
-            "<ul class=\"bullet-list\" style=\"margin-top:0.9rem;\">" +
-            "<li>Tu código principal es <strong>" + escapeHtml(affiliate.trackingCode || "-") + "</strong>.</li>" +
-            "<li>Tu comisión actual es del <strong>" + escapeHtml(String(Math.round(Number(affiliate.commissionRate || 0) * 100))) + "%</strong>.</li>" +
-            "<li>Ya puedes compartir tu enlace, tu cupón o ambos.</li>" +
-            "</ul>";
-        }
-
-        if (statsNode) {
-          statsNode.innerHTML =
-            "<article class=\"stat-card\"><strong>" + escapeHtml(formatMoney(stats.totalSales, currency)) + "</strong><span>Ventas pagadas acumuladas</span></article>" +
-            "<article class=\"stat-card\"><strong>" + escapeHtml(formatMoney(stats.totalCommissions, currency)) + "</strong><span>Comisiones acumuladas</span></article>" +
-            "<article class=\"stat-card\"><strong>" + escapeHtml(String(stats.paidOrders || 0)) + "</strong><span>Pedidos pagados registrados</span></article>" +
-            "<article class=\"stat-card\"><strong>" + escapeHtml(String(stats.totalClicks || 0)) + "</strong><span>Clics recientes detectados</span></article>";
-        }
-
-        if (affiliateLinkNode) {
-          affiliateLinkNode.innerHTML =
-            "<div><strong>Enlace personal:</strong> <a href=\"" + escapeHtml(affiliate.affiliateLink || "#") + "\">" + escapeHtml(affiliate.affiliateLink || "-") + "</a></div>" +
-            "<div><strong>Código afiliado:</strong> " + escapeHtml(affiliate.trackingCode || "-") + "</div>" +
-            "<div><strong>Cupón comercial:</strong> " + escapeHtml(affiliate.couponCode || "-") + "</div>" +
-            "<div><strong>Comisión:</strong> " + escapeHtml(String(Math.round(Number(affiliate.commissionRate || 0) * 100))) + "% por venta neta</div>";
-        }
-
-        if (connectNode) {
-          connectNode.innerHTML =
-            "<div><strong>Estado:</strong> " + escapeHtml(affiliate.stripeConnectStatus || "not_started") + "</div>" +
-            "<div><strong>País:</strong> " + escapeHtml(affiliate.stripeConnectCountry || affiliate.country || "-") + "</div>" +
-            "<div><strong>Requisitos:</strong> " + escapeHtml((affiliate.requirementsDue || []).length ? affiliate.requirementsDue.join(", ") : "Sin pendientes visibles") + "</div>";
-        }
-
-        if (connectActionLink) {
-          connectActionLink.href = "/api/affiliate/connect/start?token=" + encodeURIComponent(access);
-          connectActionLink.textContent = affiliate.stripeConnectStatus === "ready" ? "Revisar cobros" : "Configurar cobros";
-        }
-
-        if (ordersNode) {
-          if (!payload.orders || !payload.orders.length) {
-            ordersNode.innerHTML = "<p class=\"microcopy\">Todavía no hay ventas registradas en tu cuenta.</p>";
-          } else {
-            ordersNode.innerHTML = payload.orders.map(function (order) {
-              return "<article class=\"portal-list-card\">" +
-                "<strong>" + escapeHtml(order.product_name || "Producto") + "</strong>" +
-                "<div>Cliente: " + escapeHtml(order.customer_name || order.customer_email || "-") + "</div>" +
-                "<div>Venta: " + escapeHtml(formatMoney(order.amount_total, order.currency || currency)) + "</div>" +
-                "<div>Comisión: " + escapeHtml(formatMoney(order.commission_amount, order.currency || currency)) + "</div>" +
-                "<div>Estado: " + escapeHtml(order.payment_status || "-") + " · " + escapeHtml(order.fulfillment_status || "-") + "</div>" +
-                "<div>Fecha: " + escapeHtml(formatDate(order.created_at)) + "</div>" +
-                "</article>";
-            }).join("");
+      function buildProtectedPageUrl(pathname, extraParams) {
+        const url = new URL(pathname, window.location.origin);
+        if (accessToken) url.searchParams.set('access', accessToken);
+        Object.keys(extraParams || {}).forEach(function (key) {
+          const value = extraParams[key];
+          if (value !== undefined && value !== null && value !== '') {
+            url.searchParams.set(key, value);
           }
-        }
-
-        if (clicksNode) {
-          if (!payload.clicks || !payload.clicks.length) {
-            clicksNode.innerHTML = "<p class=\"microcopy\">Todavía no hay clics recientes asociados a tu enlace.</p>";
-          } else {
-            clicksNode.innerHTML = payload.clicks.map(function (click) {
-              return "<article class=\"portal-list-card\">" +
-                "<strong>" + escapeHtml(click.landing_path || "/talleres-mecanicos") + "</strong>" +
-                "<div>Origen: " + escapeHtml(click.referrer || "Directo o sin referencia") + "</div>" +
-                "<div>UTM: " + escapeHtml([click.utm_source, click.utm_medium, click.utm_campaign].filter(Boolean).join(" / ") || "-") + "</div>" +
-                "<div>Fecha: " + escapeHtml(formatDate(click.clicked_at)) + "</div>" +
-                "</article>";
-            }).join("");
-          }
-        }
-      }
-
-      if (!access) {
-        renderError("Falta el acceso privado del afiliado.");
-        return;
-      }
-
-      fetch("/api/affiliate/portal-summary?access=" + encodeURIComponent(access), {
-        headers: {
-          "Accept": "application/json"
-        }
-      })
-        .then(function (response) {
-          return response.json().then(function (data) {
-            if (!response.ok) throw new Error(data.error || "No se pudo cargar tu portal.");
-            return data;
-          });
-        })
-        .then(renderStats)
-        .catch(function (error) {
-          renderError(error.message || "No se pudo cargar tu portal.");
         });
-    })();
+        return url.toString();
+      }
+
+      function buildProtectedAssetUrl(assetPath) {
+        const url = new URL('/api/affiliate/resource', window.location.origin);
+        if (accessToken) url.searchParams.set('access', accessToken);
+        url.searchParams.set('asset', assetPath);
+        return url.toString();
+      }
+
+      function getConnectPresentation(status) {
+        const normalized = String(status || 'not_started');
+        if (normalized === 'completed' || normalized === 'active' || normalized === 'charges_enabled') {
+          return {
+            badge: 'Activo',
+            className: 'status-badge connect-ready',
+            summary: 'Tu configuración de cobros está operativa. Ya podemos usar este estado como base para liquidaciones y automatizaciones posteriores.',
+            ctaLabel: 'Ver o actualizar cobros'
+          };
+        }
+        if (normalized === 'pending' || normalized === 'requirements_due') {
+          return {
+            badge: 'Pendiente',
+            className: 'status-badge connect-pending',
+            summary: 'Tu alta de cobros está empezada, pero Stripe todavía pide completar uno o más pasos.',
+            ctaLabel: 'Completar configuración'
+          };
+        }
+        if (normalized === 'restricted' || normalized === 'rejected') {
+          return {
+            badge: 'Revisar',
+            className: 'status-badge connect-restricted',
+            summary: 'Hay una incidencia en tu configuración de cobros. Conviene revisar requisitos y volver a completar los datos pendientes.',
+            ctaLabel: 'Solicitar revisión'
+          };
+        }
+        return {
+          badge: 'No iniciado',
+          className: 'status-badge connect-not-started',
+          summary: 'Todavía no has completado el circuito de cobros. Puedes operar como afiliado, pero los pagos requieren esta configuración.',
+          ctaLabel: 'Solicitar configuración'
+        };
+      }
+
+      function paymentBadge(status) {
+        const normalized = String(status || '').toLowerCase();
+        if (normalized === 'paid') return '<span class="status-badge approved">Pagado</span>';
+        if (normalized === 'pending') return '<span class="status-badge pending">Pendiente</span>';
+        return '<span class="status-badge">' + escapeHtml(normalized || '-') + '</span>';
+      }
+
+      function renderStats(stats, currency) {
+        const cards = [
+          ['Ventas atribuidas', formatCurrency(stats.totalSales, currency), 'Importe total confirmado en pedidos pagados.'],
+          ['Comisión acumulada', formatCurrency(stats.totalCommissions, currency), 'Base actual de comisiones generadas por tu código.'],
+          ['Pedidos pagados', String(stats.paidOrders || 0), 'Ventas cobradas y ya validadas por el sistema.'],
+          ['Clics recientes', String(stats.totalClicks || 0), 'Últimos accesos detectados en tus enlaces de afiliado.']
+        ];
+
+        statsGrid.innerHTML = cards.map(function (card) {
+          return '' +
+            '<article class="stat-card">' +
+              '<strong>' + escapeHtml(card[0]) + '</strong>' +
+              '<div class="portal-stat-figure">' + escapeHtml(card[1]) + '</div>' +
+              '<span class="portal-stat-caption">' + escapeHtml(card[2]) + '</span>' +
+            '</article>';
+        }).join('');
+      }
+
+      function renderAffiliate(affiliate) {
+        affiliateName.textContent = affiliate.fullName || 'Afiliado ProntIA';
+        affiliateIntro.textContent = 'Bienvenido a tu centro operativo. Aquí centralizamos enlaces, materiales, ventas y estado de cobros.';
+        affiliateAvatar.textContent = initialsFromName(affiliate.fullName);
+
+        affiliatePills.innerHTML = [
+          affiliate.country ? '<span class="portal-pill">País: ' + escapeHtml(affiliate.country) + '</span>' : '',
+          affiliate.trackingCode ? '<span class="portal-pill">Código: ' + escapeHtml(affiliate.trackingCode) + '</span>' : '',
+          affiliate.couponCode ? '<span class="portal-pill">Cupón: ' + escapeHtml(affiliate.couponCode) + '</span>' : '',
+          '<span class="portal-pill">Comisión: ' + escapeHtml(String(Math.round(Number(affiliate.commissionRate || 0) * 100))) + '%</span>'
+        ].join('');
+
+        primaryAffiliateLink.href = affiliate.affiliateLink || buildProtectedPageUrl('/talleres-mecanicos');
+        primaryPortalKit.href = buildProtectedAssetUrl('downloads/kit-base-afiliados-talleres.zip');
+
+        affiliateDetails.innerHTML = [
+          ['Nombre', affiliate.fullName],
+          ['Email', affiliate.email],
+          ['Código de afiliado', affiliate.trackingCode],
+          ['Cupón comercial', affiliate.couponCode || 'Aún no asignado'],
+          ['Comisión', Math.round(Number(affiliate.commissionRate || 0) * 100) + '%'],
+          ['País', affiliate.country || 'Sin definir']
+        ].map(function (item) {
+          return '<div><strong>' + escapeHtml(item[0]) + '</strong><br><span>' + escapeHtml(item[1] || '-') + '</span></div>';
+        }).join('');
+
+        nicheCards.innerHTML = niches.map(function (niche) {
+          const salesUrl = new URL(niche.route, window.location.origin);
+          if (affiliate.trackingCode) {
+            salesUrl.searchParams.set('ref', affiliate.trackingCode);
+          }
+          return '' +
+            '<article class="portal-niche-card">' +
+              '<h3>' + escapeHtml(niche.label) + '</h3>' +
+              '<p>' + escapeHtml(niche.description) + '</p>' +
+              '<div class="portal-action-grid">' +
+                '<a class="btn-primary" href="' + escapeHtml(salesUrl.toString()) + '" target="_blank" rel="noreferrer">Ver landing y comprar</a>' +
+                '<a class="btn-secondary" href="' + escapeHtml(buildProtectedAssetUrl(niche.asset)) + '">Descargar kit</a>' +
+                '<a class="btn-ghost" href="' + escapeHtml(buildProtectedPageUrl(niche.dossier)) + '">Ver dossier</a>' +
+                '<a class="btn-ghost" href="' + escapeHtml(buildProtectedPageUrl(niche.playbook)) + '">Ver playbook</a>' +
+                '<a class="btn-ghost" href="' + escapeHtml(buildProtectedPageUrl(niche.social)) + '">Biblioteca RRSS</a>' +
+              '</div>' +
+            '</article>';
+        }).join('');
+      }
+
+      function renderConnect(affiliate) {
+        const presentation = getConnectPresentation(affiliate.stripeConnectStatus);
+        connectBadge.className = presentation.className;
+        connectBadge.textContent = presentation.badge;
+        connectSummary.textContent = presentation.summary;
+        connectCta.textContent = presentation.ctaLabel;
+
+        if (affiliate.stripeConnectDashboard) {
+          stripeDashboardLink.hidden = false;
+          stripeDashboardLink.href = affiliate.stripeConnectDashboard;
+        } else {
+          stripeDashboardLink.hidden = true;
+          stripeDashboardLink.removeAttribute('href');
+        }
+
+        connectRequirements.innerHTML = '';
+        if (Array.isArray(affiliate.requirementsDue) && affiliate.requirementsDue.length) {
+          connectRequirements.innerHTML = affiliate.requirementsDue.map(function (item) {
+            return '<div>' + escapeHtml(item) + '</div>';
+          }).join('');
+        } else {
+          connectRequirements.innerHTML = '<div>No hay requisitos urgentes visibles en este momento.</div>';
+        }
+      }
+
+      function renderOrders(orders, currency) {
+        if (!orders.length) {
+          ordersTable.innerHTML = '<div class="portal-empty-card">Todavía no hay pedidos atribuidos a tu código. En cuanto entren, verás aquí el historial completo.</div>';
+          return;
+        }
+
+        ordersTable.innerHTML = '' +
+          '<div class="portal-table-wrap">' +
+            '<table class="portal-table">' +
+              '<thead>' +
+                '<tr>' +
+                  '<th>Cliente</th>' +
+                  '<th>Producto</th>' +
+                  '<th>Importe</th>' +
+                  '<th>Comisión</th>' +
+                  '<th>Estado</th>' +
+                  '<th>Fecha</th>' +
+                '</tr>' +
+              '</thead>' +
+              '<tbody>' +
+                orders.map(function (order) {
+                  return '' +
+                    '<tr>' +
+                      '<td><strong>' + escapeHtml(order.customer_name || order.customer_email || 'Cliente') + '</strong><br><span class="microcopy">' + escapeHtml(order.customer_email || '-') + '</span></td>' +
+                      '<td>' + escapeHtml(order.product_name || '-') + '</td>' +
+                      '<td>' + escapeHtml(formatCurrency(order.amount_total, order.currency || currency)) + '</td>' +
+                      '<td>' + escapeHtml(formatCurrency(order.commission_amount, order.currency || currency)) + '</td>' +
+                      '<td>' + paymentBadge(order.payment_status) + '</td>' +
+                      '<td>' + escapeHtml(formatDate(order.created_at)) + '</td>' +
+                    '</tr>';
+                }).join('') +
+              '</tbody>' +
+            '</table>' +
+          '</div>';
+      }
+
+      function renderClicks(clicks) {
+        if (!clicks.length) {
+          clicksList.innerHTML = '<div class="portal-empty-card">Aún no hay actividad reciente registrada en tus enlaces. Cuando empieces a mover tráfico, esta zona te ayudará a detectar qué canal funciona mejor.</div>';
+          return;
+        }
+
+        clicksList.innerHTML = clicks.map(function (click) {
+          const channel = [click.utm_source, click.utm_medium, click.utm_campaign].filter(Boolean).join(' / ');
+          return '' +
+            '<article class="portal-activity-item">' +
+              '<strong>' + escapeHtml(click.landing_path || 'Landing de afiliado') + '</strong>' +
+              '<span>' + escapeHtml(channel || click.referrer || 'Sin canal etiquetado') + '</span><br>' +
+              '<span class="microcopy">' + escapeHtml(formatDate(click.clicked_at)) + ' · ' + escapeHtml(relativeDate(click.clicked_at)) + '</span>' +
+            '</article>';
+        }).join('');
+      }
+
+      async function loadPortal() {
+        if (!accessToken) {
+          loading.hidden = true;
+          errorCard.hidden = false;
+          return;
+        }
+
+        try {
+          const response = await fetch('/api/affiliate/portal-summary?access=' + encodeURIComponent(accessToken));
+          const payload = await response.json();
+
+          if (!response.ok || !payload.ok) {
+            throw new Error(payload.error || 'No se pudo cargar el dashboard.');
+          }
+
+          renderStats(payload.stats || {}, payload.currency || 'USD');
+          renderAffiliate(payload.affiliate || {});
+          renderConnect(payload.affiliate || {});
+          renderOrders(payload.orders || [], payload.currency || 'USD');
+          renderClicks(payload.clicks || []);
+
+          loading.hidden = true;
+          app.hidden = false;
+        } catch (error) {
+          loading.hidden = true;
+          errorCard.hidden = false;
+          const message = errorCard.querySelector('p');
+          if (message) {
+            message.textContent = error.message || 'No se pudo abrir el portal privado.';
+          }
+        }
+      }
+
+      loadPortal();
+    }());
   </script>
 </body>
 </html>

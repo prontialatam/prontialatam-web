@@ -4,6 +4,38 @@ const { sendAffiliateOnboardingEmail } = require("../_lib/email");
 const { buildProtectedPageUrl, buildProtectedResourceUrl } = require("../_lib/affiliate-access");
 const { generateConnectOnboardingToken } = require("../_lib/stripe-connect");
 
+function buildNicheAccesses(siteUrl, token, trackingCode) {
+  return [
+    {
+      key: "talleres",
+      label: "Talleres mecánicos",
+      salesUrl: `${siteUrl}/talleres-mecanicos?ref=${trackingCode}`,
+      kitUrl: buildProtectedResourceUrl(siteUrl, "downloads/kit-base-afiliados-talleres.zip", token),
+      dossierUrl: buildProtectedPageUrl(siteUrl, "/dossier-producto-talleres", token),
+      playbookUrl: buildProtectedPageUrl(siteUrl, "/playbook-afiliados-talleres", token),
+      socialUrl: buildProtectedPageUrl(siteUrl, "/biblioteca-social-talleres", token)
+    },
+    {
+      key: "restaurantes",
+      label: "Restaurantes y hostelería",
+      salesUrl: `${siteUrl}/restaurantes-hosteleria?ref=${trackingCode}`,
+      kitUrl: buildProtectedResourceUrl(siteUrl, "downloads/kit-base-afiliados-restaurantes.zip", token),
+      dossierUrl: buildProtectedPageUrl(siteUrl, "/dossier-producto-restaurantes", token),
+      playbookUrl: buildProtectedPageUrl(siteUrl, "/playbook-afiliados-restaurantes", token),
+      socialUrl: buildProtectedPageUrl(siteUrl, "/biblioteca-social-restaurantes", token)
+    },
+    {
+      key: "estetica",
+      label: "Centros de estética",
+      salesUrl: `${siteUrl}/centros-estetica?ref=${trackingCode}`,
+      kitUrl: buildProtectedResourceUrl(siteUrl, "downloads/kit-base-afiliados-estetica.zip", token),
+      dossierUrl: buildProtectedPageUrl(siteUrl, "/dossier-producto-estetica", token),
+      playbookUrl: buildProtectedPageUrl(siteUrl, "/playbook-afiliados-estetica", token),
+      socialUrl: buildProtectedPageUrl(siteUrl, "/biblioteca-social-estetica", token)
+    }
+  ];
+}
+
 function isAuthorized(req, body) {
   const expectedToken = (process.env.AFFILIATE_APPROVAL_TOKEN || "").trim();
   const headerToken = (req.headers["x-affiliate-admin-token"] || "").trim();
@@ -57,6 +89,7 @@ module.exports = async function handler(req, res) {
     const dossierUrl = buildProtectedPageUrl(siteUrl, "/dossier-marca-afiliados", connectOnboardingToken);
     const productDossierUrl = buildProtectedPageUrl(siteUrl, "/dossier-producto-talleres", connectOnboardingToken);
     const socialLibraryUrl = buildProtectedPageUrl(siteUrl, "/biblioteca-social-talleres", connectOnboardingToken);
+    const nicheAccesses = buildNicheAccesses(siteUrl, connectOnboardingToken, affiliate.tracking_code);
 
     const emailResult = await sendAffiliateOnboardingEmail({
       email: affiliate.email,
@@ -71,6 +104,7 @@ module.exports = async function handler(req, res) {
       dossierUrl,
       productDossierUrl,
       socialLibraryUrl,
+      nicheAccesses,
       supportEmail: "hola@prontialatam.com",
       supportWhatsApp: "+34 697 47 46 46"
     });

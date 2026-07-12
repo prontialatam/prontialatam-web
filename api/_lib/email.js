@@ -216,6 +216,7 @@ async function sendAffiliateOnboardingEmail(options) {
   const productDossierUrl = options.productDossierUrl || "";
   const socialLibraryUrl = options.socialLibraryUrl || "";
   const whatsappCommunityUrl = options.whatsappCommunityUrl || "";
+  const nicheAccesses = Array.isArray(options.nicheAccesses) ? options.nicheAccesses.filter(Boolean) : [];
   const connectHtml = options.connectUrl
     ? `<tr><td style="padding:0 0 14px;"><strong style="display:block;color:#12385b;font-size:14px;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px;">Configurar cobros</strong><a href="${options.connectUrl}" style="color:#185fa5;text-decoration:none;word-break:break-word;">Activar Stripe Connect</a></td></tr>`
     : "";
@@ -224,6 +225,35 @@ async function sendAffiliateOnboardingEmail(options) {
     ? `<tr><td style="padding:0 0 14px;"><strong style="display:block;color:#12385b;font-size:14px;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px;">Comunidad de WhatsApp</strong><a href="${whatsappCommunityUrl}" style="color:#185fa5;text-decoration:none;word-break:break-word;">Unirme a la Comunidad de Afiliados</a></td></tr>`
     : "";
   const communityText = whatsappCommunityUrl ? `Comunidad de WhatsApp: ${whatsappCommunityUrl}` : "";
+  const nicheRowsHtml = nicheAccesses.map(function (niche) {
+    const salesLink = niche.salesUrl
+      ? `<div style="margin:0 0 4px;"><a href="${niche.salesUrl}" style="color:#185fa5;text-decoration:none;word-break:break-word;">Ver landing y comprar</a></div>`
+      : "";
+    const kitLink = niche.kitUrl
+      ? `<div style="margin:0 0 4px;"><a href="${niche.kitUrl}" style="color:#185fa5;text-decoration:none;word-break:break-word;">Descargar kit base</a></div>`
+      : "";
+    const dossierLink = niche.dossierUrl
+      ? `<div style="margin:0 0 4px;"><a href="${niche.dossierUrl}" style="color:#185fa5;text-decoration:none;word-break:break-word;">Abrir dossier del producto</a></div>`
+      : "";
+    const playbookLink = niche.playbookUrl
+      ? `<div style="margin:0 0 4px;"><a href="${niche.playbookUrl}" style="color:#185fa5;text-decoration:none;word-break:break-word;">Ver playbook comercial</a></div>`
+      : "";
+    const socialLink = niche.socialUrl
+      ? `<div><a href="${niche.socialUrl}" style="color:#185fa5;text-decoration:none;word-break:break-word;">Abrir biblioteca social</a></div>`
+      : "";
+
+    return `<tr><td style="padding:0 0 16px;"><strong style="display:block;color:#12385b;font-size:14px;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px;">${niche.label}</strong>${salesLink}${kitLink}${dossierLink}${playbookLink}${socialLink}</td></tr>`;
+  }).join("");
+  const nicheText = nicheAccesses.map(function (niche) {
+    return [
+      `${niche.label}:`,
+      niche.salesUrl ? `  Landing: ${niche.salesUrl}` : "",
+      niche.kitUrl ? `  Kit: ${niche.kitUrl}` : "",
+      niche.dossierUrl ? `  Dossier: ${niche.dossierUrl}` : "",
+      niche.playbookUrl ? `  Playbook: ${niche.playbookUrl}` : "",
+      niche.socialUrl ? `  Biblioteca social: ${niche.socialUrl}` : ""
+    ].filter(Boolean).join("\n");
+  }).join("\n");
 
   const payload = {
     sender: {
@@ -275,6 +305,7 @@ async function sendAffiliateOnboardingEmail(options) {
               ${dossierUrl ? `<tr><td style="padding:0 0 14px;"><strong style="display:block;color:#12385b;font-size:14px;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px;">Dossier de marca</strong><a href="${dossierUrl}" style="color:#185fa5;text-decoration:none;word-break:break-word;">Abrir dossier de marca</a></td></tr>` : ""}
               ${productDossierUrl ? `<tr><td style="padding:0 0 14px;"><strong style="display:block;color:#12385b;font-size:14px;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px;">Dossier del producto</strong><a href="${productDossierUrl}" style="color:#185fa5;text-decoration:none;word-break:break-word;">Ver dossier de talleres mecánicos</a></td></tr>` : ""}
               ${socialLibraryUrl ? `<tr><td style="padding:0 0 14px;"><strong style="display:block;color:#12385b;font-size:14px;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px;">Biblioteca visual</strong><a href="${socialLibraryUrl}" style="color:#185fa5;text-decoration:none;word-break:break-word;">Ver piezas para RRSS</a></td></tr>` : ""}
+              ${nicheRowsHtml}
               ${communityHtml}
               ${connectHtml}
             </table>
@@ -290,7 +321,7 @@ async function sendAffiliateOnboardingEmail(options) {
               <li>Material gráfico listo para feed, stories, reels, formatos anchos y WhatsApp.</li>
               <li>Copies y argumentos comerciales para vender sin improvisar.</li>
               <li>Código de afiliado y trazabilidad de ventas.</li>
-              <li>Base documental para mantener una comunicación de marca sólida y profesional.</li>
+              <li>Base documental por nicho para talleres, restaurantes y centros de estética.</li>
             </ul>
 
             <div style="margin:0 0 18px;padding:24px 24px 22px;background:linear-gradient(135deg,#f8f3ea 0%,#fffdf9 100%);border:1px solid #e4dacb;border-radius:20px;box-shadow:inset 0 1px 0 rgba(255,255,255,0.7);">
@@ -317,6 +348,7 @@ async function sendAffiliateOnboardingEmail(options) {
       dossierUrl ? `Dossier de marca: ${dossierUrl}` : "",
       productDossierUrl ? `Dossier del producto: ${productDossierUrl}` : "",
       socialLibraryUrl ? `Biblioteca visual: ${socialLibraryUrl}` : "",
+      nicheText,
       communityText,
       connectText,
       `Soporte email: ${supportEmail}`,

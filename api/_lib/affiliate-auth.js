@@ -223,6 +223,57 @@ async function createOrUpdateAffiliateAuthUser(affiliate, password) {
   });
 }
 
+async function ensureAffiliateAuthUser(affiliate) {
+  if (!affiliate) return null;
+
+  const users = await listAuthUsers();
+  let authUser = null;
+
+  if (affiliate.auth_user_id) {
+    authUser = users.find(function (item) {
+      return item.id === affiliate.auth_user_id;
+    }) || null;
+  }
+
+  if (!authUser) {
+    authUser = users.find(function (item) {
+      return String(item.email || "").toLowerCase() === String(affiliate.email || "").toLowerCase();
+    }) || null;
+  }
+
+  if (!authUser) {
+    authUser = await authRequest("admin/users", {
+      method: "POST",
+      useServiceRole: true,
+      body: {
+        email: affiliate.email,
+        password: `Tmp-${Date.now()}-${Math.random().toString(36).slice(2)}!`,
+        email_confirm: true,
+        user_metadata: {
+          role: "affiliate",
+          affiliate_id: affiliate.id
+        }
+      }
+    });
+  }
+
+  if (authUser && authUser.id && affiliate.auth_user_id !== authUser.id) {
+    const updated = await supabase.update(
+      "affiliates",
+      `id=eq.${encodeURIComponent(affiliate.id)}`,
+      { auth_user_id: authUser.id }
+    );
+    affiliate = Array.isArray(updated) && updated[0]
+      ? updated[0]
+      : Object.assign({}, affiliate, { auth_user_id: authUser.id });
+  }
+
+  return {
+    authUser,
+    affiliate
+  };
+}
+
 async function getApprovedAffiliateByUser(user) {
   if (!user) return null;
 
@@ -322,6 +373,7 @@ module.exports = {
   REFRESH_COOKIE,
   clearAuthCookies,
   createOrUpdateAffiliateAuthUser,
+  ensureAffiliateAuthUser,
   findAuthUserByEmail,
   getApprovedAffiliateByUser,
   getAuthUser,

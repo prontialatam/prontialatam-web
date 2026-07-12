@@ -1,6 +1,7 @@
 const { getSiteUrl, parseJsonBody, sendJson } = require("../../_lib/http");
 const supabase = require("../../_lib/supabase");
 const {
+  ensureAffiliateAuthUser,
   requestAffiliatePasswordRecovery
 } = require("../../_lib/affiliate-auth");
 
@@ -25,8 +26,9 @@ module.exports = async function handler(req, res) {
       `email=eq.${encodeURIComponent(email)}&status=eq.approved`
     );
 
-    if (affiliate && affiliate.auth_user_id) {
+    if (affiliate) {
       const siteUrl = getSiteUrl(req);
+      await ensureAffiliateAuthUser(affiliate);
       await requestAffiliatePasswordRecovery(email, `${siteUrl}/portal-afiliados?recover=1`);
     }
 

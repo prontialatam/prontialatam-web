@@ -297,7 +297,7 @@ async function sendAffiliateOnboardingEmail(options) {
                 <td style="padding:0 0 14px;"><strong style="display:block;color:#12385b;font-size:14px;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px;">Enlace de ventas</strong><a href="${options.affiliateLink}" style="color:#185fa5;text-decoration:none;word-break:break-word;">${options.affiliateLink}</a></td>
               </tr>
               <tr>
-                <td style="padding:0 0 14px;"><strong style="display:block;color:#12385b;font-size:14px;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px;">Portal privado</strong><a href="${options.portalUrl}" style="color:#185fa5;text-decoration:none;word-break:break-word;">${options.portalUrl}</a></td>
+                <td style="padding:0 0 14px;"><strong style="display:block;color:#12385b;font-size:14px;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px;">Portal privado</strong><a href="${options.portalUrl}" style="color:#185fa5;text-decoration:none;word-break:break-word;">${options.portalUrl}</a><div style="margin-top:6px;color:#6d7581;font-size:13px;line-height:1.7;">La primera vez que entres, activa tu contraseña. Después accederás siempre con tu email y esa contraseña.</div></td>
               </tr>
               <tr>
                 <td style="padding:0 0 14px;"><strong style="display:block;color:#12385b;font-size:14px;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px;">Kit descargable</strong><a href="${options.kitUrl}" style="color:#185fa5;text-decoration:none;word-break:break-word;">Descargar kit base</a></td>
@@ -344,6 +344,7 @@ async function sendAffiliateOnboardingEmail(options) {
       `Cupón de apoyo: ${options.couponCode}`,
       `Enlace principal: ${options.affiliateLink}`,
       `Portal: ${options.portalUrl}`,
+      "Primera entrada al portal: activa tu contraseña y, a partir de ahí, accede siempre con tu email y contraseña.",
       `Kit: ${options.kitUrl}`,
       dossierUrl ? `Dossier de marca: ${dossierUrl}` : "",
       productDossierUrl ? `Dossier del producto: ${productDossierUrl}` : "",

@@ -31,6 +31,12 @@ alter table affiliates add column if not exists instagram_handle text;
 alter table affiliates add column if not exists whatsapp_contact text;
 alter table affiliates add column if not exists preferred_niches text[] default '{}'::text[];
 alter table affiliates add column if not exists payout_notes text;
+alter table affiliates add column if not exists auth_user_id uuid;
+alter table affiliates add column if not exists auth_password_set_at timestamptz;
+
+create unique index if not exists affiliates_auth_user_id_unique
+  on affiliates (auth_user_id)
+  where auth_user_id is not null;
 
 create table if not exists affiliate_applications (
   id uuid primary key default gen_random_uuid(),

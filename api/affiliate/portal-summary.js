@@ -1,11 +1,6 @@
 const { getSiteUrl, sendJson } = require("../_lib/http");
 const supabase = require("../_lib/supabase");
-const { getAffiliateByAccessToken } = require("../_lib/affiliate-access");
-
-function getQueryParam(req, name) {
-  const url = new URL(req.url, `https://${req.headers.host || "localhost"}`);
-  return (url.searchParams.get(name) || "").trim();
-}
+const { resolveAffiliateRequestAccess } = require("../_lib/affiliate-auth");
 
 function toAmount(value) {
   return Number(Number(value || 0).toFixed(2));
@@ -59,12 +54,8 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    const token = getQueryParam(req, "access");
-    if (!token) {
-      return sendJson(res, 401, { error: "Falta el acceso privado." });
-    }
-
-    const affiliate = await getAffiliateByAccessToken(supabase, token);
+    const access = await resolveAffiliateRequestAccess(req, res);
+    const affiliate = access && access.affiliate;
     if (!affiliate) {
       return sendJson(res, 403, { error: "Acceso no autorizado." });
     }

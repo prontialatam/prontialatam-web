@@ -97,7 +97,7 @@ function fileExists(filePath) {
 
 function transformProtectedHtml(html, siteUrl, token) {
   let output = html;
-  const accessSuffix = `?access=${encodeURIComponent(token)}`;
+  const accessSuffix = token ? `?access=${encodeURIComponent(token)}` : "";
 
   Object.values(PROTECTED_PAGES).forEach(function (page) {
     const routePattern = new RegExp(`(href=["'])${page.route.replace(/\//g, "\\/")}(#[^"']*)?(["'])`, "g");

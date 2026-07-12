@@ -4,9 +4,9 @@ const supabase = require("../_lib/supabase");
 const {
   fileExists,
   getAbsoluteProjectFile,
-  getAffiliateByAccessToken,
   getContentType
 } = require("../_lib/affiliate-access");
+const { resolveAffiliateRequestAccess } = require("../_lib/affiliate-auth");
 
 function getQueryParam(req, name) {
   const url = new URL(req.url, `https://${req.headers.host || "localhost"}`);
@@ -28,17 +28,16 @@ module.exports = async function handler(req, res) {
     return res.end("Method not allowed");
   }
 
-  const token = getQueryParam(req, "access");
   const rawAsset = getQueryParam(req, "asset").replace(/^\/+/, "");
 
-  if (!token || !rawAsset || rawAsset.includes("..") || !isAllowedAsset(rawAsset) || !supabase.isConfigured()) {
+  if (!rawAsset || rawAsset.includes("..") || !isAllowedAsset(rawAsset) || !supabase.isConfigured()) {
     res.statusCode = 403;
     return res.end("Acceso no autorizado");
   }
 
   try {
-    const affiliate = await getAffiliateByAccessToken(supabase, token);
-    if (!affiliate) {
+    const access = await resolveAffiliateRequestAccess(req, res);
+    if (!(access && access.affiliate)) {
       res.statusCode = 403;
       return res.end("Acceso no autorizado");
     }

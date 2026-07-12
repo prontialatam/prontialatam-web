@@ -420,7 +420,11 @@
       }
 
       function renderApplications(applications, adminToken) {
-        if (!applications.length) {
+        const pendingApplications = (applications || []).filter(function (app) {
+          return String(app.status || '').toLowerCase() !== 'approved';
+        });
+
+        if (!pendingApplications.length) {
           renderEmptyPanel(list, 'Solicitudes de afiliación', 'No hay solicitudes pendientes o recientes.');
           return;
         }
@@ -436,7 +440,7 @@
             '<div class="ops-table-wrap">' +
               '<table class="ops-table">' +
                 '<thead><tr><th>Solicitante</th><th>Estado</th><th>País</th><th>Canal</th><th>Audiencia</th><th>Fecha</th><th>Acción</th></tr></thead>' +
-                '<tbody>' + applications.map(function (app, index) {
+                '<tbody>' + pendingApplications.map(function (app, index) {
           const detailId = 'application-detail-' + index;
           return '' +
             '<tr data-application-id="' + escapeHtml(app.id) + '">' +

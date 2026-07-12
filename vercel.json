@@ -1,5 +1,13 @@
 {
   "cleanUrls": true,
+  "functions": {
+    "api/affiliate/page.js": {
+      "includeFiles": "**/*.html"
+    },
+    "api/affiliate/resource.js": {
+      "includeFiles": "downloads/**"
+    }
+  },
   "redirects": [
     {
       "source": "/portal-afiliados",

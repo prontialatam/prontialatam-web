@@ -7,26 +7,96 @@
   <meta name="description" content="Dashboard privado para afiliados de ProntIA LATAM con perfil editable, métricas, seguimiento de ventas, cobros y recursos por nicho.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;600;700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="icon" href="logo-prontia.jpg" type="image/jpeg">
   <link rel="stylesheet" href="assets/css/commerce-pages.css">
   <style>
+    :root {
+      --portal-accent: "Bricolage Grotesque", "DM Sans", sans-serif;
+      --portal-body: "DM Sans", system-ui, sans-serif;
+      --portal-ink: #0b2440;
+      --portal-blue: #165fa8;
+      --portal-sky: #d9eafb;
+      --portal-cream: #f7f2ea;
+      --portal-paper: rgba(255, 255, 255, 0.94);
+      --portal-border: rgba(4, 44, 83, 0.1);
+      --portal-shadow: 0 24px 60px rgba(16, 60, 106, 0.1);
+    }
+
+    body {
+      font-family: var(--portal-body);
+      background:
+        radial-gradient(circle at top left, rgba(22, 95, 168, 0.14), transparent 28%),
+        linear-gradient(180deg, #f8f5ef 0%, #ffffff 40%);
+    }
+
+    .topbar {
+      gap: 1.25rem;
+      padding-top: 1.1rem;
+      padding-bottom: 1.1rem;
+      background: rgba(255, 255, 255, 0.96);
+      border-bottom: 1px solid rgba(11, 36, 64, 0.08);
+    }
+
+    .brand {
+      gap: 1rem;
+    }
+
+    .brand img {
+      height: 52px;
+      border-radius: 10px;
+      box-shadow: 0 14px 32px rgba(12, 68, 124, 0.15);
+    }
+
+    .brand span {
+      font-family: var(--portal-accent);
+      font-size: 1.05rem;
+      color: var(--portal-ink);
+      letter-spacing: -0.02em;
+    }
+
+    .topbar-links {
+      gap: 0.7rem;
+    }
+
+    .topbar-links a {
+      padding: 0.72rem 1rem;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(11, 36, 64, 0.08);
+      color: var(--portal-ink);
+      font-family: var(--portal-accent);
+      font-size: 0.96rem;
+      letter-spacing: -0.02em;
+      box-shadow: 0 10px 24px rgba(11, 36, 64, 0.04);
+      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+    }
+
+    .topbar-links a:hover {
+      transform: translateY(-1px);
+      border-color: rgba(22, 95, 168, 0.22);
+      box-shadow: 0 16px 28px rgba(22, 95, 168, 0.12);
+    }
+
+    .portal-dashboard {
+      display: grid;
+      gap: 2rem;
+    }
+
     .portal-shell-grid,
-    .portal-hero-shell,
+    .portal-intro-grid,
     .portal-grid-two,
     .portal-grid-three,
     .portal-action-grid,
     .portal-form-grid,
-    .portal-payout-grid {
+    .portal-payout-grid,
+    .portal-summary-grid,
+    .portal-nav-grid {
       display: grid;
-      gap: 1.2rem;
+      gap: 1.15rem;
     }
 
-    .portal-shell-grid {
-      grid-template-columns: 1.05fr 0.95fr;
-    }
-
-    .portal-hero-shell,
+    .portal-shell-grid,
     .portal-grid-two {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
@@ -35,27 +105,58 @@
       grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 
+    .portal-summary-grid {
+      grid-template-columns: 1.2fr 0.8fr;
+    }
+
+    .portal-card,
     .portal-profile-card,
     .portal-highlight-card,
-    .portal-section-card,
-    .portal-empty-card,
     .portal-stat-card,
-    .portal-mini-card {
-      background: rgba(255, 255, 255, 0.94);
-      border: 1px solid rgba(4, 44, 83, 0.08);
-      border-radius: 1.3rem;
-      box-shadow: 0 24px 60px rgba(24, 95, 165, 0.08);
+    .portal-mini-card,
+    .portal-collapse,
+    .portal-empty-card,
+    .portal-overview-card,
+    .portal-nav-card {
+      background: var(--portal-paper);
+      border: 1px solid var(--portal-border);
+      border-radius: 1.45rem;
+      box-shadow: var(--portal-shadow);
     }
 
     .portal-profile-card,
     .portal-highlight-card,
-    .portal-section-card {
+    .portal-overview-card,
+    .portal-nav-card,
+    .portal-stat-card,
+    .portal-mini-card {
       padding: 1.45rem;
+    }
+
+    .hero {
+      padding: 4rem 0 2.2rem;
     }
 
     .portal-profile-card {
       display: grid;
       gap: 1rem;
+      background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(248, 252, 255, 0.92)),
+        radial-gradient(circle at top right, rgba(55, 138, 221, 0.16), transparent 34%);
+    }
+
+    .portal-overline {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.42rem 0.9rem;
+      border-radius: 999px;
+      background: rgba(217, 234, 251, 0.78);
+      border: 1px solid rgba(22, 95, 168, 0.12);
+      color: var(--portal-blue);
+      font-family: var(--portal-accent);
+      font-size: 0.82rem;
+      letter-spacing: 0.01em;
     }
 
     .portal-profile-top {
@@ -65,20 +166,20 @@
     }
 
     .portal-avatar {
-      width: 86px;
-      height: 86px;
+      width: 92px;
+      height: 92px;
       border-radius: 999px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       overflow: hidden;
-      background: linear-gradient(135deg, #12385b, #1b6cba);
+      background: linear-gradient(135deg, #11375d, #1d74c6);
       color: #fff;
-      font-family: var(--font-display);
+      font-family: var(--portal-accent);
       font-size: 2rem;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.03em;
       flex: 0 0 auto;
-      box-shadow: 0 16px 36px rgba(12, 68, 124, 0.18);
+      box-shadow: 0 18px 36px rgba(12, 68, 124, 0.2);
     }
 
     .portal-avatar img {
@@ -88,60 +189,113 @@
       display: block;
     }
 
+    .portal-profile-copy h1,
+    .portal-section-title,
+    .portal-collapse summary strong,
+    .portal-stat-card strong,
+    .portal-mini-card strong,
+    .portal-overview-card h2,
+    .portal-nav-card h2,
+    .portal-highlight-card h2 {
+      font-family: var(--portal-accent);
+      color: var(--portal-ink);
+      letter-spacing: -0.03em;
+    }
+
     .portal-profile-copy h1 {
       margin: 0;
-      font-family: var(--font-display);
-      font-size: clamp(2.3rem, 4vw, 3.8rem);
-      line-height: 0.96;
-      color: var(--blue-900);
+      font-size: clamp(2.5rem, 4vw, 4.2rem);
+      line-height: 0.94;
     }
 
     .portal-profile-copy p,
-    .portal-section-head p,
-    .portal-copy {
-      margin: 0.4rem 0 0;
-      color: var(--gray-700);
+    .portal-copy,
+    .portal-highlight-card p,
+    .portal-section-copy {
+      margin: 0.45rem 0 0;
+      color: #5d6670;
+      font-size: 1rem;
+      line-height: 1.6;
     }
 
-    .portal-pill-row {
+    .portal-pill-row,
+    .portal-chip-grid,
+    .portal-anchor-row {
       display: flex;
       flex-wrap: wrap;
       gap: 0.7rem;
     }
 
-    .portal-pill {
+    .portal-pill,
+    .portal-anchor-row a {
       display: inline-flex;
       align-items: center;
       gap: 0.45rem;
-      padding: 0.55rem 0.8rem;
+      padding: 0.6rem 0.9rem;
       border-radius: 999px;
-      background: rgba(230, 241, 251, 0.72);
-      border: 1px solid rgba(4, 44, 83, 0.08);
-      color: var(--blue-900);
-      font-size: 0.88rem;
+      background: rgba(217, 234, 251, 0.72);
+      border: 1px solid rgba(11, 36, 64, 0.08);
+      color: var(--portal-ink);
+      text-decoration: none;
+      font-size: 0.9rem;
     }
 
-    .portal-highlight-card {
-      background:
-        radial-gradient(circle at top right, rgba(55, 138, 221, 0.18), transparent 34%),
-        linear-gradient(180deg, rgba(251, 250, 247, 0.98), rgba(255, 255, 255, 0.94));
+    .portal-anchor-row a {
+      font-family: var(--portal-accent);
+      background: rgba(255, 255, 255, 0.8);
+      box-shadow: 0 10px 24px rgba(11, 36, 64, 0.05);
     }
 
-    .portal-highlight-card h2,
-    .portal-section-card h2 {
+    .portal-anchor-row a:hover {
+      transform: translateY(-1px);
+    }
+
+    .portal-intro-grid {
+      grid-template-columns: 1.3fr 0.7fr;
+    }
+
+    .portal-overview-card h2,
+    .portal-nav-card h2,
+    .portal-highlight-card h2 {
       margin: 0;
-      color: var(--blue-900);
-      font-family: var(--font-display);
-      font-size: 2rem;
+      font-size: 1.8rem;
       line-height: 1;
     }
 
-    .portal-section-head {
+    .portal-overview-card p,
+    .portal-nav-card p {
+      margin: 0.4rem 0 0;
+      color: #5d6670;
+    }
+
+    .portal-nav-grid {
+      grid-template-columns: 1fr;
+      margin-top: 1rem;
+    }
+
+    .portal-nav-link {
       display: flex;
+      align-items: center;
       justify-content: space-between;
       gap: 1rem;
-      align-items: flex-start;
-      margin-bottom: 1rem;
+      padding: 0.95rem 1rem;
+      border-radius: 1rem;
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(11, 36, 64, 0.08);
+      text-decoration: none;
+      color: var(--portal-ink);
+      font-family: var(--portal-accent);
+      font-size: 1rem;
+      transition: transform 0.18s ease, border-color 0.18s ease;
+    }
+
+    .portal-nav-link:hover {
+      transform: translateX(2px);
+      border-color: rgba(22, 95, 168, 0.24);
+    }
+
+    .portal-nav-link span:last-child {
+      opacity: 0.58;
     }
 
     .portal-stat-grid {
@@ -151,42 +305,46 @@
     }
 
     .portal-stat-card {
-      padding: 1.25rem;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(245, 249, 255, 0.92));
     }
 
     .portal-stat-card strong {
       display: block;
-      margin-bottom: 0.45rem;
-      color: var(--blue-900);
-      font-size: 1rem;
+      margin-bottom: 0.55rem;
+      font-size: 1.02rem;
     }
 
-    .portal-stat-figure {
-      font-family: var(--font-display);
-      font-size: 2.4rem;
-      line-height: 1;
-      color: var(--blue-900);
+    .portal-stat-figure,
+    .portal-payout-figure {
+      font-family: var(--portal-accent);
+      font-size: 2.45rem;
+      line-height: 0.95;
+      color: var(--portal-ink);
+      letter-spacing: -0.05em;
     }
 
-    .portal-stat-caption {
-      color: var(--gray-700);
-      font-size: 0.92rem;
-      margin-top: 0.4rem;
+    .portal-stat-caption,
+    .portal-mini-card span,
+    .portal-highlight-card .portal-list div,
+    .portal-activity-item span,
+    .portal-product-item span,
+    .portal-payout-item span,
+    .portal-table td,
+    .portal-kv-list span,
+    .portal-profile-status,
+    .microcopy {
+      color: #5d6670;
+    }
+
+    .portal-summary-grid,
+    .portal-grid-three,
+    .portal-payout-grid {
+      align-items: stretch;
     }
 
     .portal-mini-card {
-      padding: 1.1rem;
-      background: rgba(255, 255, 255, 0.78);
-    }
-
-    .portal-mini-card strong {
-      color: var(--blue-900);
-      display: block;
-      margin-bottom: 0.35rem;
-    }
-
-    .portal-mini-card span {
-      color: var(--gray-700);
+      background: linear-gradient(180deg, rgba(248, 252, 255, 0.92), rgba(255, 255, 255, 0.96));
     }
 
     .portal-kv-list,
@@ -195,7 +353,7 @@
     .portal-product-list,
     .portal-payout-list {
       display: grid;
-      gap: 0.8rem;
+      gap: 0.9rem;
     }
 
     .portal-kv-list div,
@@ -203,10 +361,10 @@
     .portal-activity-item,
     .portal-product-item,
     .portal-payout-item {
-      padding: 0.95rem 1rem;
+      padding: 1rem 1.05rem;
       border-radius: 1rem;
-      background: rgba(230, 241, 251, 0.45);
-      border: 1px solid rgba(4, 44, 83, 0.06);
+      background: rgba(235, 244, 253, 0.52);
+      border: 1px solid rgba(11, 36, 64, 0.06);
     }
 
     .portal-kv-list strong,
@@ -214,7 +372,77 @@
     .portal-activity-item strong,
     .portal-product-item strong,
     .portal-payout-item strong {
-      color: var(--blue-900);
+      color: var(--portal-ink);
+      font-family: var(--portal-accent);
+      font-size: 1rem;
+    }
+
+    .portal-collapse {
+      overflow: hidden;
+    }
+
+    .portal-collapse + .portal-collapse {
+      margin-top: 1.25rem;
+    }
+
+    .portal-collapse summary {
+      list-style: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 1.15rem 1.35rem;
+      background: linear-gradient(180deg, rgba(250, 247, 241, 0.9), rgba(255, 255, 255, 0.98));
+    }
+
+    .portal-collapse summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .portal-collapse summary strong {
+      display: block;
+      font-size: 1.45rem;
+      line-height: 1;
+    }
+
+    .portal-collapse summary span {
+      display: block;
+      margin-top: 0.35rem;
+      color: #6a7077;
+      font-size: 0.96rem;
+      font-family: var(--portal-body);
+    }
+
+    .portal-collapse summary::after {
+      content: "+";
+      width: 2.2rem;
+      height: 2.2rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      background: rgba(217, 234, 251, 0.82);
+      color: var(--portal-blue);
+      font-family: var(--portal-accent);
+      font-size: 1.2rem;
+      flex: 0 0 auto;
+    }
+
+    .portal-collapse[open] summary::after {
+      content: "−";
+    }
+
+    .portal-collapse-body {
+      padding: 0 1.35rem 1.35rem;
+    }
+
+    .portal-highlight-card {
+      display: grid;
+      gap: 1rem;
+      background:
+        radial-gradient(circle at top right, rgba(55, 138, 221, 0.18), transparent 34%),
+        linear-gradient(180deg, rgba(251, 250, 247, 0.98), rgba(255, 255, 255, 0.94));
     }
 
     .portal-action-grid {
@@ -229,32 +457,35 @@
 
     .portal-niche-grid {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 1.2rem;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
     }
 
     .portal-niche-card {
       padding: 1.25rem;
       border-radius: 1.1rem;
-      border: 1px solid rgba(4, 44, 83, 0.08);
-      background: rgba(255, 255, 255, 0.78);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
+      border: 1px solid rgba(11, 36, 64, 0.08);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(247, 251, 255, 0.92));
     }
 
     .portal-niche-card h3 {
       margin: 0 0 0.55rem;
-      color: var(--blue-900);
+      color: var(--portal-ink);
+      font-family: var(--portal-accent);
+      font-size: 1.28rem;
+      letter-spacing: -0.03em;
     }
 
     .portal-niche-card p {
       margin: 0;
-      color: var(--gray-700);
+      color: #5d6670;
     }
 
     .portal-table-wrap {
       overflow-x: auto;
-      border: 1px solid rgba(4, 44, 83, 0.08);
+      border: 1px solid rgba(11, 36, 64, 0.08);
       border-radius: 1rem;
+      background: #fff;
     }
 
     .portal-table {
@@ -266,37 +497,33 @@
 
     .portal-table th,
     .portal-table td {
-      padding: 0.9rem 1rem;
-      border-bottom: 1px solid rgba(4, 44, 83, 0.08);
+      padding: 0.95rem 1rem;
+      border-bottom: 1px solid rgba(11, 36, 64, 0.08);
       text-align: left;
       vertical-align: top;
       font-size: 0.92rem;
     }
 
     .portal-table th {
-      color: var(--gray-400);
-      font-size: 0.76rem;
-      letter-spacing: 0.08em;
+      background: #f8f3eb;
+      color: #6d5d48;
+      font-family: var(--portal-accent);
+      font-size: 0.78rem;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
-      background: #fbf8f2;
-    }
-
-    .portal-table tr:last-child td {
-      border-bottom: 0;
     }
 
     .portal-empty-card {
-      padding: 1.35rem;
+      padding: 1.45rem;
       text-align: center;
-      color: var(--gray-700);
-      background: linear-gradient(180deg, rgba(251, 248, 242, 0.95), rgba(255, 255, 255, 0.94));
+      color: #5d6670;
+      background: linear-gradient(180deg, rgba(251, 248, 242, 0.96), rgba(255, 255, 255, 0.98));
     }
 
     .portal-lock {
       max-width: 760px;
       margin: 0 auto;
-      text-align: center;
-      padding: 1.7rem;
+      padding: 1.9rem;
     }
 
     .portal-form-grid {
@@ -309,20 +536,21 @@
 
     .portal-form-grid label {
       display: grid;
-      gap: 0.35rem;
+      gap: 0.4rem;
       font-size: 0.92rem;
-      color: var(--gray-700);
+      color: #4f5a66;
+      font-weight: 500;
     }
 
     .portal-form-grid input,
     .portal-form-grid textarea {
       width: 100%;
-      padding: 0.92rem 1rem;
-      border-radius: 0.8rem;
-      border: 1px solid rgba(4, 44, 83, 0.14);
-      background: var(--white);
+      padding: 0.96rem 1rem;
+      border-radius: 0.9rem;
+      border: 1px solid rgba(11, 36, 64, 0.12);
+      background: rgba(255, 255, 255, 0.96);
       font: inherit;
-      color: var(--gray-900);
+      color: var(--portal-ink);
     }
 
     .portal-form-grid textarea {
@@ -336,8 +564,8 @@
       gap: 1rem;
       padding: 1rem;
       border-radius: 1rem;
-      background: rgba(230, 241, 251, 0.4);
-      border: 1px solid rgba(4, 44, 83, 0.06);
+      background: rgba(235, 244, 253, 0.58);
+      border: 1px solid rgba(11, 36, 64, 0.06);
       margin-bottom: 1rem;
     }
 
@@ -347,23 +575,17 @@
     }
 
     .portal-avatar-actions small {
-      color: var(--gray-400);
-    }
-
-    .portal-chip-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.65rem;
+      color: #6a7077;
     }
 
     .portal-chip-grid label {
       display: inline-flex;
       align-items: center;
       gap: 0.45rem;
-      padding: 0.7rem 0.9rem;
+      padding: 0.75rem 0.95rem;
       border-radius: 999px;
-      border: 1px solid rgba(4, 44, 83, 0.12);
-      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(11, 36, 64, 0.1);
+      background: rgba(255, 255, 255, 0.94);
       cursor: pointer;
     }
 
@@ -374,9 +596,8 @@
     }
 
     .portal-profile-status {
-      min-height: 1.2rem;
-      color: var(--gray-700);
-      font-size: 0.9rem;
+      min-height: 1.25rem;
+      font-size: 0.92rem;
     }
 
     .portal-profile-status.success {
@@ -389,14 +610,6 @@
 
     .portal-payout-grid {
       grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-
-    .portal-payout-figure {
-      font-family: var(--font-display);
-      font-size: 2.2rem;
-      line-height: 1;
-      color: var(--blue-900);
-      margin-top: 0.25rem;
     }
 
     .status-badge.connect-ready,
@@ -415,7 +628,7 @@
     .status-badge.connect-not-started,
     .status-badge.payout-processing {
       background: rgba(4, 44, 83, 0.08);
-      color: var(--blue-900);
+      color: var(--portal-ink);
     }
 
     .status-badge.connect-restricted {
@@ -425,15 +638,36 @@
 
     @media (max-width: 1080px) {
       .portal-shell-grid,
-      .portal-hero-shell,
       .portal-grid-two,
       .portal-grid-three,
       .portal-stat-grid,
+      .portal-summary-grid,
+      .portal-intro-grid,
       .portal-form-grid,
       .portal-payout-grid,
       .portal-niche-grid,
       .portal-action-grid {
         grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .portal-profile-top,
+      .portal-avatar-editor {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .portal-profile-copy h1 {
+        font-size: 2.4rem;
+      }
+
+      .portal-collapse summary {
+        padding: 1rem 1rem 0.95rem;
+      }
+
+      .portal-collapse-body {
+        padding: 0 1rem 1rem;
       }
     }
   </style>
@@ -443,10 +677,10 @@
     <header class="topbar">
       <a href="/portal-afiliados" class="brand">
         <img src="logo-prontia.jpg" alt="ProntIA LATAM">
-        <span>Dashboard privado de afiliados</span>
+        <span>ProntIA LATAM · Portal Privado de Afiliados</span>
       </a>
       <nav class="topbar-links">
-        <a href="#metricas">Métricas</a>
+        <a href="#metricas">Visión general</a>
         <a href="#perfil">Perfil</a>
         <a href="#nichos">Nichos</a>
         <a href="#ventas">Ventas</a>
@@ -454,18 +688,16 @@
       </nav>
     </header>
 
-    <main>
+    <main class="portal-dashboard">
       <section class="hero">
         <div class="container">
-          <div id="portalLoading" class="hero-card">
-            <div class="hero-card-note">
-              <strong>Cargando tu portal privado</strong>
-              <p class="microcopy" style="margin-top:0.55rem;">Estamos preparando tu perfil, tus métricas, tu estado de cobros y el acceso a la biblioteca completa de materiales.</p>
-            </div>
+          <div id="portalLoading" class="portal-empty-card">
+            <strong style="display:block; font-family:var(--portal-accent); color:var(--portal-ink); font-size:1.45rem;">Cargando tu portal privado</strong>
+            <p class="portal-copy">Estamos preparando tu perfil, tus métricas, tu estado de cobros y la biblioteca operativa de materiales.</p>
           </div>
 
           <div id="portalError" class="portal-empty-card portal-lock" hidden>
-            <h2 style="margin-top:0; color:var(--blue-900); font-family:var(--font-display); font-size:2.3rem;">Acceso privado no disponible</h2>
+            <h2 style="margin-top:0; color:var(--portal-ink); font-family:var(--portal-accent); font-size:2.4rem;">Acceso privado no disponible</h2>
             <p>Este portal solo se abre desde tu enlace personal de afiliado. Si entraste desde un marcador antiguo o un enlace incompleto, responde al email de aprobación y te reenviamos el acceso actualizado.</p>
             <div class="cta-row" style="justify-content:center;">
               <a class="btn-primary" href="mailto:hola@prontialatam.com?subject=Acceso%20portal%20afiliados">Solicitar nuevo acceso</a>
@@ -475,7 +707,7 @@
           <div id="portalApp" hidden>
             <div class="portal-shell-grid">
               <article class="portal-profile-card">
-                <div class="eyebrow">Centro operativo de afiliado</div>
+                <div class="portal-overline">Centro operativo del afiliado</div>
                 <div class="portal-profile-top">
                   <div id="affiliateAvatar" class="portal-avatar">PL</div>
                   <div class="portal-profile-copy">
@@ -484,28 +716,36 @@
                   </div>
                 </div>
                 <div id="affiliatePills" class="portal-pill-row"></div>
-                <div class="portal-grid-three" id="affiliateMiniCards"></div>
+                <div id="affiliateMiniCards" class="portal-grid-three"></div>
                 <div class="cta-row" style="margin-top:0;">
                   <a id="primaryAffiliateLink" class="btn-primary" href="#" target="_blank" rel="noreferrer">Abrir enlace principal</a>
                   <a id="primaryPortalKit" class="btn-secondary" href="#" target="_blank" rel="noreferrer">Descargar kit principal</a>
                 </div>
               </article>
 
-              <aside class="portal-highlight-card" id="cobros">
-                <div>
-                  <h2>Estado de cobros</h2>
-                  <p id="connectSummary" class="portal-stat-caption">Sincronizando estado de Stripe Connect y el resumen de pagos.</p>
-                </div>
-                <div>
-                  <span id="connectBadge" class="status-badge connect-not-started">Pendiente</span>
-                </div>
-                <div id="connectRequirements" class="portal-list"></div>
-                <div id="payoutSummaryCards" class="portal-payout-grid"></div>
-                <div class="cta-row" style="margin-top:0;">
-                  <a id="connectCta" class="btn-ghost" href="mailto:hola@prontialatam.com?subject=Configurar%20cobros%20de%20afiliado">Solicitar configuración</a>
-                  <a id="stripeDashboardLink" class="btn-secondary" href="#" target="_blank" rel="noreferrer" hidden>Ver dashboard Stripe</a>
-                </div>
-              </aside>
+              <div class="portal-intro-grid">
+                <article class="portal-overview-card">
+                  <h2>Una vista más clara para vender mejor</h2>
+                  <p>Hemos reorganizado el portal para que puedas enfocarte primero en el estado general y después abrir solo la sección que necesites trabajar en cada momento.</p>
+                  <div class="portal-anchor-row" style="margin-top:1rem;">
+                    <a href="#metricas">Métricas</a>
+                    <a href="#perfil">Editar perfil</a>
+                    <a href="#ventas">Ventas</a>
+                    <a href="#cobros">Pagos</a>
+                  </div>
+                </article>
+
+                <article class="portal-nav-card">
+                  <h2>Navegación rápida</h2>
+                  <p>Accesos directos a las capas más usadas del dashboard.</p>
+                  <div class="portal-nav-grid">
+                    <a class="portal-nav-link" href="#perfil"><span>Perfil y ficha operativa</span><span>01</span></a>
+                    <a class="portal-nav-link" href="#nichos"><span>Material por nicho</span><span>02</span></a>
+                    <a class="portal-nav-link" href="#ventas"><span>Ventas y actividad</span><span>03</span></a>
+                    <a class="portal-nav-link" href="#cobros"><span>Estado de cobros</span><span>04</span></a>
+                  </div>
+                </article>
+              </div>
             </div>
           </div>
         </div>
@@ -518,148 +758,180 @@
       </section>
 
       <section class="section" id="perfil">
-        <div class="container portal-grid-two">
-          <article class="portal-section-card">
-            <div class="portal-section-head">
+        <div class="container">
+          <details class="portal-collapse" open>
+            <summary>
               <div>
-                <h2>Perfil del afiliado</h2>
-                <p>Edita tu ficha visible en esta zona privada para trabajar con una identidad más profesional.</p>
+                <strong>Perfil y posicionamiento del afiliado</strong>
+                <span>Edita tu presentación, tus nichos foco y la información comercial desde la que te moverás.</span>
               </div>
-            </div>
-            <div class="portal-avatar-editor">
-              <div id="editorAvatar" class="portal-avatar">PL</div>
-              <div class="portal-avatar-actions">
-                <input type="file" id="profilePhotoInput" accept="image/*">
-                <small>Puedes subir una foto ligera o mantener tu avatar inicial.</small>
-              </div>
-            </div>
-            <form id="profileForm">
-              <div class="portal-form-grid">
-                <label>
-                  Título profesional
-                  <input type="text" id="displayTitleInput" placeholder="Ej. Afiliado ProntIA para negocios locales">
-                </label>
-                <label>
-                  Web o landing personal
-                  <input type="text" id="websiteUrlInput" placeholder="https://...">
-                </label>
-              </div>
-              <div class="portal-form-grid">
-                <label>
-                  Instagram / RRSS principal
-                  <input type="text" id="instagramHandleInput" placeholder="@tuusuario o URL">
-                </label>
-                <label>
-                  WhatsApp de contacto
-                  <input type="text" id="whatsappContactInput" placeholder="+34 ...">
-                </label>
-              </div>
-              <div class="portal-form-grid full">
-                <label>
-                  Bio comercial
-                  <textarea id="bioInput" placeholder="Describe en pocas líneas tu enfoque, tu audiencia y cómo mueves este producto."></textarea>
-                </label>
-              </div>
-              <div class="portal-form-grid full">
-                <label>
-                  Nichos en los que te enfocas
-                  <div id="preferredNichesGrid" class="portal-chip-grid"></div>
-                </label>
-              </div>
-              <div class="portal-form-grid full">
-                <label>
-                  Notas de pago y fiscalidad
-                  <textarea id="payoutNotesInput" placeholder="Ej. Prefiero consolidado mensual, país fiscal, observaciones internas, etc."></textarea>
-                </label>
-              </div>
-              <div class="cta-row" style="margin-top:1rem;">
-                <button type="submit" id="saveProfileButton" class="btn-primary">Guardar perfil</button>
-              </div>
-              <p id="profileStatus" class="portal-profile-status"></p>
-            </form>
-          </article>
+            </summary>
+            <div class="portal-collapse-body">
+              <div class="portal-grid-two">
+                <article class="portal-card" style="padding:1.45rem;">
+                  <div class="portal-avatar-editor">
+                    <div id="editorAvatar" class="portal-avatar">PL</div>
+                    <div class="portal-avatar-actions">
+                      <input type="file" id="profilePhotoInput" accept="image/*">
+                      <small>Sube una foto ligera y profesional. El cambio se aplica al guardar el perfil.</small>
+                    </div>
+                  </div>
+                  <form id="profileForm">
+                    <div class="portal-form-grid">
+                      <label>
+                        Título profesional
+                        <input type="text" id="displayTitleInput" placeholder="Ej. Afiliado ProntIA para negocios locales">
+                      </label>
+                      <label>
+                        Web o landing personal
+                        <input type="text" id="websiteUrlInput" placeholder="https://...">
+                      </label>
+                    </div>
+                    <div class="portal-form-grid">
+                      <label>
+                        Instagram o RRSS principal
+                        <input type="text" id="instagramHandleInput" placeholder="@tuusuario o URL">
+                      </label>
+                      <label>
+                        WhatsApp de contacto
+                        <input type="text" id="whatsappContactInput" placeholder="+34 ...">
+                      </label>
+                    </div>
+                    <div class="portal-form-grid full">
+                      <label>
+                        Bio comercial
+                        <textarea id="bioInput" placeholder="Describe tu enfoque, tu audiencia y cómo introduces estos productos en tu mercado."></textarea>
+                      </label>
+                    </div>
+                    <div class="portal-form-grid full">
+                      <label>
+                        Nichos en los que te enfocas
+                        <div id="preferredNichesGrid" class="portal-chip-grid"></div>
+                      </label>
+                    </div>
+                    <div class="portal-form-grid full">
+                      <label>
+                        Notas de pago y fiscalidad
+                        <textarea id="payoutNotesInput" placeholder="Ej. Consolidado mensual, país fiscal, observaciones internas, etc."></textarea>
+                      </label>
+                    </div>
+                    <div class="cta-row" style="margin-top:1rem;">
+                      <button type="submit" id="saveProfileButton" class="btn-primary">Guardar perfil</button>
+                    </div>
+                    <p id="profileStatus" class="portal-profile-status"></p>
+                  </form>
+                </article>
 
-          <article class="portal-section-card">
-            <div class="portal-section-head">
-              <div>
-                <h2>Ficha operativa</h2>
-                <p>Datos del programa, código asignado, canales y base comercial desde la que estás operando ahora mismo.</p>
+                <article class="portal-card" style="padding:1.45rem;">
+                  <div class="portal-section-title" style="font-size:1.6rem;">Ficha operativa</div>
+                  <p class="portal-section-copy">Datos del programa, código asignado, canales y base comercial desde la que estás operando ahora mismo.</p>
+                  <div id="affiliateDetails" class="portal-kv-list" style="margin-top:1rem;"></div>
+                </article>
               </div>
             </div>
-            <div id="affiliateDetails" class="portal-kv-list"></div>
-          </article>
+          </details>
         </div>
       </section>
 
       <section class="section" id="nichos">
-        <div class="container portal-grid-two">
-          <article class="portal-section-card">
-            <div class="portal-section-head">
+        <div class="container">
+          <details class="portal-collapse" open>
+            <summary>
               <div>
-                <h2>Rendimiento por producto</h2>
-                <p>Así se está repartiendo tu facturación entre los nichos activos que ya puedes promocionar.</p>
+                <strong>Nichos, material y foco comercial</strong>
+                <span>Consulta qué verticales están más activos y accede al material listo para publicar o vender.</span>
               </div>
-            </div>
-            <div id="productPerformance" class="portal-product-list"></div>
-          </article>
+            </summary>
+            <div class="portal-collapse-body">
+              <div class="portal-grid-two">
+                <article class="portal-card" style="padding:1.45rem;">
+                  <div class="portal-section-title" style="font-size:1.6rem;">Rendimiento por producto</div>
+                  <p class="portal-section-copy">Así se está repartiendo tu facturación entre los nichos activos que ya puedes promocionar.</p>
+                  <div id="productPerformance" class="portal-product-list" style="margin-top:1rem;"></div>
+                </article>
 
-          <article class="portal-section-card">
-            <div class="portal-section-head">
-              <div>
-                <h2>Material listo para usar</h2>
-                <p>Biblioteca activa por vertical para que publiques sin improvisar piezas, textos ni enlaces.</p>
+                <article class="portal-card" style="padding:1.45rem;">
+                  <div class="portal-section-title" style="font-size:1.6rem;">Biblioteca por nicho</div>
+                  <p class="portal-section-copy">Landing, dossier, playbook, RRSS y kit para que no improvises mensajes ni activos.</p>
+                  <div id="nicheCards" class="portal-niche-grid" style="margin-top:1rem;"></div>
+                </article>
               </div>
             </div>
-            <div id="nicheCards" class="portal-niche-grid"></div>
-          </article>
+          </details>
         </div>
       </section>
 
       <section class="section" id="ventas">
-        <div class="container portal-grid-two">
-          <article class="portal-section-card">
-            <div class="portal-section-head">
+        <div class="container">
+          <details class="portal-collapse">
+            <summary>
               <div>
-                <h2>Historial de ventas</h2>
-                <p>Pedidos atribuidos a tu código y estado de cada operación.</p>
+                <strong>Ventas y actividad reciente</strong>
+                <span>Abre esta sección para revisar pedidos atribuidos, comportamiento del tráfico y movimiento reciente.</span>
               </div>
-            </div>
-            <div id="ordersTable"></div>
-          </article>
+            </summary>
+            <div class="portal-collapse-body">
+              <div class="portal-grid-two">
+                <article class="portal-card" style="padding:1.45rem;">
+                  <div class="portal-section-title" style="font-size:1.6rem;">Historial de ventas</div>
+                  <p class="portal-section-copy">Pedidos atribuidos a tu código y estado de cada operación.</p>
+                  <div id="ordersTable" style="margin-top:1rem;"></div>
+                </article>
 
-          <article class="portal-section-card" id="actividad">
-            <div class="portal-section-head">
-              <div>
-                <h2>Actividad reciente</h2>
-                <p>Clics y tráfico captado en tus enlaces para detectar qué canal te está funcionando mejor.</p>
+                <article class="portal-card" style="padding:1.45rem;">
+                  <div class="portal-section-title" style="font-size:1.6rem;">Actividad reciente</div>
+                  <p class="portal-section-copy">Clics y tráfico captado en tus enlaces para detectar qué canal te está funcionando mejor.</p>
+                  <div id="clicksList" class="portal-activity-list" style="margin-top:1rem;"></div>
+                </article>
               </div>
             </div>
-            <div id="clicksList" class="portal-activity-list"></div>
-          </article>
+          </details>
         </div>
       </section>
 
-      <section class="section">
-        <div class="container portal-grid-two">
-          <article class="portal-section-card">
-            <div class="portal-section-head">
+      <section class="section" id="cobros">
+        <div class="container">
+          <details class="portal-collapse" open>
+            <summary>
               <div>
-                <h2>Historial de pagos</h2>
-                <p>Vista base de liquidaciones registradas o pendientes dentro del programa.</p>
+                <strong>Cobros, saldo y pagos</strong>
+                <span>Estado de Stripe Connect, saldo por liquidar e histórico base de comisiones registradas.</span>
               </div>
-            </div>
-            <div id="payoutList" class="portal-payout-list"></div>
-          </article>
+            </summary>
+            <div class="portal-collapse-body">
+              <div class="portal-summary-grid">
+                <aside class="portal-highlight-card">
+                  <div>
+                    <h2>Estado de cobros</h2>
+                    <p id="connectSummary" class="portal-copy">Sincronizando estado de Stripe Connect y el resumen de pagos.</p>
+                  </div>
+                  <div>
+                    <span id="connectBadge" class="status-badge connect-not-started">Pendiente</span>
+                  </div>
+                  <div id="connectRequirements" class="portal-list"></div>
+                  <div id="payoutSummaryCards" class="portal-payout-grid"></div>
+                  <div class="cta-row" style="margin-top:0;">
+                    <a id="connectCta" class="btn-ghost" href="mailto:hola@prontialatam.com?subject=Configurar%20cobros%20de%20afiliado">Solicitar configuración</a>
+                    <a id="stripeDashboardLink" class="btn-secondary" href="#" target="_blank" rel="noreferrer" hidden>Ver dashboard Stripe</a>
+                  </div>
+                </aside>
 
-          <article class="portal-section-card">
-            <div class="portal-section-head">
-              <div>
-                <h2>Siguientes pasos recomendados</h2>
-                <p>Acciones concretas para empujar mejor el rendimiento del portal.</p>
+                <div class="portal-grid-two">
+                  <article class="portal-card" style="padding:1.45rem;">
+                    <div class="portal-section-title" style="font-size:1.6rem;">Historial de pagos</div>
+                    <p class="portal-section-copy">Vista base de liquidaciones registradas o pendientes dentro del programa.</p>
+                    <div id="payoutList" class="portal-payout-list" style="margin-top:1rem;"></div>
+                  </article>
+
+                  <article class="portal-card" style="padding:1.45rem;">
+                    <div class="portal-section-title" style="font-size:1.6rem;">Siguientes pasos recomendados</div>
+                    <p class="portal-section-copy">Acciones concretas para empujar mejor el rendimiento del portal y ordenar tu operativa.</p>
+                    <div id="recommendationsList" class="portal-list" style="margin-top:1rem;"></div>
+                  </article>
+                </div>
               </div>
             </div>
-            <div id="recommendationsList" class="portal-list"></div>
-          </article>
+          </details>
         </div>
       </section>
     </main>
@@ -757,13 +1029,11 @@
       }
 
       function initialsFromName(name) {
-        const parts = String(name || '')
-          .trim()
-          .split(/\s+/)
-          .filter(Boolean)
-          .slice(0, 2);
+        const parts = String(name || '').trim().split(/\s+/).filter(Boolean).slice(0, 2);
         if (!parts.length) return 'PL';
-        return parts.map(function (part) { return part.charAt(0).toUpperCase(); }).join('');
+        return parts.map(function (part) {
+          return part.charAt(0).toUpperCase();
+        }).join('');
       }
 
       function formatCurrency(value, currency) {
@@ -943,7 +1213,7 @@
           ['Cupón comercial', affiliate.couponCode || 'Aún no asignado'],
           ['Comisión', Math.round(Number(affiliate.commissionRate || 0) * 100) + '%'],
           ['País', affiliate.country || 'Sin definir'],
-          ['Instagram / red principal', affiliate.instagramHandle || '-'],
+          ['Instagram o red principal', affiliate.instagramHandle || '-'],
           ['Web personal', affiliate.websiteUrl || '-'],
           ['WhatsApp', affiliate.whatsappContact || '-']
         ].map(function (item) {

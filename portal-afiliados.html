@@ -31,7 +31,7 @@
     }
 
     .topbar {
-      gap: 1.25rem;
+      gap: 2rem;
       padding-top: 1.1rem;
       padding-bottom: 1.1rem;
       background: rgba(255, 255, 255, 0.96);
@@ -40,6 +40,10 @@
 
     .brand {
       gap: 1rem;
+      flex: 0 0 auto;
+      margin-right: 1.4rem;
+      padding-right: 1.6rem;
+      position: relative;
     }
 
     .brand img {
@@ -48,26 +52,46 @@
       box-shadow: 0 14px 32px rgba(12, 68, 124, 0.15);
     }
 
+    .brand::after {
+      content: "";
+      position: absolute;
+      right: 0;
+      top: 50%;
+      width: 1px;
+      height: 46px;
+      background: linear-gradient(180deg, transparent, rgba(11, 36, 64, 0.16), transparent);
+      transform: translateY(-50%);
+    }
+
     .brand span {
       font-family: var(--portal-accent);
-      font-size: 1.05rem;
+      font-size: 1.18rem;
+      font-weight: 700;
       color: var(--portal-ink);
-      letter-spacing: -0.02em;
+      letter-spacing: -0.03em;
+      line-height: 1.02;
+      max-width: 320px;
     }
 
     .topbar-links {
-      gap: 0.7rem;
+      flex: 1 1 auto;
+      justify-content: flex-end;
+      gap: 0.85rem;
+      margin-left: auto;
+      padding-left: 0.4rem;
     }
 
     .topbar-links a {
-      padding: 0.72rem 1rem;
+      padding: 0.76rem 1.02rem;
       border-radius: 999px;
       background: rgba(255, 255, 255, 0.82);
       border: 1px solid rgba(11, 36, 64, 0.08);
-      color: var(--portal-ink);
+      color: #1a4f86;
       font-family: var(--portal-accent);
-      font-size: 0.96rem;
-      letter-spacing: -0.02em;
+      font-size: 0.84rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
       box-shadow: 0 10px 24px rgba(11, 36, 64, 0.04);
       transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
     }
@@ -637,6 +661,31 @@
     }
 
     @media (max-width: 1080px) {
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .brand {
+        margin-right: 0;
+        padding-right: 0;
+      }
+
+      .brand::after {
+        display: none;
+      }
+
+      .brand span {
+        max-width: none;
+      }
+
+      .topbar-links {
+        width: 100%;
+        margin-left: 0;
+        padding-left: 0;
+        justify-content: flex-start;
+      }
+
       .portal-shell-grid,
       .portal-grid-two,
       .portal-grid-three,
@@ -652,6 +701,22 @@
     }
 
     @media (max-width: 640px) {
+      .topbar-links {
+        gap: 0.65rem;
+      }
+
+      .topbar-links a {
+        flex: 1 1 calc(50% - 0.65rem);
+        justify-content: center;
+        font-size: 0.8rem;
+        padding: 0.78rem 0.9rem;
+      }
+
+      .brand span {
+        font-size: 1rem;
+        line-height: 1.08;
+      }
+
       .portal-profile-top,
       .portal-avatar-editor {
         align-items: flex-start;

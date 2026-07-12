@@ -58,8 +58,8 @@ module.exports = async function handler(req, res) {
 
     const body = await parseJsonBody(req);
     const profilePhotoUrl = normalizeString(body.profilePhotoUrl, 1500000);
-    if (profilePhotoUrl && !/^https?:\/\/|^data:image\//i.test(profilePhotoUrl)) {
-      return sendJson(res, 400, { error: "La foto debe ser una URL https o una imagen válida." });
+    if (profilePhotoUrl && !/^https?:\/\//i.test(profilePhotoUrl)) {
+      return sendJson(res, 400, { error: "La foto debe ser una URL válida ya subida al sistema." });
     }
 
     const payload = {

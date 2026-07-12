@@ -863,7 +863,7 @@
                     <div id="editorAvatar" class="portal-avatar">PL</div>
                     <div class="portal-avatar-actions">
                       <input type="file" id="profilePhotoInput" accept="image/*">
-                      <small>Sube una foto ligera y profesional. El cambio se aplica al guardar el perfil.</small>
+                      <small>Sube una foto profesional en JPG, PNG o WEBP. La subida se guarda automáticamente en tu perfil.</small>
                     </div>
                   </div>
                   <form id="profileForm">
@@ -1504,6 +1504,19 @@
         };
       }
 
+      function fileToDataUrl(file) {
+        return new Promise(function (resolve, reject) {
+          const reader = new FileReader();
+          reader.onload = function () {
+            resolve(String(reader.result || ''));
+          };
+          reader.onerror = function () {
+            reject(new Error('No se pudo leer la imagen seleccionada.'));
+          };
+          reader.readAsDataURL(file);
+        });
+      }
+
       async function saveProfile(event) {
         event.preventDefault();
         if (!currentPayload) return;
@@ -1542,23 +1555,60 @@
         }
       }
 
-      function handlePhotoChange() {
+      async function handlePhotoChange() {
         const file = profilePhotoInput.files && profilePhotoInput.files[0];
         if (!file) return;
-        if (file.size > 800000) {
-          setProfileStatus('La imagen es demasiado pesada. Usa una foto más ligera, idealmente por debajo de 800 KB.', 'error');
+        if (!/^image\/(jpeg|png|webp)$/i.test(file.type || '')) {
+          setProfileStatus('Formato no permitido. Usa JPG, PNG o WEBP.', 'error');
+          profilePhotoInput.value = '';
+          return;
+        }
+        if (file.size > 2 * 1024 * 1024) {
+          setProfileStatus('La imagen es demasiado pesada. Usa una foto por debajo de 2 MB.', 'error');
           profilePhotoInput.value = '';
           return;
         }
 
-        const reader = new FileReader();
-        reader.onload = function () {
-          currentProfilePhotoUrl = String(reader.result || '');
+        const previousPhotoUrl = currentProfilePhotoUrl;
+        const previewUrl = URL.createObjectURL(file);
+        renderAvatar(editorAvatar, currentPayload && currentPayload.affiliate ? currentPayload.affiliate.fullName : 'Afiliado', previewUrl);
+        renderAvatar(affiliateAvatar, currentPayload && currentPayload.affiliate ? currentPayload.affiliate.fullName : 'Afiliado', previewUrl);
+        profilePhotoInput.disabled = true;
+        setProfileStatus('Subiendo foto al portal...', '');
+
+        try {
+          const dataUrl = await fileToDataUrl(file);
+          const response = await fetch(buildApiUrl('/api/affiliate/profile-photo'), {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              dataUrl: dataUrl
+            })
+          });
+          const payload = await response.json();
+          if (!response.ok || !payload.ok) {
+            throw new Error(payload.error || 'No se pudo subir la foto.');
+          }
+
+          currentProfilePhotoUrl = payload.profilePhotoUrl || '';
+          if (currentPayload && currentPayload.affiliate) {
+            currentPayload.affiliate.profilePhotoUrl = currentProfilePhotoUrl;
+          }
           renderAvatar(editorAvatar, currentPayload && currentPayload.affiliate ? currentPayload.affiliate.fullName : 'Afiliado', currentProfilePhotoUrl);
           renderAvatar(affiliateAvatar, currentPayload && currentPayload.affiliate ? currentPayload.affiliate.fullName : 'Afiliado', currentProfilePhotoUrl);
-          setProfileStatus('Foto cargada en vista previa. Guarda el perfil para dejarla aplicada.', '');
-        };
-        reader.readAsDataURL(file);
+          setProfileStatus('Foto subida correctamente y guardada en tu perfil.', 'success');
+        } catch (error) {
+          currentProfilePhotoUrl = previousPhotoUrl;
+          renderAvatar(editorAvatar, currentPayload && currentPayload.affiliate ? currentPayload.affiliate.fullName : 'Afiliado', previousPhotoUrl);
+          renderAvatar(affiliateAvatar, currentPayload && currentPayload.affiliate ? currentPayload.affiliate.fullName : 'Afiliado', previousPhotoUrl);
+          setProfileStatus(error.message || 'No se pudo subir la foto.', 'error');
+        } finally {
+          URL.revokeObjectURL(previewUrl);
+          profilePhotoInput.disabled = false;
+          profilePhotoInput.value = '';
+        }
       }
 
       async function loadPortal() {

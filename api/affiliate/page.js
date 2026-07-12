@@ -75,11 +75,21 @@ function renderDeniedPage(siteUrl) {
 }
 
 function renderAccessPage(siteUrl, options) {
-  const loginActive = options.mode !== "activate";
-  const cardTitle = loginActive ? "Accede a tu portal privado" : "Activa tu acceso con contraseña";
-  const cardCopy = loginActive
-    ? "Entra con tu email y tu contraseña para abrir el dashboard de afiliado, tus materiales y tus métricas."
-    : "Tu alta ya está aprobada. Define ahora tu contraseña para convertir este acceso privado en un login real y estable.";
+  const initialMode = options.mode === "activate" ? "activate" : options.mode === "recover" ? "recover" : "login";
+  const loginActive = initialMode === "login";
+  const activateActive = initialMode === "activate";
+  const recoverActive = initialMode === "recover";
+  const cardTitle = activateActive
+    ? "Activa tu acceso con contraseña"
+    : recoverActive
+      ? "Recupera tu acceso al portal"
+      : "Accede a tu portal privado";
+  const cardCopy = activateActive
+    ? "Tu alta ya está aprobada. Define ahora tu contraseña para convertir este acceso privado en un login real y estable."
+    : recoverActive
+      ? "Solicita un email seguro de recuperación y, cuando abras ese enlace, define una nueva contraseña dentro de este mismo portal."
+      : "Entra con tu email y tu contraseña para abrir el dashboard de afiliado, tus materiales y tus métricas.";
+  const showActivateTab = Boolean(options.showActivateTab);
   const message = options.message
     ? `<div id="pageNotice" class="notice-box">${escapeHtml(options.message)}</div>`
     : `<div id="pageNotice" class="notice-box" hidden></div>`;
@@ -272,6 +282,18 @@ function renderAccessPage(siteUrl, options) {
       text-decoration: none;
       font-weight: 700;
     }
+    .auth-link-button {
+      background: transparent;
+      border: 0;
+      padding: 0;
+      margin: 0;
+      color: #165fa8;
+      text-decoration: none;
+      font-weight: 700;
+      cursor: pointer;
+      font: inherit;
+      text-align: left;
+    }
     @media (max-width: 900px) {
       .auth-card {
         grid-template-columns: 1fr;
@@ -299,11 +321,12 @@ function renderAccessPage(siteUrl, options) {
       <section class="auth-form-card">
         <div class="auth-form-head">
           <h2>${cardTitle}</h2>
-          <p>${loginActive ? "Usa el mismo email con el que te dimos de alta como afiliado." : "Este paso se hace una sola vez y convierte tu enlace privado en un acceso por email y contraseña."}</p>
+          <p>${activateActive ? "Este paso se hace una sola vez y convierte tu enlace privado en un acceso por email y contraseña." : recoverActive ? "Usa siempre el email con el que aprobamos tu perfil de afiliado para que el sistema encuentre tu cuenta." : "Usa el mismo email con el que te dimos de alta como afiliado."}</p>
         </div>
         <div class="auth-tabs">
           <button type="button" id="loginTab" class="${loginActive ? "active" : ""}">Entrar</button>
-          <button type="button" id="activateTab" class="${loginActive ? "" : "active"}">Activar contraseña</button>
+          ${showActivateTab ? `<button type="button" id="activateTab" class="${activateActive ? "active" : ""}">Activar contraseña</button>` : ""}
+          <button type="button" id="recoverTab" class="${recoverActive ? "active" : ""}">Recuperar acceso</button>
         </div>
         ${message}
         <form id="loginForm" class="auth-form" ${loginActive ? "" : "hidden"}>
@@ -316,9 +339,10 @@ function renderAccessPage(siteUrl, options) {
             <input type="password" id="loginPassword" placeholder="Tu contraseña" autocomplete="current-password">
           </label>
           <button type="submit" class="btn-primary">Entrar al portal</button>
+          <button type="button" id="forgotPasswordButton" class="auth-link-button">He olvidado mi contraseña</button>
           <p id="loginStatus" class="auth-status" hidden></p>
         </form>
-        <form id="activateForm" class="auth-form" ${loginActive ? "hidden" : ""}>
+        <form id="activateForm" class="auth-form" ${activateActive ? "" : "hidden"}>
           <label>
             Email aprobado
             <input type="email" id="activateEmail" value="${escapeHtml(options.prefillEmail || "")}" autocomplete="username" disabled>
@@ -334,6 +358,26 @@ function renderAccessPage(siteUrl, options) {
           <button type="submit" class="btn-primary">Activar y entrar</button>
           <p id="activateStatus" class="auth-status" hidden></p>
         </form>
+        <form id="recoverRequestForm" class="auth-form" ${recoverActive ? "" : "hidden"}>
+          <label>
+            Email aprobado
+            <input type="email" id="recoverEmail" value="${escapeHtml(options.prefillEmail || "")}" placeholder="tu@email.com" autocomplete="username">
+          </label>
+          <button type="submit" class="btn-primary">Enviar email de recuperación</button>
+          <p id="recoverRequestStatus" class="auth-status" hidden></p>
+        </form>
+        <form id="recoverCompleteForm" class="auth-form" hidden>
+          <label>
+            Nueva contraseña
+            <input type="password" id="recoverPassword" placeholder="Mínimo 8 caracteres" autocomplete="new-password">
+          </label>
+          <label>
+            Repetir contraseña
+            <input type="password" id="recoverPasswordConfirm" placeholder="Repite tu contraseña" autocomplete="new-password">
+          </label>
+          <button type="submit" class="btn-primary">Guardar nueva contraseña</button>
+          <p id="recoverCompleteStatus" class="auth-status" hidden></p>
+        </form>
         <div class="auth-inline">
           Si necesitas soporte, escríbenos a <a href="mailto:hola@prontialatam.com">hola@prontialatam.com</a>.
         </div>
@@ -343,21 +387,35 @@ function renderAccessPage(siteUrl, options) {
 
   <script>
     (function () {
-      const mode = ${JSON.stringify(options.mode || "login")};
+      const mode = ${JSON.stringify(initialMode)};
       const token = ${JSON.stringify(options.token || "")};
+      const recoverRequested = ${JSON.stringify(Boolean(options.recover))};
       const loginTab = document.getElementById("loginTab");
       const activateTab = document.getElementById("activateTab");
+      const recoverTab = document.getElementById("recoverTab");
       const loginForm = document.getElementById("loginForm");
       const activateForm = document.getElementById("activateForm");
+      const recoverRequestForm = document.getElementById("recoverRequestForm");
+      const recoverCompleteForm = document.getElementById("recoverCompleteForm");
       const loginStatus = document.getElementById("loginStatus");
       const activateStatus = document.getElementById("activateStatus");
+      const recoverRequestStatus = document.getElementById("recoverRequestStatus");
+      const recoverCompleteStatus = document.getElementById("recoverCompleteStatus");
+      const pageNotice = document.getElementById("pageNotice");
+      const forgotPasswordButton = document.getElementById("forgotPasswordButton");
+      const recoveryParams = new URLSearchParams(window.location.hash.replace(/^#/, ""));
+      const recoveryToken = recoveryParams.get("access_token") || "";
+      const recoveryType = recoveryParams.get("type") || "";
+      const recoveryError = recoveryParams.get("error_description") || recoveryParams.get("error") || "";
 
       function showForm(nextMode) {
-        const isLogin = nextMode === "login";
-        loginForm.hidden = !isLogin;
-        activateForm.hidden = isLogin;
-        loginTab.classList.toggle("active", isLogin);
-        activateTab.classList.toggle("active", !isLogin);
+        loginForm.hidden = nextMode !== "login";
+        activateForm.hidden = nextMode !== "activate";
+        recoverRequestForm.hidden = nextMode !== "recover-request";
+        recoverCompleteForm.hidden = nextMode !== "recover-complete";
+        loginTab.classList.toggle("active", nextMode === "login");
+        if (activateTab) activateTab.classList.toggle("active", nextMode === "activate");
+        recoverTab.classList.toggle("active", nextMode === "recover-request" || nextMode === "recover-complete");
       }
 
       function setStatus(node, message, type) {
@@ -366,12 +424,29 @@ function renderAccessPage(siteUrl, options) {
         node.className = "auth-status" + (type ? " " + type : "");
       }
 
+      function setNotice(message, type) {
+        if (!pageNotice) return;
+        pageNotice.hidden = !message;
+        pageNotice.textContent = message || "";
+        pageNotice.className = "notice-box" + (type ? " " + type : "");
+      }
+
       loginTab.addEventListener("click", function () {
         showForm("login");
       });
 
-      activateTab.addEventListener("click", function () {
-        showForm("activate");
+      if (activateTab) {
+        activateTab.addEventListener("click", function () {
+          showForm("activate");
+        });
+      }
+
+      recoverTab.addEventListener("click", function () {
+        showForm(recoveryToken && recoveryType === "recovery" ? "recover-complete" : "recover-request");
+      });
+
+      forgotPasswordButton.addEventListener("click", function () {
+        showForm("recover-request");
       });
 
       loginForm.addEventListener("submit", async function (event) {
@@ -399,33 +474,98 @@ function renderAccessPage(siteUrl, options) {
         }
       });
 
-      activateForm.addEventListener("submit", async function (event) {
+      if (activateForm) {
+        activateForm.addEventListener("submit", async function (event) {
+          event.preventDefault();
+          setStatus(activateStatus, "Activando tu acceso...", "");
+          try {
+            const response = await fetch("${siteUrl}/api/affiliate/auth/activate", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify({
+                access: token,
+                password: document.getElementById("activatePassword").value,
+                confirmPassword: document.getElementById("activatePasswordConfirm").value
+              })
+            });
+            const payload = await response.json();
+            if (!response.ok || !payload.ok) {
+              throw new Error(payload.error || "No se pudo activar el acceso.");
+            }
+            setStatus(activateStatus, "Acceso activado. Entrando al portal...", "success");
+            window.location.href = payload.redirectTo || "${siteUrl}/portal-afiliados";
+          } catch (error) {
+            setStatus(activateStatus, error.message || "No se pudo activar el acceso.", "error");
+          }
+        });
+      }
+
+      recoverRequestForm.addEventListener("submit", async function (event) {
         event.preventDefault();
-        setStatus(activateStatus, "Activando tu acceso...", "");
+        setStatus(recoverRequestStatus, "Enviando email de recuperación...", "");
         try {
-          const response = await fetch("${siteUrl}/api/affiliate/auth/activate", {
+          const response = await fetch("${siteUrl}/api/affiliate/auth/request-reset", {
             method: "POST",
             headers: {
               "Content-Type": "application/json"
             },
             body: JSON.stringify({
-              access: token,
-              password: document.getElementById("activatePassword").value,
-              confirmPassword: document.getElementById("activatePasswordConfirm").value
+              email: document.getElementById("recoverEmail").value.trim()
             })
           });
           const payload = await response.json();
           if (!response.ok || !payload.ok) {
-            throw new Error(payload.error || "No se pudo activar el acceso.");
+            throw new Error(payload.error || "No se pudo solicitar la recuperación.");
           }
-          setStatus(activateStatus, "Acceso activado. Entrando al portal...", "success");
-          window.location.href = payload.redirectTo || "${siteUrl}/portal-afiliados";
+          setStatus(recoverRequestStatus, payload.message || "Revisa tu email para continuar.", "success");
+          setNotice("Te hemos enviado un email de recuperación si tu cuenta está aprobada. Usa siempre el enlace más reciente.", "success");
         } catch (error) {
-          setStatus(activateStatus, error.message || "No se pudo activar el acceso.", "error");
+          setStatus(recoverRequestStatus, error.message || "No se pudo solicitar la recuperación.", "error");
         }
       });
 
-      showForm(mode);
+      recoverCompleteForm.addEventListener("submit", async function (event) {
+        event.preventDefault();
+        setStatus(recoverCompleteStatus, "Guardando tu nueva contraseña...", "");
+        try {
+          const response = await fetch("${siteUrl}/api/affiliate/auth/complete-reset", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              accessToken: recoveryToken,
+              password: document.getElementById("recoverPassword").value,
+              confirmPassword: document.getElementById("recoverPasswordConfirm").value
+            })
+          });
+          const payload = await response.json();
+          if (!response.ok || !payload.ok) {
+            throw new Error(payload.error || "No se pudo actualizar la contraseña.");
+          }
+          setStatus(recoverCompleteStatus, "Contraseña actualizada. Entrando al portal...", "success");
+          window.location.hash = "";
+          window.location.href = payload.redirectTo || "${siteUrl}/portal-afiliados";
+        } catch (error) {
+          setStatus(recoverCompleteStatus, error.message || "No se pudo actualizar la contraseña.", "error");
+        }
+      });
+
+      if (recoveryError) {
+        setNotice(recoveryError, "error");
+        showForm("recover-request");
+      } else if (recoverRequested && recoveryToken && recoveryType === "recovery") {
+        setNotice("Ya puedes definir una nueva contraseña para tu portal.", "success");
+        showForm("recover-complete");
+      } else if (mode === "activate") {
+        showForm("activate");
+      } else if (mode === "recover") {
+        showForm("recover-request");
+      } else {
+        showForm("login");
+      }
     }());
   </script>
 </body>
@@ -440,6 +580,7 @@ module.exports = async function handler(req, res) {
 
   const siteUrl = getSiteUrl(req);
   const pageKey = getQueryParam(req, "page");
+  const recoverFlow = getQueryParam(req, "recover") === "1";
   const page = getProtectedPage(pageKey);
 
   if (!page || !supabase.isConfigured()) {
@@ -450,7 +591,7 @@ module.exports = async function handler(req, res) {
     const access = await resolveAffiliateRequestAccess(req, res);
 
     if (pageKey === "portal") {
-      if (access.mode === "auth" && access.affiliate) {
+      if (!recoverFlow && access.mode === "auth" && access.affiliate) {
         const filePath = getAbsoluteProjectFile(page.file);
         const html = await fs.readFile(filePath, "utf8");
         const transformed = transformProtectedHtml(html, siteUrl, "");
@@ -461,13 +602,15 @@ module.exports = async function handler(req, res) {
         return sendHtml(res, 200, renderAccessPage(siteUrl, {
           mode: "activate",
           token: access.legacyToken,
-          prefillEmail: access.affiliate.email
+          prefillEmail: access.affiliate.email,
+          showActivateTab: true
         }));
       }
 
       return sendHtml(res, 200, renderAccessPage(siteUrl, {
-        mode: "login",
+        mode: recoverFlow ? "recover" : "login",
         prefillEmail: access.affiliate ? access.affiliate.email : "",
+        recover: recoverFlow,
         message: access.mode === "token" && access.affiliate && access.affiliate.auth_password_set_at
           ? "Tu acceso ya está activado. Entra ahora con tu email y tu contraseña."
           : ""

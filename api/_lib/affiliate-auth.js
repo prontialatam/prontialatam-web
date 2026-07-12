@@ -134,11 +134,31 @@ async function signInAffiliate(email, password) {
   });
 }
 
+async function requestAffiliatePasswordRecovery(email, redirectTo) {
+  const query = redirectTo ? `recover?redirect_to=${encodeURIComponent(redirectTo)}` : "recover";
+  return authRequest(query, {
+    method: "POST",
+    body: {
+      email
+    }
+  });
+}
+
 async function refreshAffiliateSession(refreshToken) {
   return authRequest("token?grant_type=refresh_token", {
     method: "POST",
     body: {
       refresh_token: refreshToken
+    }
+  });
+}
+
+async function updateAffiliatePassword(accessToken, password) {
+  return authRequest("user", {
+    method: "PUT",
+    bearerToken: accessToken,
+    body: {
+      password
     }
   });
 }
@@ -307,7 +327,10 @@ module.exports = {
   getAuthUser,
   parseCookies,
   refreshAffiliateSession,
+  requestAffiliatePasswordRecovery,
   resolveAffiliateRequestAccess,
   setAuthCookies,
   signInAffiliate
+  ,
+  updateAffiliatePassword
 };

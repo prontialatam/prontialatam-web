@@ -23,6 +23,15 @@ create table if not exists affiliates (
   created_at timestamptz not null default now()
 );
 
+alter table affiliates add column if not exists display_title text;
+alter table affiliates add column if not exists profile_photo_url text;
+alter table affiliates add column if not exists bio text;
+alter table affiliates add column if not exists website_url text;
+alter table affiliates add column if not exists instagram_handle text;
+alter table affiliates add column if not exists whatsapp_contact text;
+alter table affiliates add column if not exists preferred_niches text[] default '{}'::text[];
+alter table affiliates add column if not exists payout_notes text;
+
 create table if not exists affiliate_applications (
   id uuid primary key default gen_random_uuid(),
   status text not null default 'pending',
@@ -34,6 +43,18 @@ create table if not exists affiliate_applications (
   main_channel text not null,
   audience_type text not null,
   notes text not null,
+  created_at timestamptz not null default now()
+);
+
+create table if not exists affiliate_payouts (
+  id uuid primary key default gen_random_uuid(),
+  affiliate_id uuid not null references affiliates(id) on delete cascade,
+  period_label text,
+  amount numeric(10,2) not null,
+  currency text not null default 'USD',
+  status text not null default 'pending',
+  notes text,
+  paid_at timestamptz,
   created_at timestamptz not null default now()
 );
 

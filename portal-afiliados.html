@@ -4,34 +4,58 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Portal de Afiliados | ProntIA LATAM</title>
-  <meta name="description" content="Dashboard privado para afiliados de ProntIA LATAM con métricas, enlaces comerciales, biblioteca por nichos y seguimiento operativo.">
+  <meta name="description" content="Dashboard privado para afiliados de ProntIA LATAM con perfil editable, métricas, seguimiento de ventas, cobros y recursos por nicho.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="icon" href="logo-prontia.jpg" type="image/jpeg">
   <link rel="stylesheet" href="assets/css/commerce-pages.css">
   <style>
-    .portal-hero-shell {
+    .portal-shell-grid,
+    .portal-hero-shell,
+    .portal-grid-two,
+    .portal-grid-three,
+    .portal-action-grid,
+    .portal-form-grid,
+    .portal-payout-grid {
       display: grid;
-      grid-template-columns: 1.08fr 0.92fr;
-      gap: 1.25rem;
-      align-items: stretch;
+      gap: 1.2rem;
+    }
+
+    .portal-shell-grid {
+      grid-template-columns: 1.05fr 0.95fr;
+    }
+
+    .portal-hero-shell,
+    .portal-grid-two {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .portal-grid-three {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 
     .portal-profile-card,
     .portal-highlight-card,
     .portal-section-card,
-    .portal-empty-card {
+    .portal-empty-card,
+    .portal-stat-card,
+    .portal-mini-card {
       background: rgba(255, 255, 255, 0.94);
       border: 1px solid rgba(4, 44, 83, 0.08);
       border-radius: 1.3rem;
       box-shadow: 0 24px 60px rgba(24, 95, 165, 0.08);
     }
 
+    .portal-profile-card,
+    .portal-highlight-card,
+    .portal-section-card {
+      padding: 1.45rem;
+    }
+
     .portal-profile-card {
-      padding: 1.6rem;
       display: grid;
-      gap: 1.1rem;
+      gap: 1rem;
     }
 
     .portal-profile-top {
@@ -41,31 +65,41 @@
     }
 
     .portal-avatar {
-      width: 76px;
-      height: 76px;
+      width: 86px;
+      height: 86px;
       border-radius: 999px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      overflow: hidden;
       background: linear-gradient(135deg, #12385b, #1b6cba);
       color: #fff;
       font-family: var(--font-display);
-      font-size: 1.8rem;
+      font-size: 2rem;
       letter-spacing: 0.04em;
       flex: 0 0 auto;
       box-shadow: 0 16px 36px rgba(12, 68, 124, 0.18);
     }
 
+    .portal-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
     .portal-profile-copy h1 {
       margin: 0;
       font-family: var(--font-display);
-      font-size: clamp(2.2rem, 4vw, 3.6rem);
+      font-size: clamp(2.3rem, 4vw, 3.8rem);
       line-height: 0.96;
       color: var(--blue-900);
     }
 
-    .portal-profile-copy p {
-      margin: 0.45rem 0 0;
+    .portal-profile-copy p,
+    .portal-section-head p,
+    .portal-copy {
+      margin: 0.4rem 0 0;
       color: var(--gray-700);
     }
 
@@ -88,9 +122,6 @@
     }
 
     .portal-highlight-card {
-      padding: 1.45rem;
-      display: grid;
-      gap: 1rem;
       background:
         radial-gradient(circle at top right, rgba(55, 138, 221, 0.18), transparent 34%),
         linear-gradient(180deg, rgba(251, 250, 247, 0.98), rgba(255, 255, 255, 0.94));
@@ -105,10 +136,6 @@
       line-height: 1;
     }
 
-    .portal-section-card {
-      padding: 1.45rem;
-    }
-
     .portal-section-head {
       display: flex;
       justify-content: space-between;
@@ -117,14 +144,26 @@
       margin-bottom: 1rem;
     }
 
-    .portal-section-head p {
-      margin: 0.35rem 0 0;
-      color: var(--gray-700);
+    .portal-stat-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .portal-stat-card {
+      padding: 1.25rem;
+    }
+
+    .portal-stat-card strong {
+      display: block;
+      margin-bottom: 0.45rem;
+      color: var(--blue-900);
+      font-size: 1rem;
     }
 
     .portal-stat-figure {
       font-family: var(--font-display);
-      font-size: 2.6rem;
+      font-size: 2.4rem;
       line-height: 1;
       color: var(--blue-900);
     }
@@ -132,12 +171,60 @@
     .portal-stat-caption {
       color: var(--gray-700);
       font-size: 0.92rem;
+      margin-top: 0.4rem;
     }
 
-    .portal-grid-two {
+    .portal-mini-card {
+      padding: 1.1rem;
+      background: rgba(255, 255, 255, 0.78);
+    }
+
+    .portal-mini-card strong {
+      color: var(--blue-900);
+      display: block;
+      margin-bottom: 0.35rem;
+    }
+
+    .portal-mini-card span {
+      color: var(--gray-700);
+    }
+
+    .portal-kv-list,
+    .portal-list,
+    .portal-activity-list,
+    .portal-product-list,
+    .portal-payout-list {
       display: grid;
+      gap: 0.8rem;
+    }
+
+    .portal-kv-list div,
+    .portal-list div,
+    .portal-activity-item,
+    .portal-product-item,
+    .portal-payout-item {
+      padding: 0.95rem 1rem;
+      border-radius: 1rem;
+      background: rgba(230, 241, 251, 0.45);
+      border: 1px solid rgba(4, 44, 83, 0.06);
+    }
+
+    .portal-kv-list strong,
+    .portal-list strong,
+    .portal-activity-item strong,
+    .portal-product-item strong,
+    .portal-payout-item strong {
+      color: var(--blue-900);
+    }
+
+    .portal-action-grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 1.2rem;
+      margin-top: 1rem;
+    }
+
+    .portal-action-grid a,
+    .portal-action-grid button {
+      text-align: center;
     }
 
     .portal-niche-grid {
@@ -164,17 +251,6 @@
       color: var(--gray-700);
     }
 
-    .portal-action-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 0.7rem;
-      margin-top: 1rem;
-    }
-
-    .portal-action-grid a {
-      text-align: center;
-    }
-
     .portal-table-wrap {
       overflow-x: auto;
       border: 1px solid rgba(4, 44, 83, 0.08);
@@ -183,7 +259,7 @@
 
     .portal-table {
       width: 100%;
-      min-width: 720px;
+      min-width: 760px;
       border-collapse: collapse;
       background: #fff;
     }
@@ -209,33 +285,6 @@
       border-bottom: 0;
     }
 
-    .portal-table strong {
-      color: var(--blue-900);
-    }
-
-    .portal-activity-list {
-      display: grid;
-      gap: 0.8rem;
-    }
-
-    .portal-activity-item {
-      padding: 0.95rem 1rem;
-      border-radius: 1rem;
-      background: rgba(230, 241, 251, 0.45);
-      border: 1px solid rgba(4, 44, 83, 0.06);
-    }
-
-    .portal-activity-item strong {
-      display: block;
-      color: var(--blue-900);
-      margin-bottom: 0.2rem;
-    }
-
-    .portal-activity-item span {
-      color: var(--gray-700);
-      font-size: 0.92rem;
-    }
-
     .portal-empty-card {
       padding: 1.35rem;
       text-align: center;
@@ -250,18 +299,121 @@
       padding: 1.7rem;
     }
 
-    .status-badge.connect-ready {
+    .portal-form-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .portal-form-grid.full {
+      grid-template-columns: 1fr;
+    }
+
+    .portal-form-grid label {
+      display: grid;
+      gap: 0.35rem;
+      font-size: 0.92rem;
+      color: var(--gray-700);
+    }
+
+    .portal-form-grid input,
+    .portal-form-grid textarea {
+      width: 100%;
+      padding: 0.92rem 1rem;
+      border-radius: 0.8rem;
+      border: 1px solid rgba(4, 44, 83, 0.14);
+      background: var(--white);
+      font: inherit;
+      color: var(--gray-900);
+    }
+
+    .portal-form-grid textarea {
+      min-height: 8rem;
+      resize: vertical;
+    }
+
+    .portal-avatar-editor {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem;
+      border-radius: 1rem;
+      background: rgba(230, 241, 251, 0.4);
+      border: 1px solid rgba(4, 44, 83, 0.06);
+      margin-bottom: 1rem;
+    }
+
+    .portal-avatar-actions {
+      display: grid;
+      gap: 0.5rem;
+    }
+
+    .portal-avatar-actions small {
+      color: var(--gray-400);
+    }
+
+    .portal-chip-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.65rem;
+    }
+
+    .portal-chip-grid label {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.7rem 0.9rem;
+      border-radius: 999px;
+      border: 1px solid rgba(4, 44, 83, 0.12);
+      background: rgba(255, 255, 255, 0.9);
+      cursor: pointer;
+    }
+
+    .portal-chip-grid input {
+      width: 1rem;
+      height: 1rem;
+      margin: 0;
+    }
+
+    .portal-profile-status {
+      min-height: 1.2rem;
+      color: var(--gray-700);
+      font-size: 0.9rem;
+    }
+
+    .portal-profile-status.success {
+      color: var(--success);
+    }
+
+    .portal-profile-status.error {
+      color: var(--danger);
+    }
+
+    .portal-payout-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .portal-payout-figure {
+      font-family: var(--font-display);
+      font-size: 2.2rem;
+      line-height: 1;
+      color: var(--blue-900);
+      margin-top: 0.25rem;
+    }
+
+    .status-badge.connect-ready,
+    .status-badge.payout-paid {
       background: rgba(31, 122, 77, 0.14);
       color: var(--success);
     }
 
-    .status-badge.connect-pending {
+    .status-badge.connect-pending,
+    .status-badge.payout-pending {
       background: rgba(196, 169, 114, 0.18);
       color: #8b6a2c;
     }
 
     .status-badge.connect-review,
-    .status-badge.connect-not-started {
+    .status-badge.connect-not-started,
+    .status-badge.payout-processing {
       background: rgba(4, 44, 83, 0.08);
       color: var(--blue-900);
     }
@@ -271,9 +423,14 @@
       color: var(--danger);
     }
 
-    @media (max-width: 980px) {
+    @media (max-width: 1080px) {
+      .portal-shell-grid,
       .portal-hero-shell,
       .portal-grid-two,
+      .portal-grid-three,
+      .portal-stat-grid,
+      .portal-form-grid,
+      .portal-payout-grid,
       .portal-niche-grid,
       .portal-action-grid {
         grid-template-columns: 1fr;
@@ -290,9 +447,9 @@
       </a>
       <nav class="topbar-links">
         <a href="#metricas">Métricas</a>
+        <a href="#perfil">Perfil</a>
         <a href="#nichos">Nichos</a>
         <a href="#ventas">Ventas</a>
-        <a href="#actividad">Actividad</a>
         <a href="#cobros">Cobros</a>
       </nav>
     </header>
@@ -303,7 +460,7 @@
           <div id="portalLoading" class="hero-card">
             <div class="hero-card-note">
               <strong>Cargando tu portal privado</strong>
-              <p class="microcopy" style="margin-top:0.55rem;">Estamos preparando tus métricas, tus enlaces de venta y el acceso a la biblioteca por nichos.</p>
+              <p class="microcopy" style="margin-top:0.55rem;">Estamos preparando tu perfil, tus métricas, tu estado de cobros y el acceso a la biblioteca completa de materiales.</p>
             </div>
           </div>
 
@@ -316,9 +473,9 @@
           </div>
 
           <div id="portalApp" hidden>
-            <div class="portal-hero-shell">
+            <div class="portal-shell-grid">
               <article class="portal-profile-card">
-                <div class="eyebrow">Portal privado de afiliado</div>
+                <div class="eyebrow">Centro operativo de afiliado</div>
                 <div class="portal-profile-top">
                   <div id="affiliateAvatar" class="portal-avatar">PL</div>
                   <div class="portal-profile-copy">
@@ -327,8 +484,9 @@
                   </div>
                 </div>
                 <div id="affiliatePills" class="portal-pill-row"></div>
+                <div class="portal-grid-three" id="affiliateMiniCards"></div>
                 <div class="cta-row" style="margin-top:0;">
-                  <a id="primaryAffiliateLink" class="btn-primary" href="#" target="_blank" rel="noreferrer">Abrir enlace de venta</a>
+                  <a id="primaryAffiliateLink" class="btn-primary" href="#" target="_blank" rel="noreferrer">Abrir enlace principal</a>
                   <a id="primaryPortalKit" class="btn-secondary" href="#" target="_blank" rel="noreferrer">Descargar kit principal</a>
                 </div>
               </article>
@@ -336,12 +494,13 @@
               <aside class="portal-highlight-card" id="cobros">
                 <div>
                   <h2>Estado de cobros</h2>
-                  <p id="connectSummary" class="portal-stat-caption" style="margin-top:0.55rem;">Sincronizando estado de Stripe Connect.</p>
+                  <p id="connectSummary" class="portal-stat-caption">Sincronizando estado de Stripe Connect y el resumen de pagos.</p>
                 </div>
                 <div>
                   <span id="connectBadge" class="status-badge connect-not-started">Pendiente</span>
                 </div>
                 <div id="connectRequirements" class="portal-list"></div>
+                <div id="payoutSummaryCards" class="portal-payout-grid"></div>
                 <div class="cta-row" style="margin-top:0;">
                   <a id="connectCta" class="btn-ghost" href="mailto:hola@prontialatam.com?subject=Configurar%20cobros%20de%20afiliado">Solicitar configuración</a>
                   <a id="stripeDashboardLink" class="btn-secondary" href="#" target="_blank" rel="noreferrer" hidden>Ver dashboard Stripe</a>
@@ -354,7 +513,81 @@
 
       <section class="section" id="metricas">
         <div class="container">
-          <div id="statsGrid" class="stat-grid"></div>
+          <div id="statsGrid" class="portal-stat-grid"></div>
+        </div>
+      </section>
+
+      <section class="section" id="perfil">
+        <div class="container portal-grid-two">
+          <article class="portal-section-card">
+            <div class="portal-section-head">
+              <div>
+                <h2>Perfil del afiliado</h2>
+                <p>Edita tu ficha visible en esta zona privada para trabajar con una identidad más profesional.</p>
+              </div>
+            </div>
+            <div class="portal-avatar-editor">
+              <div id="editorAvatar" class="portal-avatar">PL</div>
+              <div class="portal-avatar-actions">
+                <input type="file" id="profilePhotoInput" accept="image/*">
+                <small>Puedes subir una foto ligera o mantener tu avatar inicial.</small>
+              </div>
+            </div>
+            <form id="profileForm">
+              <div class="portal-form-grid">
+                <label>
+                  Título profesional
+                  <input type="text" id="displayTitleInput" placeholder="Ej. Afiliado ProntIA para negocios locales">
+                </label>
+                <label>
+                  Web o landing personal
+                  <input type="text" id="websiteUrlInput" placeholder="https://...">
+                </label>
+              </div>
+              <div class="portal-form-grid">
+                <label>
+                  Instagram / RRSS principal
+                  <input type="text" id="instagramHandleInput" placeholder="@tuusuario o URL">
+                </label>
+                <label>
+                  WhatsApp de contacto
+                  <input type="text" id="whatsappContactInput" placeholder="+34 ...">
+                </label>
+              </div>
+              <div class="portal-form-grid full">
+                <label>
+                  Bio comercial
+                  <textarea id="bioInput" placeholder="Describe en pocas líneas tu enfoque, tu audiencia y cómo mueves este producto."></textarea>
+                </label>
+              </div>
+              <div class="portal-form-grid full">
+                <label>
+                  Nichos en los que te enfocas
+                  <div id="preferredNichesGrid" class="portal-chip-grid"></div>
+                </label>
+              </div>
+              <div class="portal-form-grid full">
+                <label>
+                  Notas de pago y fiscalidad
+                  <textarea id="payoutNotesInput" placeholder="Ej. Prefiero consolidado mensual, país fiscal, observaciones internas, etc."></textarea>
+                </label>
+              </div>
+              <div class="cta-row" style="margin-top:1rem;">
+                <button type="submit" id="saveProfileButton" class="btn-primary">Guardar perfil</button>
+              </div>
+              <p id="profileStatus" class="portal-profile-status"></p>
+            </form>
+          </article>
+
+          <article class="portal-section-card">
+            <div class="portal-section-head">
+              <div>
+                <h2>Ficha operativa</h2>
+                <p>Datos del programa, código asignado, canales y base comercial desde la que estás operando ahora mismo.</p>
+              </div>
+            </div>
+            <div id="affiliateDetails" class="portal-kv-list"></div>
+          </article>
         </div>
       </section>
 
@@ -363,18 +596,18 @@
           <article class="portal-section-card">
             <div class="portal-section-head">
               <div>
-                <h2>Tu perfil comercial</h2>
-                <p>Datos operativos, código asignado y punto de partida para campañas y contenidos.</p>
+                <h2>Rendimiento por producto</h2>
+                <p>Así se está repartiendo tu facturación entre los nichos activos que ya puedes promocionar.</p>
               </div>
             </div>
-            <div id="affiliateDetails" class="portal-kv-list"></div>
+            <div id="productPerformance" class="portal-product-list"></div>
           </article>
 
           <article class="portal-section-card">
             <div class="portal-section-head">
               <div>
                 <h2>Material listo para usar</h2>
-                <p>Biblioteca activa por vertical para que publiques sin improvisar piezas ni mensajes.</p>
+                <p>Biblioteca activa por vertical para que publiques sin improvisar piezas, textos ni enlaces.</p>
               </div>
             </div>
             <div id="nicheCards" class="portal-niche-grid"></div>
@@ -398,10 +631,34 @@
             <div class="portal-section-head">
               <div>
                 <h2>Actividad reciente</h2>
-                <p>Clics y tráfico captado en tus enlaces para validar qué canal está empujando mejor.</p>
+                <p>Clics y tráfico captado en tus enlaces para detectar qué canal te está funcionando mejor.</p>
               </div>
             </div>
             <div id="clicksList" class="portal-activity-list"></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container portal-grid-two">
+          <article class="portal-section-card">
+            <div class="portal-section-head">
+              <div>
+                <h2>Historial de pagos</h2>
+                <p>Vista base de liquidaciones registradas o pendientes dentro del programa.</p>
+              </div>
+            </div>
+            <div id="payoutList" class="portal-payout-list"></div>
+          </article>
+
+          <article class="portal-section-card">
+            <div class="portal-section-head">
+              <div>
+                <h2>Siguientes pasos recomendados</h2>
+                <p>Acciones concretas para empujar mejor el rendimiento del portal.</p>
+              </div>
+            </div>
+            <div id="recommendationsList" class="portal-list"></div>
           </article>
         </div>
       </section>
@@ -424,10 +681,15 @@
       const affiliateIntro = document.getElementById('affiliateIntro');
       const affiliateAvatar = document.getElementById('affiliateAvatar');
       const affiliatePills = document.getElementById('affiliatePills');
+      const affiliateMiniCards = document.getElementById('affiliateMiniCards');
       const affiliateDetails = document.getElementById('affiliateDetails');
       const nicheCards = document.getElementById('nicheCards');
+      const productPerformance = document.getElementById('productPerformance');
       const ordersTable = document.getElementById('ordersTable');
       const clicksList = document.getElementById('clicksList');
+      const payoutList = document.getElementById('payoutList');
+      const payoutSummaryCards = document.getElementById('payoutSummaryCards');
+      const recommendationsList = document.getElementById('recommendationsList');
       const primaryAffiliateLink = document.getElementById('primaryAffiliateLink');
       const primaryPortalKit = document.getElementById('primaryPortalKit');
       const connectSummary = document.getElementById('connectSummary');
@@ -435,7 +697,22 @@
       const connectRequirements = document.getElementById('connectRequirements');
       const connectCta = document.getElementById('connectCta');
       const stripeDashboardLink = document.getElementById('stripeDashboardLink');
+      const editorAvatar = document.getElementById('editorAvatar');
+      const profilePhotoInput = document.getElementById('profilePhotoInput');
+      const profileForm = document.getElementById('profileForm');
+      const displayTitleInput = document.getElementById('displayTitleInput');
+      const websiteUrlInput = document.getElementById('websiteUrlInput');
+      const instagramHandleInput = document.getElementById('instagramHandleInput');
+      const whatsappContactInput = document.getElementById('whatsappContactInput');
+      const bioInput = document.getElementById('bioInput');
+      const payoutNotesInput = document.getElementById('payoutNotesInput');
+      const preferredNichesGrid = document.getElementById('preferredNichesGrid');
+      const saveProfileButton = document.getElementById('saveProfileButton');
+      const profileStatus = document.getElementById('profileStatus');
       const accessToken = new URLSearchParams(window.location.search).get('access') || '';
+
+      let currentPayload = null;
+      let currentProfilePhotoUrl = '';
 
       const niches = [
         {
@@ -513,9 +790,7 @@
         if (Number.isNaN(date.getTime())) return '';
         const diffMs = Date.now() - date.getTime();
         const diffHours = Math.round(diffMs / (1000 * 60 * 60));
-        if (Math.abs(diffHours) < 24) {
-          return 'Hace ' + Math.max(diffHours, 1) + ' h';
-        }
+        if (Math.abs(diffHours) < 24) return 'Hace ' + Math.max(diffHours, 1) + ' h';
         const diffDays = Math.round(diffHours / 24);
         return 'Hace ' + Math.max(diffDays, 1) + ' días';
       }
@@ -537,6 +812,37 @@
         if (accessToken) url.searchParams.set('access', accessToken);
         url.searchParams.set('asset', assetPath);
         return url.toString();
+      }
+
+      function getSelectedNiches() {
+        return Array.from(preferredNichesGrid.querySelectorAll('input:checked')).map(function (input) {
+          return input.value;
+        });
+      }
+
+      function renderAvatar(node, fullName, photoUrl) {
+        if (photoUrl) {
+          node.innerHTML = '<img src="' + escapeHtml(photoUrl) + '" alt="' + escapeHtml(fullName || 'Afiliado') + '">';
+          return;
+        }
+        node.textContent = initialsFromName(fullName);
+      }
+
+      function paymentBadge(status) {
+        const normalized = String(status || '').toLowerCase();
+        if (normalized === 'paid') return '<span class="status-badge approved">Pagado</span>';
+        if (normalized === 'pending') return '<span class="status-badge pending">Pendiente</span>';
+        return '<span class="status-badge">' + escapeHtml(normalized || '-') + '</span>';
+      }
+
+      function payoutBadge(status) {
+        const normalized = String(status || '').toLowerCase();
+        const map = {
+          paid: 'status-badge payout-paid',
+          pending: 'status-badge payout-pending',
+          processing: 'status-badge payout-processing'
+        };
+        return '<span class="' + (map[normalized] || 'status-badge') + '">' + escapeHtml(normalized || '-') + '</span>';
       }
 
       function getConnectPresentation(status) {
@@ -573,35 +879,44 @@
         };
       }
 
-      function paymentBadge(status) {
-        const normalized = String(status || '').toLowerCase();
-        if (normalized === 'paid') return '<span class="status-badge approved">Pagado</span>';
-        if (normalized === 'pending') return '<span class="status-badge pending">Pendiente</span>';
-        return '<span class="status-badge">' + escapeHtml(normalized || '-') + '</span>';
+      function renderPreferredNiches(selected) {
+        preferredNichesGrid.innerHTML = niches.map(function (niche) {
+          const checked = selected.indexOf(niche.key) >= 0 ? ' checked' : '';
+          return '' +
+            '<label>' +
+              '<input type="checkbox" value="' + escapeHtml(niche.key) + '"' + checked + '>' +
+              '<span>' + escapeHtml(niche.label) + '</span>' +
+            '</label>';
+        }).join('');
       }
 
       function renderStats(stats, currency) {
         const cards = [
-          ['Ventas atribuidas', formatCurrency(stats.totalSales, currency), 'Importe total confirmado en pedidos pagados.'],
-          ['Comisión acumulada', formatCurrency(stats.totalCommissions, currency), 'Base actual de comisiones generadas por tu código.'],
-          ['Pedidos pagados', String(stats.paidOrders || 0), 'Ventas cobradas y ya validadas por el sistema.'],
-          ['Clics recientes', String(stats.totalClicks || 0), 'Últimos accesos detectados en tus enlaces de afiliado.']
+          ['Ventas atribuidas', formatCurrency(stats.totalSales, currency), 'Importe confirmado en pedidos pagados.'],
+          ['Comisión acumulada', formatCurrency(stats.totalCommissions, currency), 'Comisión generada por tu código.'],
+          ['Saldo por liquidar', formatCurrency(stats.unpaidCommissionBalance, currency), 'Comisión aún no registrada como pagada.'],
+          ['Pagado hasta hoy', formatCurrency(stats.totalPaidOut, currency), 'Liquidaciones marcadas como pagadas.'],
+          ['Pedidos pagados', String(stats.paidOrders || 0), 'Ventas cobradas y validadas.'],
+          ['Clics recientes', String(stats.totalClicks || 0), 'Tráfico detectado en tus enlaces.'],
+          ['Conversión', String(Number(stats.conversionRate || 0).toFixed(2)) + '%', 'Pedidos pagados sobre clics medidos.'],
+          ['Ticket medio', formatCurrency(stats.averageOrderValue, currency), 'Valor promedio de cada venta pagada.']
         ];
 
         statsGrid.innerHTML = cards.map(function (card) {
           return '' +
-            '<article class="stat-card">' +
+            '<article class="portal-stat-card">' +
               '<strong>' + escapeHtml(card[0]) + '</strong>' +
               '<div class="portal-stat-figure">' + escapeHtml(card[1]) + '</div>' +
-              '<span class="portal-stat-caption">' + escapeHtml(card[2]) + '</span>' +
+              '<div class="portal-stat-caption">' + escapeHtml(card[2]) + '</div>' +
             '</article>';
         }).join('');
       }
 
-      function renderAffiliate(affiliate) {
+      function renderAffiliate(affiliate, stats) {
         affiliateName.textContent = affiliate.fullName || 'Afiliado ProntIA';
-        affiliateIntro.textContent = 'Bienvenido a tu centro operativo. Aquí centralizamos enlaces, materiales, ventas y estado de cobros.';
-        affiliateAvatar.textContent = initialsFromName(affiliate.fullName);
+        affiliateIntro.textContent = affiliate.displayTitle || affiliate.bio || 'Tu espacio central para mover producto, seguir ventas y operar con claridad.';
+        renderAvatar(affiliateAvatar, affiliate.fullName, affiliate.profilePhotoUrl);
+        renderAvatar(editorAvatar, affiliate.fullName, affiliate.profilePhotoUrl);
 
         affiliatePills.innerHTML = [
           affiliate.country ? '<span class="portal-pill">País: ' + escapeHtml(affiliate.country) + '</span>' : '',
@@ -609,6 +924,14 @@
           affiliate.couponCode ? '<span class="portal-pill">Cupón: ' + escapeHtml(affiliate.couponCode) + '</span>' : '',
           '<span class="portal-pill">Comisión: ' + escapeHtml(String(Math.round(Number(affiliate.commissionRate || 0) * 100))) + '%</span>'
         ].join('');
+
+        affiliateMiniCards.innerHTML = [
+          ['Última venta', stats.lastSaleAt ? formatDate(stats.lastSaleAt) : 'Aún sin ventas'],
+          ['Último clic', stats.lastClickAt ? formatDate(stats.lastClickAt) : 'Sin tráfico reciente'],
+          ['Nicho foco', (affiliate.preferredNiches || []).length ? affiliate.preferredNiches.join(', ') : 'Sin definir']
+        ].map(function (item) {
+          return '<article class="portal-mini-card"><strong>' + escapeHtml(item[0]) + '</strong><span>' + escapeHtml(item[1]) + '</span></article>';
+        }).join('');
 
         primaryAffiliateLink.href = affiliate.affiliateLink || buildProtectedPageUrl('/talleres-mecanicos');
         primaryPortalKit.href = buildProtectedAssetUrl('downloads/kit-base-afiliados-talleres.zip');
@@ -619,16 +942,17 @@
           ['Código de afiliado', affiliate.trackingCode],
           ['Cupón comercial', affiliate.couponCode || 'Aún no asignado'],
           ['Comisión', Math.round(Number(affiliate.commissionRate || 0) * 100) + '%'],
-          ['País', affiliate.country || 'Sin definir']
+          ['País', affiliate.country || 'Sin definir'],
+          ['Instagram / red principal', affiliate.instagramHandle || '-'],
+          ['Web personal', affiliate.websiteUrl || '-'],
+          ['WhatsApp', affiliate.whatsappContact || '-']
         ].map(function (item) {
           return '<div><strong>' + escapeHtml(item[0]) + '</strong><br><span>' + escapeHtml(item[1] || '-') + '</span></div>';
         }).join('');
 
         nicheCards.innerHTML = niches.map(function (niche) {
           const salesUrl = new URL(niche.route, window.location.origin);
-          if (affiliate.trackingCode) {
-            salesUrl.searchParams.set('ref', affiliate.trackingCode);
-          }
+          if (affiliate.trackingCode) salesUrl.searchParams.set('ref', affiliate.trackingCode);
           return '' +
             '<article class="portal-niche-card">' +
               '<h3>' + escapeHtml(niche.label) + '</h3>' +
@@ -644,7 +968,18 @@
         }).join('');
       }
 
-      function renderConnect(affiliate) {
+      function renderProfileForm(affiliate) {
+        currentProfilePhotoUrl = affiliate.profilePhotoUrl || '';
+        displayTitleInput.value = affiliate.displayTitle || '';
+        websiteUrlInput.value = affiliate.websiteUrl || '';
+        instagramHandleInput.value = affiliate.instagramHandle || '';
+        whatsappContactInput.value = affiliate.whatsappContact || '';
+        bioInput.value = affiliate.bio || '';
+        payoutNotesInput.value = affiliate.payoutNotes || '';
+        renderPreferredNiches(Array.isArray(affiliate.preferredNiches) ? affiliate.preferredNiches : []);
+      }
+
+      function renderConnect(affiliate, payoutsSummary, currency) {
         const presentation = getConnectPresentation(affiliate.stripeConnectStatus);
         connectBadge.className = presentation.className;
         connectBadge.textContent = presentation.badge;
@@ -667,6 +1002,36 @@
         } else {
           connectRequirements.innerHTML = '<div>No hay requisitos urgentes visibles en este momento.</div>';
         }
+
+        payoutSummaryCards.innerHTML = [
+          ['Pendiente de pago', formatCurrency(payoutsSummary.totalPendingPayout, currency), 'Pagos ya registrados como pendientes.'],
+          ['Saldo no liquidado', formatCurrency(payoutsSummary.unpaidCommissionBalance, currency), 'Comisión generada menos lo que ya consta pagado.'],
+          ['Último pago', payoutsSummary.lastPaidAmount ? formatCurrency(payoutsSummary.lastPaidAmount, currency) : 'Sin pagos', payoutsSummary.lastPaidAt ? formatDate(payoutsSummary.lastPaidAt) : 'Aún no hay liquidaciones marcadas.']
+        ].map(function (item) {
+          return '' +
+            '<article class="portal-mini-card">' +
+              '<strong>' + escapeHtml(item[0]) + '</strong>' +
+              '<div class="portal-payout-figure">' + escapeHtml(item[1]) + '</div>' +
+              '<span>' + escapeHtml(item[2]) + '</span>' +
+            '</article>';
+        }).join('');
+      }
+
+      function renderProductPerformance(items, currency) {
+        if (!items.length) {
+          productPerformance.innerHTML = '<div class="portal-empty-card">Todavía no hay ventas suficientes para construir el rendimiento por nicho.</div>';
+          return;
+        }
+
+        productPerformance.innerHTML = items.map(function (item) {
+          return '' +
+            '<article class="portal-product-item">' +
+              '<strong>' + escapeHtml(item.label) + '</strong><br>' +
+              '<span>Ventas: ' + escapeHtml(formatCurrency(item.sales, currency)) + '</span><br>' +
+              '<span>Comisiones: ' + escapeHtml(formatCurrency(item.commissions, currency)) + '</span><br>' +
+              '<span>Pedidos: ' + escapeHtml(String(item.orders || 0)) + '</span>' +
+            '</article>';
+        }).join('');
       }
 
       function renderOrders(orders, currency) {
@@ -678,29 +1043,18 @@
         ordersTable.innerHTML = '' +
           '<div class="portal-table-wrap">' +
             '<table class="portal-table">' +
-              '<thead>' +
-                '<tr>' +
-                  '<th>Cliente</th>' +
-                  '<th>Producto</th>' +
-                  '<th>Importe</th>' +
-                  '<th>Comisión</th>' +
-                  '<th>Estado</th>' +
-                  '<th>Fecha</th>' +
-                '</tr>' +
-              '</thead>' +
-              '<tbody>' +
-                orders.map(function (order) {
-                  return '' +
-                    '<tr>' +
-                      '<td><strong>' + escapeHtml(order.customer_name || order.customer_email || 'Cliente') + '</strong><br><span class="microcopy">' + escapeHtml(order.customer_email || '-') + '</span></td>' +
-                      '<td>' + escapeHtml(order.product_name || '-') + '</td>' +
-                      '<td>' + escapeHtml(formatCurrency(order.amount_total, order.currency || currency)) + '</td>' +
-                      '<td>' + escapeHtml(formatCurrency(order.commission_amount, order.currency || currency)) + '</td>' +
-                      '<td>' + paymentBadge(order.payment_status) + '</td>' +
-                      '<td>' + escapeHtml(formatDate(order.created_at)) + '</td>' +
-                    '</tr>';
-                }).join('') +
-              '</tbody>' +
+              '<thead><tr><th>Cliente</th><th>Producto</th><th>Importe</th><th>Comisión</th><th>Estado</th><th>Fecha</th></tr></thead>' +
+              '<tbody>' + orders.map(function (order) {
+                return '' +
+                  '<tr>' +
+                    '<td><strong>' + escapeHtml(order.customer_name || order.customer_email || 'Cliente') + '</strong><br><span class="microcopy">' + escapeHtml(order.customer_email || '-') + '</span></td>' +
+                    '<td>' + escapeHtml(order.product_name || '-') + '</td>' +
+                    '<td>' + escapeHtml(formatCurrency(order.amount_total, order.currency || currency)) + '</td>' +
+                    '<td>' + escapeHtml(formatCurrency(order.commission_amount, order.currency || currency)) + '</td>' +
+                    '<td>' + paymentBadge(order.payment_status) + '</td>' +
+                    '<td>' + escapeHtml(formatDate(order.created_at)) + '</td>' +
+                  '</tr>';
+              }).join('') + '</tbody>' +
             '</table>' +
           '</div>';
       }
@@ -715,11 +1069,129 @@
           const channel = [click.utm_source, click.utm_medium, click.utm_campaign].filter(Boolean).join(' / ');
           return '' +
             '<article class="portal-activity-item">' +
-              '<strong>' + escapeHtml(click.landing_path || 'Landing de afiliado') + '</strong>' +
+              '<strong>' + escapeHtml(click.landing_path || 'Landing de afiliado') + '</strong><br>' +
               '<span>' + escapeHtml(channel || click.referrer || 'Sin canal etiquetado') + '</span><br>' +
               '<span class="microcopy">' + escapeHtml(formatDate(click.clicked_at)) + ' · ' + escapeHtml(relativeDate(click.clicked_at)) + '</span>' +
             '</article>';
         }).join('');
+      }
+
+      function renderPayouts(payouts, currency) {
+        if (!payouts.length) {
+          payoutList.innerHTML = '<div class="portal-empty-card">Todavía no hay pagos registrados. Cuando empecemos a liquidar comisiones, verás aquí el histórico.</div>';
+          return;
+        }
+
+        payoutList.innerHTML = payouts.map(function (item) {
+          return '' +
+            '<article class="portal-payout-item">' +
+              '<strong>' + escapeHtml(item.period_label || 'Liquidación') + '</strong><br>' +
+              '<span>' + escapeHtml(formatCurrency(item.amount, item.currency || currency)) + '</span> · ' + payoutBadge(item.status) + '<br>' +
+              '<span class="microcopy">' + escapeHtml(item.paid_at ? formatDate(item.paid_at) : formatDate(item.created_at)) + '</span>' +
+              (item.notes ? '<br><span>' + escapeHtml(item.notes) + '</span>' : '') +
+            '</article>';
+        }).join('');
+      }
+
+      function renderRecommendations(affiliate, stats, payoutsSummary) {
+        const items = [];
+        if (!affiliate.profilePhotoUrl) {
+          items.push('Sube una foto de perfil para que tu espacio de afiliado tenga una identidad más sólida.');
+        }
+        if (!affiliate.bio) {
+          items.push('Completa tu bio comercial para dejar claro a qué audiencia atacas y desde qué enfoque vendes.');
+        }
+        if ((stats.totalClicks || 0) > 0 && (stats.conversionRate || 0) < 1) {
+          items.push('Estás generando tráfico pero la conversión sigue baja. Conviene revisar el ángulo, la promesa y el canal de entrada.');
+        }
+        if ((payoutsSummary.unpaidCommissionBalance || 0) > 0) {
+          items.push('Ya tienes comisión acumulada sin liquidar. Cuando definamos el circuito operativo, esta será la primera cifra a consolidar.');
+        }
+        if (!(affiliate.preferredNiches || []).length) {
+          items.push('Marca tus nichos prioritarios para orientar mejor el material que uses y las campañas que lancemos contigo.');
+        }
+        if (!items.length) {
+          items.push('Tu base operativa está bastante completa. El siguiente salto natural es profundizar en campañas por nicho y métricas por canal.');
+        }
+
+        recommendationsList.innerHTML = items.map(function (item) {
+          return '<div>' + escapeHtml(item) + '</div>';
+        }).join('');
+      }
+
+      function setProfileStatus(message, type) {
+        profileStatus.textContent = message || '';
+        profileStatus.className = 'portal-profile-status' + (type ? ' ' + type : '');
+      }
+
+      function profilePayloadFromForm() {
+        return {
+          displayTitle: displayTitleInput.value.trim(),
+          websiteUrl: websiteUrlInput.value.trim(),
+          instagramHandle: instagramHandleInput.value.trim(),
+          whatsappContact: whatsappContactInput.value.trim(),
+          bio: bioInput.value.trim(),
+          payoutNotes: payoutNotesInput.value.trim(),
+          preferredNiches: getSelectedNiches(),
+          profilePhotoUrl: currentProfilePhotoUrl || ''
+        };
+      }
+
+      async function saveProfile(event) {
+        event.preventDefault();
+        if (!accessToken || !currentPayload) return;
+
+        saveProfileButton.disabled = true;
+        setProfileStatus('Guardando cambios del perfil...', '');
+
+        try {
+          const response = await fetch('/api/affiliate/profile?access=' + encodeURIComponent(accessToken), {
+            method: 'PATCH',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(profilePayloadFromForm())
+          });
+          const payload = await response.json();
+          if (!response.ok || !payload.ok) {
+            throw new Error(payload.error || 'No se pudo guardar el perfil.');
+          }
+
+          currentPayload.affiliate.displayTitle = payload.profile.displayTitle || '';
+          currentPayload.affiliate.profilePhotoUrl = payload.profile.profilePhotoUrl || '';
+          currentPayload.affiliate.bio = payload.profile.bio || '';
+          currentPayload.affiliate.websiteUrl = payload.profile.websiteUrl || '';
+          currentPayload.affiliate.instagramHandle = payload.profile.instagramHandle || '';
+          currentPayload.affiliate.whatsappContact = payload.profile.whatsappContact || '';
+          currentPayload.affiliate.preferredNiches = Array.isArray(payload.profile.preferredNiches) ? payload.profile.preferredNiches : [];
+          currentPayload.affiliate.payoutNotes = payload.profile.payoutNotes || '';
+          renderAffiliate(currentPayload.affiliate, currentPayload.stats || {});
+          renderProfileForm(currentPayload.affiliate);
+          setProfileStatus('Perfil actualizado correctamente.', 'success');
+        } catch (error) {
+          setProfileStatus(error.message || 'No se pudo guardar el perfil.', 'error');
+        } finally {
+          saveProfileButton.disabled = false;
+        }
+      }
+
+      function handlePhotoChange() {
+        const file = profilePhotoInput.files && profilePhotoInput.files[0];
+        if (!file) return;
+        if (file.size > 800000) {
+          setProfileStatus('La imagen es demasiado pesada. Usa una foto más ligera, idealmente por debajo de 800 KB.', 'error');
+          profilePhotoInput.value = '';
+          return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = function () {
+          currentProfilePhotoUrl = String(reader.result || '');
+          renderAvatar(editorAvatar, currentPayload && currentPayload.affiliate ? currentPayload.affiliate.fullName : 'Afiliado', currentProfilePhotoUrl);
+          renderAvatar(affiliateAvatar, currentPayload && currentPayload.affiliate ? currentPayload.affiliate.fullName : 'Afiliado', currentProfilePhotoUrl);
+          setProfileStatus('Foto cargada en vista previa. Guarda el perfil para dejarla aplicada.', '');
+        };
+        reader.readAsDataURL(file);
       }
 
       async function loadPortal() {
@@ -732,16 +1204,20 @@
         try {
           const response = await fetch('/api/affiliate/portal-summary?access=' + encodeURIComponent(accessToken));
           const payload = await response.json();
-
           if (!response.ok || !payload.ok) {
             throw new Error(payload.error || 'No se pudo cargar el dashboard.');
           }
 
+          currentPayload = payload;
           renderStats(payload.stats || {}, payload.currency || 'USD');
-          renderAffiliate(payload.affiliate || {});
-          renderConnect(payload.affiliate || {});
+          renderAffiliate(payload.affiliate || {}, payload.stats || {});
+          renderProfileForm(payload.affiliate || {});
+          renderConnect(payload.affiliate || {}, payload.payoutsSummary || {}, payload.currency || 'USD');
+          renderProductPerformance(payload.productPerformance || [], payload.currency || 'USD');
           renderOrders(payload.orders || [], payload.currency || 'USD');
           renderClicks(payload.clicks || []);
+          renderPayouts(payload.payouts || [], payload.currency || 'USD');
+          renderRecommendations(payload.affiliate || {}, payload.stats || {}, payload.payoutsSummary || {});
 
           loading.hidden = true;
           app.hidden = false;
@@ -749,11 +1225,12 @@
           loading.hidden = true;
           errorCard.hidden = false;
           const message = errorCard.querySelector('p');
-          if (message) {
-            message.textContent = error.message || 'No se pudo abrir el portal privado.';
-          }
+          if (message) message.textContent = error.message || 'No se pudo abrir el portal privado.';
         }
       }
+
+      profilePhotoInput.addEventListener('change', handlePhotoChange);
+      profileForm.addEventListener('submit', saveProfile);
 
       loadPortal();
     }());

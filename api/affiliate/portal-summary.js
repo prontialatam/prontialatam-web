@@ -11,6 +11,44 @@ function toAmount(value) {
   return Number(Number(value || 0).toFixed(2));
 }
 
+function toPercent(numerator, denominator) {
+  if (!denominator) return 0;
+  return Number(((numerator / denominator) * 100).toFixed(2));
+}
+
+function buildProductPerformance(orders) {
+  const grouped = {};
+  orders.forEach(function (order) {
+    const key = order.product_slug || order.product_name || "producto";
+    if (!grouped[key]) {
+      grouped[key] = {
+        key,
+        label: order.product_name || "Producto",
+        orders: 0,
+        sales: 0,
+        commissions: 0
+      };
+    }
+    grouped[key].orders += 1;
+    grouped[key].sales += Number(order.amount_total || 0);
+    grouped[key].commissions += Number(order.commission_amount || 0);
+  });
+
+  return Object.values(grouped)
+    .map(function (item) {
+      return {
+        key: item.key,
+        label: item.label,
+        orders: item.orders,
+        sales: toAmount(item.sales),
+        commissions: toAmount(item.commissions)
+      };
+    })
+    .sort(function (a, b) {
+      return b.sales - a.sales;
+    });
+}
+
 module.exports = async function handler(req, res) {
   if (req.method !== "GET") {
     return sendJson(res, 405, { error: "Method not allowed" });
@@ -33,12 +71,18 @@ module.exports = async function handler(req, res) {
 
     const orders = await supabase.list(
       "orders",
-      `select=id,customer_email,customer_name,product_name,payment_status,fulfillment_status,amount_total,commission_amount,currency,created_at,affiliate_code&affiliate_id=eq.${encodeURIComponent(affiliate.id)}&order=created_at.desc&limit=100`
+      `select=id,customer_email,customer_name,product_slug,product_name,payment_status,fulfillment_status,amount_total,commission_amount,currency,created_at,affiliate_code&affiliate_id=eq.${encodeURIComponent(affiliate.id)}&order=created_at.desc&limit=100`
     );
     const clicks = await supabase.list(
       "affiliate_clicks",
-      `select=id,landing_path,utm_source,utm_medium,utm_campaign,referrer,clicked_at&affiliate_id=eq.${encodeURIComponent(affiliate.id)}&order=clicked_at.desc&limit=25`
+      `select=id,landing_path,utm_source,utm_medium,utm_campaign,referrer,clicked_at&affiliate_id=eq.${encodeURIComponent(affiliate.id)}&order=clicked_at.desc&limit=100`
     );
+    const payouts = await supabase.list(
+      "affiliate_payouts",
+      `select=id,period_label,amount,currency,status,notes,paid_at,created_at&affiliate_id=eq.${encodeURIComponent(affiliate.id)}&order=created_at.desc&limit=50`
+    ).catch(function () {
+      return [];
+    });
 
     const paidOrders = orders.filter(function (order) {
       return order.payment_status === "paid";
@@ -49,7 +93,23 @@ module.exports = async function handler(req, res) {
     const totalCommissions = paidOrders.reduce(function (sum, order) {
       return sum + Number(order.commission_amount || 0);
     }, 0);
+    const totalClicks = clicks.length;
     const currency = paidOrders[0] && paidOrders[0].currency ? paidOrders[0].currency : "USD";
+    const avgOrderValue = paidOrders.length ? totalSales / paidOrders.length : 0;
+    const paidPayouts = payouts.filter(function (item) {
+      return String(item.status || "").toLowerCase() === "paid";
+    });
+    const pendingPayouts = payouts.filter(function (item) {
+      return String(item.status || "").toLowerCase() !== "paid";
+    });
+    const totalPaidOut = paidPayouts.reduce(function (sum, item) {
+      return sum + Number(item.amount || 0);
+    }, 0);
+    const totalPendingPayout = pendingPayouts.reduce(function (sum, item) {
+      return sum + Number(item.amount || 0);
+    }, 0);
+    const unpaidCommissionBalance = Math.max(totalCommissions - totalPaidOut, 0);
+    const productPerformance = buildProductPerformance(paidOrders);
     const siteUrl = getSiteUrl(req);
 
     return sendJson(res, 200, {
@@ -58,6 +118,14 @@ module.exports = async function handler(req, res) {
         fullName: affiliate.full_name,
         email: affiliate.email,
         country: affiliate.country || "",
+        displayTitle: affiliate.display_title || "",
+        profilePhotoUrl: affiliate.profile_photo_url || "",
+        bio: affiliate.bio || "",
+        websiteUrl: affiliate.website_url || "",
+        instagramHandle: affiliate.instagram_handle || "",
+        whatsappContact: affiliate.whatsapp_contact || "",
+        preferredNiches: Array.isArray(affiliate.preferred_niches) ? affiliate.preferred_niches : [],
+        payoutNotes: affiliate.payout_notes || "",
         trackingCode: affiliate.tracking_code,
         couponCode: affiliate.coupon_code || "",
         commissionRate: Number(affiliate.commission_rate || 0.60),
@@ -72,13 +140,29 @@ module.exports = async function handler(req, res) {
       stats: {
         totalSales: toAmount(totalSales),
         totalCommissions: toAmount(totalCommissions),
+        totalPaidOut: toAmount(totalPaidOut),
+        totalPendingPayout: toAmount(totalPendingPayout),
+        unpaidCommissionBalance: toAmount(unpaidCommissionBalance),
         paidOrders: paidOrders.length,
         totalOrders: orders.length,
-        totalClicks: clicks.length
+        totalClicks,
+        conversionRate: toPercent(paidOrders.length, totalClicks),
+        averageOrderValue: toAmount(avgOrderValue),
+        lastSaleAt: paidOrders[0] ? paidOrders[0].created_at : "",
+        lastClickAt: clicks[0] ? clicks[0].clicked_at : ""
       },
       currency,
+      productPerformance,
+      payoutsSummary: {
+        totalPaidOut: toAmount(totalPaidOut),
+        totalPendingPayout: toAmount(totalPendingPayout),
+        unpaidCommissionBalance: toAmount(unpaidCommissionBalance),
+        lastPaidAt: paidPayouts[0] ? paidPayouts[0].paid_at || paidPayouts[0].created_at : "",
+        lastPaidAmount: paidPayouts[0] ? toAmount(paidPayouts[0].amount) : 0
+      },
       orders,
-      clicks
+      clicks: clicks.slice(0, 25),
+      payouts
     });
   } catch (error) {
     return sendJson(res, 500, {

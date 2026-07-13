@@ -132,6 +132,17 @@ async function resolveAffiliate(session) {
     return null;
   }
 
+  const affiliateId = session.metadata && session.metadata.affiliate_id
+    ? session.metadata.affiliate_id
+    : session.client_reference_id || "";
+  if (affiliateId) {
+    const byId = await supabase.findOne(
+      "affiliates",
+      `id=eq.${encodeURIComponent(affiliateId)}&status=eq.approved`
+    );
+    if (byId) return byId;
+  }
+
   const code = session.metadata && session.metadata.affiliate_code ? session.metadata.affiliate_code : "";
   if (code) {
     const byTracking = await supabase.findOne(
@@ -230,8 +241,11 @@ module.exports = async function handler(req, res) {
       source_metadata: {
         stripe_event_id: event.id,
         stripe_customer_id: session.customer || null,
+        affiliate_id: session.metadata ? session.metadata.affiliate_id || session.client_reference_id || null : session.client_reference_id || null,
+        affiliate_coupon_code: session.metadata ? session.metadata.affiliate_coupon_code || null : null,
         affiliate_entered_code: session.metadata ? session.metadata.affiliate_entered_code || null : null,
-        affiliate_match_type: session.metadata ? session.metadata.affiliate_match_type || null : null
+        affiliate_match_type: session.metadata ? session.metadata.affiliate_match_type || null : null,
+        affiliate_resolved_code: session.metadata ? session.metadata.affiliate_code || null : null
       }
     };
 

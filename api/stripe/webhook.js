@@ -1,6 +1,6 @@
 const Stripe = require("stripe");
 const { getSiteUrl, readRawBody, sendJson } = require("../_lib/http");
-const { sendPurchaseConfirmationEmail } = require("../_lib/email");
+const { sendPurchaseAdminNotificationEmail, sendPurchaseConfirmationEmail } = require("../_lib/email");
 const supabase = require("../_lib/supabase");
 const { summarizeAccount } = require("../_lib/stripe-connect");
 const { getProduct } = require("../_lib/stripe-products");
@@ -46,6 +46,7 @@ async function deliverOrder(options) {
   const youtubeIconUrl = buildAbsoluteUrl(siteUrl, "/assets/email-social/youtube.png");
   const supportEmail = product && product.supportEmail ? product.supportEmail : "hola@prontialatam.com";
   let emailResult = { ok: false, skipped: true, reason: "not_attempted" };
+  let adminNotificationResult = { ok: false, skipped: true, reason: "not_attempted" };
   let fulfillmentStatus = "delivery_not_attempted";
 
   try {
@@ -78,6 +79,27 @@ async function deliverOrder(options) {
     fulfillmentStatus = "delivery_email_failed";
   }
 
+  try {
+    adminNotificationResult = await sendPurchaseAdminNotificationEmail({
+      adminUrl: `${siteUrl}/operativa-afiliados.html`,
+      affiliateCode: options.order.affiliate_code,
+      affiliateName: options.affiliate ? options.affiliate.full_name : "",
+      amountTotal: options.order.amount_total,
+      commissionAmount: options.order.commission_amount,
+      currency: options.order.currency,
+      customerEmail: options.order.customer_email,
+      customerName: options.order.customer_name,
+      fulfillmentStatus,
+      productName: options.order.product_name || (product ? product.name : "Tu compra"),
+      sessionId: options.order.stripe_checkout_session_id
+    });
+  } catch (error) {
+    adminNotificationResult = {
+      ok: false,
+      error: error.message || "No se pudo enviar la notificación interna de compra"
+    };
+  }
+
   const externalStatus = await queueFulfillment({
     event: "order.paid",
     order: options.order,
@@ -97,6 +119,7 @@ async function deliverOrder(options) {
   }
 
   return {
+    adminNotificationResult,
     deliveryAssetUrl,
     deliveryPageUrl,
     emailResult,
@@ -263,6 +286,7 @@ module.exports = async function handler(req, res) {
         fulfillment_status: delivery.fulfillmentStatus,
         source_metadata: {
           ...baseOrder.source_metadata,
+          admin_notification: delivery.adminNotificationResult,
           delivery_asset_url: delivery.deliveryAssetUrl,
           delivery_page_url: delivery.deliveryPageUrl,
           email_delivery: delivery.emailResult

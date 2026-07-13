@@ -155,6 +155,37 @@
       max-width: 360px;
     }
 
+    .ops-sim-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 0.9rem;
+      align-items: end;
+    }
+
+    .ops-sim-grid label {
+      display: grid;
+      gap: 0.4rem;
+    }
+
+    .ops-sim-grid input,
+    .ops-sim-grid select {
+      width: 100%;
+    }
+
+    .test-order-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.22rem 0.55rem;
+      border-radius: 999px;
+      background: rgba(24, 95, 165, 0.12);
+      color: #185fa5;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
     @media (max-width: 760px) {
       .ops-panel {
         padding: 1rem;
@@ -261,6 +292,7 @@
           </div>
 
           <div id="statsGrid" class="stat-grid"></div>
+          <div id="simulationPanel"></div>
           <div id="opsSheetsPanel"></div>
           <div id="recentAffiliates" class="app-list"></div>
           <div id="recentOrders" class="app-list"></div>
@@ -278,9 +310,15 @@
       const list = document.getElementById('applicationsList');
       const configList = document.getElementById('configList');
       const statsGrid = document.getElementById('statsGrid');
+      const simulationPanel = document.getElementById('simulationPanel');
       const recentAffiliates = document.getElementById('recentAffiliates');
       const recentOrders = document.getElementById('recentOrders');
       const opsSheetsPanel = document.getElementById('opsSheetsPanel');
+      const productDefaults = {
+        'talleres-mecanicos': { label: 'Talleres Mecánicos', amount: 29 },
+        'restaurantes-hosteleria': { label: 'Restaurantes y Hostelería', amount: 20 },
+        'centros-estetica': { label: 'Centros de Estética', amount: 37 }
+      };
 
       function setStatus(message, type) {
         status.textContent = message || '';
@@ -416,6 +454,124 @@
               copyStatus.textContent = 'No se pudo copiar automáticamente. Selecciona la fórmula y cópiala manualmente.';
             });
           });
+        });
+      }
+
+      function renderSimulationPanel(affiliates, adminToken) {
+        const approvedAffiliates = (affiliates || []).filter(function (affiliate) {
+          return String(affiliate.status || '').toLowerCase() === 'approved';
+        });
+
+        if (!approvedAffiliates.length) {
+          renderEmptyPanel(simulationPanel, 'Simular compra atribuida', 'Necesitamos al menos un afiliado aprobado para lanzar una venta de prueba.');
+          return;
+        }
+
+        simulationPanel.innerHTML = '' +
+          '<article class="ops-panel">' +
+            '<div class="ops-panel-header">' +
+              '<div>' +
+                '<h3>Simular compra atribuida</h3>' +
+                '<p class="microcopy">Crea una venta de prueba sin pago real. Registra pedido, comisión y emails como una compra normal, pero marcada internamente como simulación y sin disparar el webhook externo de entrega.</p>' +
+              '</div>' +
+            '</div>' +
+            '<form id="simulateOrderForm">' +
+              '<div class="ops-sim-grid">' +
+                '<label>Afiliado aprobado' +
+                  '<select name="affiliateId" required>' +
+                    approvedAffiliates.map(function (affiliate) {
+                      return '<option value="' + escapeHtml(affiliate.id) + '">' + escapeHtml(affiliate.full_name + ' · ' + (affiliate.tracking_code || affiliate.email || affiliate.id)) + '</option>';
+                    }).join('') +
+                  '</select>' +
+                '</label>' +
+                '<label>Producto / nicho' +
+                  '<select name="productSlug" required>' +
+                    Object.keys(productDefaults).map(function (key) {
+                      const product = productDefaults[key];
+                      return '<option value="' + escapeHtml(key) + '" data-amount="' + escapeHtml(String(product.amount)) + '">' + escapeHtml(product.label + ' · ' + product.amount + ' USD') + '</option>';
+                    }).join('') +
+                  '</select>' +
+                '</label>' +
+                '<label>Tipo de atribución' +
+                  '<select name="attributionType">' +
+                    '<option value="affiliate_code">Código de afiliado</option>' +
+                    '<option value="affiliate_link">Enlace de afiliado</option>' +
+                  '</select>' +
+                '</label>' +
+                '<label>Importe (USD)' +
+                  '<input type="number" name="amountTotal" min="1" step="0.01" value="29" required>' +
+                '</label>' +
+                '<label>Nombre del cliente' +
+                  '<input type="text" name="customerName" placeholder="Ej.: Compra de prueba Luis" required>' +
+                '</label>' +
+                '<label>Email del cliente' +
+                  '<input type="email" name="customerEmail" placeholder="Ej.: tuemail@dominio.com" required>' +
+                '</label>' +
+              '</div>' +
+              '<div class="cta-row" style="margin-top:1rem;">' +
+                '<button type="submit" class="btn-primary">Simular compra atribuida</button>' +
+              '</div>' +
+              '<p class="microcopy">Se enviará el email de compra al destinatario indicado y la venta quedará visible en la operativa y en el panel del afiliado con marca de prueba.</p>' +
+              '<p id="simulateOrderStatus" class="inline-status"></p>' +
+            '</form>' +
+          '</article>';
+
+        const form = document.getElementById('simulateOrderForm');
+        const productSelect = form.querySelector('select[name="productSlug"]');
+        const amountInput = form.querySelector('input[name="amountTotal"]');
+        const statusNode = document.getElementById('simulateOrderStatus');
+
+        function syncProductAmount() {
+          const selected = productSelect.options[productSelect.selectedIndex];
+          if (!selected) return;
+          amountInput.value = selected.getAttribute('data-amount') || amountInput.value;
+        }
+
+        productSelect.addEventListener('change', syncProductAmount);
+
+        form.addEventListener('submit', async function (event) {
+          event.preventDefault();
+          const submitButton = form.querySelector('button[type="submit"]');
+          const formData = new FormData(form);
+          const payload = {
+            affiliateId: formData.get('affiliateId'),
+            productSlug: formData.get('productSlug'),
+            attributionType: formData.get('attributionType'),
+            amountTotal: formData.get('amountTotal'),
+            customerName: formData.get('customerName'),
+            customerEmail: formData.get('customerEmail'),
+            currency: 'USD'
+          };
+
+          submitButton.disabled = true;
+          submitButton.textContent = 'Simulando...';
+          statusNode.className = 'inline-status';
+          statusNode.textContent = 'Creando pedido de prueba, enviando emails y registrando la comisión...';
+
+          try {
+            const response = await fetch('/api/operations/simulate-order', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'x-affiliate-admin-token': adminToken
+              },
+              body: JSON.stringify(payload)
+            });
+            const result = await response.json();
+            if (!response.ok || !result.ok) {
+              throw new Error(result.error || 'No se pudo crear la compra simulada.');
+            }
+
+            statusNode.className = 'inline-status success';
+            statusNode.textContent = 'Venta de prueba creada. Pedido: ' + (result.orderId || result.sessionId) + ' · Afiliado: ' + result.affiliateCode + ' · Email: ' + result.customerEmail + '.';
+            await loadOperativeData(adminToken, 'Operativa recargada tras la simulación.');
+          } catch (error) {
+            statusNode.className = 'inline-status error';
+            statusNode.textContent = error.message || 'No se pudo crear la compra simulada.';
+          } finally {
+            submitButton.disabled = false;
+            submitButton.textContent = 'Simular compra atribuida';
+          }
         });
       }
 
@@ -635,9 +791,10 @@
                 ? 'Restaurantes'
                 : order.product_slug || '-';
           const metadata = order.source_metadata && typeof order.source_metadata === 'object' ? order.source_metadata : {};
+          const isTestOrder = Boolean(metadata.is_test_order);
           return '' +
             '<tr data-order-id="' + escapeHtml(order.id) + '">' +
-              '<td><button type="button" class="row-toggle" aria-expanded="false" aria-controls="' + detailId + '">' + escapeHtml(order.customer_name || order.customer_email || 'Cliente') + '</button><div class="microcopy">' + escapeHtml(order.customer_email || '-') + '</div></td>' +
+              '<td><button type="button" class="row-toggle" aria-expanded="false" aria-controls="' + detailId + '">' + escapeHtml(order.customer_name || order.customer_email || 'Cliente') + '</button><div class="microcopy">' + escapeHtml(order.customer_email || '-') + '</div>' + (isTestOrder ? '<div class="test-order-badge">Venta de prueba</div>' : '') + '</td>' +
               '<td>' + escapeHtml(order.product_name || '-') + '</td>' +
               '<td>' + escapeHtml(niche) + '</td>' +
               '<td class="amount-cell">' + escapeHtml(moneyLabel(order.amount_total, order.currency)) + '</td>' +
@@ -658,6 +815,7 @@
                   detailItem('Entrega', order.fulfillment_status) +
                   detailItem('Afiliado', order.affiliate_code) +
                   detailItem('Comisión', order.commission_amount ? moneyLabel(order.commission_amount, order.currency) : '-') +
+                  detailItem('Tipo', isTestOrder ? 'Venta de prueba interna' : 'Venta real') +
                   detailItem('Stripe session', order.stripe_checkout_session_id) +
                   detailItem('Stripe event', metadata.stripe_event_id) +
                   detailItem('Stripe customer', metadata.stripe_customer_id) +
@@ -736,13 +894,7 @@
         });
       }
 
-      loadButton.addEventListener('click', async function () {
-        const adminToken = tokenInput.value.trim();
-        if (!adminToken) {
-          setStatus('Necesitamos el token interno para cargar la operativa.', 'error');
-          return;
-        }
-
+      async function loadOperativeData(adminToken, successMessage) {
         loadButton.disabled = true;
         loadButton.textContent = 'Cargando...';
         setStatus('Consultando solicitudes y configuración...', '');
@@ -759,18 +911,29 @@
           }
 
           renderConfig(payload.config || {});
+          renderSimulationPanel(payload.affiliates || [], adminToken);
           renderSheetsPanel(adminToken, payload.config || {});
           renderStats(payload.stats || {});
           renderAffiliates(payload.affiliates || [], adminToken);
           renderOrders(payload.orders || [], adminToken);
           renderApplications(payload.applications || [], adminToken);
-          setStatus('Operativa cargada correctamente.', 'success');
+          setStatus(successMessage || 'Operativa cargada correctamente.', 'success');
         } catch (error) {
           setStatus(error.message || 'No se pudo cargar la operativa.', 'error');
         } finally {
           loadButton.disabled = false;
           loadButton.textContent = 'Cargar solicitudes';
         }
+      }
+
+      loadButton.addEventListener('click', async function () {
+        const adminToken = tokenInput.value.trim();
+        if (!adminToken) {
+          setStatus('Necesitamos el token interno para cargar la operativa.', 'error');
+          return;
+        }
+
+        await loadOperativeData(adminToken);
       });
     })();
   </script>

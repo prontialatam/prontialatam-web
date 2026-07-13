@@ -150,7 +150,8 @@ module.exports = async function handler(req, res) {
       return Object.assign({}, order, {
         attributionLabel: normalizeAttributionLabel(metadata.affiliate_match_type),
         affiliateEnteredCode: metadata.affiliate_entered_code || "",
-        fulfillmentLabel: normalizeFulfillmentLabel(order.fulfillment_status)
+        fulfillmentLabel: normalizeFulfillmentLabel(order.fulfillment_status),
+        isTestOrder: Boolean(metadata.is_test_order)
       });
     });
 

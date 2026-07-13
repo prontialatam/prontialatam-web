@@ -1557,7 +1557,7 @@
                   : order.attributionLabel || 'Sin identificar';
                 return '' +
                   '<tr>' +
-                    '<td><strong>' + escapeHtml(order.customer_name || order.customer_email || 'Cliente') + '</strong><br><span class="microcopy">' + escapeHtml(order.customer_email || '-') + '</span></td>' +
+                    '<td><strong>' + escapeHtml(order.customer_name || order.customer_email || 'Cliente') + '</strong>' + (order.isTestOrder ? ' <span class="status-badge pending">Prueba</span>' : '') + '<br><span class="microcopy">' + escapeHtml(order.customer_email || '-') + '</span></td>' +
                     '<td>' + escapeHtml(order.product_name || '-') + '</td>' +
                     '<td>' + escapeHtml(formatCurrency(order.amount_total, order.currency || currency)) + '</td>' +
                     '<td>' + escapeHtml(formatCurrency(order.commission_amount, order.currency || currency)) + '</td>' +

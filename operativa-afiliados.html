@@ -186,6 +186,66 @@
       text-transform: uppercase;
     }
 
+    .payout-chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 1rem;
+    }
+
+    .payout-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.5rem 0.8rem;
+      border-radius: 999px;
+      background: #fff;
+      border: 1px solid #e3dccf;
+      font-size: 0.84rem;
+      color: #203040;
+    }
+
+    .payout-chip strong {
+      color: #12385b;
+    }
+
+    .payout-form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 0.8rem;
+      margin-top: 1rem;
+      align-items: end;
+    }
+
+    .payout-form-grid label {
+      display: grid;
+      gap: 0.4rem;
+    }
+
+    .payout-list {
+      display: grid;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .payout-card {
+      background: #fff;
+      border: 1px solid #ece4d8;
+      border-radius: 12px;
+      padding: 0.85rem 0.95rem;
+    }
+
+    .payout-card-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.8rem;
+      align-items: flex-start;
+    }
+
+    .payout-card-top strong {
+      color: #12385b;
+    }
+
     @media (max-width: 760px) {
       .ops-panel {
         padding: 1rem;
@@ -374,6 +434,14 @@
       function moneyLabel(amount, currency) {
         const numeric = Number(amount || 0);
         return numeric.toFixed(2) + (currency ? ' ' + currency : '');
+      }
+
+      function payoutStatusBadge(statusValue) {
+        const normalized = String(statusValue || '').toLowerCase();
+        if (normalized === 'paid') return '<span class="status-badge approved">Pagado</span>';
+        if (normalized === 'pending') return '<span class="status-badge pending">Pendiente</span>';
+        if (normalized === 'processing') return '<span class="status-badge">Procesando</span>';
+        return '<span class="status-badge">' + escapeHtml(statusValue || '-') + '</span>';
       }
 
       function detailItem(label, value) {
@@ -671,7 +739,9 @@
           ['Afiliados aprobados', stats.approvedAffiliates || 0],
           ['Solicitudes no aprobadas', stats.rejectedApplications || 0],
           ['Ventas registradas', '$' + Number(stats.totalSales || 0).toFixed(2)],
-          ['Comisiones calculadas', '$' + Number(stats.totalCommissions || 0).toFixed(2)]
+          ['Comisiones calculadas', '$' + Number(stats.totalCommissions || 0).toFixed(2)],
+          ['Pendiente de pago', '$' + Number(stats.totalPendingPayout || 0).toFixed(2)],
+          ['Pagado', '$' + Number(stats.totalPaidOut || 0).toFixed(2)]
         ];
         statsGrid.innerHTML = items.map(function (item) {
           return '<article class="stat-card"><strong>' + escapeHtml(item[1]) + '</strong><span>' + escapeHtml(item[0]) + '</span></article>';
@@ -694,21 +764,23 @@
             '</div>' +
             '<div class="ops-table-wrap">' +
               '<table class="ops-table">' +
-                '<thead><tr><th>Afiliado</th><th>Estado</th><th>País</th><th>Código</th><th>Comisión</th><th>Stripe Connect</th><th>Alta</th></tr></thead>' +
+                '<thead><tr><th>Afiliado</th><th>Estado</th><th>País</th><th>Código</th><th>Generada</th><th>Pendiente</th><th>Pagada</th><th>Alta</th></tr></thead>' +
                 '<tbody>' + affiliates.map(function (affiliate, index) {
           const detailId = 'affiliate-detail-' + index;
+          const payoutSummary = affiliate.payout_summary || {};
           return '' +
             '<tr data-affiliate-id="' + escapeHtml(affiliate.id) + '">' +
               '<td><button type="button" class="row-toggle" aria-expanded="false" aria-controls="' + detailId + '">' + escapeHtml(affiliate.full_name) + '</button><div class="microcopy">' + escapeHtml(affiliate.email) + '</div></td>' +
               '<td><span class="' + statusClass(affiliate.status) + '">' + escapeHtml(affiliate.status || '-') + '</span></td>' +
               '<td>' + escapeHtml(affiliate.country || '-') + '</td>' +
               '<td>' + escapeHtml(affiliate.tracking_code || '-') + '</td>' +
-              '<td>' + escapeHtml(String(affiliate.commission_rate || '0')) + '</td>' +
-              '<td>' + escapeHtml(affiliate.stripe_connect_status || 'not_started') + '</td>' +
+              '<td class="amount-cell">' + escapeHtml(moneyLabel(payoutSummary.generatedBalance, 'USD')) + '</td>' +
+              '<td class="amount-cell">' + escapeHtml(moneyLabel(payoutSummary.totalPendingPayout, 'USD')) + '</td>' +
+              '<td class="amount-cell">' + escapeHtml(moneyLabel(payoutSummary.totalPaidOut, 'USD')) + '</td>' +
               '<td>' + escapeHtml(formatDate(affiliate.created_at)) + '</td>' +
             '</tr>' +
             '<tr id="' + detailId + '" class="detail-row" hidden>' +
-              '<td colspan="7">' +
+              '<td colspan="8">' +
                 '<div class="detail-grid">' +
                   detailItem('Email', affiliate.email) +
                   detailItem('Teléfono', (affiliate.phone_country_code || '') + ' ' + (affiliate.phone_number || '')) +
@@ -721,7 +793,43 @@
                   detailItem('Onboarding completado', formatDate(affiliate.connect_onboarding_completed_at)) +
                   detailItem('ID afiliado', affiliate.id) +
                 '</div>' +
-                '<div class="ops-actions"><button type="button" class="btn-secondary resend-button">Reenviar onboarding</button></div>' +
+                '<div class="payout-chip-row">' +
+                  '<div class="payout-chip"><strong>Generada</strong> ' + escapeHtml(moneyLabel(payoutSummary.generatedBalance, 'USD')) + '</div>' +
+                  '<div class="payout-chip"><strong>Pendiente</strong> ' + escapeHtml(moneyLabel(payoutSummary.totalPendingPayout, 'USD')) + '</div>' +
+                  '<div class="payout-chip"><strong>Pagada</strong> ' + escapeHtml(moneyLabel(payoutSummary.totalPaidOut, 'USD')) + '</div>' +
+                '</div>' +
+                '<div class="payout-form-grid">' +
+                  '<label>Importe a pasar a pendiente' +
+                    '<input type="number" class="payout-amount-input" min="0" step="0.01" value="' + escapeHtml(String(Number(payoutSummary.generatedBalance || 0).toFixed(2))) + '">' +
+                  '</label>' +
+                  '<label>Periodo / etiqueta' +
+                    '<input type="text" class="payout-period-input" placeholder="Ej. Julio 2026 - 1ª liquidación">' +
+                  '</label>' +
+                  '<label>Notas' +
+                    '<input type="text" class="payout-notes-input" placeholder="Ej. Pendiente de transferencia bancaria">' +
+                  '</label>' +
+                  '<div class="cta-row" style="margin-top:0;">' +
+                    '<button type="button" class="btn-secondary create-payout-button">Pasar a pendiente</button>' +
+                    '<button type="button" class="btn-secondary resend-button">Reenviar onboarding</button>' +
+                  '</div>' +
+                '</div>' +
+                '<div class="payout-list">' + (affiliate.payout_items || []).map(function (item) {
+                  return '' +
+                    '<article class="payout-card" data-payout-id="' + escapeHtml(item.id) + '">' +
+                      '<div class="payout-card-top">' +
+                        '<div><strong>' + escapeHtml(item.period_label || 'Liquidación') + '</strong><div class="microcopy">' + escapeHtml(formatDate(item.created_at)) + '</div></div>' +
+                        '<div>' + payoutStatusBadge(item.status) + '</div>' +
+                      '</div>' +
+                      '<div class="payout-chip-row" style="margin-top:0.75rem;">' +
+                        '<div class="payout-chip"><strong>Importe</strong> ' + escapeHtml(moneyLabel(item.amount, item.currency || 'USD')) + '</div>' +
+                        (item.paid_at ? '<div class="payout-chip"><strong>Pagado el</strong> ' + escapeHtml(formatDate(item.paid_at)) + '</div>' : '') +
+                      '</div>' +
+                      (item.notes ? '<p class="microcopy" style="margin-top:0.75rem;">' + escapeHtml(item.notes) + '</p>' : '') +
+                      (String(item.status || '').toLowerCase() !== 'paid'
+                        ? '<div class="ops-actions"><button type="button" class="btn-secondary mark-paid-button">Marcar como pagado</button></div>'
+                        : '') +
+                    '</article>';
+                }).join('') + '</div>' +
                 '<p class="inline-status resend-status"></p>' +
               '</td>' +
             '</tr>';
@@ -759,6 +867,95 @@
             } finally {
               button.disabled = false;
               button.textContent = 'Reenviar onboarding';
+            }
+          });
+        });
+
+        recentAffiliates.querySelectorAll('.create-payout-button').forEach(function (button) {
+          button.addEventListener('click', async function () {
+            const detailRow = button.closest('.detail-row');
+            const row = detailRow.previousElementSibling;
+            const cardStatus = detailRow.querySelector('.resend-status');
+            const affiliateId = row.getAttribute('data-affiliate-id');
+            const amountInput = detailRow.querySelector('.payout-amount-input');
+            const periodInput = detailRow.querySelector('.payout-period-input');
+            const notesInput = detailRow.querySelector('.payout-notes-input');
+
+            button.disabled = true;
+            button.textContent = 'Pasando...';
+            cardStatus.className = 'inline-status';
+            cardStatus.textContent = 'Registrando la comisión como pendiente de pago...';
+
+            try {
+              const response = await fetch('/api/operations/payouts', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'x-affiliate-admin-token': adminToken
+                },
+                body: JSON.stringify({
+                  action: 'create_pending',
+                  affiliateId: affiliateId,
+                  amount: amountInput.value,
+                  periodLabel: periodInput.value,
+                  notes: notesInput.value,
+                  currency: 'USD'
+                })
+              });
+              const payload = await response.json();
+              if (!response.ok || !payload.ok) {
+                throw new Error(payload.error || 'No se pudo pasar la comisión a pendiente.');
+              }
+              cardStatus.className = 'inline-status success';
+              cardStatus.textContent = 'Cobro pendiente registrado correctamente.';
+              await loadOperativeData(adminToken, 'Operativa recargada tras actualizar cobros.');
+            } catch (error) {
+              cardStatus.className = 'inline-status error';
+              cardStatus.textContent = error.message || 'No se pudo pasar la comisión a pendiente.';
+            } finally {
+              button.disabled = false;
+              button.textContent = 'Pasar a pendiente';
+            }
+          });
+        });
+
+        recentAffiliates.querySelectorAll('.mark-paid-button').forEach(function (button) {
+          button.addEventListener('click', async function () {
+            const payoutCard = button.closest('.payout-card');
+            const detailRow = button.closest('.detail-row');
+            const cardStatus = detailRow.querySelector('.resend-status');
+            const payoutId = payoutCard.getAttribute('data-payout-id');
+
+            button.disabled = true;
+            button.textContent = 'Marcando...';
+            cardStatus.className = 'inline-status';
+            cardStatus.textContent = 'Marcando el cobro como pagado...';
+
+            try {
+              const response = await fetch('/api/operations/payouts', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'x-affiliate-admin-token': adminToken
+                },
+                body: JSON.stringify({
+                  action: 'mark_paid',
+                  payoutId: payoutId
+                })
+              });
+              const payload = await response.json();
+              if (!response.ok || !payload.ok) {
+                throw new Error(payload.error || 'No se pudo marcar el cobro como pagado.');
+              }
+              cardStatus.className = 'inline-status success';
+              cardStatus.textContent = 'Cobro marcado como pagado.';
+              await loadOperativeData(adminToken, 'Operativa recargada tras actualizar cobros.');
+            } catch (error) {
+              cardStatus.className = 'inline-status error';
+              cardStatus.textContent = error.message || 'No se pudo marcar el cobro como pagado.';
+            } finally {
+              button.disabled = false;
+              button.textContent = 'Marcar como pagado';
             }
           });
         });

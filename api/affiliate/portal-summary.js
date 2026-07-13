@@ -135,6 +135,7 @@ module.exports = async function handler(req, res) {
     const totalPendingPayout = pendingPayouts.reduce(function (sum, item) {
       return sum + Number(item.amount || 0);
     }, 0);
+    const generatedCommissionBalance = Math.max(totalCommissions - totalPendingPayout - totalPaidOut, 0);
     const unpaidCommissionBalance = Math.max(totalCommissions - totalPaidOut, 0);
     const commissionCoverageRate = totalCommissions ? (totalPaidOut / totalCommissions) * 100 : 0;
     const productPerformance = buildProductPerformance(paidOrders);
@@ -184,6 +185,7 @@ module.exports = async function handler(req, res) {
         totalCommissions: toAmount(totalCommissions),
         totalPaidOut: toAmount(totalPaidOut),
         totalPendingPayout: toAmount(totalPendingPayout),
+        generatedCommissionBalance: toAmount(generatedCommissionBalance),
         unpaidCommissionBalance: toAmount(unpaidCommissionBalance),
         paidOrders: paidOrders.length,
         totalOrders: orders.length,
@@ -200,6 +202,7 @@ module.exports = async function handler(req, res) {
       payoutsSummary: {
         totalPaidOut: toAmount(totalPaidOut),
         totalPendingPayout: toAmount(totalPendingPayout),
+        generatedCommissionBalance: toAmount(generatedCommissionBalance),
         unpaidCommissionBalance: toAmount(unpaidCommissionBalance),
         lastPaidAt: paidPayouts[0] ? paidPayouts[0].paid_at || paidPayouts[0].created_at : "",
         lastPaidAmount: paidPayouts[0] ? toAmount(paidPayouts[0].amount) : 0

@@ -1358,7 +1358,8 @@
         const cards = [
           ['Ventas atribuidas', formatCurrency(stats.totalSales, currency), 'Importe confirmado en pedidos pagados.'],
           ['Comisión acumulada', formatCurrency(stats.totalCommissions, currency), 'Comisión generada por tu código.'],
-          ['Saldo por liquidar', formatCurrency(stats.unpaidCommissionBalance, currency), 'Comisión aún no registrada como pagada.'],
+          ['Generada sin programar', formatCurrency(stats.generatedCommissionBalance, currency), 'Comisión todavía no pasada a pendiente de pago.'],
+          ['Pendiente de pago', formatCurrency(stats.totalPendingPayout, currency), 'Comisión ya registrada para liquidación.'],
           ['Pagado hasta hoy', formatCurrency(stats.totalPaidOut, currency), 'Liquidaciones marcadas como pagadas.'],
           ['Pedidos pagados', String(stats.paidOrders || 0), 'Ventas cobradas y validadas.'],
           ['Pedidos entregados', String(stats.deliveredOrders || 0), 'Pedidos con entrega ya lanzada al cliente final.'],
@@ -1511,8 +1512,8 @@
         }
 
         payoutSummaryCards.innerHTML = [
-          ['Pendiente de pago', formatCurrency(payoutsSummary.totalPendingPayout, currency), 'Pagos ya registrados como pendientes.'],
-          ['Saldo no liquidado', formatCurrency(payoutsSummary.unpaidCommissionBalance, currency), 'Comisión generada menos lo que ya consta pagado.'],
+          ['Generada', formatCurrency(payoutsSummary.generatedCommissionBalance, currency), 'Comisión generada que aún no hemos pasado a pendiente.'],
+          ['Pendiente de pago', formatCurrency(payoutsSummary.totalPendingPayout, currency), 'Importe ya preparado para liquidación.'],
           ['Último pago', payoutsSummary.lastPaidAmount ? formatCurrency(payoutsSummary.lastPaidAmount, currency) : 'Sin pagos', payoutsSummary.lastPaidAt ? formatDate(payoutsSummary.lastPaidAt) : 'Aún no hay liquidaciones marcadas.']
         ].map(function (item) {
           return '' +
@@ -1616,8 +1617,11 @@
         if ((stats.totalClicks || 0) > 0 && (stats.conversionRate || 0) < 1) {
           items.push('Estás generando tráfico pero la conversión sigue baja. Conviene revisar el ángulo, la promesa y el canal de entrada.');
         }
-        if ((payoutsSummary.unpaidCommissionBalance || 0) > 0) {
-          items.push('Ya tienes comisión acumulada sin liquidar. Cuando definamos el circuito operativo, esta será la primera cifra a consolidar.');
+        if ((payoutsSummary.generatedCommissionBalance || 0) > 0) {
+          items.push('Ya tienes comisión generada pendiente de pasar a estado de cobro. El siguiente movimiento administrativo es convertirla en pendiente.');
+        }
+        if ((payoutsSummary.totalPendingPayout || 0) > 0) {
+          items.push('Tienes importes ya marcados como pendientes de pago. Conviene revisar con nosotros la fecha de liquidación prevista.');
         }
         if (!(affiliate.preferredNiches || []).length) {
           items.push('Marca tus nichos prioritarios para orientar mejor el material que uses y las campañas que lancemos contigo.');

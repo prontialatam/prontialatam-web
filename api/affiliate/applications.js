@@ -8,6 +8,43 @@ function isAuthorized(req, body) {
   return Boolean(expectedToken) && (headerToken === expectedToken || bodyToken === expectedToken);
 }
 
+function toAmount(value) {
+  return Number(Number(value || 0).toFixed(2));
+}
+
+function isPaidStatus(value) {
+  return String(value || "").toLowerCase() === "paid";
+}
+
+function summarizeAffiliateBalances(affiliateId, orders, payouts) {
+  const affiliateOrders = (orders || []).filter(function (order) {
+    return order.affiliate_id === affiliateId && String(order.payment_status || "").toLowerCase() === "paid";
+  });
+  const affiliatePayouts = (payouts || []).filter(function (item) {
+    return item.affiliate_id === affiliateId;
+  });
+  const totalCommissions = affiliateOrders.reduce(function (sum, order) {
+    return sum + Number(order.commission_amount || 0);
+  }, 0);
+  const totalPaidOut = affiliatePayouts.filter(function (item) {
+    return isPaidStatus(item.status);
+  }).reduce(function (sum, item) {
+    return sum + Number(item.amount || 0);
+  }, 0);
+  const totalPendingPayout = affiliatePayouts.filter(function (item) {
+    return !isPaidStatus(item.status);
+  }).reduce(function (sum, item) {
+    return sum + Number(item.amount || 0);
+  }, 0);
+  return {
+    totalCommissions: toAmount(totalCommissions),
+    generatedBalance: toAmount(Math.max(totalCommissions - totalPendingPayout - totalPaidOut, 0)),
+    totalPendingPayout: toAmount(totalPendingPayout),
+    totalPaidOut: toAmount(totalPaidOut),
+    outstandingBalance: toAmount(Math.max(totalCommissions - totalPaidOut, 0))
+  };
+}
+
 module.exports = async function handler(req, res) {
   if (req.method !== "GET" && req.method !== "POST") {
     return sendJson(res, 405, { error: "Method not allowed" });
@@ -35,12 +72,28 @@ module.exports = async function handler(req, res) {
       "orders",
       "select=id,stripe_checkout_session_id,stripe_payment_intent_id,customer_email,customer_name,product_slug,product_name,affiliate_id,affiliate_code,payment_status,fulfillment_status,amount_total,commission_amount,currency,landing_path,utm_source,utm_medium,utm_campaign,source_metadata,created_at&order=created_at.desc&limit=500"
     );
+    const payouts = await supabase.list(
+      "affiliate_payouts",
+      "select=id,affiliate_id,period_label,amount,currency,status,notes,paid_at,created_at&order=created_at.desc&limit=500"
+    ).catch(function () {
+      return [];
+    });
 
     const totalSales = orders.reduce(function (sum, order) {
       return sum + Number(order.amount_total || 0);
     }, 0);
     const totalCommissions = orders.reduce(function (sum, order) {
       return sum + Number(order.commission_amount || 0);
+    }, 0);
+    const totalPaidOut = payouts.filter(function (item) {
+      return isPaidStatus(item.status);
+    }).reduce(function (sum, item) {
+      return sum + Number(item.amount || 0);
+    }, 0);
+    const totalPendingPayout = payouts.filter(function (item) {
+      return !isPaidStatus(item.status);
+    }).reduce(function (sum, item) {
+      return sum + Number(item.amount || 0);
     }, 0);
     const approvedAffiliates = affiliates.filter(function (item) {
       return item.status === "approved";
@@ -51,18 +104,29 @@ module.exports = async function handler(req, res) {
     const pendingApplications = applications.filter(function (item) {
       return item.status === "pending";
     }).length;
+    const affiliatesWithBalances = affiliates.map(function (affiliate) {
+      return Object.assign({}, affiliate, {
+        payout_summary: summarizeAffiliateBalances(affiliate.id, orders, payouts),
+        payout_items: payouts.filter(function (item) {
+          return item.affiliate_id === affiliate.id;
+        }).slice(0, 10)
+      });
+    });
 
     return sendJson(res, 200, {
       ok: true,
       applications,
-      affiliates,
+      affiliates: affiliatesWithBalances,
       orders,
+      payouts,
       stats: {
         pendingApplications,
         rejectedApplications,
         approvedAffiliates,
         totalSales: Number(totalSales.toFixed(2)),
-        totalCommissions: Number(totalCommissions.toFixed(2))
+        totalCommissions: Number(totalCommissions.toFixed(2)),
+        totalPaidOut: Number(totalPaidOut.toFixed(2)),
+        totalPendingPayout: Number(totalPendingPayout.toFixed(2))
       },
       config: {
         supabase: supabase.isConfigured(),

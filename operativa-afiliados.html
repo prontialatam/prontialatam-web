@@ -207,7 +207,7 @@
               <ul class="bullet-list" style="margin-top:0.9rem;">
                 <li>Checklist de variables y servicios.</li>
                 <li>Lectura de solicitudes desde Supabase.</li>
-                <li>Aprobación con código, cupón y email de onboarding.</li>
+                <li>Aprobación con código de afiliado, enlace comercial y email de onboarding.</li>
                 <li>Reenvío del acceso privado y la documentación desde afiliados aprobados.</li>
                 <li>Base para payout y tracking posterior.</li>
               </ul>
@@ -497,7 +497,7 @@
               }
 
               cardStatus.className = 'inline-status success';
-              cardStatus.textContent = 'Aprobado. Código: ' + payload.trackingCode + ' | Cupón: ' + payload.couponCode;
+              cardStatus.textContent = 'Aprobado. Código: ' + payload.trackingCode + ' | Enlace: ' + payload.affiliateLink;
               button.remove();
             } catch (error) {
               cardStatus.className = 'inline-status error';
@@ -533,12 +533,12 @@
             '<div class="ops-panel-header">' +
               '<div>' +
                 '<h3>Afiliados</h3>' +
-                '<p class="microcopy">Altas aprobadas, códigos comerciales, estado de cobros y acciones de onboarding.</p>' +
+                '<p class="microcopy">Altas aprobadas, enlaces de afiliado, estado de cobros y acciones de onboarding.</p>' +
               '</div>' +
             '</div>' +
             '<div class="ops-table-wrap">' +
               '<table class="ops-table">' +
-                '<thead><tr><th>Afiliado</th><th>Estado</th><th>País</th><th>Código</th><th>Cupón</th><th>Comisión</th><th>Stripe Connect</th><th>Alta</th></tr></thead>' +
+                '<thead><tr><th>Afiliado</th><th>Estado</th><th>País</th><th>Código</th><th>Comisión</th><th>Stripe Connect</th><th>Alta</th></tr></thead>' +
                 '<tbody>' + affiliates.map(function (affiliate, index) {
           const detailId = 'affiliate-detail-' + index;
           return '' +
@@ -547,18 +547,16 @@
               '<td><span class="' + statusClass(affiliate.status) + '">' + escapeHtml(affiliate.status || '-') + '</span></td>' +
               '<td>' + escapeHtml(affiliate.country || '-') + '</td>' +
               '<td>' + escapeHtml(affiliate.tracking_code || '-') + '</td>' +
-              '<td>' + escapeHtml(affiliate.coupon_code || '-') + '</td>' +
               '<td>' + escapeHtml(String(affiliate.commission_rate || '0')) + '</td>' +
               '<td>' + escapeHtml(affiliate.stripe_connect_status || 'not_started') + '</td>' +
               '<td>' + escapeHtml(formatDate(affiliate.created_at)) + '</td>' +
             '</tr>' +
             '<tr id="' + detailId + '" class="detail-row" hidden>' +
-              '<td colspan="8">' +
+              '<td colspan="7">' +
                 '<div class="detail-grid">' +
                   detailItem('Email', affiliate.email) +
                   detailItem('Teléfono', (affiliate.phone_country_code || '') + ' ' + (affiliate.phone_number || '')) +
                   detailItem('Código afiliado', affiliate.tracking_code) +
-                  detailItem('Cupón', affiliate.coupon_code) +
                   detailItem('Comisión', affiliate.commission_rate) +
                   detailItem('Stripe Connect', affiliate.stripe_connect_status || 'not_started') +
                   detailItem('Cuenta Stripe', affiliate.stripe_connect_account_id) +

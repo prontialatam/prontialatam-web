@@ -46,6 +46,7 @@ module.exports = async function handler(req, res) {
     }
 
     const enteredAffiliateCode = String(body.refCode || "").trim();
+    const refSource = String(body.refSource || "").trim().toLowerCase();
     let resolvedAffiliate = null;
     if (enteredAffiliateCode) {
       try {
@@ -60,10 +61,6 @@ module.exports = async function handler(req, res) {
     const affiliateId = resolvedAffiliate && resolvedAffiliate.affiliate
       ? resolvedAffiliate.affiliate.id
       : "";
-    const affiliateCouponCode = resolvedAffiliate && resolvedAffiliate.affiliate
-      ? resolvedAffiliate.affiliate.coupon_code || ""
-      : "";
-
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
       maxNetworkRetries: 1
     });
@@ -94,9 +91,10 @@ module.exports = async function handler(req, res) {
         product_name: product.name,
         affiliate_id: affiliateId || "",
         affiliate_code: affiliateTrackingCode || "",
-        affiliate_coupon_code: affiliateCouponCode,
         affiliate_entered_code: enteredAffiliateCode || "",
-        affiliate_match_type: resolvedAffiliate ? resolvedAffiliate.matchedBy : "",
+        affiliate_match_type: enteredAffiliateCode
+          ? (refSource === "code" ? "affiliate_code" : "affiliate_link")
+          : "",
         landing_path: body.landingPath || "",
         utm_source: body.utmSource || "",
         utm_medium: body.utmMedium || "",

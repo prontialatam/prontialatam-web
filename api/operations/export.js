@@ -76,7 +76,6 @@ function normalizeAffiliate(row) {
     pais: row.country,
     telefono: `${row.phone_country_code || ""} ${row.phone_number || ""}`.trim(),
     codigo: row.tracking_code,
-    cupon: row.coupon_code,
     comision: row.commission_rate,
     stripe_connect: row.stripe_connect_status,
     stripe_cuenta: row.stripe_connect_account_id,
@@ -121,7 +120,7 @@ async function getOrdersCsv() {
 async function getAffiliatesCsv() {
   const rows = await supabase.list(
     "affiliates",
-    "select=id,status,full_name,email,country,phone_country_code,phone_number,tracking_code,coupon_code,commission_rate,stripe_connect_account_id,stripe_connect_status,stripe_connect_country,stripe_connect_dashboard,stripe_connect_requirements_due,connect_onboarding_started_at,connect_onboarding_completed_at,created_at&order=created_at.desc&limit=1000"
+    "select=id,status,full_name,email,country,phone_country_code,phone_number,tracking_code,commission_rate,stripe_connect_account_id,stripe_connect_status,stripe_connect_country,stripe_connect_dashboard,stripe_connect_requirements_due,connect_onboarding_started_at,connect_onboarding_completed_at,created_at&order=created_at.desc&limit=1000"
   );
   const normalized = rows.map(normalizeAffiliate);
   const headers = [
@@ -132,7 +131,6 @@ async function getAffiliatesCsv() {
     "pais",
     "telefono",
     "codigo",
-    "cupon",
     "comision",
     "stripe_connect",
     "stripe_cuenta",

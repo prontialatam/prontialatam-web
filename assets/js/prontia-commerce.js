@@ -1,5 +1,6 @@
 (function (window, document) {
   const REF_COOKIE = "prontia_aff_ref";
+  const REF_SOURCE_COOKIE = "prontia_aff_ref_source";
   const REF_TTL_DAYS = 30;
 
   function setCookie(name, value, days) {
@@ -66,6 +67,7 @@
       });
     }
 
+    setCookie(REF_SOURCE_COOKIE, "link", REF_TTL_DAYS);
     return ref;
   }
 
@@ -95,6 +97,7 @@
         const validation = await validateAffiliateCode(refInput.value.trim());
         refCode = validation.trackingCode;
         setCookie(REF_COOKIE, refCode, REF_TTL_DAYS);
+        setCookie(REF_SOURCE_COOKIE, "code", REF_TTL_DAYS);
         refInput.value = validation.trackingCode;
       }
 
@@ -106,6 +109,7 @@
         body: JSON.stringify({
           productSlug,
           refCode,
+          refSource: getCookie(REF_SOURCE_COOKIE) || "",
           landingPath: window.location.pathname,
           ...currentUtmData()
         })
@@ -167,6 +171,7 @@
           setStatus(statusNode, "Validando tu código...", "");
           const validation = await validateAffiliateCode(input.value.trim());
           setCookie(REF_COOKIE, validation.trackingCode, REF_TTL_DAYS);
+          setCookie(REF_SOURCE_COOKIE, "code", REF_TTL_DAYS);
           input.value = validation.trackingCode;
           setStatus(
             statusNode,
@@ -181,6 +186,7 @@
       if (clearButton) {
         clearButton.addEventListener("click", function () {
           setCookie(REF_COOKIE, "", -1);
+          setCookie(REF_SOURCE_COOKIE, "", -1);
           input.value = "";
           setStatus(statusNode, "Código borrado. La compra seguirá sin afiliado asociado.", "");
         });
@@ -202,6 +208,7 @@
     },
     clearAffiliateCode: function () {
       setCookie(REF_COOKIE, "", -1);
+      setCookie(REF_SOURCE_COOKIE, "", -1);
     }
   };
 

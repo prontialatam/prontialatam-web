@@ -18,7 +18,7 @@ module.exports = async function handler(req, res) {
       return sendJson(res, 404, {
         ok: false,
         valid: false,
-        error: "No hemos encontrado ese código de afiliado o cupón."
+        error: "No hemos encontrado ese código de afiliado."
       });
     }
 
@@ -26,7 +26,6 @@ module.exports = async function handler(req, res) {
       ok: true,
       valid: true,
       trackingCode: resolved.affiliate.tracking_code,
-      couponCode: resolved.affiliate.coupon_code || "",
       affiliateName: resolved.affiliate.full_name || "",
       matchedBy: resolved.matchedBy
     });

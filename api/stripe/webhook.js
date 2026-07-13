@@ -265,7 +265,6 @@ module.exports = async function handler(req, res) {
         stripe_event_id: event.id,
         stripe_customer_id: session.customer || null,
         affiliate_id: session.metadata ? session.metadata.affiliate_id || session.client_reference_id || null : session.client_reference_id || null,
-        affiliate_coupon_code: session.metadata ? session.metadata.affiliate_coupon_code || null : null,
         affiliate_entered_code: session.metadata ? session.metadata.affiliate_entered_code || null : null,
         affiliate_match_type: session.metadata ? session.metadata.affiliate_match_type || null : null,
         affiliate_resolved_code: session.metadata ? session.metadata.affiliate_code || null : null

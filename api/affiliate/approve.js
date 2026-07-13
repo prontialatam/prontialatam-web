@@ -37,6 +37,13 @@ function buildNicheAccesses(siteUrl, token, trackingCode) {
   ];
 }
 
+function buildAffiliateGuides(siteUrl, token) {
+  return {
+    portalGuideUrl: buildProtectedPageUrl(siteUrl, "/guia-portal-afiliados", token),
+    stripeGuideUrl: buildProtectedPageUrl(siteUrl, "/guia-stripe-connect-afiliados", token)
+  };
+}
+
 function sanitizeSegment(value) {
   return (value || "")
     .toLowerCase()
@@ -58,12 +65,6 @@ async function generateTrackingCode(fullName, email) {
   }
 
   return `${base}-${crypto.randomBytes(3).toString("hex")}`;
-}
-
-async function generateCouponCode(fullName) {
-  const base = (sanitizeSegment(fullName) || "prontia").replace(/-/g, "").slice(0, 8).toUpperCase();
-  const suffix = crypto.randomBytes(2).toString("hex").toUpperCase();
-  return `PRONTIA-${base}-${suffix}`;
 }
 
 module.exports = async function handler(req, res) {
@@ -101,9 +102,6 @@ module.exports = async function handler(req, res) {
     const trackingCode = existingAffiliate && existingAffiliate.tracking_code
       ? existingAffiliate.tracking_code
       : await generateTrackingCode(application.full_name, application.email);
-    const couponCode = existingAffiliate && existingAffiliate.coupon_code
-      ? existingAffiliate.coupon_code
-      : await generateCouponCode(application.full_name);
     const connectOnboardingToken = existingAffiliate && existingAffiliate.connect_onboarding_token
       ? existingAffiliate.connect_onboarding_token
       : generateConnectOnboardingToken();
@@ -117,7 +115,6 @@ module.exports = async function handler(req, res) {
       phone_country_code: application.phone_country_code || null,
       phone_number: application.phone_number || null,
       tracking_code: trackingCode,
-      coupon_code: couponCode,
       commission_rate: commissionRate,
       connect_onboarding_token: connectOnboardingToken,
       stripe_connect_status: existingAffiliate && existingAffiliate.stripe_connect_status
@@ -143,12 +140,12 @@ module.exports = async function handler(req, res) {
     const socialLibraryUrl = buildProtectedPageUrl(siteUrl, "/biblioteca-social-talleres", connectOnboardingToken);
     const whatsappCommunityUrl = (process.env.AFFILIATE_WHATSAPP_COMMUNITY_URL || "https://chat.whatsapp.com/L87FnfrSKmb2h7FJjmZkzk").trim();
     const nicheAccesses = buildNicheAccesses(siteUrl, connectOnboardingToken, trackingCode);
+    const guides = buildAffiliateGuides(siteUrl, connectOnboardingToken);
 
     const emailResult = await sendAffiliateOnboardingEmail({
       email: application.email,
       fullName: application.full_name,
       trackingCode,
-      couponCode,
       portalUrl,
       affiliateLink,
       kitUrl,
@@ -158,6 +155,8 @@ module.exports = async function handler(req, res) {
       productDossierUrl,
       socialLibraryUrl,
       nicheAccesses,
+      portalGuideUrl: guides.portalGuideUrl,
+      stripeGuideUrl: guides.stripeGuideUrl,
       whatsappCommunityUrl,
       supportEmail: "hola@prontialatam.com",
       supportWhatsApp: "+34 697 47 46 46"
@@ -167,7 +166,6 @@ module.exports = async function handler(req, res) {
       ok: true,
       affiliateId: affiliate ? affiliate.id : null,
       trackingCode,
-      couponCode,
       affiliateLink,
       portalUrl,
       kitUrl,

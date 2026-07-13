@@ -36,6 +36,13 @@ function buildNicheAccesses(siteUrl, token, trackingCode) {
   ];
 }
 
+function buildAffiliateGuides(siteUrl, token) {
+  return {
+    portalGuideUrl: buildProtectedPageUrl(siteUrl, "/guia-portal-afiliados", token),
+    stripeGuideUrl: buildProtectedPageUrl(siteUrl, "/guia-stripe-connect-afiliados", token)
+  };
+}
+
 function isAuthorized(req, body) {
   const expectedToken = (process.env.AFFILIATE_APPROVAL_TOKEN || "").trim();
   const headerToken = (req.headers["x-affiliate-admin-token"] || "").trim();
@@ -90,12 +97,12 @@ module.exports = async function handler(req, res) {
     const productDossierUrl = buildProtectedPageUrl(siteUrl, "/dossier-producto-talleres", connectOnboardingToken);
     const socialLibraryUrl = buildProtectedPageUrl(siteUrl, "/biblioteca-social-talleres", connectOnboardingToken);
     const nicheAccesses = buildNicheAccesses(siteUrl, connectOnboardingToken, affiliate.tracking_code);
+    const guides = buildAffiliateGuides(siteUrl, connectOnboardingToken);
 
     const emailResult = await sendAffiliateOnboardingEmail({
       email: affiliate.email,
       fullName: affiliate.full_name,
       trackingCode: affiliate.tracking_code,
-      couponCode: affiliate.coupon_code || "",
       portalUrl,
       affiliateLink,
       kitUrl,
@@ -105,6 +112,8 @@ module.exports = async function handler(req, res) {
       productDossierUrl,
       socialLibraryUrl,
       nicheAccesses,
+      portalGuideUrl: guides.portalGuideUrl,
+      stripeGuideUrl: guides.stripeGuideUrl,
       supportEmail: "hola@prontialatam.com",
       supportWhatsApp: "+34 697 47 46 46"
     });

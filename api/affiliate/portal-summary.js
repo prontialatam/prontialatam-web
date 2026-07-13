@@ -1,4 +1,5 @@
 const { getSiteUrl, sendJson } = require("../_lib/http");
+const { buildProtectedPageUrl } = require("../_lib/affiliate-access");
 const supabase = require("../_lib/supabase");
 const { resolveAffiliateRequestAccess } = require("../_lib/affiliate-auth");
 
@@ -44,6 +45,38 @@ function buildProductPerformance(orders) {
     });
 }
 
+function normalizeAttributionLabel(value) {
+  const normalized = String(value || "").toLowerCase();
+  if (normalized === "affiliate_link" || normalized === "tracking_code") return "Enlace de afiliado";
+  if (normalized === "affiliate_code") return "Código de afiliado";
+  return "Sin identificar";
+}
+
+function normalizeFulfillmentLabel(value) {
+  const normalized = String(value || "").toLowerCase();
+  if (normalized === "delivered_and_queued") return "Entregado y automatizado";
+  if (normalized === "delivered_email") return "Entregado por email";
+  if (normalized === "delivery_partial_and_queued") return "Entrega parcial";
+  if (normalized === "delivery_missing_sender") return "Falta remitente";
+  if (normalized === "delivery_email_failed") return "Email pendiente";
+  if (normalized === "queued") return "En cola";
+  if (normalized === "pending_manual") return "Pendiente manual";
+  return normalized || "Pendiente";
+}
+
+function normalizeRequirements(value) {
+  if (Array.isArray(value)) {
+    return value;
+  }
+  if (!value || typeof value !== "object") {
+    return [];
+  }
+  return ["currently_due", "past_due", "pending_verification"].reduce(function (items, key) {
+    const current = value[key];
+    return Array.isArray(current) ? items.concat(current) : items;
+  }, []);
+}
+
 module.exports = async function handler(req, res) {
   if (req.method !== "GET") {
     return sendJson(res, 405, { error: "Method not allowed" });
@@ -62,7 +95,7 @@ module.exports = async function handler(req, res) {
 
     const orders = await supabase.list(
       "orders",
-      `select=id,customer_email,customer_name,product_slug,product_name,payment_status,fulfillment_status,amount_total,commission_amount,currency,created_at,affiliate_code&affiliate_id=eq.${encodeURIComponent(affiliate.id)}&order=created_at.desc&limit=100`
+      `select=id,customer_email,customer_name,product_slug,product_name,payment_status,fulfillment_status,amount_total,commission_amount,currency,created_at,affiliate_code,source_metadata&affiliate_id=eq.${encodeURIComponent(affiliate.id)}&order=created_at.desc&limit=100`
     );
     const clicks = await supabase.list(
       "affiliate_clicks",
@@ -87,6 +120,9 @@ module.exports = async function handler(req, res) {
     const totalClicks = clicks.length;
     const currency = paidOrders[0] && paidOrders[0].currency ? paidOrders[0].currency : "USD";
     const avgOrderValue = paidOrders.length ? totalSales / paidOrders.length : 0;
+    const deliveredOrders = paidOrders.filter(function (order) {
+      return String(order.fulfillment_status || "").startsWith("delivered");
+    });
     const paidPayouts = payouts.filter(function (item) {
       return String(item.status || "").toLowerCase() === "paid";
     });
@@ -100,8 +136,23 @@ module.exports = async function handler(req, res) {
       return sum + Number(item.amount || 0);
     }, 0);
     const unpaidCommissionBalance = Math.max(totalCommissions - totalPaidOut, 0);
+    const commissionCoverageRate = totalCommissions ? (totalPaidOut / totalCommissions) * 100 : 0;
     const productPerformance = buildProductPerformance(paidOrders);
     const siteUrl = getSiteUrl(req);
+    const connectToken = affiliate.connect_onboarding_token || access.legacyToken || "";
+    const resourceLinks = {
+      portalGuideUrl: buildProtectedPageUrl(siteUrl, "/guia-portal-afiliados", connectToken),
+      stripeGuideUrl: buildProtectedPageUrl(siteUrl, "/guia-stripe-connect-afiliados", connectToken)
+    };
+    const connectUrl = connectToken ? `${siteUrl}/api/affiliate/connect/start?token=${connectToken}` : "";
+    const safeOrders = orders.map(function (order) {
+      const metadata = order.source_metadata && typeof order.source_metadata === "object" ? order.source_metadata : {};
+      return Object.assign({}, order, {
+        attributionLabel: normalizeAttributionLabel(metadata.affiliate_match_type),
+        affiliateEnteredCode: metadata.affiliate_entered_code || "",
+        fulfillmentLabel: normalizeFulfillmentLabel(order.fulfillment_status)
+      });
+    });
 
     return sendJson(res, 200, {
       ok: true,
@@ -118,15 +169,14 @@ module.exports = async function handler(req, res) {
         preferredNiches: Array.isArray(affiliate.preferred_niches) ? affiliate.preferred_niches : [],
         payoutNotes: affiliate.payout_notes || "",
         trackingCode: affiliate.tracking_code,
-        couponCode: affiliate.coupon_code || "",
         commissionRate: Number(affiliate.commission_rate || 0.60),
         stripeConnectStatus: affiliate.stripe_connect_status || "not_started",
         stripeConnectDashboard: affiliate.stripe_connect_dashboard || "",
         stripeConnectCountry: affiliate.stripe_connect_country || "",
-        requirementsDue: Array.isArray(affiliate.stripe_connect_requirements_due)
-          ? affiliate.stripe_connect_requirements_due
-          : [],
-        affiliateLink: `${siteUrl}/talleres-mecanicos?ref=${affiliate.tracking_code}`
+        requirementsDue: normalizeRequirements(affiliate.stripe_connect_requirements_due),
+        affiliateLink: `${siteUrl}/talleres-mecanicos?ref=${affiliate.tracking_code}`,
+        connectUrl,
+        resourceLinks
       },
       stats: {
         totalSales: toAmount(totalSales),
@@ -139,6 +189,8 @@ module.exports = async function handler(req, res) {
         totalClicks,
         conversionRate: toPercent(paidOrders.length, totalClicks),
         averageOrderValue: toAmount(avgOrderValue),
+        deliveredOrders: deliveredOrders.length,
+        commissionCoverageRate: toAmount(commissionCoverageRate),
         lastSaleAt: paidOrders[0] ? paidOrders[0].created_at : "",
         lastClickAt: clicks[0] ? clicks[0].clicked_at : ""
       },
@@ -151,7 +203,7 @@ module.exports = async function handler(req, res) {
         lastPaidAt: paidPayouts[0] ? paidPayouts[0].paid_at || paidPayouts[0].created_at : "",
         lastPaidAmount: paidPayouts[0] ? toAmount(paidPayouts[0].amount) : 0
       },
-      orders,
+      orders: safeOrders,
       clicks: clicks.slice(0, 25),
       payouts
     });

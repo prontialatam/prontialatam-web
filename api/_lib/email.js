@@ -289,7 +289,6 @@ async function sendAffiliateOnboardingEmail(options) {
               <div style="font-size:15px;line-height:1.85;">
                 <div><strong>Comisión base:</strong> 60% sobre la venta neta</div>
                 <div><strong>Código de afiliado:</strong> ${options.trackingCode}</div>
-                <div><strong>Cupón de apoyo:</strong> ${options.couponCode}</div>
               </div>
             </div>
 
@@ -345,7 +344,6 @@ async function sendAffiliateOnboardingEmail(options) {
       "Tu acceso de afiliado ya está listo.",
       `Comisión base: 60% sobre la venta neta.`,
       `Código de afiliado: ${options.trackingCode}`,
-      `Cupón de apoyo: ${options.couponCode}`,
       `Enlace principal: ${options.affiliateLink}`,
       `Portal: ${options.portalUrl}`,
       "Primera entrada al portal: activa tu contraseña y, a partir de ahí, accede siempre con tu email y contraseña.",

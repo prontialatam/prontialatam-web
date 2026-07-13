@@ -34,7 +34,7 @@
             <h1 class="title">Pon la IA a trabajar en tu <em>taller mecánico</em> desde hoy</h1>
             <p class="lede">Este kit reúne 100 prompts listos para atraer clientes, contestar mejor por WhatsApp, responder reseñas, crear promociones y ahorrar tiempo en tareas repetitivas del taller.</p>
             <div class="hero-actions">
-              <button class="btn-primary" data-checkout-product="talleres-mecanicos" data-status-target="#checkoutStatusHero">Comprar acceso inmediato</button>
+              <button class="btn-primary" data-checkout-product="talleres-mecanicos" data-affiliate-input-target="#affiliateCodeInput" data-status-target="#checkoutStatusHero">Comprar acceso inmediato</button>
               <a href="#incluye" class="btn-secondary">Ver lo que incluye</a>
             </div>
             <p id="checkoutStatusHero" class="inline-status"></p>
@@ -127,8 +127,19 @@
               <span>pago único</span>
             </div>
             <p>El pago se procesa en un checkout seguro de Stripe. Después podrás recibir el recurso y continuar la relación comercial desde la propia marca, no desde una plataforma externa.</p>
+            <form class="affiliate-code-box" data-affiliate-code-form data-status-target="#affiliateCodeStatus">
+              <label>
+                Código de afiliado
+                <input id="affiliateCodeInput" type="text" data-affiliate-code-input placeholder="Ej.: luis-curras-e6eb">
+              </label>
+              <div class="cta-row affiliate-code-actions">
+                <button type="submit" class="btn-secondary">Aplicar código</button>
+                <button type="button" class="btn-ghost" data-affiliate-code-clear>Quitar código</button>
+              </div>
+              <p id="affiliateCodeStatus" class="inline-status">Si vienes recomendado por un afiliado, introdúcelo antes de pagar para que quede registrada su comisión.</p>
+            </form>
             <div class="cta-row">
-              <button class="btn-primary" data-checkout-product="talleres-mecanicos" data-status-target="#checkoutStatusPricing">Ir al pago seguro</button>
+              <button class="btn-primary" data-checkout-product="talleres-mecanicos" data-affiliate-input-target="#affiliateCodeInput" data-status-target="#checkoutStatusPricing">Ir al pago seguro</button>
               <a href="mailto:hola@prontialatam.com?subject=Consulta%20Kit%20Talleres%20Mec%C3%A1nicos" class="btn-ghost">Resolver una duda</a>
             </div>
             <p id="checkoutStatusPricing" class="inline-status"></p>

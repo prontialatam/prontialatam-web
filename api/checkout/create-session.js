@@ -85,7 +85,6 @@ module.exports = async function handler(req, res) {
           quantity: 1
         }
       ],
-      allow_promotion_codes: true,
       billing_address_collection: "auto",
       customer_creation: "always",
       success_url: `${siteUrl}${product.successPath}?session_id={CHECKOUT_SESSION_ID}`,

@@ -95,7 +95,7 @@
         const validation = await validateAffiliateCode(refInput.value.trim());
         refCode = validation.trackingCode;
         setCookie(REF_COOKIE, refCode, REF_TTL_DAYS);
-        refInput.value = validation.couponCode || validation.trackingCode;
+        refInput.value = validation.trackingCode;
       }
 
       const response = await window.fetch("/api/checkout/create-session", {
@@ -167,10 +167,10 @@
           setStatus(statusNode, "Validando tu código...", "");
           const validation = await validateAffiliateCode(input.value.trim());
           setCookie(REF_COOKIE, validation.trackingCode, REF_TTL_DAYS);
-          input.value = validation.couponCode || validation.trackingCode;
+          input.value = validation.trackingCode;
           setStatus(
             statusNode,
-            `Código aplicado. La compra quedará vinculada a ${validation.affiliateName || "tu afiliado"}.`,
+            `Código de afiliado aplicado. La compra quedará vinculada a ${validation.affiliateName || "tu afiliado"}.`,
             "success"
           );
         } catch (error) {

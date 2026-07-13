@@ -1,4 +1,5 @@
 const { parseJsonBody, sendJson } = require("../_lib/http");
+const { resolveAffiliateByCode } = require("../_lib/affiliate-codes");
 const supabase = require("../_lib/supabase");
 
 module.exports = async function handler(req, res) {
@@ -8,21 +9,22 @@ module.exports = async function handler(req, res) {
 
   try {
     const body = await parseJsonBody(req);
-    const ref = (body.ref || "").trim().toLowerCase();
+    const ref = String(body.ref || "").trim();
     if (!ref) {
       return sendJson(res, 400, { error: "Falta el código de afiliado" });
     }
 
     let affiliate = null;
     if (supabase.isConfigured()) {
-      affiliate = await supabase.findOne("affiliates", `tracking_code=eq.${encodeURIComponent(ref)}`);
-      if (!affiliate) {
+      const resolved = await resolveAffiliateByCode(ref);
+      if (!resolved || !resolved.affiliate) {
         return sendJson(res, 200, { ok: true, valid: false });
       }
+      affiliate = resolved.affiliate;
 
       await supabase.insert("affiliate_clicks", {
         affiliate_id: affiliate.id,
-        tracking_code: ref,
+        tracking_code: affiliate.tracking_code,
         landing_path: body.landingPath || null,
         utm_source: body.utmSource || null,
         utm_medium: body.utmMedium || null,

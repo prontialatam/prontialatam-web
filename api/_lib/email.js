@@ -215,6 +215,8 @@ async function sendAffiliateOnboardingEmail(options) {
   const dossierUrl = options.dossierUrl || "";
   const productDossierUrl = options.productDossierUrl || "";
   const socialLibraryUrl = options.socialLibraryUrl || "";
+  const portalGuideUrl = options.portalGuideUrl || "";
+  const stripeGuideUrl = options.stripeGuideUrl || "";
   const whatsappCommunityUrl = options.whatsappCommunityUrl || "";
   const nicheAccesses = Array.isArray(options.nicheAccesses) ? options.nicheAccesses.filter(Boolean) : [];
   const connectHtml = options.connectUrl
@@ -302,6 +304,8 @@ async function sendAffiliateOnboardingEmail(options) {
               <tr>
                 <td style="padding:0 0 14px;"><strong style="display:block;color:#12385b;font-size:14px;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px;">Kit descargable</strong><a href="${options.kitUrl}" style="color:#185fa5;text-decoration:none;word-break:break-word;">Descargar kit base</a></td>
               </tr>
+              ${portalGuideUrl ? `<tr><td style="padding:0 0 14px;"><strong style="display:block;color:#12385b;font-size:14px;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px;">Guía del portal</strong><a href="${portalGuideUrl}" style="color:#185fa5;text-decoration:none;word-break:break-word;">Aprender a usar el portal de afiliados</a></td></tr>` : ""}
+              ${stripeGuideUrl ? `<tr><td style="padding:0 0 14px;"><strong style="display:block;color:#12385b;font-size:14px;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px;">Guía de Stripe Connect</strong><a href="${stripeGuideUrl}" style="color:#185fa5;text-decoration:none;word-break:break-word;">Configurar cobros paso a paso</a></td></tr>` : ""}
               ${dossierUrl ? `<tr><td style="padding:0 0 14px;"><strong style="display:block;color:#12385b;font-size:14px;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px;">Dossier de marca</strong><a href="${dossierUrl}" style="color:#185fa5;text-decoration:none;word-break:break-word;">Abrir dossier de marca</a></td></tr>` : ""}
               ${productDossierUrl ? `<tr><td style="padding:0 0 14px;"><strong style="display:block;color:#12385b;font-size:14px;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px;">Dossier del producto</strong><a href="${productDossierUrl}" style="color:#185fa5;text-decoration:none;word-break:break-word;">Ver dossier de talleres mecánicos</a></td></tr>` : ""}
               ${socialLibraryUrl ? `<tr><td style="padding:0 0 14px;"><strong style="display:block;color:#12385b;font-size:14px;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px;">Biblioteca visual</strong><a href="${socialLibraryUrl}" style="color:#185fa5;text-decoration:none;word-break:break-word;">Ver piezas para RRSS</a></td></tr>` : ""}
@@ -346,6 +350,8 @@ async function sendAffiliateOnboardingEmail(options) {
       `Portal: ${options.portalUrl}`,
       "Primera entrada al portal: activa tu contraseña y, a partir de ahí, accede siempre con tu email y contraseña.",
       `Kit: ${options.kitUrl}`,
+      portalGuideUrl ? `Guía del portal: ${portalGuideUrl}` : "",
+      stripeGuideUrl ? `Guía Stripe Connect: ${stripeGuideUrl}` : "",
       dossierUrl ? `Dossier de marca: ${dossierUrl}` : "",
       productDossierUrl ? `Dossier del producto: ${productDossierUrl}` : "",
       socialLibraryUrl ? `Biblioteca visual: ${socialLibraryUrl}` : "",
@@ -483,10 +489,102 @@ async function sendPurchaseConfirmationEmail(options) {
   return sendBrevoEmail(payload);
 }
 
+async function sendPurchaseAdminNotificationEmail(options) {
+  const identity = resolveEmailIdentity("PURCHASE_CONFIRMATION", "AFFILIATE_ONBOARDING");
+  const recipientEmail = (
+    process.env.PURCHASE_NOTIFICATION_TO_EMAIL ||
+    process.env.PURCHASE_CONFIRMATION_REPLY_TO ||
+    process.env.AFFILIATE_ONBOARDING_REPLY_TO ||
+    "hola@prontialatam.com"
+  ).trim();
+  if (!identity.senderEmail || !recipientEmail) {
+    return { ok: false, skipped: true, reason: "missing_purchase_admin_notification_config" };
+  }
+
+  const amountLabel = typeof options.amountTotal === "number" && options.currency
+    ? `${options.amountTotal.toFixed(2)} ${options.currency}`
+    : options.currency || "confirmado";
+  const attributionSummary = options.affiliateName
+    ? `${options.affiliateName} (${options.affiliateCode || "sin código"})`
+    : "Venta directa sin afiliado";
+  const commissionSummary = typeof options.commissionAmount === "number" && options.currency
+    ? `${options.commissionAmount.toFixed(2)} ${options.currency}`
+    : "No aplica";
+  const adminUrl = options.adminUrl || "";
+  const deliveryStatus = options.fulfillmentStatus || "pending_manual";
+
+  const payload = {
+    sender: {
+      email: identity.senderEmail,
+      name: identity.senderName
+    },
+    to: [
+      {
+        email: recipientEmail,
+        name: "Gestión ProntIA LATAM"
+      }
+    ],
+    subject: `Nueva venta confirmada: ${options.productName}`,
+    htmlContent: `
+      <div style="margin:0;background:#f3efe7;padding:32px 16px;font-family:'DM Sans',Arial,sans-serif;color:#203040;">
+        <div style="max-width:760px;margin:0 auto;background:#ffffff;border:1px solid #d9d1c4;border-radius:24px;overflow:hidden;">
+          <div style="background:linear-gradient(180deg,#153b5d 0%,#1f557a 100%);padding:18px 28px;color:#ffffff;">
+            <div style="font-size:12px;letter-spacing:0.14em;text-transform:uppercase;opacity:0.8;margin-bottom:8px;">Notificación interna</div>
+            <h1 style="margin:0;font-size:28px;line-height:1.05;font-family:'Cormorant Garamond',Georgia,serif;">Nueva venta confirmada</h1>
+          </div>
+          <div style="padding:30px 34px 24px;">
+            <div style="display:grid;gap:14px;">
+              <div style="padding:18px 20px;border-radius:16px;background:#f8f3ea;border:1px solid #e4dacb;">
+                <div style="font-size:22px;font-weight:700;color:#12385b;">${options.productName}</div>
+                <div style="margin-top:6px;font-size:15px;line-height:1.8;color:#314354;">Importe confirmado: <strong>${amountLabel}</strong></div>
+              </div>
+              <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;">
+                <div style="padding:16px;border:1px solid #e7e0d4;border-radius:14px;"><strong>Cliente:</strong><br>${options.customerName || "-"}</div>
+                <div style="padding:16px;border:1px solid #e7e0d4;border-radius:14px;"><strong>Email cliente:</strong><br>${options.customerEmail || "-"}</div>
+                <div style="padding:16px;border:1px solid #e7e0d4;border-radius:14px;"><strong>Checkout ID:</strong><br>${options.sessionId || "-"}</div>
+                <div style="padding:16px;border:1px solid #e7e0d4;border-radius:14px;"><strong>Estado de entrega:</strong><br>${deliveryStatus}</div>
+              </div>
+              <div style="padding:18px;border:1px solid #e7e0d4;border-radius:14px;">
+                <strong>Atribución</strong>
+                <div style="margin-top:8px;font-size:15px;line-height:1.8;color:#314354;">${attributionSummary}</div>
+              </div>
+              <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;">
+                <div style="padding:16px;border:1px solid #e7e0d4;border-radius:14px;"><strong>Código de afiliado:</strong><br>${options.affiliateCode || "-"}</div>
+                <div style="padding:16px;border:1px solid #e7e0d4;border-radius:14px;"><strong>Comisión generada:</strong><br>${commissionSummary}</div>
+              </div>
+              ${adminUrl ? `<div style="padding:18px;border-left:4px solid #c4a972;background:#fbf8f2;border-radius:12px;"><strong>Siguiente paso:</strong> revisa esta venta desde la consola interna: <a href="${adminUrl}" style="color:#12385b;font-weight:700;">Abrir operativa de afiliados</a></div>` : ""}
+            </div>
+          </div>
+        </div>
+      </div>
+    `,
+    textContent: [
+      "Nueva venta confirmada",
+      `Producto: ${options.productName}`,
+      `Importe: ${amountLabel}`,
+      `Cliente: ${options.customerName || "-"}`,
+      `Email cliente: ${options.customerEmail || "-"}`,
+      `Checkout ID: ${options.sessionId || "-"}`,
+      `Entrega: ${deliveryStatus}`,
+      `Atribución: ${attributionSummary}`,
+      `Código afiliado: ${options.affiliateCode || "-"}`,
+      `Comisión generada: ${commissionSummary}`,
+      adminUrl ? `Operativa: ${adminUrl}` : ""
+    ].filter(Boolean).join("\n")
+  };
+
+  if (identity.replyTo) {
+    payload.replyTo = { email: identity.replyTo };
+  }
+
+  return sendBrevoEmail(payload);
+}
+
 module.exports = {
   sendAffiliateApplicationAdminNotificationEmail,
   sendAffiliateApplicationReceivedEmail,
   sendBrevoEmail,
   sendAffiliateOnboardingEmail,
+  sendPurchaseAdminNotificationEmail,
   sendPurchaseConfirmationEmail
 };

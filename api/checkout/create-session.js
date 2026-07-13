@@ -57,6 +57,12 @@ module.exports = async function handler(req, res) {
     const affiliateTrackingCode = resolvedAffiliate
       ? resolvedAffiliate.affiliate.tracking_code
       : sanitizeTrackingCode(enteredAffiliateCode);
+    const affiliateId = resolvedAffiliate && resolvedAffiliate.affiliate
+      ? resolvedAffiliate.affiliate.id
+      : "";
+    const affiliateCouponCode = resolvedAffiliate && resolvedAffiliate.affiliate
+      ? resolvedAffiliate.affiliate.coupon_code || ""
+      : "";
 
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
       maxNetworkRetries: 1
@@ -72,6 +78,7 @@ module.exports = async function handler(req, res) {
 
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
+      client_reference_id: affiliateId || undefined,
       line_items: [
         {
           price: priceId,
@@ -86,7 +93,9 @@ module.exports = async function handler(req, res) {
       metadata: {
         product_slug: product.slug,
         product_name: product.name,
+        affiliate_id: affiliateId || "",
         affiliate_code: affiliateTrackingCode || "",
+        affiliate_coupon_code: affiliateCouponCode,
         affiliate_entered_code: enteredAffiliateCode || "",
         affiliate_match_type: resolvedAffiliate ? resolvedAffiliate.matchedBy : "",
         landing_path: body.landingPath || "",

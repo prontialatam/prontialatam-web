@@ -1370,6 +1370,16 @@
         return url.toString();
       }
 
+      function normalizeToCurrentOrigin(urlLike, fallbackPath) {
+        if (!urlLike && !fallbackPath) return '';
+        try {
+          const parsed = new URL(urlLike || fallbackPath, window.location.origin);
+          return parsed.pathname + parsed.search + parsed.hash;
+        } catch (_error) {
+          return fallbackPath || urlLike || '';
+        }
+      }
+
       function buildApiUrl(pathname) {
         const url = new URL(pathname, window.location.origin);
         if (accessToken) url.searchParams.set('access', accessToken);
@@ -1585,8 +1595,14 @@
 
       function renderGuides(affiliate) {
         const links = affiliate.resourceLinks || {};
-        const portalGuideUrl = links.portalGuideUrl || buildProtectedPageUrl('/guia-portal-afiliados');
-        const stripeGuideUrl = links.stripeGuideUrl || buildProtectedPageUrl('/guia-stripe-connect-afiliados');
+        const portalGuideUrl = normalizeToCurrentOrigin(
+          links.portalGuideUrl || buildProtectedPageUrl('/guia-portal-afiliados'),
+          buildProtectedPageUrl('/guia-portal-afiliados')
+        );
+        const stripeGuideUrl = normalizeToCurrentOrigin(
+          links.stripeGuideUrl || buildProtectedPageUrl('/guia-stripe-connect-afiliados'),
+          buildProtectedPageUrl('/guia-stripe-connect-afiliados')
+        );
         guideCards.innerHTML = [
           {
             title: 'Guía del portal',
@@ -1626,7 +1642,10 @@
         connectBadge.textContent = presentation.badge;
         connectSummary.textContent = presentation.summary;
         connectCta.textContent = presentation.ctaLabel;
-        connectCta.href = affiliate.connectUrl || (affiliate.resourceLinks && affiliate.resourceLinks.stripeGuideUrl) || 'mailto:hola@prontialatam.com?subject=Configurar%20cobros%20de%20afiliado';
+        connectCta.href = normalizeToCurrentOrigin(
+          affiliate.connectUrl || (affiliate.resourceLinks && affiliate.resourceLinks.stripeGuideUrl),
+          '/api/affiliate/connect/start'
+        ) || 'mailto:hola@prontialatam.com?subject=Configurar%20cobros%20de%20afiliado';
 
         if (affiliate.stripeConnectDashboard) {
           stripeDashboardLink.hidden = false;

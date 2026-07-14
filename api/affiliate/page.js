@@ -1,5 +1,5 @@
 const fs = require("fs/promises");
-const { getSiteUrl } = require("../_lib/http");
+const { getRequestOrigin } = require("../_lib/http");
 const supabase = require("../_lib/supabase");
 const {
   getAbsoluteProjectFile,
@@ -578,7 +578,7 @@ module.exports = async function handler(req, res) {
     return res.end("Method not allowed");
   }
 
-  const siteUrl = getSiteUrl(req);
+  const siteUrl = getRequestOrigin(req);
   const pageKey = getQueryParam(req, "page");
   const recoverFlow = getQueryParam(req, "recover") === "1";
   const page = getProtectedPage(pageKey);

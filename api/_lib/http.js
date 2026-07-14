@@ -30,7 +30,13 @@ function getSiteUrl(req) {
   return `${proto}://${req.headers.host}`;
 }
 
+function getRequestOrigin(req) {
+  const proto = req.headers["x-forwarded-proto"] || "https";
+  return `${proto}://${req.headers.host}`;
+}
+
 module.exports = {
+  getRequestOrigin,
   getSiteUrl,
   parseJsonBody,
   readRawBody,

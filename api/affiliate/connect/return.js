@@ -1,4 +1,4 @@
-const { getSiteUrl, sendJson } = require("../../_lib/http");
+const { getRequestOrigin, sendJson } = require("../../_lib/http");
 const supabase = require("../../_lib/supabase");
 const { buildProtectedPageUrl } = require("../../_lib/affiliate-access");
 const { retrieveAccount, summarizeAccount } = require("../../_lib/stripe-connect");
@@ -19,7 +19,7 @@ module.exports = async function handler(req, res) {
     return sendJson(res, 405, { error: "Method not allowed" });
   }
 
-  const siteUrl = getSiteUrl(req);
+  const siteUrl = getRequestOrigin(req);
   const token = getQueryParam(req, "token");
   const fallbackUrl = buildProtectedPageUrl(siteUrl, "/portal-afiliados", token, { connect: "returned" });
 

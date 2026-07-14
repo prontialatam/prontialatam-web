@@ -1,4 +1,4 @@
-const { getSiteUrl, parseJsonBody, sendJson } = require("../../_lib/http");
+const { getRequestOrigin, parseJsonBody, sendJson } = require("../../_lib/http");
 const supabase = require("../../_lib/supabase");
 const { resolveAffiliateRequestAccess } = require("../../_lib/affiliate-auth");
 const {
@@ -93,7 +93,7 @@ module.exports = async function handler(req, res) {
       return sendJson(res, 404, { error: "No se encontró el afiliado o falta autorización." });
     }
 
-    const siteUrl = getSiteUrl(req);
+    const siteUrl = getRequestOrigin(req);
     const token = await ensureConnectToken(affiliate);
     let accountId = affiliate.stripe_connect_account_id;
     let accountSummary = null;

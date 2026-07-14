@@ -1,4 +1,4 @@
-const { getSiteUrl, sendJson } = require("../_lib/http");
+const { getRequestOrigin, sendJson } = require("../_lib/http");
 const { buildProtectedPageRequestUrl } = require("../_lib/affiliate-access");
 const supabase = require("../_lib/supabase");
 const { resolveAffiliateRequestAccess } = require("../_lib/affiliate-auth");
@@ -139,7 +139,7 @@ module.exports = async function handler(req, res) {
     const unpaidCommissionBalance = Math.max(totalCommissions - totalPaidOut, 0);
     const commissionCoverageRate = totalCommissions ? (totalPaidOut / totalCommissions) * 100 : 0;
     const productPerformance = buildProductPerformance(paidOrders);
-    const siteUrl = getSiteUrl(req);
+    const siteUrl = getRequestOrigin(req);
     const connectToken = affiliate.connect_onboarding_token || access.legacyToken || "";
     const connectUrl = new URL("/api/affiliate/connect/start", siteUrl);
     if (connectToken) {

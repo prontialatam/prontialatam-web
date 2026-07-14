@@ -120,6 +120,26 @@
       "permanent": false
     },
     {
+      "source": "/guia-portal-afiliados",
+      "destination": "/api/affiliate/page?page=guidePortal",
+      "permanent": false
+    },
+    {
+      "source": "/guia-portal-afiliados.html",
+      "destination": "/api/affiliate/page?page=guidePortal",
+      "permanent": false
+    },
+    {
+      "source": "/guia-stripe-connect-afiliados",
+      "destination": "/api/affiliate/page?page=guideStripe",
+      "permanent": false
+    },
+    {
+      "source": "/guia-stripe-connect-afiliados.html",
+      "destination": "/api/affiliate/page?page=guideStripe",
+      "permanent": false
+    },
+    {
       "source": "/downloads/kit-base-afiliados-talleres.zip",
       "destination": "/api/affiliate/resource?asset=downloads/kit-base-afiliados-talleres.zip",
       "permanent": false

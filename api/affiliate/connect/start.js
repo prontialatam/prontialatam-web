@@ -1,5 +1,6 @@
 const { getSiteUrl, parseJsonBody, sendJson } = require("../../_lib/http");
 const supabase = require("../../_lib/supabase");
+const { resolveAffiliateRequestAccess } = require("../../_lib/affiliate-auth");
 const {
   createOnboardingLink,
   createRecipientAccount,
@@ -37,13 +38,20 @@ async function ensureConnectToken(affiliate) {
   return token;
 }
 
-async function findAffiliate(req, body) {
+async function findAffiliate(req, res, body) {
   const queryToken = getQueryParam(req, "token");
   const bodyToken = body && body.token ? String(body.token).trim() : "";
   const token = queryToken || bodyToken;
 
   if (token) {
     return supabase.findOne("affiliates", `connect_onboarding_token=eq.${encodeURIComponent(token)}`);
+  }
+
+  const access = await resolveAffiliateRequestAccess(req, res).catch(function () {
+    return null;
+  });
+  if (access && access.affiliate) {
+    return access.affiliate;
   }
 
   if (!isAuthorized(req, body)) {
@@ -80,7 +88,7 @@ module.exports = async function handler(req, res) {
 
   try {
     const body = req.method === "POST" ? await parseJsonBody(req) : {};
-    const affiliate = await findAffiliate(req, body);
+    const affiliate = await findAffiliate(req, res, body);
     if (!affiliate) {
       return sendJson(res, 404, { error: "No se encontró el afiliado o falta autorización." });
     }

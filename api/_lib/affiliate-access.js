@@ -67,6 +67,32 @@ function buildProtectedPageUrl(siteUrl, route, token, extraParams) {
   return url.toString();
 }
 
+function findProtectedPageKeyByRoute(route) {
+  return Object.keys(PROTECTED_PAGES).find(function (pageKey) {
+    return PROTECTED_PAGES[pageKey].route === route;
+  }) || "";
+}
+
+function buildProtectedPageRequestUrl(siteUrl, pageKeyOrRoute, token, extraParams) {
+  const pageKey = PROTECTED_PAGES[pageKeyOrRoute]
+    ? pageKeyOrRoute
+    : findProtectedPageKeyByRoute(pageKeyOrRoute);
+
+  if (!pageKey) {
+    return buildProtectedPageUrl(siteUrl, pageKeyOrRoute, token, extraParams);
+  }
+
+  const url = new URL("/api/affiliate/page", siteUrl);
+  url.searchParams.set("page", pageKey);
+  if (token) url.searchParams.set("access", token);
+  Object.entries(extraParams || {}).forEach(function ([key, value]) {
+    if (value !== undefined && value !== null && value !== "") {
+      url.searchParams.set(key, String(value));
+    }
+  });
+  return url.toString();
+}
+
 function buildProtectedResourceUrl(siteUrl, assetPath, token) {
   const url = new URL("/api/affiliate/resource", siteUrl);
   if (token) url.searchParams.set("access", token);
@@ -105,12 +131,12 @@ function fileExists(filePath) {
 
 function transformProtectedHtml(html, siteUrl, token) {
   let output = html;
-  const accessSuffix = token ? `?access=${encodeURIComponent(token)}` : "";
 
-  Object.values(PROTECTED_PAGES).forEach(function (page) {
+  Object.entries(PROTECTED_PAGES).forEach(function ([pageKey, page]) {
     const routePattern = new RegExp(`(href=["'])${page.route.replace(/\//g, "\\/")}(#[^"']*)?(["'])`, "g");
     output = output.replace(routePattern, function (_match, prefix, hash, suffix) {
-      return `${prefix}${page.route}${accessSuffix}${hash || ""}${suffix}`;
+      const directUrl = buildProtectedPageRequestUrl(siteUrl, pageKey, token);
+      return `${prefix}${directUrl}${hash || ""}${suffix}`;
     });
   });
 
@@ -149,9 +175,11 @@ function getContentType(filePath) {
 
 module.exports = {
   PROTECTED_PAGES,
+  buildProtectedPageRequestUrl,
   buildProtectedPageUrl,
   buildProtectedResourceUrl,
   fileExists,
+  findProtectedPageKeyByRoute,
   getAbsoluteProjectFile,
   getAffiliateByAccessToken,
   getContentType,

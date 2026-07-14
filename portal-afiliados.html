@@ -1248,6 +1248,20 @@
       const topbarLinks = document.getElementById('portalTopbarLinks');
       const portalMenuToggle = document.getElementById('portalMenuToggle');
       const accessToken = new URLSearchParams(window.location.search).get('access') || '';
+      const protectedPageMap = {
+        '/dossier-marca-afiliados': 'brand',
+        '/dossier-producto-talleres': 'product',
+        '/dossier-producto-restaurantes': 'productRestaurant',
+        '/dossier-producto-estetica': 'productEstetica',
+        '/playbook-afiliados-talleres': 'playbook',
+        '/playbook-afiliados-restaurantes': 'playbookRestaurant',
+        '/playbook-afiliados-estetica': 'playbookEstetica',
+        '/biblioteca-social-talleres': 'social',
+        '/biblioteca-social-restaurantes': 'socialRestaurant',
+        '/biblioteca-social-estetica': 'socialEstetica',
+        '/guia-portal-afiliados': 'guidePortal',
+        '/guia-stripe-connect-afiliados': 'guideStripe'
+      };
 
       let currentPayload = null;
       let currentProfilePhotoUrl = '';
@@ -1332,7 +1346,13 @@
       }
 
       function buildProtectedPageUrl(pathname, extraParams) {
-        const url = new URL(pathname, window.location.origin);
+        const protectedPageKey = protectedPageMap[pathname];
+        const url = protectedPageKey
+          ? new URL('/api/affiliate/page', window.location.origin)
+          : new URL(pathname, window.location.origin);
+        if (protectedPageKey) {
+          url.searchParams.set('page', protectedPageKey);
+        }
         if (accessToken) url.searchParams.set('access', accessToken);
         Object.keys(extraParams || {}).forEach(function (key) {
           const value = extraParams[key];
@@ -1567,7 +1587,6 @@
         const links = affiliate.resourceLinks || {};
         const portalGuideUrl = links.portalGuideUrl || buildProtectedPageUrl('/guia-portal-afiliados');
         const stripeGuideUrl = links.stripeGuideUrl || buildProtectedPageUrl('/guia-stripe-connect-afiliados');
-        const connectUrl = affiliate.connectUrl || stripeGuideUrl;
         guideCards.innerHTML = [
           {
             title: 'Guía del portal',
@@ -1578,8 +1597,8 @@
           {
             title: 'Guía de Stripe Connect',
             copy: 'Paso a paso para activar tu cuenta de cobros y dejar preparada la parte bancaria y fiscal dentro del circuito.',
-            cta: affiliate.stripeConnectStatus === 'active' || affiliate.stripeConnectStatus === 'completed' ? 'Revisar guía de cobros' : 'Configurar Stripe Connect',
-            href: connectUrl
+            cta: 'Abrir guía de Stripe Connect',
+            href: stripeGuideUrl
           }
         ].map(function (item) {
           return '' +

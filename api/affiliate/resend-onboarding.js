@@ -32,6 +32,15 @@ function buildNicheAccesses(siteUrl, token, trackingCode) {
       dossierUrl: buildProtectedPageUrl(siteUrl, "/dossier-producto-estetica", token),
       playbookUrl: buildProtectedPageUrl(siteUrl, "/playbook-afiliados-estetica", token),
       socialUrl: buildProtectedPageUrl(siteUrl, "/biblioteca-social-estetica", token)
+    },
+    {
+      key: "emprendedores",
+      label: "Emprendedores",
+      salesUrl: `${siteUrl}/emprendedores?ref=${trackingCode}`,
+      kitUrl: buildProtectedResourceUrl(siteUrl, "downloads/kit-base-afiliados-emprendedores.zip", token),
+      dossierUrl: buildProtectedPageUrl(siteUrl, "/dossier-producto-emprendedores", token),
+      playbookUrl: buildProtectedPageUrl(siteUrl, "/playbook-afiliados-emprendedores", token),
+      socialUrl: buildProtectedPageUrl(siteUrl, "/biblioteca-social-emprendedores", token)
     }
   ];
 }

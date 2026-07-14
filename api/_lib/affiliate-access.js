@@ -22,6 +22,10 @@ const PROTECTED_PAGES = {
     route: "/dossier-producto-estetica",
     file: "dossier-producto-estetica.html"
   },
+  productEmprendedores: {
+    route: "/dossier-producto-emprendedores",
+    file: "dossier-producto-emprendedores.html"
+  },
   playbook: {
     route: "/playbook-afiliados-talleres",
     file: "playbook-afiliados-talleres.html"
@@ -34,6 +38,10 @@ const PROTECTED_PAGES = {
     route: "/playbook-afiliados-estetica",
     file: "playbook-afiliados-estetica.html"
   },
+  playbookEmprendedores: {
+    route: "/playbook-afiliados-emprendedores",
+    file: "playbook-afiliados-emprendedores.html"
+  },
   social: {
     route: "/biblioteca-social-talleres",
     file: "biblioteca-social-talleres.html"
@@ -45,6 +53,10 @@ const PROTECTED_PAGES = {
   socialEstetica: {
     route: "/biblioteca-social-estetica",
     file: "biblioteca-social-estetica.html"
+  },
+  socialEmprendedores: {
+    route: "/biblioteca-social-emprendedores",
+    file: "biblioteca-social-emprendedores.html"
   },
   guidePortal: {
     route: "/guia-portal-afiliados",

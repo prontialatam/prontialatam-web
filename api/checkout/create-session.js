@@ -1,6 +1,6 @@
 const Stripe = require("stripe");
 const { getSiteUrl, parseJsonBody, sendJson } = require("../_lib/http");
-const { getProduct, getStripePriceId } = require("../_lib/stripe-products");
+const { getProduct, getStripeLineItem } = require("../_lib/stripe-products");
 const { resolveAffiliateByCode, sanitizeTrackingCode } = require("../_lib/affiliate-codes");
 
 function summarizeStripeError(error) {
@@ -62,26 +62,22 @@ module.exports = async function handler(req, res) {
       ? resolvedAffiliate.affiliate.id
       : "";
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+      apiVersion: process.env.STRIPE_API_VERSION || "2026-02-25.clover",
       maxNetworkRetries: 1
     });
     const siteUrl = getSiteUrl(req);
-    const priceId = getStripePriceId(product);
+    const lineItem = getStripeLineItem(product);
 
     console.log("checkout_env_snapshot", {
       stripeSecretSuffix: suffix(process.env.STRIPE_SECRET_KEY),
-      priceIdSuffix: suffix(priceId),
+      priceIdSuffix: suffix(lineItem.price),
       productSlug: product.slug
     });
 
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
       client_reference_id: affiliateId || undefined,
-      line_items: [
-        {
-          price: priceId,
-          quantity: 1
-        }
-      ],
+      line_items: [lineItem],
       billing_address_collection: "auto",
       customer_creation: "always",
       success_url: `${siteUrl}${product.successPath}?session_id={CHECKOUT_SESSION_ID}`,

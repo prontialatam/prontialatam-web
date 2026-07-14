@@ -84,7 +84,9 @@ module.exports = async function handler(req, res) {
     return sendJson(res, 500, { error: "Faltan credenciales de Stripe para el webhook" });
   }
 
-  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+    apiVersion: process.env.STRIPE_API_VERSION || "2026-02-25.clover"
+  });
 
   try {
     const rawBody = await readRawBody(req);

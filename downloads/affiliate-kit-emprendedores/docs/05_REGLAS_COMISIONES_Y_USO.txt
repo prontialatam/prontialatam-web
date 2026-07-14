@@ -1,0 +1,7 @@
+- Usa siempre el enlace o código asignado en el portal.
+- La atribución se registra en el checkout de Stripe.
+- La comisión aplicable aparece en tu perfil privado.
+- No alteres el precio, contenido o condiciones de entrega.
+- No uses urgencia falsa, descuentos inventados o afirmaciones de ingresos.
+- No compartas este ZIP ni el acceso privado con terceros.
+- Para dudas: hola@prontialatam.com

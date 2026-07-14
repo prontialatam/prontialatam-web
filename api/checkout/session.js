@@ -31,6 +31,7 @@ module.exports = async function handler(req, res) {
 
   try {
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+      apiVersion: process.env.STRIPE_API_VERSION || "2026-02-25.clover",
       maxNetworkRetries: 1
     });
     const session = await stripe.checkout.sessions.retrieve(sessionId);

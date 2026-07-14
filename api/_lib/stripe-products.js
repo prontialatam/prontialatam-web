@@ -31,6 +31,18 @@ const PRODUCTS = {
     deliveryPageUrl: "/kit-agenda-llena-centros-estetica",
     successPath: "/checkout-success",
     cancelPath: "/checkout-cancel"
+  },
+  "emprendedores": {
+    slug: "emprendedores",
+    name: "Kit Completo Premium para Emprendedores LATAM",
+    defaultAmount: 4900,
+    currency: "eur",
+    stripePriceEnv: "STRIPE_EMPRENDEDORES_PRICE_ID",
+    supportEmail: "hola@prontialatam.com",
+    deliveryAssetUrl: "/downloads/emprendedores/kit-completo-premium-emprendedores-latam.zip",
+    deliveryPageUrl: "/emprendedores",
+    successPath: "/checkout-success",
+    cancelPath: "/checkout-cancel"
   }
 };
 
@@ -46,7 +58,30 @@ function getStripePriceId(product) {
   return priceId;
 }
 
+function getStripeLineItem(product) {
+  const priceId = process.env[product.stripePriceEnv];
+  if (priceId) {
+    return { price: priceId, quantity: 1 };
+  }
+
+  if (product.defaultAmount && product.currency) {
+    return {
+      price_data: {
+        currency: product.currency,
+        product_data: {
+          name: product.name
+        },
+        unit_amount: product.defaultAmount
+      },
+      quantity: 1
+    };
+  }
+
+  throw new Error(`Falta configurar ${product.stripePriceEnv}`);
+}
+
 module.exports = {
   getProduct,
+  getStripeLineItem,
   getStripePriceId
 };

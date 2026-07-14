@@ -19,7 +19,9 @@ function isAllowedAsset(assetPath) {
     || assetPath === "downloads/kit-base-afiliados-restaurantes.zip"
     || assetPath.startsWith("downloads/affiliate-kit-restaurantes/")
     || assetPath === "downloads/kit-base-afiliados-estetica.zip"
-    || assetPath.startsWith("downloads/affiliate-kit-estetica/");
+    || assetPath.startsWith("downloads/affiliate-kit-estetica/")
+    || assetPath === "downloads/kit-base-afiliados-emprendedores.zip"
+    || assetPath.startsWith("downloads/affiliate-kit-emprendedores/");
 }
 
 module.exports = async function handler(req, res) {

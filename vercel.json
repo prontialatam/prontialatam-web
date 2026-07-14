@@ -120,6 +120,36 @@
       "permanent": false
     },
     {
+      "source": "/dossier-producto-emprendedores",
+      "destination": "/api/affiliate/page?page=productEmprendedores",
+      "permanent": false
+    },
+    {
+      "source": "/dossier-producto-emprendedores.html",
+      "destination": "/api/affiliate/page?page=productEmprendedores",
+      "permanent": false
+    },
+    {
+      "source": "/playbook-afiliados-emprendedores",
+      "destination": "/api/affiliate/page?page=playbookEmprendedores",
+      "permanent": false
+    },
+    {
+      "source": "/playbook-afiliados-emprendedores.html",
+      "destination": "/api/affiliate/page?page=playbookEmprendedores",
+      "permanent": false
+    },
+    {
+      "source": "/biblioteca-social-emprendedores",
+      "destination": "/api/affiliate/page?page=socialEmprendedores",
+      "permanent": false
+    },
+    {
+      "source": "/biblioteca-social-emprendedores.html",
+      "destination": "/api/affiliate/page?page=socialEmprendedores",
+      "permanent": false
+    },
+    {
       "source": "/guia-portal-afiliados",
       "destination": "/api/affiliate/page?page=guidePortal",
       "permanent": false
@@ -168,6 +198,16 @@
       "source": "/downloads/affiliate-kit-estetica/:path*",
       "destination": "/api/affiliate/resource?asset=downloads/affiliate-kit-estetica/:path*",
       "permanent": false
+    },
+    {
+      "source": "/downloads/kit-base-afiliados-emprendedores.zip",
+      "destination": "/api/affiliate/resource?asset=downloads/kit-base-afiliados-emprendedores.zip",
+      "permanent": false
+    },
+    {
+      "source": "/downloads/affiliate-kit-emprendedores/:path*",
+      "destination": "/api/affiliate/resource?asset=downloads/affiliate-kit-emprendedores/:path*",
+      "permanent": false
     }
   ],
   "rewrites": [
@@ -178,6 +218,10 @@
     {
       "source": "/centros-estetica",
       "destination": "/centros-estetica.html"
+    },
+    {
+      "source": "/emprendedores",
+      "destination": "/emprendedores.html"
     },
     {
       "source": "/kit-agenda-llena-centros-estetica",

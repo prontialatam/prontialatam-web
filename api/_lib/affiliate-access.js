@@ -45,6 +45,14 @@ const PROTECTED_PAGES = {
   socialEstetica: {
     route: "/biblioteca-social-estetica",
     file: "biblioteca-social-estetica.html"
+  },
+  guidePortal: {
+    route: "/guia-portal-afiliados",
+    file: "guia-portal-afiliados.html"
+  },
+  guideStripe: {
+    route: "/guia-stripe-connect-afiliados",
+    file: "guia-stripe-connect-afiliados.html"
   }
 };
 
@@ -111,6 +119,12 @@ function transformProtectedHtml(html, siteUrl, token) {
     const assetPath = assetUrl.replace(/^\//, "");
     const protectedUrl = buildProtectedResourceUrl(siteUrl, assetPath, token);
     return `${attr}="${protectedUrl}"`;
+  });
+
+  const relativeAssetPattern = /(href|src)=["']((?:assets\/[^"']+)|logo-prontia\.jpg)["']/g;
+  output = output.replace(relativeAssetPattern, function (_match, attr, assetPath) {
+    const absoluteUrl = new URL(`/${assetPath.replace(/^\/+/, "")}`, siteUrl).toString();
+    return `${attr}="${absoluteUrl}"`;
   });
 
   return output;

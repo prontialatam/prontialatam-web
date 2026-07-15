@@ -9,6 +9,13 @@
   --kit-surface: #f8f4fc;
 }
 
+.kit-page,
+.kit-page *,
+.kit-page *::before,
+.kit-page *::after {
+  box-sizing: border-box;
+}
+
 .kit-page {
   margin: 0;
   color: var(--kit-ink);
@@ -117,4 +124,3 @@
   .kit-strip-item { padding: 0.9rem 1rem; }
   .kit-final { padding: 2rem 1.2rem; }
 }
-

@@ -1088,6 +1088,45 @@
 
   .product-card-kit .product-features li::before { background: var(--blue-300, #5fa8e0); }
 
+  .product-card-affiliate-free {
+    background-image:
+      linear-gradient(to top, rgba(48,17,86,0.96) 0%, rgba(72,25,112,0.76) 50%, rgba(42,12,72,0.26) 100%),
+      url('assets/img/kit-afiliados-principiantes/kit-principiantes-square.jpg');
+    background-size: cover;
+    background-position: center;
+    border: 2px solid rgba(249,115,22,0.55) !important;
+    box-shadow: 0 12px 34px rgba(59,23,107,0.26) !important;
+  }
+
+  .product-card-affiliate-free:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 18px 46px rgba(59,23,107,0.34) !important;
+  }
+
+  .product-card-affiliate-free .product-price,
+  .product-card-affiliate-free .product-name,
+  .product-card-affiliate-free .product-desc,
+  .product-card-affiliate-free .product-features li { color: var(--white); }
+
+  .product-card-affiliate-free .product-price span,
+  .product-card-affiliate-free .product-desc,
+  .product-card-affiliate-free .product-features li { color: rgba(255,255,255,0.82); }
+
+  .product-card-affiliate-free .product-features li::before { background: #ff9a45; }
+
+  .product-card-affiliate-free .affiliate-free-badge {
+    display: inline-flex;
+    margin-bottom: 1rem;
+    padding: 0.35rem 0.65rem;
+    border-radius: 999px;
+    color: #6f2700;
+    background: #ffe1c4;
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+  }
+
   .btn-product-light {
     background: rgba(255,255,255,0.15) !important;
     border: 1.5px solid rgba(255,255,255,0.4) !important;
@@ -2588,6 +2627,19 @@
     <p class="section-subtitle">Descarga, aplica y ve resultados desde el primer día. Sin configuraciones complicadas.</p>
     <p style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--blue-200); letter-spacing: 0.04em; font-weight: 500;">🌍 Producto creado en Europa, pensado para Latinoamérica</p>
     <div class="products-grid">
+      <div class="product-card product-card-affiliate-free">
+        <div class="affiliate-free-badge">Nuevo · Recurso para afiliados</div>
+        <div class="product-price">GRATIS <span>para afiliados aprobados</span></div>
+        <div class="product-name">Kit Venta de Productos Digitales para Principiantes</div>
+        <div class="product-desc">Formación desde cero para aprender afiliación en LATAM, crear contenido, conversar con confianza y construir un sistema de ingresos complementarios.</div>
+        <ul class="product-features">
+          <li>Guía educativa con 12 módulos</li>
+          <li>Plan práctico de 30 días</li>
+          <li>30 hooks, copies y registro semanal</li>
+          <li>Imágenes para feed, stories y WhatsApp</li>
+        </ul>
+        <a href="/kit-afiliados-principiantes" class="btn-product btn-product-light">Ver kit gratuito y solicitar acceso →</a>
+      </div>
       <div class="product-card product-card-ventas">
         <div class="product-price">19 USD <span>pago único</span></div>
         <div class="product-name">Pack 100 Prompts para Vender Más</div>

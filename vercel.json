@@ -170,6 +170,16 @@
       "permanent": false
     },
     {
+      "source": "/kit-principiantes-afiliados",
+      "destination": "/api/affiliate/page?page=beginnerKit",
+      "permanent": false
+    },
+    {
+      "source": "/kit-principiantes-afiliados.html",
+      "destination": "/api/affiliate/page?page=beginnerKit",
+      "permanent": false
+    },
+    {
       "source": "/downloads/kit-base-afiliados-talleres.zip",
       "destination": "/api/affiliate/resource?asset=downloads/kit-base-afiliados-talleres.zip",
       "permanent": false
@@ -208,6 +218,16 @@
       "source": "/downloads/affiliate-kit-emprendedores/:path*",
       "destination": "/api/affiliate/resource?asset=downloads/affiliate-kit-emprendedores/:path*",
       "permanent": false
+    },
+    {
+      "source": "/downloads/kit-venta-productos-digitales-principiantes.zip",
+      "destination": "/api/affiliate/resource?asset=downloads/kit-venta-productos-digitales-principiantes.zip",
+      "permanent": false
+    },
+    {
+      "source": "/downloads/kit-venta-digital-principiantes/:path*",
+      "destination": "/api/affiliate/resource?asset=downloads/kit-venta-digital-principiantes/:path*",
+      "permanent": false
     }
   ],
   "rewrites": [
@@ -238,6 +258,10 @@
     {
       "source": "/recurso-10-prompts",
       "destination": "/recurso-10-prompts.html"
+    },
+    {
+      "source": "/kit-afiliados-principiantes",
+      "destination": "/kit-afiliados-principiantes.html"
     },
     {
       "source": "/checkout-success",

@@ -21,8 +21,8 @@
       <nav class="topbar-links">
         <a href="/">Inicio</a>
         <div class="nav-dropdown">
-          <button type="button" class="nav-dropdown-trigger">Nichos</button>
-          <div class="nav-dropdown-menu">
+          <button type="button" class="nav-dropdown-trigger" aria-expanded="false" aria-controls="affiliateNichesMenu">Nichos</button>
+          <div class="nav-dropdown-menu" id="affiliateNichesMenu">
             <a href="/talleres-mecanicos">Talleres mecánicos</a>
             <a href="/restaurantes-hosteleria">Restaurantes &amp; hostelería</a>
             <a href="/centros-estetica">Centros de estética</a>
@@ -110,6 +110,29 @@
               <li>Atribución por enlace con cookie de 30 días.</li>
               <li>Liquidación mensual manual.</li>
             </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="kit-principiantes">
+        <div class="container grid-2" style="align-items:center;">
+          <article class="info-card" style="padding:0;overflow:hidden;">
+            <img src="assets/img/kit-afiliados-principiantes/kit-principiantes-square.jpg" alt="Kit gratuito de venta de productos digitales para principiantes" style="display:block;width:100%;height:auto;">
+          </article>
+          <article class="info-card">
+            <div class="eyebrow">Incluido gratis al aprobar tu alta</div>
+            <h3 style="font-family:var(--font-display);font-size:2.2rem;line-height:1.05;color:var(--blue-900);margin:0.8rem 0;">Kit Venta de Productos Digitales para Principiantes</h3>
+            <p>Si todavía no tienes experiencia, no empiezas solo. Te entregamos una guía educativa, un plan de 30 días, copies, registros y creatividades para aprender a vender productos digitales en LATAM con un método realista.</p>
+            <ul class="bullet-list">
+              <li>12 módulos explicados sin jerga.</li>
+              <li>Plan de acción editable de 30 días.</li>
+              <li>30 hooks y copies para adaptar.</li>
+              <li>Imágenes para feed, stories y WhatsApp.</li>
+            </ul>
+            <div class="cta-row" style="margin-top:1.1rem;">
+              <a href="/kit-afiliados-principiantes" class="btn-secondary">Ver todo el contenido</a>
+              <a href="#solicitud" class="btn-primary">Solicitar acceso gratuito</a>
+            </div>
           </article>
         </div>
       </section>
@@ -390,10 +413,46 @@
       const button = document.getElementById('affiliateSubmit');
       const status = document.getElementById('affiliateStatus');
       const socialToggles = Array.from(form.querySelectorAll('input[name="socialNetwork"]'));
+      const nicheDropdown = document.querySelector('.nav-dropdown');
+      const nicheTrigger = nicheDropdown ? nicheDropdown.querySelector('.nav-dropdown-trigger') : null;
 
       function setStatus(message, type) {
         status.textContent = message;
         status.className = 'inline-status' + (type ? ' ' + type : '');
+      }
+
+      function setupMobileNicheMenu() {
+        if (!nicheDropdown || !nicheTrigger) return;
+
+        function isCompactViewport() {
+          return window.innerWidth <= 860;
+        }
+
+        function setDropdownState(isOpen) {
+          nicheDropdown.classList.toggle('is-open', isOpen);
+          nicheTrigger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        }
+
+        nicheTrigger.addEventListener('click', function () {
+          if (!isCompactViewport()) return;
+          setDropdownState(!nicheDropdown.classList.contains('is-open'));
+        });
+
+        nicheDropdown.querySelectorAll('.nav-dropdown-menu a').forEach(function (link) {
+          link.addEventListener('click', function () {
+            if (!isCompactViewport()) return;
+            setDropdownState(false);
+          });
+        });
+
+        document.addEventListener('click', function (event) {
+          if (!isCompactViewport()) return;
+          if (!nicheDropdown.contains(event.target)) setDropdownState(false);
+        });
+
+        window.addEventListener('resize', function () {
+          if (!isCompactViewport()) setDropdownState(false);
+        });
       }
 
       function syncSocialInputs() {
@@ -405,6 +464,7 @@
         });
       }
 
+      setupMobileNicheMenu();
       syncSocialInputs();
       socialToggles.forEach(function (toggle) {
         toggle.addEventListener('change', syncSocialInputs);

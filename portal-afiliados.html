@@ -886,6 +886,39 @@
         padding: 0 1rem 1rem;
       }
     }
+
+    .portal-beginner-kit {
+      display: grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(320px, 1.1fr);
+      gap: 1.4rem;
+      align-items: center;
+      padding: 1.45rem;
+      border-radius: 1.7rem;
+      color: #fff;
+      background: linear-gradient(135deg, #32105c, #742d96 68%, #d65b26);
+      box-shadow: 0 28px 70px rgba(50, 16, 92, 0.24);
+      overflow: hidden;
+    }
+
+    .portal-beginner-kit h2 {
+      margin: 0.4rem 0 0.65rem;
+      color: #fff;
+      font-family: var(--portal-accent);
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      line-height: 0.98;
+    }
+
+    .portal-beginner-kit p { color: rgba(255,255,255,0.78); }
+    .portal-beginner-kit ul { display: grid; gap: 0.45rem; padding-left: 1.1rem; color: rgba(255,255,255,0.86); }
+    .portal-beginner-kit img { width: 100%; aspect-ratio: 16/9; object-fit: cover; border-radius: 1.25rem; box-shadow: 0 22px 48px rgba(20,5,40,0.3); }
+    .portal-beginner-kit .portal-overline { color: #ffd2ab; }
+    .portal-beginner-kit .btn-primary { background: #fff; color: #3b176b; }
+    .portal-beginner-kit .btn-ghost { border-color: rgba(255,255,255,0.44); color: #fff; }
+
+    @media (max-width: 820px) {
+      .portal-beginner-kit { grid-template-columns: 1fr; }
+      .portal-beginner-kit img { order: -1; }
+    }
   </style>
 </head>
 <body>
@@ -905,6 +938,7 @@
       </button>
       <nav class="topbar-links" id="portalTopbarLinks">
         <a href="#metricas">Visión general</a>
+        <a href="#primeros-pasos">Primeros pasos</a>
         <a href="#guias">Guías</a>
         <a href="#perfil">Perfil</a>
         <a href="#nichos">Nichos</a>
@@ -984,6 +1018,29 @@
       <section class="section" id="metricas">
         <div class="container">
           <div id="statsGrid" class="portal-stat-grid"></div>
+        </div>
+      </section>
+
+      <section class="section" id="primeros-pasos">
+        <div class="container">
+          <article class="portal-beginner-kit">
+            <div>
+              <div class="portal-overline">Formación incluida · Nivel principiante</div>
+              <h2>Kit Venta de Productos Digitales para Principiantes</h2>
+              <p>Empieza con un método sencillo para elegir nicho, crear contenido, conversar sin spam, usar tus enlaces y medir tus primeras acciones.</p>
+              <ul>
+                <li>Guía educativa con 12 módulos.</li>
+                <li>Plan editable de 30 días.</li>
+                <li>30 hooks y copies para adaptar.</li>
+                <li>Imágenes en varios formatos para RRSS.</li>
+              </ul>
+              <div class="cta-row" style="margin-top:1.2rem;">
+                <a id="beginnerKitPage" class="btn-primary" href="#">Abrir mi kit gratuito</a>
+                <a id="beginnerKitDownload" class="btn-ghost" href="#">Descargar ZIP completo</a>
+              </div>
+            </div>
+            <img src="/assets/img/kit-afiliados-principiantes/kit-principiantes-landscape.jpg" alt="Kit gratuito de venta digital para afiliados principiantes">
+          </article>
         </div>
       </section>
 
@@ -1225,6 +1282,8 @@
       const primaryAffiliateLink = document.getElementById('primaryAffiliateLink');
       const copyPrimaryAffiliateLink = document.getElementById('copyPrimaryAffiliateLink');
       const primaryPortalKit = document.getElementById('primaryPortalKit');
+      const beginnerKitPage = document.getElementById('beginnerKitPage');
+      const beginnerKitDownload = document.getElementById('beginnerKitDownload');
       const portalCopyStatus = document.getElementById('portalCopyStatus');
       const connectSummary = document.getElementById('connectSummary');
       const connectBadge = document.getElementById('connectBadge');
@@ -1263,7 +1322,8 @@
         '/biblioteca-social-estetica': 'socialEstetica',
         '/biblioteca-social-emprendedores': 'socialEmprendedores',
         '/guia-portal-afiliados': 'guidePortal',
-        '/guia-stripe-connect-afiliados': 'guideStripe'
+        '/guia-stripe-connect-afiliados': 'guideStripe',
+        '/kit-principiantes-afiliados': 'beginnerKit'
       };
 
       let currentPayload = null;
@@ -1559,6 +1619,8 @@
 
         primaryAffiliateLink.href = affiliate.affiliateLink || buildProtectedPageUrl('/talleres-mecanicos');
         primaryPortalKit.href = buildProtectedAssetUrl('downloads/kit-base-afiliados-talleres.zip');
+        beginnerKitPage.href = buildProtectedPageUrl('/kit-principiantes-afiliados');
+        beginnerKitDownload.href = buildProtectedAssetUrl('downloads/kit-venta-productos-digitales-principiantes.zip');
 
         affiliateDetails.innerHTML = [
           ['Nombre', affiliate.fullName],

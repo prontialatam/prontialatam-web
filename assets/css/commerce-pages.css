@@ -120,6 +120,7 @@ a {
   border-right: 1.5px solid currentColor;
   border-bottom: 1.5px solid currentColor;
   transform: rotate(45deg) translateY(-1px);
+  transition: transform 0.18s ease;
 }
 
 .nav-dropdown:hover .nav-dropdown-trigger,
@@ -147,6 +148,20 @@ a {
 
 .nav-dropdown:hover .nav-dropdown-menu,
 .nav-dropdown:focus-within .nav-dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.nav-dropdown.is-open .nav-dropdown-trigger {
+  color: var(--blue-600);
+}
+
+.nav-dropdown.is-open .nav-dropdown-trigger::after {
+  transform: rotate(-135deg) translateY(-1px);
+}
+
+.nav-dropdown.is-open .nav-dropdown-menu {
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
@@ -1011,11 +1026,16 @@ textarea {
     position: static;
     min-width: 0;
     margin-top: 0.55rem;
-    opacity: 1;
-    visibility: visible;
-    transform: none;
+    display: none;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-4px);
     box-shadow: none;
     background: rgba(230, 241, 251, 0.55);
+  }
+
+  .nav-dropdown.is-open .nav-dropdown-menu {
+    display: grid;
   }
 
   .topbar-links .topbar-cta {

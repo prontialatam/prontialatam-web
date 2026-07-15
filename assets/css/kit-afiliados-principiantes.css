@@ -1,0 +1,120 @@
+:root {
+  --kit-purple: #3b176b;
+  --kit-purple-soft: #6d28d9;
+  --kit-magenta: #c0267d;
+  --kit-orange: #f97316;
+  --kit-cream: #fff7ed;
+  --kit-ink: #172033;
+  --kit-muted: #626b7b;
+  --kit-surface: #f8f4fc;
+}
+
+.kit-page {
+  margin: 0;
+  color: var(--kit-ink);
+  background: #fff;
+  font-family: "DM Sans", system-ui, sans-serif;
+}
+
+.kit-nav {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.8rem 5%;
+  background: rgba(255,255,255,0.94);
+  border-bottom: 1px solid rgba(59,23,107,0.08);
+  backdrop-filter: blur(14px);
+}
+
+.kit-brand { display: inline-flex; align-items: center; gap: 0.8rem; text-decoration: none; color: var(--kit-purple); font-weight: 800; }
+.kit-brand img { width: 46px; height: 46px; object-fit: cover; border-radius: 9px; }
+.kit-nav-links { display: flex; align-items: center; gap: 0.75rem; }
+.kit-nav-links a { padding: 0.72rem 1rem; border-radius: 999px; text-decoration: none; color: var(--kit-purple); font-weight: 700; font-size: 0.9rem; }
+.kit-nav-links .kit-nav-cta { color: white; background: linear-gradient(135deg, var(--kit-purple), var(--kit-magenta)); box-shadow: 0 14px 28px rgba(59,23,107,0.2); }
+
+.kit-container { width: min(1160px, calc(100% - 2rem)); margin: 0 auto; }
+.kit-hero { padding: clamp(3rem, 7vw, 6.8rem) 0 4rem; background: radial-gradient(circle at 10% 5%, #fff2e5 0, transparent 36%), linear-gradient(145deg, #fff 20%, #f7eefb 100%); overflow: hidden; }
+.kit-hero-grid { display: grid; grid-template-columns: minmax(0, 0.95fr) minmax(420px, 1.05fr); align-items: center; gap: clamp(2.5rem, 6vw, 6rem); }
+.kit-eyebrow { display: inline-flex; align-items: center; gap: 0.45rem; padding: 0.55rem 0.85rem; border-radius: 999px; background: #fff0df; color: #b83f00; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; font-size: 0.73rem; }
+.kit-title { margin: 1.25rem 0 1rem; font-family: "Cormorant Garamond", Georgia, serif; font-size: clamp(3.25rem, 6.6vw, 6rem); line-height: 0.94; letter-spacing: -0.04em; color: var(--kit-purple); }
+.kit-title em { font-style: normal; color: var(--kit-orange); }
+.kit-lede { max-width: 680px; color: var(--kit-muted); font-size: clamp(1rem, 1.6vw, 1.2rem); line-height: 1.75; }
+.kit-actions { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 1.7rem; }
+.kit-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 50px; padding: 0.8rem 1.2rem; border-radius: 999px; text-decoration: none; font-weight: 800; transition: transform 0.2s ease, box-shadow 0.2s ease; }
+.kit-btn:hover { transform: translateY(-2px); }
+.kit-btn-primary { color: white; background: linear-gradient(135deg, var(--kit-purple), var(--kit-magenta)); box-shadow: 0 16px 32px rgba(59,23,107,0.24); }
+.kit-btn-secondary { color: var(--kit-purple); background: white; border: 1px solid rgba(59,23,107,0.18); }
+.kit-no-card { margin-top: 1rem; color: var(--kit-muted); font-size: 0.82rem; }
+.kit-visual { position: relative; }
+.kit-visual::before { content: ""; position: absolute; inset: 8% -8% -8% 12%; border-radius: 42px; background: linear-gradient(135deg, rgba(249,115,22,0.24), rgba(192,38,125,0.24)); filter: blur(25px); }
+.kit-visual img { position: relative; width: 100%; aspect-ratio: 16/9; object-fit: cover; border-radius: 34px; box-shadow: 0 35px 80px rgba(59,23,107,0.23); }
+.kit-free-seal { position: absolute; right: 1rem; bottom: 1rem; padding: 0.8rem 1rem; color: white; background: var(--kit-orange); border: 3px solid rgba(255,255,255,0.85); border-radius: 18px; font-weight: 900; box-shadow: 0 12px 30px rgba(75,30,10,0.25); }
+
+.kit-strip { background: var(--kit-purple); color: white; }
+.kit-strip-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: rgba(255,255,255,0.16); }
+.kit-strip-item { padding: 1.25rem; background: var(--kit-purple); }
+.kit-strip-item strong { display: block; color: #ffd5ac; font-size: 0.77rem; letter-spacing: 0.08em; text-transform: uppercase; }
+.kit-strip-item span { display: block; margin-top: 0.3rem; font-weight: 700; }
+
+.kit-section { padding: clamp(3.5rem, 7vw, 6rem) 0; }
+.kit-section-soft { background: var(--kit-surface); }
+.kit-section-head { max-width: 760px; margin-bottom: 2rem; }
+.kit-section-head small { color: var(--kit-orange); font-weight: 900; letter-spacing: 0.09em; text-transform: uppercase; }
+.kit-section-head h2 { margin: 0.65rem 0 0.7rem; font-family: "Cormorant Garamond", Georgia, serif; color: var(--kit-purple); font-size: clamp(2.4rem, 4.8vw, 4rem); line-height: 1; }
+.kit-section-head p { color: var(--kit-muted); font-size: 1.04rem; }
+.kit-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+.kit-card { padding: 1.4rem; border-radius: 22px; background: white; border: 1px solid rgba(59,23,107,0.09); box-shadow: 0 14px 38px rgba(59,23,107,0.06); }
+.kit-card-number { color: var(--kit-orange); font-weight: 900; font-size: 0.78rem; }
+.kit-card h3 { margin: 0.55rem 0 0.45rem; color: var(--kit-purple); font-size: 1.12rem; }
+.kit-card p { margin: 0; color: var(--kit-muted); font-size: 0.92rem; }
+
+.kit-includes { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 2rem; align-items: center; }
+.kit-includes img { width: 100%; border-radius: 28px; box-shadow: 0 24px 58px rgba(59,23,107,0.18); }
+.kit-checklist { display: grid; gap: 0.75rem; margin-top: 1.2rem; }
+.kit-check { display: grid; grid-template-columns: 28px 1fr; gap: 0.65rem; align-items: start; color: var(--kit-muted); }
+.kit-check::before { content: "✓"; display: grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; color: white; background: linear-gradient(135deg, var(--kit-purple-soft), var(--kit-magenta)); font-weight: 900; }
+
+.kit-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; counter-reset: kitstep; }
+.kit-step { counter-increment: kitstep; padding: 1.55rem; border-radius: 24px; color: white; background: linear-gradient(145deg, #35125f, #6d28d9); }
+.kit-step::before { content: "0" counter(kitstep); display: block; margin-bottom: 2rem; color: #ffc38a; font-weight: 900; font-size: 0.82rem; }
+.kit-step h3 { margin: 0 0 0.6rem; font-size: 1.25rem; }
+.kit-step p { margin: 0; color: rgba(255,255,255,0.76); }
+
+.kit-final { padding: 3rem; border-radius: 32px; color: white; background: linear-gradient(135deg, var(--kit-purple), var(--kit-magenta) 68%, var(--kit-orange)); text-align: center; }
+.kit-final h2 { margin: 0 0 0.8rem; font-family: "Cormorant Garamond", Georgia, serif; font-size: clamp(2.6rem, 5vw, 4.4rem); line-height: 1; }
+.kit-final p { max-width: 720px; margin: 0 auto 1.4rem; color: rgba(255,255,255,0.82); }
+.kit-final .kit-btn { background: white; color: var(--kit-purple); }
+
+.kit-private-banner { margin: 1.4rem 0 2rem; padding: 1.2rem 1.3rem; border-radius: 18px; background: #fff3e5; border: 1px solid #ffd8af; color: #7d330b; }
+.kit-download-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+.kit-download-card { display: flex; flex-direction: column; padding: 1.3rem; border-radius: 20px; background: white; border: 1px solid rgba(59,23,107,0.1); }
+.kit-download-card strong { color: var(--kit-purple); font-size: 1.05rem; }
+.kit-download-card p { flex: 1; color: var(--kit-muted); font-size: 0.9rem; }
+.kit-download-card a { align-self: flex-start; }
+.kit-footer { padding: 2rem 0; color: #d8ccec; background: #1f0d39; font-size: 0.86rem; }
+
+@media (max-width: 860px) {
+  .kit-nav { align-items: flex-start; }
+  .kit-brand span { display: none; }
+  .kit-nav-links { gap: 0.25rem; }
+  .kit-nav-links a { padding: 0.65rem 0.7rem; font-size: 0.78rem; }
+  .kit-hero-grid, .kit-includes { grid-template-columns: 1fr; }
+  .kit-hero-grid { gap: 2.2rem; }
+  .kit-title { font-size: clamp(3rem, 14vw, 4.8rem); }
+  .kit-strip-grid { grid-template-columns: repeat(2, 1fr); }
+  .kit-grid, .kit-steps { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 600px) {
+  .kit-nav-links a:first-child { display: none; }
+  .kit-hero { padding-top: 2.4rem; }
+  .kit-grid, .kit-steps, .kit-download-grid { grid-template-columns: 1fr; }
+  .kit-strip-grid { grid-template-columns: 1fr; }
+  .kit-strip-item { padding: 0.9rem 1rem; }
+  .kit-final { padding: 2rem 1.2rem; }
+}
+

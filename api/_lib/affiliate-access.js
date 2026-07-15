@@ -65,6 +65,10 @@ const PROTECTED_PAGES = {
   guideStripe: {
     route: "/guia-stripe-connect-afiliados",
     file: "guia-stripe-connect-afiliados.html"
+  },
+  beginnerKit: {
+    route: "/kit-principiantes-afiliados",
+    file: "kit-principiantes-afiliados.html"
   }
 };
 

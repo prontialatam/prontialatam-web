@@ -1,5 +1,3 @@
-const fs = require("fs");
-const path = require("path");
 const Stripe = require("stripe");
 const { getProduct } = require("../_lib/stripe-products");
 
@@ -17,19 +15,50 @@ function sendText(res, statusCode, message) {
   res.end(message);
 }
 
-function resolveDeliveryFile(product) {
-  const assetPath = String(product && product.deliveryAssetUrl || "").replace(/^\/+/, "");
-  if (!product || !product.secureDownload || !assetPath.startsWith("downloads/")) {
+function resolveStorageAsset(product) {
+  if (
+    !product ||
+    !product.secureDownload ||
+    !product.storageBucket ||
+    !product.storageObjectPath ||
+    !product.deliveryFilename
+  ) {
     return null;
   }
 
-  const downloadsRoot = path.resolve(process.cwd(), "downloads");
-  const filePath = path.resolve(process.cwd(), assetPath);
-  if (!filePath.startsWith(`${downloadsRoot}${path.sep}`)) {
+  const bucket = String(product.storageBucket).trim();
+  const objectPath = String(product.storageObjectPath).replace(/^\/+/, "");
+  const filename = String(product.deliveryFilename).replace(/[\r\n"\\/]/g, "-");
+  if (!bucket || !objectPath || objectPath.includes("..") || !filename) {
     return null;
   }
 
-  return filePath;
+  return { bucket, objectPath, filename };
+}
+
+async function downloadPrivateAsset(asset) {
+  const supabaseUrl = String(process.env.SUPABASE_URL || "").replace(/\/$/, "");
+  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!supabaseUrl || !serviceRoleKey) {
+    throw new Error("Falta la configuración privada de Supabase");
+  }
+
+  const encodedPath = asset.objectPath.split("/").map(encodeURIComponent).join("/");
+  const response = await fetch(
+    `${supabaseUrl}/storage/v1/object/authenticated/${encodeURIComponent(asset.bucket)}/${encodedPath}`,
+    {
+      headers: {
+        Authorization: `Bearer ${serviceRoleKey}`,
+        apikey: serviceRoleKey
+      }
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error(`Supabase Storage devolvió ${response.status}`);
+  }
+
+  return Buffer.from(await response.arrayBuffer());
 }
 
 module.exports = async function handler(req, res) {
@@ -58,28 +87,22 @@ module.exports = async function handler(req, res) {
     }
 
     const product = getProduct(session.metadata && session.metadata.product_slug);
-    const filePath = resolveDeliveryFile(product);
-    if (!filePath) {
+    const asset = resolveStorageAsset(product);
+    if (!asset) {
       return sendText(res, 403, "Esta compra no autoriza la descarga solicitada");
     }
 
-    const stat = await fs.promises.stat(filePath);
-    if (!stat.isFile()) {
-      return sendText(res, 404, "Archivo no encontrado");
-    }
+    const file = await downloadPrivateAsset(asset);
 
     res.statusCode = 200;
     res.setHeader("Content-Type", "application/zip");
-    res.setHeader("Content-Length", String(stat.size));
-    res.setHeader("Content-Disposition", `attachment; filename="${path.basename(filePath)}"`);
+    res.setHeader("Content-Length", String(file.length));
+    res.setHeader("Content-Disposition", `attachment; filename="${asset.filename}"`);
     res.setHeader("Cache-Control", "private, no-store, max-age=0");
     res.setHeader("Referrer-Policy", "no-referrer");
     res.setHeader("X-Content-Type-Options", "nosniff");
-    fs.createReadStream(filePath).pipe(res);
+    res.end(file);
   } catch (error) {
-    if (error && error.code === "ENOENT") {
-      return sendText(res, 404, "Archivo no encontrado");
-    }
     return sendText(res, 403, "No se pudo verificar el acceso a esta descarga");
   }
 };

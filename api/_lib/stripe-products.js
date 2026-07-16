@@ -42,6 +42,9 @@ const PRODUCTS = {
     deliveryAssetUrl: "/downloads/emprendedores/kit-completo-premium-emprendedores-latam.zip",
     deliveryPageUrl: "/emprendedores",
     secureDownload: true,
+    storageBucket: "paid-products",
+    storageObjectPath: "emprendedores/kit-completo-premium-emprendedores-latam-v2.zip",
+    deliveryFilename: "kit-completo-premium-emprendedores-latam.zip",
     successPath: "/checkout-success",
     cancelPath: "/checkout-cancel"
   }

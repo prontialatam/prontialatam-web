@@ -1,5 +1,5 @@
 const { sendPurchaseAdminNotificationEmail, sendPurchaseConfirmationEmail } = require("./email");
-const { getProduct } = require("./stripe-products");
+const { getDeliveryAssetPath, getProduct } = require("./stripe-products");
 const supabase = require("./supabase");
 
 async function queueFulfillment(payload) {
@@ -34,7 +34,10 @@ function buildAbsoluteUrl(siteUrl, path) {
 async function deliverOrder(options) {
   const product = getProduct(options.order.product_slug || "");
   const siteUrl = options.siteUrl;
-  const deliveryAssetUrl = buildAbsoluteUrl(siteUrl, product && product.deliveryAssetUrl ? product.deliveryAssetUrl : "/");
+  const deliveryAssetUrl = buildAbsoluteUrl(
+    siteUrl,
+    getDeliveryAssetPath(product, options.order.stripe_checkout_session_id)
+  );
   const deliveryPageUrl = buildAbsoluteUrl(siteUrl, product && product.deliveryPageUrl ? product.deliveryPageUrl : "/");
   const brandLogoUrl = buildAbsoluteUrl(siteUrl, "/logo-prontia.jpg");
   const instagramIconUrl = buildAbsoluteUrl(siteUrl, "/assets/email-social/instagram.png");

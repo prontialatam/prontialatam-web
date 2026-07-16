@@ -6,9 +6,17 @@
     },
     "api/affiliate/resource.js": {
       "includeFiles": "downloads/**"
+    },
+    "api/checkout/download.js": {
+      "includeFiles": "downloads/emprendedores/**"
     }
   },
   "redirects": [
+    {
+      "source": "/downloads/emprendedores/kit-completo-premium-emprendedores-latam.zip",
+      "destination": "/api/checkout/download",
+      "permanent": false
+    },
     {
       "source": "/portal-afiliados",
       "destination": "/api/affiliate/page?page=portal",

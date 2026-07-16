@@ -41,6 +41,7 @@ const PRODUCTS = {
     supportEmail: "hola@prontialatam.com",
     deliveryAssetUrl: "/downloads/emprendedores/kit-completo-premium-emprendedores-latam.zip",
     deliveryPageUrl: "/emprendedores",
+    secureDownload: true,
     successPath: "/checkout-success",
     cancelPath: "/checkout-cancel"
   }
@@ -80,7 +81,25 @@ function getStripeLineItem(product) {
   throw new Error(`Falta configurar ${product.stripePriceEnv}`);
 }
 
+function getDeliveryAssetPath(product, sessionId) {
+  if (!product || !product.deliveryAssetUrl) {
+    return "/";
+  }
+
+  if (!product.secureDownload) {
+    return product.deliveryAssetUrl;
+  }
+
+  const normalizedSessionId = String(sessionId || "").trim();
+  if (!/^cs_(?:live|test)_/.test(normalizedSessionId)) {
+    return product.deliveryPageUrl || "/";
+  }
+
+  return `/api/checkout/download?session_id=${encodeURIComponent(normalizedSessionId)}`;
+}
+
 module.exports = {
+  getDeliveryAssetPath,
   getProduct,
   getStripeLineItem,
   getStripePriceId

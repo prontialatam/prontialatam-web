@@ -1,6 +1,6 @@
 const { getSiteUrl, parseJsonBody, sendJson } = require("../_lib/http");
 const { sendPurchaseConfirmationEmail } = require("../_lib/email");
-const { getProduct } = require("../_lib/stripe-products");
+const { getDeliveryAssetPath, getProduct } = require("../_lib/stripe-products");
 const supabase = require("../_lib/supabase");
 
 function isAuthorized(req, body) {
@@ -69,7 +69,10 @@ module.exports = async function handler(req, res) {
     const sentToOriginalCustomer = targetEmail === originalCustomerEmail;
     const siteUrl = getSiteUrl(req);
     const product = getProduct(order.product_slug || "");
-    const deliveryAssetUrl = buildAbsoluteUrl(siteUrl, product && product.deliveryAssetUrl ? product.deliveryAssetUrl : "/");
+    const deliveryAssetUrl = buildAbsoluteUrl(
+      siteUrl,
+      getDeliveryAssetPath(product, order.stripe_checkout_session_id)
+    );
     const deliveryPageUrl = buildAbsoluteUrl(siteUrl, product && product.deliveryPageUrl ? product.deliveryPageUrl : "/");
     const brandLogoUrl = buildAbsoluteUrl(siteUrl, "/logo-prontia.jpg");
     const instagramIconUrl = buildAbsoluteUrl(siteUrl, "/assets/email-social/instagram.png");

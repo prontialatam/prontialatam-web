@@ -1,6 +1,6 @@
 const Stripe = require("stripe");
 const { getSiteUrl, sendJson } = require("../_lib/http");
-const { getProduct } = require("../_lib/stripe-products");
+const { getDeliveryAssetPath, getProduct } = require("../_lib/stripe-products");
 
 function getQueryParam(req, name) {
   const url = new URL(req.url, `https://${req.headers.host || "localhost"}`);
@@ -51,7 +51,7 @@ module.exports = async function handler(req, res) {
       productName: session.metadata && session.metadata.product_name ? session.metadata.product_name : product.name,
       customerEmail: session.customer_details && session.customer_details.email ? session.customer_details.email : "",
       delivery: {
-        assetUrl: buildAbsoluteUrl(siteUrl, product.deliveryAssetUrl),
+        assetUrl: buildAbsoluteUrl(siteUrl, getDeliveryAssetPath(product, sessionId)),
         pageUrl: buildAbsoluteUrl(siteUrl, product.deliveryPageUrl)
       },
       supportEmail: product.supportEmail || "hola@prontialatam.com"

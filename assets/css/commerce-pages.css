@@ -566,6 +566,87 @@ a {
   font-size: 0.92rem;
 }
 
+.program-strip,
+.challenge-grid,
+.resource-preview-grid {
+  display: grid;
+  gap: 1.2rem;
+}
+
+.program-strip {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.program-strip-card,
+.challenge-day-card,
+.resource-preview-card {
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(4, 44, 83, 0.08);
+  border-radius: 1.25rem;
+  box-shadow: 0 24px 60px rgba(24, 95, 165, 0.08);
+}
+
+.program-strip-card,
+.challenge-day-card,
+.resource-preview-card {
+  padding: 1.4rem;
+}
+
+.program-strip-card strong,
+.challenge-day-card strong,
+.resource-preview-card strong {
+  display: block;
+  color: var(--blue-600);
+  font-size: 0.82rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.program-strip-card h3,
+.challenge-day-card h3,
+.resource-preview-card h3 {
+  margin: 0.55rem 0 0.7rem;
+  color: var(--blue-900);
+}
+
+.program-strip-card p,
+.challenge-day-card p,
+.resource-preview-card p {
+  margin: 0;
+  color: var(--gray-700);
+}
+
+.challenge-grid {
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+.challenge-day-card {
+  position: relative;
+  overflow: hidden;
+  min-height: 100%;
+}
+
+.challenge-day-card::after {
+  content: "";
+  position: absolute;
+  inset: auto 1.4rem 0;
+  height: 3px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(55, 138, 221, 0.18), rgba(24, 95, 165, 0.78));
+}
+
+.resource-preview-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.resource-preview-card ul {
+  margin: 0.9rem 0 0;
+  padding-left: 1rem;
+  color: var(--gray-700);
+  display: grid;
+  gap: 0.5rem;
+}
+
 .stat-grid,
 .download-grid,
 .step-stack {
@@ -991,6 +1072,9 @@ textarea {
   .pricing-wrap,
   .grid-3,
   .grid-2,
+  .program-strip,
+  .challenge-grid,
+  .resource-preview-grid,
   .form-grid.two,
   .meta-list,
   .stat-grid,

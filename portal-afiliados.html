@@ -1069,6 +1069,65 @@
       margin-top: 0.85rem;
     }
 
+    .portal-download-list {
+      display: grid;
+      gap: 0.7rem;
+      margin-top: 1rem;
+    }
+
+    .portal-download-item {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.95rem 1rem;
+      border-radius: 1rem;
+      background: linear-gradient(135deg, rgba(245, 249, 255, 0.96), rgba(255, 255, 255, 0.98));
+      border: 1px solid rgba(22, 95, 168, 0.08);
+    }
+
+    .portal-download-item strong {
+      display: block;
+      padding: 0;
+      margin-bottom: 0.2rem;
+      background: transparent;
+      color: var(--portal-ink);
+      font-size: 0.9rem;
+      letter-spacing: 0.01em;
+      text-transform: none;
+    }
+
+    .portal-download-item span {
+      color: rgba(11, 36, 64, 0.66);
+      font-size: 0.86rem;
+      line-height: 1.5;
+    }
+
+    .portal-download-kind {
+      flex: 0 0 auto;
+      display: inline-flex;
+      align-items: center;
+      padding: 0.35rem 0.62rem;
+      border-radius: 999px;
+      background: rgba(22, 95, 168, 0.08);
+      color: var(--portal-blue);
+      font-size: 0.71rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .portal-bundle-note {
+      margin-top: 0.95rem;
+      padding: 0.9rem 1rem;
+      border-radius: 1rem;
+      background: rgba(12, 31, 53, 0.04);
+      border: 1px solid rgba(12, 31, 53, 0.08);
+      color: rgba(11, 36, 64, 0.76);
+      font-size: 0.88rem;
+      line-height: 1.58;
+    }
+
     .portal-visual-shell {
       margin-top: 0.9rem;
       border-radius: 1.15rem;
@@ -1905,6 +1964,336 @@
         objeciones: 'La prioridad es responder la duda y devolver confianza.'
       };
 
+      const creativeAssetLibrary = {
+        talleres: {
+          instagram: {
+            formats: ['Feed cuadrado', 'Story vertical'],
+            assets: [
+              {
+                path: 'downloads/affiliate-kit-talleres/social/feed/01_portada.jpg',
+                label: 'Creatividad principal de feed',
+                kind: 'Imagen',
+                fileName: 'instagram-feed-talleres.jpg'
+              },
+              {
+                path: 'downloads/affiliate-kit-talleres/social/stories/Story_Presupuestos_1080x1920.jpg',
+                label: 'Versión story / story ad',
+                kind: 'Story',
+                fileName: 'instagram-story-talleres.jpg'
+              }
+            ]
+          },
+          whatsapp: {
+            formats: ['Square 1080', 'WhatsApp'],
+            assets: [
+              {
+                path: 'downloads/affiliate-kit-talleres/social/whatsapp/WhatsApp_Resenas_1080x1080.jpg',
+                label: 'Creatividad principal para WhatsApp',
+                kind: 'Imagen',
+                fileName: 'whatsapp-talleres.jpg'
+              }
+            ]
+          },
+          linkedin: {
+            formats: ['Horizontal 1200x627', 'LinkedIn'],
+            assets: [
+              {
+                path: 'downloads/affiliate-kit-talleres/social/linkedin/LinkedIn_Talleres_1200x627.jpg',
+                label: 'Cabecera / post horizontal de LinkedIn',
+                kind: 'Imagen',
+                fileName: 'linkedin-talleres.jpg'
+              }
+            ]
+          },
+          facebook: {
+            formats: ['Feed cuadrado', 'Horizontal amplio'],
+            assets: [
+              {
+                path: 'downloads/affiliate-kit-talleres/social/feed/03_resenas.jpg',
+                label: 'Post cuadrado para Facebook',
+                kind: 'Imagen',
+                fileName: 'facebook-feed-talleres.jpg'
+              },
+              {
+                path: 'downloads/affiliate-kit-talleres/social/wide/Y01_El_taller_es_dueno_de_ti.jpg',
+                label: 'Miniatura / formato ancho de apoyo',
+                kind: 'Wide',
+                fileName: 'facebook-wide-talleres.jpg'
+              }
+            ]
+          },
+          tiktok: {
+            formats: ['Vertical 9:16', 'Vídeo corto'],
+            assets: [
+              {
+                path: 'downloads/affiliate-kit-talleres/social/reels/R01_Presupuestos_en_segundos.jpg',
+                label: 'Portada vertical para reel',
+                kind: 'Portada',
+                fileName: 'reel-cover-talleres.jpg'
+              },
+              {
+                path: 'downloads/affiliate-kit-talleres/video/talleres_reel_9x16_motor.mp4',
+                label: 'Vídeo vertical listo para publicar',
+                kind: 'Vídeo',
+                fileName: 'reel-video-talleres.mp4'
+              }
+            ]
+          },
+          email: {
+            formats: ['Horizontal amplio', 'Email / cabecera'],
+            assets: [
+              {
+                path: 'downloads/affiliate-kit-talleres/social/wide/Y02_5_tareas_que_un_taller_puede_acelerar_con_IA.jpg',
+                label: 'Cabecera horizontal para email o newsletter',
+                kind: 'Wide',
+                fileName: 'email-header-talleres.jpg'
+              }
+            ]
+          }
+        },
+        restaurantes: {
+          instagram: {
+            formats: ['Feed cuadrado', 'Story vertical'],
+            assets: [
+              {
+                path: 'downloads/affiliate-kit-restaurantes/social/feed/01_portada_restaurantes.svg',
+                label: 'Creatividad principal de feed',
+                kind: 'Imagen',
+                fileName: 'instagram-feed-restaurantes.svg'
+              },
+              {
+                path: 'downloads/affiliate-kit-restaurantes/social/stories/Story_Promocion_1080x1920.svg',
+                label: 'Versión story / story ad',
+                kind: 'Story',
+                fileName: 'instagram-story-restaurantes.svg'
+              }
+            ]
+          },
+          whatsapp: {
+            formats: ['Square 1080', 'WhatsApp'],
+            assets: [
+              {
+                path: 'downloads/affiliate-kit-restaurantes/social/whatsapp/WhatsApp_Reservas_1080x1080.svg',
+                label: 'Creatividad principal para WhatsApp',
+                kind: 'Imagen',
+                fileName: 'whatsapp-restaurantes.svg'
+              }
+            ]
+          },
+          linkedin: {
+            formats: ['Horizontal 1200x627', 'LinkedIn'],
+            assets: [
+              {
+                path: 'downloads/affiliate-kit-restaurantes/social/linkedin/LinkedIn_Restaurantes_1200x627.svg',
+                label: 'Post horizontal de LinkedIn',
+                kind: 'Imagen',
+                fileName: 'linkedin-restaurantes.svg'
+              }
+            ]
+          },
+          facebook: {
+            formats: ['Feed cuadrado', 'Horizontal amplio'],
+            assets: [
+              {
+                path: 'downloads/affiliate-kit-restaurantes/social/feed/02_resenas_restaurantes.svg',
+                label: 'Post cuadrado para Facebook',
+                kind: 'Imagen',
+                fileName: 'facebook-feed-restaurantes.svg'
+              },
+              {
+                path: 'downloads/affiliate-kit-restaurantes/social/wide/Y01_El_restaurante_no_puede_frenar.svg',
+                label: 'Miniatura / formato ancho de apoyo',
+                kind: 'Wide',
+                fileName: 'facebook-wide-restaurantes.svg'
+              }
+            ]
+          },
+          tiktok: {
+            formats: ['Vertical 9:16', 'Vídeo / reel'],
+            assets: [
+              {
+                path: 'downloads/affiliate-kit-restaurantes/social/reels/R01_Resenas_en_segundos.svg',
+                label: 'Portada vertical para reel',
+                kind: 'Portada',
+                fileName: 'reel-cover-restaurantes.svg'
+              },
+              {
+                path: 'downloads/affiliate-kit-restaurantes/video/restaurantes-demo.mp4',
+                label: 'Vídeo demo del nicho',
+                kind: 'Vídeo',
+                fileName: 'reel-video-restaurantes.mp4'
+              }
+            ]
+          },
+          email: {
+            formats: ['Horizontal amplio', 'Email / cabecera'],
+            assets: [
+              {
+                path: 'downloads/affiliate-kit-restaurantes/social/wide/Y01_El_restaurante_no_puede_frenar.svg',
+                label: 'Cabecera horizontal para email o newsletter',
+                kind: 'Wide',
+                fileName: 'email-header-restaurantes.svg'
+              }
+            ]
+          }
+        },
+        estetica: {
+          instagram: {
+            formats: ['Feed cuadrado', 'Vertical'],
+            assets: [
+              {
+                path: 'downloads/affiliate-kit-estetica/social/01_producto_cuadrado.jpg',
+                label: 'Creatividad principal de feed',
+                kind: 'Imagen',
+                fileName: 'instagram-feed-estetica.jpg'
+              },
+              {
+                path: 'downloads/affiliate-kit-estetica/social/02_reel_story_vertical.jpg',
+                label: 'Versión story / reel vertical',
+                kind: 'Story',
+                fileName: 'instagram-story-estetica.jpg'
+              }
+            ]
+          },
+          whatsapp: {
+            formats: ['Square 1080', 'WhatsApp'],
+            assets: [
+              {
+                path: 'downloads/affiliate-kit-estetica/social/01_producto_cuadrado.jpg',
+                label: 'Creatividad cuadrada para WhatsApp',
+                kind: 'Imagen',
+                fileName: 'whatsapp-estetica.jpg'
+              }
+            ]
+          },
+          linkedin: {
+            formats: ['Horizontal amplio', 'LinkedIn'],
+            assets: [
+              {
+                path: 'downloads/affiliate-kit-estetica/social/03_miniatura_youtube.jpg',
+                label: 'Pieza horizontal para LinkedIn',
+                kind: 'Wide',
+                fileName: 'linkedin-estetica.jpg'
+              }
+            ]
+          },
+          facebook: {
+            formats: ['Feed cuadrado', 'Horizontal amplio'],
+            assets: [
+              {
+                path: 'downloads/affiliate-kit-estetica/social/01_producto_cuadrado.jpg',
+                label: 'Post cuadrado para Facebook',
+                kind: 'Imagen',
+                fileName: 'facebook-feed-estetica.jpg'
+              },
+              {
+                path: 'downloads/affiliate-kit-estetica/social/03_miniatura_youtube.jpg',
+                label: 'Formato ancho de apoyo',
+                kind: 'Wide',
+                fileName: 'facebook-wide-estetica.jpg'
+              }
+            ]
+          },
+          tiktok: {
+            formats: ['Vertical 9:16', 'Story / reel'],
+            assets: [
+              {
+                path: 'downloads/affiliate-kit-estetica/social/02_reel_story_vertical.jpg',
+                label: 'Creatividad vertical lista para reel',
+                kind: 'Vertical',
+                fileName: 'reel-estetica.jpg'
+              }
+            ]
+          },
+          email: {
+            formats: ['Horizontal amplio', 'Email / cabecera'],
+            assets: [
+              {
+                path: 'downloads/affiliate-kit-estetica/social/03_miniatura_youtube.jpg',
+                label: 'Cabecera horizontal para email',
+                kind: 'Wide',
+                fileName: 'email-header-estetica.jpg'
+              }
+            ]
+          }
+        },
+        emprendedores: {
+          instagram: {
+            formats: ['Feed cuadrado', 'Brand shot'],
+            assets: [
+              {
+                path: 'downloads/affiliate-kit-emprendedores/brand/kit-completo-cuadrado.jpg',
+                label: 'Pieza cuadrada principal',
+                kind: 'Imagen',
+                fileName: 'instagram-feed-emprendedores.jpg'
+              }
+            ]
+          },
+          whatsapp: {
+            formats: ['Square 1080', 'WhatsApp'],
+            assets: [
+              {
+                path: 'downloads/affiliate-kit-emprendedores/brand/kit-completo-cuadrado.jpg',
+                label: 'Pieza cuadrada para WhatsApp',
+                kind: 'Imagen',
+                fileName: 'whatsapp-emprendedores.jpg'
+              }
+            ]
+          },
+          linkedin: {
+            formats: ['Horizontal amplio', 'LinkedIn'],
+            assets: [
+              {
+                path: 'downloads/affiliate-kit-emprendedores/brand/kit-completo-horizontal.jpg',
+                label: 'Pieza horizontal para LinkedIn',
+                kind: 'Wide',
+                fileName: 'linkedin-emprendedores.jpg'
+              }
+            ]
+          },
+          facebook: {
+            formats: ['Feed cuadrado', 'Horizontal amplio'],
+            assets: [
+              {
+                path: 'downloads/affiliate-kit-emprendedores/brand/kit-completo-cuadrado.jpg',
+                label: 'Post cuadrado para Facebook',
+                kind: 'Imagen',
+                fileName: 'facebook-feed-emprendedores.jpg'
+              },
+              {
+                path: 'downloads/affiliate-kit-emprendedores/brand/kit-completo-horizontal.jpg',
+                label: 'Formato ancho de apoyo',
+                kind: 'Wide',
+                fileName: 'facebook-wide-emprendedores.jpg'
+              }
+            ]
+          },
+          tiktok: {
+            formats: ['Cuadrado reutilizable', 'Fallback visual'],
+            note: 'Todavía no hay una pieza vertical nativa para emprendedores. El pack descarga la creatividad cuadrada lista para adaptar en Canva o CapCut.',
+            assets: [
+              {
+                path: 'downloads/affiliate-kit-emprendedores/brand/kit-completo-cuadrado.jpg',
+                label: 'Pieza base para reel o short',
+                kind: 'Fallback',
+                fileName: 'reel-base-emprendedores.jpg'
+              }
+            ]
+          },
+          email: {
+            formats: ['Horizontal amplio', 'Email / cabecera'],
+            assets: [
+              {
+                path: 'downloads/affiliate-kit-emprendedores/brand/kit-completo-horizontal.jpg',
+                label: 'Cabecera horizontal para email',
+                kind: 'Wide',
+                fileName: 'email-header-emprendedores.jpg'
+              }
+            ]
+          }
+        }
+      };
+
       function escapeHtml(value) {
         return String(value || '')
           .replace(/&/g, '&amp;')
@@ -2461,6 +2850,225 @@
         };
       }
 
+      function getCreativeBundleConfig(nicheKey, channelKey) {
+        const nicheConfig = creativeAssetLibrary[nicheKey] || {};
+        return nicheConfig[channelKey] || nicheConfig.instagram || {
+          formats: ['Base'],
+          assets: []
+        };
+      }
+
+      function getExtensionFromPath(filePath) {
+        const clean = String(filePath || '').split('?')[0];
+        const lastDot = clean.lastIndexOf('.');
+        return lastDot >= 0 ? clean.slice(lastDot) : '.txt';
+      }
+
+      function triggerBlobDownload(blob, filename) {
+        const safeName = filename || ('archivo-' + Date.now() + '.txt');
+        const objectUrl = URL.createObjectURL(blob);
+        const anchor = document.createElement('a');
+        anchor.href = objectUrl;
+        anchor.download = safeName;
+        document.body.appendChild(anchor);
+        anchor.click();
+        document.body.removeChild(anchor);
+        setTimeout(function () {
+          URL.revokeObjectURL(objectUrl);
+        }, 1500);
+      }
+
+      function downloadTextAsFile(content, filename, mimeType) {
+        const blob = new Blob([String(content || '')], {
+          type: mimeType || 'text/plain;charset=utf-8'
+        });
+        triggerBlobDownload(blob, filename);
+      }
+
+      async function fetchProtectedAssetBlob(assetPath) {
+        const response = await fetch(buildProtectedAssetUrl(assetPath), {
+          credentials: 'same-origin'
+        });
+        if (!response.ok) {
+          throw new Error('No se pudo descargar el recurso protegido ' + assetPath + '.');
+        }
+        return response.blob();
+      }
+
+      async function downloadProtectedAsset(asset) {
+        const blob = await fetchProtectedAssetBlob(asset.path);
+        const filename = asset.fileName || ('recurso' + getExtensionFromPath(asset.path));
+        triggerBlobDownload(blob, filename);
+      }
+
+      function buildBundleBaseName(niche, filters) {
+        return [
+          'prontia',
+          niche.key,
+          filters.channel,
+          filters.country,
+          filters.goal
+        ].map(slugify).join('-');
+      }
+
+      function buildCreativeMockupDocument(resource, visualTemplate, selectedNiche, filters, bundleConfig) {
+        return '<!DOCTYPE html>' +
+          '<html lang="es"><head><meta charset="UTF-8">' +
+          '<meta name="viewport" content="width=device-width, initial-scale=1.0">' +
+          '<title>Pack de canal ' + escapeHtml(resource.channelPack.label) + ' | ProntIA LATAM</title>' +
+          '<style>' +
+            'body{margin:0;padding:32px;background:#f6f3ed;color:#0b2440;font-family:Arial,sans-serif;}' +
+            '.sheet{max-width:960px;margin:0 auto;background:#fff;border:1px solid rgba(11,36,64,.08);border-radius:24px;padding:28px;box-shadow:0 24px 60px rgba(16,60,106,.12);}' +
+            '.eyebrow{display:inline-block;padding:6px 12px;border-radius:999px;background:rgba(22,95,168,.08);color:#165fa8;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;}' +
+            'h1{font-size:36px;line-height:1;margin:18px 0 12px;font-family:Georgia,serif;}' +
+            'p{line-height:1.7;color:rgba(11,36,64,.76);}' +
+            '.meta{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 22px;}' +
+            '.meta span{display:inline-flex;padding:8px 12px;border-radius:999px;background:rgba(22,95,168,.08);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#165fa8;}' +
+            '.block{margin-top:16px;padding:18px;border-radius:18px;background:linear-gradient(135deg,rgba(235,244,253,.82),rgba(255,255,255,.96));border:1px solid rgba(22,95,168,.08);}' +
+            '.code{margin-top:12px;padding:16px;border-radius:16px;background:#0c1f35;color:rgba(255,255,255,.88);font-size:14px;line-height:1.65;white-space:pre-wrap;word-break:break-word;}' +
+            '.portal-visual-shell{margin-top:18px;border-radius:18px;border:1px solid rgba(22,95,168,.1);background:linear-gradient(180deg,rgba(247,251,255,.98),rgba(235,244,253,.9));overflow:hidden;}' +
+            '.portal-visual-topbar{display:flex;justify-content:space-between;gap:12px;padding:14px 16px;border-bottom:1px solid rgba(22,95,168,.08);background:rgba(255,255,255,.86);}' +
+            '.portal-visual-topbar strong{font-size:14px;color:#0b2440;}' +
+            '.portal-visual-topbar span{font-size:12px;color:rgba(11,36,64,.56);font-weight:700;text-transform:uppercase;letter-spacing:.06em;}' +
+            '.portal-visual-body{display:grid;gap:14px;padding:16px;}' +
+            '.portal-visual-hook,.portal-visual-caption,.portal-visual-note,.portal-visual-cta,.portal-visual-block,.portal-visual-bubble,.portal-visual-email-row{border-radius:14px;}' +
+            '.portal-visual-hook{padding:16px;background:linear-gradient(135deg,#11375d,#1c6fbe);color:#fff;font-size:22px;line-height:1.08;font-family:Georgia,serif;}' +
+            '.portal-visual-caption,.portal-visual-note,.portal-visual-email-row{padding:14px 16px;background:rgba(255,255,255,.92);border:1px solid rgba(22,95,168,.08);color:rgba(11,36,64,.82);font-size:15px;}' +
+            '.portal-visual-cta{display:inline-flex;align-items:center;justify-content:center;padding:14px 16px;background:linear-gradient(135deg,#f4b035,#f29424);color:#09233e;font-weight:700;}' +
+            '.portal-visual-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;}' +
+            '.portal-visual-block{padding:14px 16px;background:#fff;border:1px solid rgba(22,95,168,.08);color:rgba(11,36,64,.82);font-size:15px;}' +
+            '.portal-visual-block strong,.portal-visual-email-row strong{display:block;margin-bottom:6px;color:#0b2440;font-size:12px;text-transform:uppercase;letter-spacing:.06em;}' +
+            '.portal-visual-bubbles{display:grid;gap:12px;}' +
+            '.portal-visual-bubble{max-width:88%;padding:14px 16px;background:#fff;border:1px solid rgba(22,95,168,.08);font-size:15px;color:rgba(11,36,64,.84);}' +
+            '.portal-visual-bubble.is-reply{justify-self:end;background:rgba(22,95,168,.08);}' +
+            '.portal-visual-sequence{display:grid;gap:12px;}' +
+            '.portal-visual-scene{padding:14px 16px;border-radius:14px;background:#fff;border:1px solid rgba(22,95,168,.08);}' +
+            '.portal-visual-scene strong{display:block;margin-bottom:6px;color:#0b2440;font-size:12px;text-transform:uppercase;letter-spacing:.06em;}' +
+            '.footer{margin-top:22px;font-size:13px;color:rgba(11,36,64,.56);}' +
+            '@media (max-width:760px){body{padding:16px}.sheet{padding:18px;border-radius:20px}.portal-visual-grid{grid-template-columns:1fr}.portal-visual-bubble{max-width:100%}}' +
+          '</style></head><body><main class="sheet">' +
+          '<span class="eyebrow">Pack express del canal</span>' +
+          '<h1>' + escapeHtml(selectedNiche.label) + ' · ' + escapeHtml(resource.channelPack.label) + '</h1>' +
+          '<p>Maqueta descargable para que el afiliado salga con texto, formato y CTA ya ordenados desde el portal privado de ProntIA LATAM.</p>' +
+          '<div class="meta">' +
+            '<span>País: ' + escapeHtml(resource.countryPack.label) + '</span>' +
+            '<span>Canal: ' + escapeHtml(resource.channelPack.label) + '</span>' +
+            '<span>Objetivo: ' + escapeHtml(resource.goalPack.label) + '</span>' +
+            '<span>Formatos: ' + escapeHtml((bundleConfig.formats || []).join(' · ')) + '</span>' +
+          '</div>' +
+          '<div class="block"><strong>Enlace trazable</strong><div class="code">' + escapeHtml(resource.trackedUrl) + '</div></div>' +
+          '<div class="block"><strong>Copy base del canal</strong><div class="code">' + escapeHtml(visualTemplate.copyText) + '</div></div>' +
+          '<div class="block"><strong>Mockup visual</strong>' + visualTemplate.markup + '</div>' +
+          '<div class="footer">Generado automáticamente desde el portal de afiliados de ProntIA LATAM.</div>' +
+          '</main></body></html>';
+      }
+
+      function buildBundleTextDocument(resource, visualTemplate, selectedNiche, filters, bundleConfig) {
+        return [
+          'PRONTIA LATAM · PACK EXPRESS DEL CANAL',
+          '',
+          'Nicho: ' + selectedNiche.label,
+          'País: ' + resource.countryPack.label,
+          'Canal: ' + resource.channelPack.label,
+          'Objetivo: ' + resource.goalPack.label,
+          'Formatos incluidos: ' + (bundleConfig.formats || []).join(' · '),
+          '',
+          'ENLACE TRAZABLE',
+          resource.trackedUrl,
+          '',
+          'PROMPT MAESTRO',
+          resource.postPrompt,
+          '',
+          'MENSAJE DE APERTURA',
+          resource.directMessage,
+          '',
+          'SEGUIMIENTO',
+          resource.followUp,
+          '',
+          'OBJECIONES',
+          resource.objectionAnswer,
+          '',
+          'PLANTILLA VISUAL',
+          visualTemplate.copyText,
+          '',
+          'ACTIVOS A DESCARGAR',
+          (bundleConfig.assets || []).map(function (asset) {
+            return '- ' + asset.label + ' [' + asset.kind + ']';
+          }).join('\n'),
+          bundleConfig.note ? '\nNOTA\n' + bundleConfig.note : ''
+        ].filter(Boolean).join('\n');
+      }
+
+      function buildDownloadBundle(resource, visualTemplate, selectedNiche, filters) {
+        const bundleConfig = getCreativeBundleConfig(selectedNiche.key, filters.channel);
+        const baseName = buildBundleBaseName(selectedNiche, filters);
+        return {
+          config: bundleConfig,
+          baseName: baseName,
+          htmlDocument: buildCreativeMockupDocument(resource, visualTemplate, selectedNiche, filters, bundleConfig),
+          textDocument: buildBundleTextDocument(resource, visualTemplate, selectedNiche, filters, bundleConfig)
+        };
+      }
+
+      async function downloadBundleFiles(bundle) {
+        downloadTextAsFile(bundle.textDocument, bundle.baseName + '-copy.txt', 'text/plain;charset=utf-8');
+        downloadTextAsFile(bundle.htmlDocument, bundle.baseName + '-mockup.html', 'text/html;charset=utf-8');
+
+        for (const asset of bundle.config.assets || []) {
+          await downloadProtectedAsset(asset);
+        }
+      }
+
+      function buildBundleCard(resource, visualTemplate, selectedNiche, filters, bundle) {
+        const items = [
+          {
+            title: 'Copy del canal',
+            description: 'Texto plano con prompt maestro, apertura, seguimiento, objeciones y CTA.',
+            kind: 'TXT'
+          },
+          {
+            title: 'Maqueta visual',
+            description: 'Archivo HTML con la maqueta del canal para abrir o reenviar tal cual.',
+            kind: 'HTML'
+          }
+        ].concat((bundle.config.assets || []).map(function (asset) {
+          return {
+            title: asset.label,
+            description: 'Activo visual listo para publicar o adaptar.',
+            kind: asset.kind
+          };
+        }));
+
+        return '' +
+          '<article class="portal-resource-card">' +
+            '<strong>Salida express</strong>' +
+            '<h3>Descarga automática por canal y formato</h3>' +
+            '<p>Un solo flujo para salir del portal con copy, mockup y creatividad lista según el canal que acabas de seleccionar.</p>' +
+            '<div class="portal-resource-tag-row">' +
+              (bundle.config.formats || []).map(function (format) {
+                return '<span class="portal-resource-tag">' + escapeHtml(format) + '</span>';
+              }).join('') +
+            '</div>' +
+            '<div class="portal-download-list">' +
+              items.map(function (item) {
+                return '' +
+                  '<div class="portal-download-item">' +
+                    '<div><strong>' + escapeHtml(item.title) + '</strong><span>' + escapeHtml(item.description) + '</span></div>' +
+                    '<span class="portal-download-kind">' + escapeHtml(item.kind) + '</span>' +
+                  '</div>';
+              }).join('') +
+            '</div>' +
+            (bundle.config.note
+              ? '<div class="portal-bundle-note">' + escapeHtml(bundle.config.note) + '</div>'
+              : '') +
+            '<div class="portal-resource-actions">' +
+              '<button type="button" class="btn-primary portal-resource-bundle" data-bundle-action="full">Descargar pack del canal</button>' +
+              '<button type="button" class="btn-secondary portal-resource-bundle" data-bundle-action="assets">Descargar solo creatividad</button>' +
+              '<button type="button" class="btn-ghost portal-resource-copy" data-copy-text="' + escapeHtml(visualTemplate.copyText) + '" data-copy-label="copy visual de ' + escapeHtml(resource.channelPack.label) + '">Copiar texto visual</button>' +
+            '</div>' +
+          '</article>';
+      }
+
       function renderAiFilterOptions(affiliate) {
         const preferredNiche = Array.isArray(affiliate.preferredNiches) && affiliate.preferredNiches.length
           ? affiliate.preferredNiches[0]
@@ -2492,6 +3100,12 @@
         }) || niches[0];
         const resource = buildResourcePayload(selectedNiche, affiliate, filters);
         const visualTemplate = buildVisualTemplate(resource, filters, selectedNiche);
+        const bundle = buildDownloadBundle(resource, visualTemplate, selectedNiche, filters);
+
+        aiResourceHub.dataset.bundlePayload = JSON.stringify({
+          nicheKey: selectedNiche.key,
+          filters: filters
+        });
 
         aiResourceSummary.innerHTML =
           '<strong>Biblioteca activa:</strong> ' +
@@ -2564,7 +3178,8 @@
               '<button type="button" class="portal-resource-copy" data-copy-text="' + escapeHtml(visualTemplate.copyText) + '" data-copy-label="plantilla visual de ' + escapeHtml(resource.channelPack.label) + '">Copiar plantilla</button>' +
               '<a class="btn-secondary" href="' + escapeHtml(resource.trackedUrl) + '" target="_blank" rel="noreferrer">Probar enlace</a>' +
             '</div>' +
-          '</article>';
+          '</article>' +
+          buildBundleCard(resource, visualTemplate, selectedNiche, filters, bundle);
       }
 
       function renderConnect(affiliate, payoutsSummary, currency) {
@@ -2961,6 +3576,54 @@
         });
       });
       aiResourceHub.addEventListener('click', function (event) {
+        const bundleButton = event.target.closest('.portal-resource-bundle');
+        if (bundleButton) {
+          if (!currentPayload || !currentPayload.affiliate) {
+            setCopyStatus('Todavía no hemos cargado el afiliado necesario para preparar la descarga.', 'error');
+            return;
+          }
+
+          const filters = {
+            niche: resourceNicheFilter.value || niches[0].key,
+            country: resourceCountryFilter.value || 'latam',
+            channel: resourceChannelFilter.value || 'instagram',
+            goal: resourceGoalFilter.value || 'captacion'
+          };
+          const selectedNiche = niches.find(function (item) {
+            return item.key === filters.niche;
+          }) || niches[0];
+          const resource = buildResourcePayload(selectedNiche, currentPayload.affiliate, filters);
+          const visualTemplate = buildVisualTemplate(resource, filters, selectedNiche);
+          const bundle = buildDownloadBundle(resource, visualTemplate, selectedNiche, filters);
+          const action = bundleButton.getAttribute('data-bundle-action') || 'full';
+
+          bundleButton.disabled = true;
+          setCopyStatus(action === 'assets'
+            ? 'Preparando la creatividad del canal para descargarla...'
+            : 'Preparando el pack completo del canal para descargarlo...', '');
+
+          (action === 'assets'
+            ? (async function () {
+                for (const asset of bundle.config.assets || []) {
+                  await downloadProtectedAsset(asset);
+                }
+              }())
+            : downloadBundleFiles(bundle)
+          ).then(function () {
+            setCopyStatus(
+              action === 'assets'
+                ? 'Creatividad descargada. Ya tienes la pieza visual lista para publicar.'
+                : 'Pack descargado. Ya tienes copy, mockup y creatividad del canal en un solo flujo.',
+              'success'
+            );
+          }).catch(function (error) {
+            setCopyStatus(error.message || 'No se pudo completar la descarga automática del canal.', 'error');
+          }).finally(function () {
+            bundleButton.disabled = false;
+          });
+          return;
+        }
+
         const button = event.target.closest('.portal-resource-copy');
         if (!button) return;
 

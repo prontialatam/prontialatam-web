@@ -32,7 +32,21 @@ jobs:
         with:
           node-version: 20
 
+      - name: Validar configuración de Meta
+        id: meta-config
+        run: |
+          if [ -z "$META_PAGE_ID" ] || [ -z "$META_PAGE_ACCESS_TOKEN" ]; then
+            echo "configured=false" >> "$GITHUB_OUTPUT"
+            echo "Faltan secretos de Meta; se omite la publicación automática."
+            exit 0
+          fi
+          echo "configured=true" >> "$GITHUB_OUTPUT"
+        env:
+          META_PAGE_ID: ${{ secrets.META_PAGE_ID }}
+          META_PAGE_ACCESS_TOKEN: ${{ secrets.META_PAGE_ACCESS_TOKEN }}
+
       - name: Publicar último artículo nuevo
+        if: steps.meta-config.outputs.configured == 'true'
         run: node scripts/blog/publish-latest-to-meta.mjs
         env:
           SITE_URL: https://www.prontialatam.com

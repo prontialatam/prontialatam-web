@@ -1,0 +1,44 @@
+name: Publicar blog en Meta
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - index.html
+      - scripts/blog/publish-latest-to-meta.mjs
+      - .github/workflows/publish-blog-to-meta.yml
+
+concurrency:
+  group: publish-blog-to-meta
+  cancel-in-progress: false
+
+jobs:
+  publish-to-meta:
+    if: ${{ github.event.head_commit == null || !contains(github.event.head_commit.message, '[skip-meta]') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Publicar último artículo nuevo
+        run: node scripts/blog/publish-latest-to-meta.mjs
+        env:
+          SITE_URL: https://www.prontialatam.com
+          GITHUB_EVENT_BEFORE: ${{ github.event.before }}
+          META_GRAPH_API_VERSION: ${{ secrets.META_GRAPH_API_VERSION }}
+          META_PAGE_ID: ${{ secrets.META_PAGE_ID }}
+          META_PAGE_ACCESS_TOKEN: ${{ secrets.META_PAGE_ACCESS_TOKEN }}
+          META_INSTAGRAM_USER_ID: ${{ secrets.META_INSTAGRAM_USER_ID }}
+          META_SOCIAL_DEFAULT_IMAGE_URL: ${{ secrets.META_SOCIAL_DEFAULT_IMAGE_URL }}

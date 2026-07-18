@@ -2448,6 +2448,83 @@
     background: var(--white);
   }
 
+  .blog-carousel-shell {
+    position: relative;
+    margin-top: 2.5rem;
+    padding: 1.35rem;
+    border-radius: 30px;
+    background:
+      radial-gradient(circle at top right, rgba(55,138,221,0.1), transparent 30%),
+      linear-gradient(180deg, rgba(248,245,240,0.72) 0%, rgba(255,255,255,0.96) 100%);
+    border: 1px solid rgba(4,44,83,0.07);
+    box-shadow: 0 30px 60px rgba(4,44,83,0.06);
+  }
+
+  .blog-carousel-topline {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .blog-carousel-hint {
+    font-size: 0.8rem;
+    color: var(--gray-400);
+    letter-spacing: 0.02em;
+    max-width: 540px;
+  }
+
+  .blog-carousel-controls {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+  }
+
+  .blog-carousel-btn {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 1px solid rgba(4,44,83,0.12);
+    background: var(--white);
+    color: var(--blue-800);
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 0 10px 25px rgba(4,44,83,0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  }
+
+  .blog-carousel-btn:hover {
+    transform: translateY(-1px);
+    background: var(--blue-50);
+    box-shadow: 0 16px 30px rgba(4,44,83,0.12);
+  }
+
+  .blog-viewport {
+    overflow-x: auto;
+    overflow-y: visible;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    cursor: grab;
+    padding-bottom: 0.4rem;
+  }
+
+  .blog-viewport::-webkit-scrollbar {
+    display: none;
+  }
+
+  .blog-viewport.is-dragging {
+    cursor: grabbing;
+    user-select: none;
+  }
+
+  .blog-track {
+    display: flex;
+    gap: 1.35rem;
+    align-items: stretch;
+    padding: 0.2rem 0;
+  }
+
   .blog-hero {
     border-radius: 20px;
     overflow: hidden;
@@ -2463,11 +2540,58 @@
     background-position: center;
   }
 
+  .blog-track .blog-hero {
+    margin: 0 !important;
+    min-width: min(390px, 82vw);
+    width: min(390px, 82vw);
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+    border: 1px solid rgba(255,255,255,0.1);
+    box-shadow: 0 24px 52px rgba(4,44,83,0.16);
+    transition: transform 0.24s ease, box-shadow 0.24s ease, border-color 0.24s ease;
+  }
+
+  .blog-track .blog-hero:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 34px 68px rgba(4,44,83,0.22);
+    border-color: rgba(255,255,255,0.18);
+  }
+
+  .blog-track .blog-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg, rgba(5,16,42,0.08) 0%, rgba(5,16,42,0.18) 42%, rgba(5,16,42,0.82) 100%),
+      linear-gradient(135deg, rgba(255,255,255,0.08), transparent 28%);
+    z-index: 0;
+  }
+
+  .blog-track .blog-hero::after {
+    content: '';
+    position: absolute;
+    top: 1.15rem;
+    left: 1.15rem;
+    right: 1.15rem;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(255,255,255,0.5), rgba(255,255,255,0.04));
+    z-index: 1;
+  }
+
   .blog-hero-content {
     padding: 3rem;
     position: relative;
     z-index: 1;
     max-width: 600px;
+  }
+
+  .blog-track .blog-hero-content {
+    max-width: none;
+    min-height: 298px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 1.65rem 1.5rem 1.45rem;
   }
 
   .blog-hero-label {
@@ -2491,6 +2615,28 @@
 
   .blog-hero h2 em { font-style: normal; color: var(--blue-200); }
 
+  .blog-track .blog-hero-label {
+    display: inline-flex;
+    align-items: center;
+    align-self: flex-start;
+    padding: 0.35rem 0.72rem;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.16);
+    backdrop-filter: blur(14px);
+    margin-bottom: 0.9rem;
+    font-size: 0.64rem;
+    letter-spacing: 0.14em;
+    color: rgba(255,255,255,0.82);
+  }
+
+  .blog-track .blog-hero h2 {
+    font-size: clamp(1.42rem, 2.1vw, 1.88rem);
+    line-height: 1.02;
+    margin-bottom: 0.75rem;
+    max-width: 14ch;
+  }
+
   .blog-hero p {
     font-size: 0.9rem;
     color: rgba(255,255,255,0.75);
@@ -2500,11 +2646,27 @@
     max-width: 480px;
   }
 
+  .blog-track .blog-hero p {
+    font-size: 0.82rem;
+    line-height: 1.62;
+    color: rgba(255,255,255,0.78);
+    margin-bottom: 1rem;
+    max-width: 33ch;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
   .blog-hero-meta {
     display: flex;
     align-items: center;
     gap: 1rem;
     flex-wrap: wrap;
+  }
+
+  .blog-track .blog-hero-meta {
+    gap: 0.55rem;
   }
 
   .blog-tag {
@@ -2517,9 +2679,20 @@
     border-radius: 100px;
   }
 
+  .blog-track .blog-tag {
+    font-size: 0.66rem;
+    padding: 0.26rem 0.62rem;
+    color: rgba(255,255,255,0.92);
+  }
+
   .blog-date {
     font-size: 0.75rem;
     color: rgba(255,255,255,0.5);
+  }
+
+  .blog-track .blog-date {
+    font-size: 0.68rem;
+    color: rgba(255,255,255,0.62);
   }
 
   .blog-read-btn {
@@ -2540,9 +2713,42 @@
     cursor: pointer;
   }
 
+  .blog-track .blog-read-btn {
+    margin-top: 0.9rem;
+    align-self: flex-start;
+    padding: 0.68rem 1.05rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    box-shadow: 0 14px 28px rgba(4,44,83,0.18);
+  }
+
   .blog-read-btn:hover {
     background: var(--blue-50);
     transform: translateY(-1px);
+  }
+
+  .blog-carousel-dots {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    margin-top: 1.35rem;
+  }
+
+  .blog-carousel-dot {
+    width: 9px;
+    height: 9px;
+    border: none;
+    border-radius: 999px;
+    background: rgba(4,44,83,0.18);
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.22s ease;
+  }
+
+  .blog-carousel-dot.is-active {
+    width: 28px;
+    background: var(--blue-600);
   }
 
   /* ARTÍCULO EXPANDIBLE */
@@ -2690,39 +2896,258 @@
 
   .article-close-btn:hover { background: var(--gray-200); }
 
+  .article-share {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    padding: 1.15rem 1.2rem;
+    border-radius: 18px;
+    border: 1px solid rgba(4,44,83,0.08);
+    background: linear-gradient(180deg, rgba(255,255,255,0.9) 0%, rgba(248,245,240,0.92) 100%);
+  }
+
+  .article-share-title {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--blue-900);
+    margin-bottom: 0.35rem;
+  }
+
+  .article-share-copy {
+    font-size: 0.82rem;
+    color: var(--gray-500, #717171);
+    line-height: 1.6;
+    margin-bottom: 0.9rem;
+  }
+
+  .article-share-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+  }
+
+  .article-share-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    border: 1px solid rgba(4,44,83,0.1);
+    background: var(--white);
+    color: var(--blue-800);
+    border-radius: 999px;
+    padding: 0.65rem 0.95rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  }
+
+  .article-share-btn svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+
+  .article-share-btn:hover {
+    transform: translateY(-1px);
+    background: var(--blue-50);
+    box-shadow: 0 10px 22px rgba(4,44,83,0.08);
+  }
+
   .blog-coming {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 1.15rem;
+    margin-top: 1.6rem;
+  }
+
+  .blog-coming-intro {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
     gap: 1rem;
-    margin-top: 2rem;
+    margin-top: 3rem;
+  }
+
+  .blog-coming-kicker {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--blue-600);
+    margin-bottom: 0.45rem;
+  }
+
+  .blog-coming-heading {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--blue-900);
+    line-height: 1.1;
+  }
+
+  .blog-coming-note {
+    font-size: 0.82rem;
+    color: var(--gray-400);
+    white-space: nowrap;
   }
 
   .blog-coming-card {
-    background: var(--gray-50);
-    border: 1px dashed var(--gray-200);
-    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+    background:
+      radial-gradient(circle at top right, rgba(255,168,76,0.18), transparent 28%),
+      linear-gradient(145deg, #0b1c3f 0%, #143a68 58%, #205389 100%);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 22px;
     padding: 1.25rem;
-    text-align: center;
+    text-align: left;
+    box-shadow: 0 24px 48px rgba(4,44,83,0.14);
+    min-height: 220px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
 
-  .blog-coming-emoji { font-size: 1.75rem; margin-bottom: 0.5rem; }
+  .blog-coming-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(255,255,255,0.06), transparent 34%, rgba(5,16,42,0.15));
+    pointer-events: none;
+  }
+
+  .blog-coming-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .blog-coming-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.35rem 0.72rem;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.14);
+    color: rgba(255,255,255,0.8);
+    font-size: 0.66rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .blog-coming-status::before {
+    content: '';
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #ffb15a;
+    box-shadow: 0 0 14px rgba(255,177,90,0.6);
+  }
+
+  .blog-coming-slot {
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    font-weight: 700;
+    line-height: 1;
+    color: rgba(255,255,255,0.28);
+  }
+
+  .blog-coming-emoji {
+    font-size: 1.7rem;
+    margin-bottom: 0.9rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .blog-coming-body {
+    position: relative;
+    z-index: 1;
+  }
 
   .blog-coming-title {
     font-family: var(--font-display);
-    font-size: 0.95rem;
+    font-size: 1.14rem;
     font-weight: 700;
-    color: var(--gray-600);
-    margin-bottom: 0.375rem;
+    color: var(--white);
+    margin-bottom: 0.6rem;
+    line-height: 1.2;
+  }
+
+  .blog-coming-copy {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.72);
+    line-height: 1.58;
+    margin-bottom: 1.1rem;
   }
 
   .blog-coming-date {
     font-size: 0.72rem;
-    color: var(--gray-400);
+    color: rgba(255,255,255,0.58);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    position: relative;
+    z-index: 1;
+  }
+
+  .blog-coming-arrow {
+    position: absolute;
+    right: 1.2rem;
+    bottom: 1.1rem;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: var(--white);
+    font-size: 1rem;
+    z-index: 1;
   }
 
   @media (max-width: 768px) {
     .blog-article-inner { padding: 1.5rem; }
     .blog-hero-content { padding: 2rem 1.5rem; }
+    .blog-carousel-topline {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+    .blog-carousel-controls {
+      align-self: stretch;
+      justify-content: space-between;
+      width: 100%;
+    }
+    .blog-track .blog-hero {
+      min-width: min(82vw, 340px);
+      width: min(82vw, 340px);
+      min-height: 270px;
+    }
+    .blog-track .blog-hero-content {
+      min-height: 270px;
+      padding: 1.4rem 1.2rem 1.15rem;
+    }
+    .blog-track .blog-hero h2 {
+      max-width: 15ch;
+    }
+    .blog-coming-intro {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+    .article-share-actions {
+      gap: 0.55rem;
+    }
+    .article-share-btn {
+      flex: 1 1 calc(50% - 0.55rem);
+      justify-content: center;
+    }
     nav {
       padding: 0.75rem 1rem;
       min-height: 72px;
@@ -2826,6 +3251,32 @@
   }
 
   @media (max-width: 480px) {
+    .blog-track .blog-hero {
+      min-width: 88vw;
+      width: 88vw;
+      border-radius: 18px;
+    }
+    .blog-track .blog-hero-content {
+      min-height: 250px;
+      padding: 1.15rem 1rem 1rem;
+    }
+    .blog-hero h2 {
+      font-size: 1.5rem;
+    }
+    .blog-track .blog-hero h2 {
+      font-size: 1.34rem;
+      max-width: 16ch;
+    }
+    .blog-hero p {
+      font-size: 0.84rem;
+    }
+    .blog-coming-card {
+      min-height: 205px;
+      padding: 1.1rem;
+    }
+    .article-share-btn {
+      flex: 1 1 100%;
+    }
     nav {
       padding: 0.65rem 0.85rem;
       min-height: 68px;
@@ -4157,28 +4608,65 @@
     </div>
 
     <!-- PRÓXIMOS ARTÍCULOS -->
-    <h3 style="font-family:var(--font-display); font-size:1.25rem; font-weight:700; color:var(--blue-900); margin-top:3rem; margin-bottom:0.5rem;">Próximamente en el blog</h3>
-    <p style="font-size:0.82rem; color:var(--gray-400); margin-bottom:1.5rem;">Nuevo artículo cada 4 días</p>
+    <div class="blog-coming-intro">
+      <div>
+        <p class="blog-coming-kicker">Pipeline editorial</p>
+        <h3 class="blog-coming-heading">Próximamente en el blog</h3>
+      </div>
+      <p class="blog-coming-note">Nuevo artículo cada 4 días</p>
+    </div>
     <div class="blog-coming">
       <div class="blog-coming-card">
-        <div class="blog-coming-emoji">💰</div>
-        <div class="blog-coming-title">El embudo de ventas digital que funciona en Latam</div>
-        <div class="blog-coming-date">Próximamente</div>
+        <div class="blog-coming-head">
+          <span class="blog-coming-status">En preparación</span>
+          <span class="blog-coming-slot">01</span>
+        </div>
+        <div class="blog-coming-body">
+          <div class="blog-coming-emoji">💰</div>
+          <div class="blog-coming-title">El embudo de ventas digital que funciona en Latam</div>
+          <p class="blog-coming-copy">Cómo estructurar captación, seguimiento y cierre con una lógica simple para negocios de servicios en LATAM.</p>
+        </div>
+        <div class="blog-coming-date">Próxima publicación</div>
+        <span class="blog-coming-arrow" aria-hidden="true">↗</span>
       </div>
       <div class="blog-coming-card">
-        <div class="blog-coming-emoji">⭐</div>
-        <div class="blog-coming-title">Cómo aparecer mejor en Google Business Profile sin pagar anuncios</div>
-        <div class="blog-coming-date">Próximamente</div>
+        <div class="blog-coming-head">
+          <span class="blog-coming-status">En preparación</span>
+          <span class="blog-coming-slot">02</span>
+        </div>
+        <div class="blog-coming-body">
+          <div class="blog-coming-emoji">⭐</div>
+          <div class="blog-coming-title">Cómo aparecer mejor en Google Business Profile sin pagar anuncios</div>
+          <p class="blog-coming-copy">Un sistema práctico para ganar visibilidad local, pedir reseñas útiles y convertir más búsquedas en visitas reales.</p>
+        </div>
+        <div class="blog-coming-date">Próxima publicación</div>
+        <span class="blog-coming-arrow" aria-hidden="true">↗</span>
       </div>
       <div class="blog-coming-card">
-        <div class="blog-coming-emoji">🧠</div>
-        <div class="blog-coming-title">7 automatizaciones sencillas con IA para negocios de servicios</div>
-        <div class="blog-coming-date">Próximamente</div>
+        <div class="blog-coming-head">
+          <span class="blog-coming-status">En preparación</span>
+          <span class="blog-coming-slot">03</span>
+        </div>
+        <div class="blog-coming-body">
+          <div class="blog-coming-emoji">🧠</div>
+          <div class="blog-coming-title">7 automatizaciones sencillas con IA para negocios de servicios</div>
+          <p class="blog-coming-copy">Procesos pequeños pero rentables que ahorran tiempo en atención, ventas, contenido y seguimiento de clientes.</p>
+        </div>
+        <div class="blog-coming-date">Próxima publicación</div>
+        <span class="blog-coming-arrow" aria-hidden="true">↗</span>
       </div>
       <div class="blog-coming-card">
-        <div class="blog-coming-emoji">🔁</div>
-        <div class="blog-coming-title">Cómo reactivar clientes dormidos con IA y WhatsApp sin insistir</div>
-        <div class="blog-coming-date">Próximamente</div>
+        <div class="blog-coming-head">
+          <span class="blog-coming-status">En preparación</span>
+          <span class="blog-coming-slot">04</span>
+        </div>
+        <div class="blog-coming-body">
+          <div class="blog-coming-emoji">🔁</div>
+          <div class="blog-coming-title">Cómo reactivar clientes dormidos con IA y WhatsApp sin insistir</div>
+          <p class="blog-coming-copy">Secuencias breves para retomar conversaciones frías y recuperar oportunidades sin sonar invasivo ni desesperado.</p>
+        </div>
+        <div class="blog-coming-date">Próxima publicación</div>
+        <span class="blog-coming-arrow" aria-hidden="true">↗</span>
       </div>
     </div>
 
@@ -4376,6 +4864,194 @@
   // BLOG TOGGLE
   const blogArticleIds = ['blogArticle1', 'blogArticle2', 'blogArticle3', 'blogArticle4', 'blogArticle5'];
 
+  function createShareIcon(type) {
+    const icons = {
+      whatsapp: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.64.08-.3-.15-1.25-.47-2.39-1.48-.88-.79-1.48-1.76-1.65-2.06-.18-.29-.02-.46.13-.6.13-.14.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.87 1.22 3.07c.15.2 2.09 3.2 5.07 4.49.71.3 1.26.49 1.69.62.71.23 1.36.2 1.87.12.57-.09 1.76-.72 2.01-1.41.25-.7.25-1.29.17-1.42-.07-.12-.27-.2-.57-.35z"/></svg>',
+      facebook: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.5 22v-8.2h2.8l.42-3.3H13.5V8.39c0-.96.27-1.61 1.64-1.61h1.76V3.82c-.3-.04-1.35-.12-2.56-.12-2.53 0-4.26 1.54-4.26 4.38v2.44H7.2v3.3h2.88V22z"/></svg>',
+      linkedin: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.94 8.5H3.56V20h3.38zM5.25 3A1.97 1.97 0 103 4.97 1.98 1.98 0 005.25 3zM20.44 12.58c0-3.45-1.84-5.05-4.3-5.05a3.71 3.71 0 00-3.35 1.84h-.05V8.5H9.37c.04.58 0 11.5 0 11.5h3.38v-6.42c0-.34 0-.68.13-.92a2.2 2.2 0 012.05-1.47c1.45 0 2.03 1.1 2.03 2.72V20h3.38z"/></svg>',
+      x: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.9 2H22l-6.77 7.74L23 22h-6.1l-4.77-6.24L6.67 22H3.56l7.23-8.27L1 2h6.26l4.31 5.7zm-1.07 18h1.69L6.33 3.9H4.51z"/></svg>',
+      copy: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>'
+    };
+    return icons[type] || '';
+  }
+
+  function initBlogCarousel() {
+    const blogSection = document.getElementById('blog');
+    if (!blogSection) return;
+    const blogInner = blogSection.querySelector('.section-inner');
+    if (!blogInner) return;
+
+    const heroes = Array.from(blogInner.querySelectorAll(':scope > .blog-hero'));
+    if (!heroes.length || blogInner.querySelector('.blog-carousel-shell')) return;
+
+    const shell = document.createElement('div');
+    shell.className = 'blog-carousel-shell';
+    shell.innerHTML = `
+      <div class="blog-carousel-topline">
+        <div class="blog-carousel-hint">Arrastra con el ratón o usa las flechas para explorar los artículos publicados.</div>
+        <div class="blog-carousel-controls">
+          <button type="button" class="blog-carousel-btn" id="blogPrevBtn" aria-label="Artículo anterior">←</button>
+          <button type="button" class="blog-carousel-btn" id="blogNextBtn" aria-label="Artículo siguiente">→</button>
+        </div>
+      </div>
+      <div class="blog-viewport" id="blogViewport">
+        <div class="blog-track" id="blogTrack"></div>
+      </div>
+      <div class="blog-carousel-dots" id="blogCarouselDots" aria-label="Seleccionar artículo"></div>
+    `;
+
+    const firstHero = heroes[0];
+    blogInner.insertBefore(shell, firstHero);
+
+    const track = shell.querySelector('#blogTrack');
+    heroes.forEach((hero) => track.appendChild(hero));
+
+    const viewport = shell.querySelector('#blogViewport');
+    const dotsWrap = shell.querySelector('#blogCarouselDots');
+    const prevBtn = shell.querySelector('#blogPrevBtn');
+    const nextBtn = shell.querySelector('#blogNextBtn');
+
+    let activeIndex = 0;
+    let isPointerDown = false;
+    let pointerStartX = 0;
+    let startScrollLeft = 0;
+    let rafId = null;
+
+    function cardWidth() {
+      const firstCard = track.querySelector('.blog-hero');
+      if (!firstCard) return 0;
+      const styles = window.getComputedStyle(track);
+      const gap = parseFloat(styles.columnGap || styles.gap || 0);
+      return firstCard.getBoundingClientRect().width + gap;
+    }
+
+    function updateDots() {
+      dotsWrap.querySelectorAll('.blog-carousel-dot').forEach((dot, index) => {
+        dot.classList.toggle('is-active', index === activeIndex);
+      });
+    }
+
+    function buildDots() {
+      dotsWrap.innerHTML = '';
+      heroes.forEach((hero, index) => {
+        const title = hero.querySelector('h2')?.textContent?.trim() || `Artículo ${index + 1}`;
+        const dot = document.createElement('button');
+        dot.type = 'button';
+        dot.className = `blog-carousel-dot${index === 0 ? ' is-active' : ''}`;
+        dot.setAttribute('aria-label', `Ir a ${title}`);
+        dot.addEventListener('click', () => goTo(index));
+        dotsWrap.appendChild(dot);
+      });
+    }
+
+    function goTo(index) {
+      const width = cardWidth();
+      if (!width) return;
+      activeIndex = Math.max(0, Math.min(index, heroes.length - 1));
+      viewport.scrollTo({
+        left: activeIndex * width,
+        behavior: 'smooth'
+      });
+      updateDots();
+    }
+
+    function syncActiveFromScroll() {
+      const width = cardWidth();
+      if (!width) return;
+      const nextIndex = Math.round(viewport.scrollLeft / width);
+      const bounded = Math.max(0, Math.min(nextIndex, heroes.length - 1));
+      if (bounded !== activeIndex) {
+        activeIndex = bounded;
+        updateDots();
+      }
+    }
+
+    function onScroll() {
+      if (rafId) window.cancelAnimationFrame(rafId);
+      rafId = window.requestAnimationFrame(syncActiveFromScroll);
+    }
+
+    prevBtn.addEventListener('click', () => goTo(activeIndex - 1));
+    nextBtn.addEventListener('click', () => goTo(activeIndex + 1));
+    viewport.addEventListener('scroll', onScroll, { passive: true });
+
+    viewport.addEventListener('pointerdown', (event) => {
+      if (event.pointerType === 'mouse' && event.button !== 0) return;
+      isPointerDown = true;
+      pointerStartX = event.clientX;
+      startScrollLeft = viewport.scrollLeft;
+      viewport.classList.add('is-dragging');
+    });
+
+    window.addEventListener('pointermove', (event) => {
+      if (!isPointerDown) return;
+      const delta = event.clientX - pointerStartX;
+      viewport.scrollLeft = startScrollLeft - delta;
+    });
+
+    function endDrag() {
+      if (!isPointerDown) return;
+      isPointerDown = false;
+      viewport.classList.remove('is-dragging');
+      syncActiveFromScroll();
+    }
+
+    window.addEventListener('pointerup', endDrag);
+    window.addEventListener('pointercancel', endDrag);
+    window.addEventListener('resize', syncActiveFromScroll);
+
+    buildDots();
+    syncActiveFromScroll();
+  }
+
+  function initBlogShareButtons() {
+    const publicBaseUrl = 'https://www.prontialatam.com/';
+    const articleBlocks = Array.from(document.querySelectorAll('.blog-article'));
+    if (!articleBlocks.length) return;
+
+    articleBlocks.forEach((article) => {
+      const articleId = article.id;
+      const articleInner = article.querySelector('.blog-article-inner');
+      const articleTitle = article.querySelector('.article-title')?.textContent?.trim();
+      const closeBtn = article.querySelector('.article-close-btn');
+      if (!articleInner || !articleTitle || !closeBtn || articleInner.querySelector('.article-share')) return;
+
+      const articleUrl = `${publicBaseUrl}#${articleId}`;
+      const shareText = `${articleTitle} — ${articleUrl}`;
+      const shareBlock = document.createElement('div');
+      shareBlock.className = 'article-share';
+      shareBlock.innerHTML = `
+        <div class="article-share-title">Compártelo en tus redes</div>
+        <p class="article-share-copy">Si este artículo te ha parecido útil, compártelo con un clic y llévalo a WhatsApp, Facebook, LinkedIn o X.</p>
+        <div class="article-share-actions">
+          <a class="article-share-btn" href="https://wa.me/?text=${encodeURIComponent(shareText)}" target="_blank" rel="noopener noreferrer">${createShareIcon('whatsapp')}<span>WhatsApp</span></a>
+          <a class="article-share-btn" href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(articleUrl)}" target="_blank" rel="noopener noreferrer">${createShareIcon('facebook')}<span>Facebook</span></a>
+          <a class="article-share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(articleUrl)}" target="_blank" rel="noopener noreferrer">${createShareIcon('linkedin')}<span>LinkedIn</span></a>
+          <a class="article-share-btn" href="https://twitter.com/intent/tweet?text=${encodeURIComponent(articleTitle)}&url=${encodeURIComponent(articleUrl)}" target="_blank" rel="noopener noreferrer">${createShareIcon('x')}<span>X</span></a>
+          <button class="article-share-btn article-share-copy-btn" type="button" data-url="${articleUrl}">${createShareIcon('copy')}<span>Copiar enlace</span></button>
+        </div>
+      `;
+
+      articleInner.insertBefore(shareBlock, closeBtn);
+    });
+
+    document.querySelectorAll('.article-share-copy-btn').forEach((button) => {
+      button.addEventListener('click', async () => {
+        const url = button.getAttribute('data-url');
+        if (!url) return;
+        try {
+          await navigator.clipboard.writeText(url);
+          button.querySelector('span').textContent = 'Enlace copiado';
+          window.setTimeout(() => {
+            button.querySelector('span').textContent = 'Copiar enlace';
+          }, 1800);
+        } catch (error) {
+          window.prompt('Copia este enlace:', url);
+        }
+      });
+    });
+  }
+
   function updateBlogHash(hashValue) {
     const url = hashValue ? `${window.location.pathname}${window.location.search}#${hashValue}` : `${window.location.pathname}${window.location.search}`;
     window.history.replaceState(null, '', url);
@@ -4411,6 +5087,8 @@
     }
   }
 
+  initBlogCarousel();
+  initBlogShareButtons();
   window.addEventListener('load', handleBlogArticleHash);
   window.addEventListener('hashchange', handleBlogArticleHash);
 

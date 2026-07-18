@@ -369,13 +369,213 @@
     margin-top: 100px; /* account for fixed nav */
     overflow: hidden;
     border-bottom: 1px solid var(--gray-100);
+    position: relative;
+    background:
+      radial-gradient(circle at top left, rgba(255,150,45,0.18), transparent 34%),
+      radial-gradient(circle at top right, rgba(123,89,255,0.16), transparent 36%),
+      linear-gradient(135deg, #07122d 0%, #0f234e 48%, #091834 100%);
+    min-height: clamp(350px, 50vw, 560px);
   }
 
-  .top-banner img {
-    width: 100%;
-    height: auto;
+  .top-banner-shell {
+    max-width: 1240px;
+    margin: 0 auto;
+    min-height: inherit;
+    padding: clamp(2rem, 4vw, 3rem) 5%;
+    display: grid;
+    grid-template-columns: minmax(280px, 0.9fr) minmax(360px, 1.1fr);
+    gap: clamp(1.75rem, 3vw, 3rem);
+    align-items: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  .top-banner-copy {
+    position: relative;
+    z-index: 2;
+    color: var(--white);
+    max-width: 520px;
+  }
+
+  .top-banner-kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.45rem 0.95rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.08);
+    color: rgba(255,255,255,0.84);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  .top-banner-kicker::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #ffa443;
+    box-shadow: 0 0 14px rgba(255,164,67,0.65);
+  }
+
+  .top-banner h2 {
+    font-family: var(--font-display);
+    font-size: clamp(2.6rem, 4.8vw, 4.35rem);
+    line-height: 0.95;
+    letter-spacing: -0.035em;
+    margin-bottom: 1rem;
+    color: #fffdf8;
+  }
+
+  .top-banner h2 em {
+    font-style: normal;
+    color: #ff9f2a;
+  }
+
+  .top-banner-copy p {
+    font-size: 1rem;
+    line-height: 1.75;
+    color: rgba(255,255,255,0.78);
+    max-width: 46ch;
+    margin-bottom: 1.6rem;
+  }
+
+  .top-banner-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.4rem;
+  }
+
+  .top-banner-ghost {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    padding: 0.85rem 1.35rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.22);
+    background: rgba(255,255,255,0.08);
+    color: var(--white);
+    text-decoration: none;
+    font-size: 0.92rem;
+    font-weight: 600;
+    transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+  }
+
+  .top-banner-ghost:hover {
+    transform: translateY(-1px);
+    background: rgba(255,255,255,0.12);
+    border-color: rgba(255,255,255,0.32);
+  }
+
+  .top-banner-points {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.75rem;
+    max-width: 520px;
+  }
+
+  .top-banner-point {
+    padding: 0.9rem 1rem;
+    border-radius: 18px;
+    border: 1px solid rgba(255,255,255,0.12);
+    background: rgba(7,18,45,0.42);
+    box-shadow: 0 20px 45px rgba(5,8,20,0.14);
+    backdrop-filter: blur(16px);
+  }
+
+  .top-banner-point strong {
     display: block;
-    border-bottom: 1px solid var(--gray-100);
+    font-size: 1rem;
+    color: #ffffff;
+    margin-bottom: 0.2rem;
+  }
+
+  .top-banner-point span {
+    display: block;
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.72);
+    line-height: 1.45;
+  }
+
+  .top-banner-media {
+    position: relative;
+    min-height: clamp(300px, 39vw, 480px);
+    border-radius: 30px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.12);
+    box-shadow: 0 36px 80px rgba(2,8,26,0.32);
+    background: rgba(6,16,38,0.38);
+  }
+
+  .top-banner-slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.55s ease, transform 0.55s ease;
+    transform: scale(1.03);
+  }
+
+  .top-banner-slide.is-active {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .top-banner-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .top-banner-media::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg, rgba(7,18,45,0) 0%, rgba(7,18,45,0.18) 100%),
+      linear-gradient(90deg, rgba(7,18,45,0.08) 0%, rgba(7,18,45,0) 38%);
+    pointer-events: none;
+  }
+
+  .top-banner-controls {
+    position: absolute;
+    left: 50%;
+    bottom: 1rem;
+    transform: translateX(-50%);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.55rem 0.75rem;
+    border-radius: 999px;
+    background: rgba(7,18,45,0.5);
+    border: 1px solid rgba(255,255,255,0.15);
+    backdrop-filter: blur(14px);
+    z-index: 3;
+  }
+
+  .top-banner-dot {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255,255,255,0.34);
+    cursor: pointer;
+    transition: transform 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+  }
+
+  .top-banner-dot:hover,
+  .top-banner-dot.is-active {
+    background: #ff9f2a;
+    transform: scale(1.08);
+    box-shadow: 0 0 0 5px rgba(255,159,42,0.18);
   }
 
   .hero {
@@ -2475,6 +2675,45 @@
       display: inline-flex;
       flex: 0 0 auto;
     }
+    .top-banner {
+      min-height: auto;
+    }
+    .top-banner-shell {
+      grid-template-columns: 1fr;
+      padding: 1.25rem 1rem 1.1rem;
+      gap: 1.1rem;
+    }
+    .top-banner-copy {
+      max-width: none;
+    }
+    .top-banner h2 {
+      font-size: clamp(2.1rem, 10vw, 3rem);
+      margin-bottom: 0.8rem;
+    }
+    .top-banner-copy p {
+      font-size: 0.95rem;
+      line-height: 1.65;
+      margin-bottom: 1.1rem;
+    }
+    .top-banner-actions {
+      gap: 0.7rem;
+      margin-bottom: 1rem;
+    }
+    .top-banner-points {
+      grid-template-columns: 1fr;
+      gap: 0.6rem;
+    }
+    .top-banner-point {
+      padding: 0.8rem 0.9rem;
+    }
+    .top-banner-media {
+      min-height: 320px;
+      border-radius: 24px;
+      order: -1;
+    }
+    .top-banner-controls {
+      bottom: 0.75rem;
+    }
     .hero-inner { grid-template-columns: 1fr; gap: 2.5rem; }
     .hero-visual { display: none; }
     .nav-links {
@@ -2532,6 +2771,37 @@
       padding: 0.62rem 0.85rem;
       font-size: 0.76rem;
       gap: 0.55rem;
+    }
+    .top-banner {
+      margin-top: 68px;
+    }
+    .top-banner-shell {
+      padding: 1rem 0.85rem 0.95rem;
+    }
+    .top-banner-kicker {
+      font-size: 0.68rem;
+      padding: 0.38rem 0.75rem;
+      letter-spacing: 0.07em;
+    }
+    .top-banner h2 {
+      font-size: clamp(1.85rem, 9vw, 2.45rem);
+      line-height: 0.98;
+    }
+    .top-banner-copy p {
+      font-size: 0.9rem;
+    }
+    .top-banner-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .top-banner-actions .btn-primary,
+    .top-banner-actions .top-banner-ghost {
+      justify-content: center;
+      width: 100%;
+    }
+    .top-banner-media {
+      min-height: 250px;
+      border-radius: 20px;
     }
     .nav-links {
       left: 0.85rem;
@@ -2610,7 +2880,47 @@
 
 <!-- ELEGANT TOP BANNER -->
 <div class="top-banner">
-  <img src="header-banner-elegant.jpg" alt="ProntIA LATAM - Prompts de IA para tu negocio" style="width:100%; height:auto; display:block;">
+  <div class="top-banner-shell">
+    <div class="top-banner-copy">
+      <div class="top-banner-kicker">Catálogo digital ProntIA LATAM</div>
+      <h2>Productos digitales <em>para tu negocio</em></h2>
+      <p>Soluciones listas para vender, automatizar y captar clientes en LATAM con una presentación mucho más potente, visual y enfocada a conversión.</p>
+      <div class="top-banner-actions">
+        <a href="#productos" class="btn-primary">Explorar productos →</a>
+        <a href="/afiliados" class="top-banner-ghost">Ver programa de afiliados</a>
+      </div>
+      <div class="top-banner-points">
+        <div class="top-banner-point">
+          <strong>Kits por nicho</strong>
+          <span>Talleres, estética, hostelería y nuevas verticales en expansión.</span>
+        </div>
+        <div class="top-banner-point">
+          <strong>Compra directa</strong>
+          <span>Checkout profesional, entrega automática y seguimiento comercial.</span>
+        </div>
+        <div class="top-banner-point">
+          <strong>Activos listos</strong>
+          <span>Landing, copies, creatividades y recursos aplicables desde hoy.</span>
+        </div>
+      </div>
+    </div>
+    <div class="top-banner-media" id="topBannerMedia">
+      <div class="top-banner-slide is-active">
+        <img src="/assets/img/home/header-productos-1.png" alt="Emprendedor latino gestionando productos digitales">
+      </div>
+      <div class="top-banner-slide">
+        <img src="/assets/img/home/header-productos-2.png" alt="Emprendedora latina lanzando productos digitales">
+      </div>
+      <div class="top-banner-slide">
+        <img src="/assets/img/home/header-productos-3.png" alt="Equipo digital gestionando productos por nicho en LATAM">
+      </div>
+      <div class="top-banner-controls" aria-label="Selección visual del encabezado">
+        <button class="top-banner-dot is-active" type="button" aria-label="Ver visual 1" data-slide="0"></button>
+        <button class="top-banner-dot" type="button" aria-label="Ver visual 2" data-slide="1"></button>
+        <button class="top-banner-dot" type="button" aria-label="Ver visual 3" data-slide="2"></button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- HERO -->
@@ -4155,6 +4465,63 @@
 
       lastScrollY = currentScrollY;
     }, { passive: true });
+  })();
+
+  // TOP BANNER ROTATOR
+  (function() {
+    const banner = document.getElementById('topBannerMedia');
+    if (!banner) return;
+
+    const slides = Array.from(banner.querySelectorAll('.top-banner-slide'));
+    const dots = Array.from(banner.querySelectorAll('.top-banner-dot'));
+    if (!slides.length || slides.length !== dots.length) return;
+
+    let activeIndex = 0;
+    let intervalId = null;
+
+    function render(index) {
+      activeIndex = index;
+      slides.forEach((slide, slideIndex) => {
+        slide.classList.toggle('is-active', slideIndex === index);
+      });
+      dots.forEach((dot, dotIndex) => {
+        dot.classList.toggle('is-active', dotIndex === index);
+      });
+    }
+
+    function startRotation() {
+      stopRotation();
+      intervalId = window.setInterval(() => {
+        render((activeIndex + 1) % slides.length);
+      }, 3800);
+    }
+
+    function stopRotation() {
+      if (!intervalId) return;
+      window.clearInterval(intervalId);
+      intervalId = null;
+    }
+
+    dots.forEach((dot, index) => {
+      dot.addEventListener('mouseenter', () => {
+        stopRotation();
+        render(index);
+      });
+      dot.addEventListener('focus', () => {
+        stopRotation();
+        render(index);
+      });
+      dot.addEventListener('click', () => {
+        render(index);
+        startRotation();
+      });
+    });
+
+    banner.addEventListener('mouseenter', stopRotation);
+    banner.addEventListener('mouseleave', startRotation);
+
+    render(0);
+    startRotation();
   })();
 
 

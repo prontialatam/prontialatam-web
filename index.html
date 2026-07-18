@@ -1679,6 +1679,26 @@
     transition: transform 0.24s ease, box-shadow 0.24s ease, border-color 0.24s ease;
   }
 
+  .step-stepin {
+    opacity: 0;
+    transform: translateY(36px) scale(0.98);
+    transition:
+      opacity 0.7s ease,
+      transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.24s ease,
+      border-color 0.24s ease;
+    will-change: opacity, transform;
+  }
+
+  .step-stepin.is-visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  .steps-grid .step-stepin:nth-child(2) { transition-delay: 0.08s; }
+  .steps-grid .step-stepin:nth-child(3) { transition-delay: 0.16s; }
+  .steps-grid .step-stepin:nth-child(4) { transition-delay: 0.24s; }
+
   .step:hover {
     transform: translateY(-4px);
     box-shadow: 0 24px 55px rgba(4,44,83,0.12);
@@ -1741,6 +1761,14 @@
     color: var(--gray-600);
     line-height: 1.6;
     font-weight: 400;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .step-stepin {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
   }
 
   /* DEMOS - VIDEOS ESPECIALES */
@@ -3216,7 +3244,7 @@
     <h2 class="section-title">Cuatro pasos para transformar tu negocio</h2>
     <p class="section-subtitle">Sin curva de aprendizaje. Sin tecnicismos. Solo resultados.</p>
     <div class="steps-grid">
-      <div class="step">
+      <div class="step step-stepin">
         <div class="step-visual">
           <img src="/assets/img/home/step-descarga-recurso.png" alt="Entrega inmediata de un recurso digital de ProntIA LATAM">
         </div>
@@ -3226,7 +3254,7 @@
           <p>Elige el producto que mejor se adapta a tu negocio y recíbelo al instante en tu email.</p>
         </div>
       </div>
-      <div class="step">
+      <div class="step step-stepin">
         <div class="step-visual">
           <img src="/assets/img/home/step-abre-chatgpt.png" alt="Empresario latino utilizando ChatGPT para su negocio">
         </div>
@@ -3236,7 +3264,7 @@
           <p>Copia el prompt que necesitas, pégalo en ChatGPT y personalízalo con los datos de tu negocio.</p>
         </div>
       </div>
-      <div class="step">
+      <div class="step step-stepin">
         <div class="step-visual">
           <img src="/assets/img/home/step-aplica-vende.png" alt="Difusión de contenido en WhatsApp, Instagram y Facebook para generar ventas">
         </div>
@@ -3246,7 +3274,7 @@
           <p>Usa el contenido generado en tus redes, WhatsApp o con tus clientes. Ve los resultados desde el primer día.</p>
         </div>
       </div>
-      <div class="step">
+      <div class="step step-stepin">
         <div class="step-visual">
           <img src="/assets/img/home/step-escala-negocio.png" alt="Escalado de negocio con automatización y panel de métricas">
         </div>
@@ -4580,6 +4608,31 @@
 
     render(0);
     startRotation();
+  })();
+
+  // STEPS SCROLL REVEAL
+  (function() {
+    const steps = Array.from(document.querySelectorAll('.step-stepin'));
+    if (!steps.length) return;
+
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reducedMotion || !('IntersectionObserver' in window)) {
+      steps.forEach((step) => step.classList.add('is-visible'));
+      return;
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
+      });
+    }, {
+      threshold: 0.2,
+      rootMargin: '0px 0px -40px 0px'
+    });
+
+    steps.forEach((step) => observer.observe(step));
   })();
 
 

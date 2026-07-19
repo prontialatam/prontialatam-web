@@ -3423,13 +3423,33 @@
     </div>
     <div class="top-banner-media" id="topBannerMedia">
       <div class="top-banner-slide is-active">
-        <img src="/assets/img/home/header-productos-1.png" alt="Emprendedor latino gestionando productos digitales">
+        <img
+          src="/assets/img/home/header-productos-1.jpg"
+          alt="Emprendedor latino gestionando productos digitales"
+          width="1792"
+          height="1024"
+          decoding="async"
+          fetchpriority="high">
       </div>
       <div class="top-banner-slide">
-        <img src="/assets/img/home/header-productos-2.png" alt="Emprendedora latina lanzando productos digitales">
+        <img
+          src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
+          data-src="/assets/img/home/header-productos-2.jpg"
+          alt="Emprendedora latina lanzando productos digitales"
+          width="1792"
+          height="1024"
+          decoding="async"
+          loading="lazy">
       </div>
       <div class="top-banner-slide">
-        <img src="/assets/img/home/header-productos-3.png" alt="Equipo digital gestionando productos por nicho en LATAM">
+        <img
+          src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
+          data-src="/assets/img/home/header-productos-3.jpg"
+          alt="Equipo digital gestionando productos por nicho en LATAM"
+          width="1792"
+          height="1024"
+          decoding="async"
+          loading="lazy">
       </div>
       <div class="top-banner-controls" aria-label="Selección visual del encabezado">
         <button class="top-banner-dot is-active" type="button" aria-label="Ver visual 1" data-slide="0"></button>
@@ -5243,8 +5263,24 @@
     let activeIndex = 0;
     let intervalId = null;
 
+    function ensureSlideImage(index) {
+      const slide = slides[index];
+      if (!slide) return;
+      const image = slide.querySelector('img[data-src]');
+      if (!image) return;
+      image.src = image.dataset.src;
+      image.removeAttribute('data-src');
+    }
+
+    function scheduleDeferredPreload() {
+      window.setTimeout(() => ensureSlideImage(1), 1400);
+      window.setTimeout(() => ensureSlideImage(2), 3200);
+    }
+
     function render(index) {
       activeIndex = index;
+      ensureSlideImage(index);
+      ensureSlideImage((index + 1) % slides.length);
       slides.forEach((slide, slideIndex) => {
         slide.classList.toggle('is-active', slideIndex === index);
       });
@@ -5285,6 +5321,7 @@
     banner.addEventListener('mouseleave', startRotation);
 
     render(0);
+    scheduleDeferredPreload();
     startRotation();
   })();
 

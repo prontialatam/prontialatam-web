@@ -313,43 +313,10 @@
                   País
                   <input type="text" name="country" required>
                 </label>
-                <div class="field-stack">
-                  <span class="field-label">Canales donde te mueves</span>
-                  <div class="channel-grid">
-                    <label class="choice-chip">
-                      <input type="checkbox" name="mainChannel" value="instagram">
-                      <span>Instagram</span>
-                    </label>
-                    <label class="choice-chip">
-                      <input type="checkbox" name="mainChannel" value="facebook">
-                      <span>Facebook</span>
-                    </label>
-                    <label class="choice-chip">
-                      <input type="checkbox" name="mainChannel" value="linkedin">
-                      <span>LinkedIn</span>
-                    </label>
-                    <label class="choice-chip">
-                      <input type="checkbox" name="mainChannel" value="whatsapp">
-                      <span>WhatsApp</span>
-                    </label>
-                    <label class="choice-chip">
-                      <input type="checkbox" name="mainChannel" value="youtube">
-                      <span>YouTube</span>
-                    </label>
-                    <label class="choice-chip">
-                      <input type="checkbox" name="mainChannel" value="tiktok">
-                      <span>TikTok</span>
-                    </label>
-                    <label class="choice-chip">
-                      <input type="checkbox" name="mainChannel" value="x">
-                      <span>X</span>
-                    </label>
-                    <label class="choice-chip">
-                      <input type="checkbox" name="mainChannel" value="otra">
-                      <span>Otra</span>
-                    </label>
-                  </div>
-                </div>
+                <label>
+                  Tipo de perfil o audiencia
+                  <input type="text" name="audienceType" placeholder="Ej.: talleres, pymes, marketing, negocios locales" required>
+                </label>
               </div>
               <div class="field-row">
                 <label>
@@ -385,15 +352,11 @@
                   <input type="tel" name="phoneNumber" placeholder="Ej.: 5512345678" inputmode="tel" required>
                 </label>
               </div>
-              <label>
-                Tipo de perfil o audiencia
-                <input type="text" name="audienceType" placeholder="Ej.: talleres, pymes, marketing, negocios locales" required>
-              </label>
-              <div class="field-stack">
-                <span class="field-label">Perfiles a revisar</span>
-                <p class="microcopy">Marca cada red que uses e indica el nombre de perfil, usuario o URL correspondiente.</p>
-                <div class="social-profile-grid">
-                  <label class="social-profile-row">
+              <div class="field-stack social-channel-stack">
+                <span class="field-label">Canales y perfiles a revisar</span>
+                <p class="microcopy">Selecciona cada red donde te mueves y deja en la misma tarjeta tu usuario, nombre de perfil o URL. Así revisamos tu encaje más rápido y sin pedirte datos duplicados.</p>
+                <div class="social-channel-grid">
+                  <label class="social-channel-card">
                     <span class="social-toggle">
                       <input type="checkbox" name="socialNetwork" value="instagram">
                       <span class="social-badge social-instagram" aria-hidden="true">
@@ -407,7 +370,7 @@
                     </span>
                     <input type="text" name="socialProfile_instagram" placeholder="@tuperfil o URL" disabled>
                   </label>
-                  <label class="social-profile-row">
+                  <label class="social-channel-card">
                     <span class="social-toggle">
                       <input type="checkbox" name="socialNetwork" value="facebook">
                       <span class="social-badge social-facebook" aria-hidden="true">
@@ -419,7 +382,7 @@
                     </span>
                     <input type="text" name="socialProfile_facebook" placeholder="Nombre o URL de la página" disabled>
                   </label>
-                  <label class="social-profile-row">
+                  <label class="social-channel-card">
                     <span class="social-toggle">
                       <input type="checkbox" name="socialNetwork" value="linkedin">
                       <span class="social-badge social-linkedin" aria-hidden="true">
@@ -431,7 +394,7 @@
                     </span>
                     <input type="text" name="socialProfile_linkedin" placeholder="Perfil o URL" disabled>
                   </label>
-                  <label class="social-profile-row">
+                  <label class="social-channel-card">
                     <span class="social-toggle">
                       <input type="checkbox" name="socialNetwork" value="whatsapp">
                       <span class="social-badge social-whatsapp" aria-hidden="true">
@@ -443,7 +406,7 @@
                     </span>
                     <input type="text" name="socialProfile_whatsapp" placeholder="Número, enlace o canal" disabled>
                   </label>
-                  <label class="social-profile-row">
+                  <label class="social-channel-card">
                     <span class="social-toggle">
                       <input type="checkbox" name="socialNetwork" value="youtube">
                       <span class="social-badge social-youtube" aria-hidden="true">
@@ -455,7 +418,7 @@
                     </span>
                     <input type="text" name="socialProfile_youtube" placeholder="Canal o URL" disabled>
                   </label>
-                  <label class="social-profile-row">
+                  <label class="social-channel-card">
                     <span class="social-toggle">
                       <input type="checkbox" name="socialNetwork" value="tiktok">
                       <span class="social-badge social-tiktok" aria-hidden="true">
@@ -467,7 +430,7 @@
                     </span>
                     <input type="text" name="socialProfile_tiktok" placeholder="@usuario o URL" disabled>
                   </label>
-                  <label class="social-profile-row">
+                  <label class="social-channel-card">
                     <span class="social-toggle">
                       <input type="checkbox" name="socialNetwork" value="x">
                       <span class="social-badge social-x" aria-hidden="true">
@@ -479,7 +442,7 @@
                     </span>
                     <input type="text" name="socialProfile_x" placeholder="@usuario o URL" disabled>
                   </label>
-                  <label class="social-profile-row">
+                  <label class="social-channel-card">
                     <span class="social-toggle">
                       <input type="checkbox" name="socialNetwork" value="web">
                       <span class="social-badge social-web" aria-hidden="true">
@@ -490,6 +453,18 @@
                       <span>Web</span>
                     </span>
                     <input type="text" name="socialProfile_web" placeholder="URL del sitio web" disabled>
+                  </label>
+                  <label class="social-channel-card">
+                    <span class="social-toggle">
+                      <input type="checkbox" name="socialNetwork" value="otra">
+                      <span class="social-badge social-other" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" role="img" focusable="false">
+                          <path d="M12 4.5l1.92 4.33 4.7.43-3.52 3.1 1.03 4.64L12 14.57 7.87 17l1.03-4.64-3.52-3.1 4.7-.43z"></path>
+                        </svg>
+                      </span>
+                      <span>Otra red</span>
+                    </span>
+                    <input type="text" name="socialProfile_otra" placeholder="Red, usuario o URL" disabled>
                   </label>
                 </div>
               </div>
@@ -576,7 +551,9 @@
       function syncSocialInputs() {
         socialToggles.forEach(function (toggle) {
           const input = form.querySelector('[name="socialProfile_' + toggle.value + '"]');
+          const card = toggle.closest('.social-channel-card');
           if (!input) return;
+          if (card) card.classList.toggle('is-selected', toggle.checked);
           input.disabled = !toggle.checked;
           if (!toggle.checked) input.value = '';
         });
@@ -595,30 +572,36 @@
         setStatus('Registrando tu solicitud gratuita...', '');
 
         const rawData = Object.fromEntries(new FormData(form).entries());
-        const selectedChannels = Array.from(form.querySelectorAll('input[name="mainChannel"]:checked')).map(function (input) {
-          return input.value;
-        });
-        const selectedProfiles = socialToggles.filter(function (toggle) {
+        const activeNetworks = socialToggles.filter(function (toggle) {
           return toggle.checked;
-        }).map(function (toggle) {
+        });
+        const selectedChannels = activeNetworks.map(function (toggle) {
+          return toggle.value;
+        });
+        const selectedProfiles = activeNetworks.map(function (toggle) {
           const input = form.querySelector('[name="socialProfile_' + toggle.value + '"]');
           return {
             network: toggle.value,
             profile: input ? input.value.trim() : ''
           };
-        }).filter(function (item) {
-          return item.profile;
         });
 
         if (!selectedChannels.length) {
-          setStatus('Marca al menos un canal donde te mueves.', 'error');
+          setStatus('Selecciona al menos un canal donde ya tengas presencia real.', 'error');
+          button.disabled = false;
+          button.textContent = 'Enviar mi solicitud';
+          return;
+        }
+
+        if (selectedProfiles.some(function (item) { return !item.profile; })) {
+          setStatus('Completa el usuario, perfil o URL de cada red que hayas marcado.', 'error');
           button.disabled = false;
           button.textContent = 'Enviar mi solicitud';
           return;
         }
 
         if (!selectedProfiles.length) {
-          setStatus('Indica al menos un perfil de red o web para revisar tu solicitud.', 'error');
+          setStatus('Indica al menos un perfil o URL para revisar tu solicitud.', 'error');
           button.disabled = false;
           button.textContent = 'Enviar mi solicitud';
           return;
@@ -649,6 +632,7 @@
           }
 
           form.reset();
+          syncSocialInputs();
           setStatus('Solicitud recibida. Revisaremos tu perfil y tus redes en un máximo de 24 horas. Si encaja, te enviaremos el onboarding completo.', 'success');
         } catch (error) {
           setStatus(error.message || 'No se pudo enviar la solicitud.', 'error');

@@ -979,7 +979,8 @@ textarea {
 }
 
 .choice-chip:hover,
-.social-profile-row:hover {
+.social-profile-row:hover,
+.social-channel-card:hover {
   border-color: rgba(22, 95, 168, 0.26);
   box-shadow: 0 10px 24px rgba(18, 40, 72, 0.08);
   transform: translateY(-1px);
@@ -995,6 +996,29 @@ textarea {
 .social-profile-grid {
   display: grid;
   gap: 0.8rem;
+}
+
+.social-channel-stack {
+  gap: 0.85rem;
+}
+
+.social-channel-grid {
+  display: grid;
+  gap: 0.9rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.social-channel-card {
+  display: grid;
+  gap: 0.75rem;
+  padding: 1rem;
+  border: 1px solid rgba(4, 44, 83, 0.14);
+  border-radius: 1.1rem;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(247, 250, 255, 0.94)),
+    rgba(255, 255, 255, 0.96);
+  cursor: pointer;
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
 
 .social-profile-row {
@@ -1016,6 +1040,10 @@ textarea {
   gap: 0.65rem;
   color: var(--gray-900);
   font-weight: 600;
+}
+
+.social-channel-card .social-toggle {
+  gap: 0.85rem;
 }
 
 .social-badge {
@@ -1046,10 +1074,37 @@ textarea {
 .social-tiktok { background: #111111; }
 .social-x { background: #1a1a1a; }
 .social-web { background: #165fa8; }
+.social-other { background: linear-gradient(135deg, #7c3aed, #f97316); }
+
+.social-channel-card input[type="text"] {
+  padding: 0.88rem 0.95rem;
+  border-radius: 0.9rem;
+  border-color: rgba(4, 44, 83, 0.12);
+  background: rgba(255, 255, 255, 0.98);
+}
+
+.social-channel-card.is-selected {
+  border-color: rgba(22, 95, 168, 0.34);
+  box-shadow: 0 18px 38px rgba(18, 40, 72, 0.1);
+  background:
+    radial-gradient(circle at top right, rgba(255, 170, 66, 0.14), transparent 38%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.99), rgba(236, 244, 255, 0.95));
+}
+
+.social-channel-card.is-selected input[type="text"] {
+  border-color: rgba(22, 95, 168, 0.24);
+  box-shadow: 0 0 0 3px rgba(22, 95, 168, 0.06);
+}
 
 .social-profile-row input[type="text"]:disabled {
   background: rgba(233, 239, 245, 0.9);
   color: var(--gray-400);
+}
+
+.social-channel-card input[type="text"]:disabled {
+  background: rgba(233, 239, 245, 0.9);
+  color: var(--gray-400);
+  box-shadow: none;
 }
 
 .footer {
@@ -1081,6 +1136,7 @@ textarea {
   .download-grid,
   .download-grid.four,
   .channel-grid,
+  .social-channel-grid,
   .media-strip,
   .pill-list,
   .field-row,

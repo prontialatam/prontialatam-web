@@ -297,8 +297,8 @@
           <div class="application-shell">
             <div class="application-overview">
               <div class="eyebrow application-eyebrow">Alta gratuita con revisión manual</div>
-              <h2>Solicita tu acceso al programa con una presentación más seria, más visible y preparada para convertir</h2>
-              <p>Esta es la puerta de entrada al programa. Te pedimos lo justo para revisar bien tu perfil, tus canales y tu capacidad real de mover producto digital por nichos en LATAM.</p>
+              <h2>Solicita tu acceso y entra en revisión prioritaria</h2>
+              <p>Te pedimos solo lo necesario para validar tu perfil, tus canales y tu encaje comercial en LATAM.</p>
               <div class="application-signal-row">
                 <div class="application-signal-pill">
                   <strong>0 coste</strong>
@@ -322,7 +322,7 @@
                   <span class="application-card-note">Perfil comercial + redes + enfoque</span>
                 </div>
                 <h3>Quiero darme de alta en el programa</h3>
-                <p class="form-intro">Déjanos tus datos. No pagarás nada para solicitar el alta. Revisaremos tu perfil, tus redes y tu encaje comercial en un máximo de 24 horas antes de aprobar manualmente el acceso.</p>
+                <p class="form-intro">Déjanos tus datos. El alta es gratuita y revisamos tu perfil manualmente en un máximo de 24 horas.</p>
                 <div class="application-fastlane" aria-label="Ventajas rápidas del alta">
                   <div class="application-fastlane-item">
                     <strong>Alta gratis</strong>
@@ -523,16 +523,21 @@
                   <span class="application-card-note">Qué miramos antes de aprobar</span>
                 </div>
                 <h3>Qué evaluaremos</h3>
-                <ul class="trust-list">
-                  <li>Que el perfil tenga sentido comercial para LATAM.</li>
-                  <li>Que las redes o activos públicos tengan coherencia con el nicho que quieres mover.</li>
-                  <li>Que el tono sea profesional y compatible con la marca.</li>
-                  <li>Que haya capacidad real de distribución o recomendación.</li>
-                  <li>Que el enfoque sea serio y no oportunista.</li>
-                </ul>
-                <div class="application-note-box">
-                  <strong>Cómo respondemos</strong>
-                  <p>Si tu solicitud encaja, te enviaremos el onboarding, el enlace de seguimiento y el kit visual listo para publicar. Si no encaja, no se activará el acceso y te enviaremos un email con la no aprobación del perfil de Afiliado.</p>
+                <button type="button" class="application-accordion-toggle" id="applicationReviewToggle" aria-controls="applicationReviewBody" aria-expanded="true">
+                  <span>Ver criterios de revisión</span>
+                </button>
+                <div class="application-accordion-body" id="applicationReviewBody">
+                  <ul class="trust-list">
+                    <li>Que el perfil tenga sentido comercial para LATAM.</li>
+                    <li>Que las redes o activos públicos tengan coherencia con el nicho que quieres mover.</li>
+                    <li>Que el tono sea profesional y compatible con la marca.</li>
+                    <li>Que haya capacidad real de distribución o recomendación.</li>
+                    <li>Que el enfoque sea serio y no oportunista.</li>
+                  </ul>
+                  <div class="application-note-box">
+                    <strong>Cómo respondemos</strong>
+                    <p>Si tu solicitud encaja, te enviaremos el onboarding, el enlace de seguimiento y el kit visual listo para publicar. Si no encaja, no se activará el acceso y te enviaremos un email con la no aprobación del perfil de Afiliado.</p>
+                  </div>
                 </div>
               </aside>
             </div>
@@ -557,6 +562,8 @@
       const socialToggles = Array.from(form.querySelectorAll('input[name="socialNetwork"]'));
       const nicheDropdown = document.querySelector('.nav-dropdown');
       const nicheTrigger = nicheDropdown ? nicheDropdown.querySelector('.nav-dropdown-trigger') : null;
+      const reviewToggle = document.getElementById('applicationReviewToggle');
+      const reviewBody = document.getElementById('applicationReviewBody');
 
       function setStatus(message, type) {
         status.textContent = message;
@@ -608,7 +615,42 @@
         });
       }
 
+      function setupApplicationAccordion() {
+        if (!reviewToggle || !reviewBody) return;
+
+        function isMobileViewport() {
+          return window.innerWidth <= 640;
+        }
+
+        function setAccordionState(isOpen) {
+          reviewToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+          reviewBody.hidden = !isOpen;
+        }
+
+        function syncAccordionViewport() {
+          if (isMobileViewport()) {
+            if (!reviewToggle.dataset.initializedMobile) {
+              setAccordionState(false);
+              reviewToggle.dataset.initializedMobile = 'true';
+            }
+          } else {
+            setAccordionState(true);
+            delete reviewToggle.dataset.initializedMobile;
+          }
+        }
+
+        reviewToggle.addEventListener('click', function () {
+          if (!isMobileViewport()) return;
+          const isExpanded = reviewToggle.getAttribute('aria-expanded') === 'true';
+          setAccordionState(!isExpanded);
+        });
+
+        window.addEventListener('resize', syncAccordionViewport);
+        syncAccordionViewport();
+      }
+
       setupMobileNicheMenu();
+      setupApplicationAccordion();
       syncSocialInputs();
       socialToggles.forEach(function (toggle) {
         toggle.addEventListener('change', syncSocialInputs);

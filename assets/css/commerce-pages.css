@@ -317,6 +317,20 @@ a {
   transform: none;
 }
 
+.application-submit {
+  min-height: 3.35rem;
+  margin-top: 0.3rem;
+  background: linear-gradient(135deg, #12385b, #1b6cba);
+  box-shadow: 0 18px 40px rgba(12, 68, 124, 0.18);
+  font-family: var(--font-display);
+  font-size: 1.18rem;
+  letter-spacing: 0.02em;
+}
+
+.application-submit:hover {
+  background: linear-gradient(135deg, #0d2f4c, #185fa5);
+}
+
 .hero-card,
 .info-card,
 .pricing-card,
@@ -385,6 +399,83 @@ a {
   padding: 1.5rem 0 4.5rem;
 }
 
+.affiliate-application-section {
+  padding-top: 2rem;
+}
+
+.application-shell {
+  position: relative;
+  padding: 1.4rem;
+  border-radius: 2rem;
+  background:
+    radial-gradient(circle at top left, rgba(255, 173, 78, 0.18), transparent 24%),
+    radial-gradient(circle at right center, rgba(49, 132, 214, 0.14), transparent 28%),
+    linear-gradient(180deg, rgba(246, 249, 255, 0.92), rgba(255, 255, 255, 0.98));
+  border: 1px solid rgba(4, 44, 83, 0.08);
+  box-shadow: 0 36px 90px rgba(10, 45, 84, 0.12);
+  overflow: hidden;
+}
+
+.application-overview {
+  display: grid;
+  gap: 1rem;
+  margin-bottom: 1.35rem;
+}
+
+.application-overview h2 {
+  margin: 0;
+  max-width: 18ch;
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 4vw, 3.9rem);
+  line-height: 0.96;
+  letter-spacing: -0.03em;
+  color: var(--blue-900);
+}
+
+.application-overview p {
+  margin: 0;
+  max-width: 54rem;
+  color: var(--gray-700);
+  font-size: 1rem;
+}
+
+.application-eyebrow {
+  width: fit-content;
+  background: rgba(255, 255, 255, 0.92);
+  border-color: rgba(24, 95, 165, 0.18);
+  box-shadow: 0 10px 28px rgba(18, 40, 72, 0.08);
+}
+
+.application-signal-row {
+  display: grid;
+  gap: 0.9rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.application-signal-pill {
+  padding: 1rem 1.05rem;
+  border-radius: 1.05rem;
+  background: rgba(255, 255, 255, 0.82);
+  border: 1px solid rgba(4, 44, 83, 0.08);
+  box-shadow: 0 18px 34px rgba(14, 53, 97, 0.06);
+}
+
+.application-signal-pill strong {
+  display: block;
+  margin-bottom: 0.22rem;
+  color: var(--blue-900);
+  font-size: 1rem;
+}
+
+.application-signal-pill span {
+  color: var(--gray-400);
+  font-size: 0.86rem;
+}
+
+.application-grid {
+  align-items: start;
+}
+
 .section-head {
   max-width: 42rem;
   margin-bottom: 1.8rem;
@@ -425,6 +516,59 @@ a {
   padding: 1.5rem;
 }
 
+.premium-application-card,
+.application-notice-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.premium-application-card {
+  background:
+    radial-gradient(circle at top right, rgba(255, 175, 83, 0.15), transparent 24%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.99), rgba(248, 251, 255, 0.95));
+  border: 1px solid rgba(24, 95, 165, 0.14);
+  box-shadow: 0 28px 64px rgba(13, 52, 96, 0.12);
+}
+
+.application-notice-card {
+  background:
+    linear-gradient(180deg, rgba(11, 40, 72, 0.96), rgba(22, 74, 126, 0.93));
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 30px 70px rgba(7, 24, 46, 0.22);
+}
+
+.application-card-topline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.application-card-tag {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2rem;
+  padding: 0.42rem 0.82rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #12385b, #1b6cba);
+  color: var(--white);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.application-card-tag.secondary {
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.application-card-note {
+  color: var(--gray-400);
+  font-size: 0.82rem;
+}
+
 .info-card h3,
 .pricing-card h3,
 .faq-card h3,
@@ -442,9 +586,23 @@ a {
   line-height: 1;
 }
 
+.application-notice-card h3,
+.application-notice-card p,
+.application-notice-card li,
+.application-notice-card .application-card-note {
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.application-notice-card h3 {
+  font-family: var(--font-display);
+  font-size: 1.85rem;
+  line-height: 0.98;
+}
+
 .form-intro {
   margin: 0 0 1.2rem;
   color: var(--gray-700);
+  max-width: 44rem;
 }
 
 .info-card p,
@@ -478,6 +636,34 @@ a {
   height: 0.42rem;
   border-radius: 999px;
   background: var(--blue-400);
+}
+
+.application-notice-card .trust-list li {
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.application-notice-card .trust-list li::before {
+  background: #ffbf6a;
+}
+
+.application-note-box {
+  display: grid;
+  gap: 0.55rem;
+  margin-top: 1.35rem;
+  padding: 1rem 1.05rem;
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.application-note-box strong {
+  color: var(--white);
+  font-size: 0.94rem;
+}
+
+.application-note-box p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.84);
 }
 
 .pricing-wrap {
@@ -1132,6 +1318,7 @@ textarea {
   .resource-preview-grid,
   .form-grid.two,
   .meta-list,
+  .application-signal-row,
   .stat-grid,
   .download-grid,
   .download-grid.four,
@@ -1182,6 +1369,16 @@ textarea {
     font-size: 1.02rem;
     padding: 0.66rem 1rem;
   }
+
+  .application-shell {
+    padding: 1.1rem;
+    border-radius: 1.5rem;
+  }
+
+  .application-card-topline {
+    align-items: flex-start;
+    flex-direction: column;
+  }
 }
 
 @media (max-width: 640px) {
@@ -1199,5 +1396,10 @@ textarea {
 
   .topbar-links {
     gap: 0.75rem;
+  }
+
+  .application-overview h2 {
+    max-width: none;
+    font-size: 2.3rem;
   }
 }

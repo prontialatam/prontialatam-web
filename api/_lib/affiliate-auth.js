@@ -4,6 +4,32 @@ const { getAffiliateByAccessToken } = require("./affiliate-access");
 const ACCESS_COOKIE = "prontia_affiliate_access";
 const REFRESH_COOKIE = "prontia_affiliate_refresh";
 
+function translateAuthMessage(message) {
+  const raw = String(message || "").trim();
+  const normalized = raw.toLowerCase();
+
+  if (!raw) {
+    return "No se pudo completar la operación de acceso.";
+  }
+
+  if (
+    normalized.includes("password should contain at least one character of each") &&
+    normalized.includes("password is known to be weak and easy to guess")
+  ) {
+    return "La contraseña debe incluir mayúsculas, minúsculas y números, y ser más segura.";
+  }
+
+  if (normalized.includes("password should contain at least one character of each")) {
+    return "La contraseña debe incluir mayúsculas, minúsculas y números.";
+  }
+
+  if (normalized.includes("password is known to be weak and easy to guess")) {
+    return "La contraseña es demasiado débil. Elige una más segura.";
+  }
+
+  return raw;
+}
+
 function getSupabaseBaseUrl() {
   return String(process.env.SUPABASE_URL || "").trim().replace(/\/$/, "");
 }
@@ -118,7 +144,7 @@ async function authRequest(path, options) {
     const message = data && typeof data === "object"
       ? data.msg || data.error_description || data.error || JSON.stringify(data)
       : text;
-    throw new Error(message || "No se pudo completar la operación de autenticación.");
+    throw new Error(translateAuthMessage(message || "No se pudo completar la operación de autenticación."));
   }
 
   return data;
@@ -384,5 +410,6 @@ module.exports = {
   setAuthCookies,
   signInAffiliate
   ,
+  translateAuthMessage,
   updateAffiliatePassword
 };

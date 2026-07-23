@@ -227,6 +227,19 @@ async function sendAffiliateOnboardingEmail(options) {
     ? `<tr><td style="padding:0 0 14px;"><strong style="display:block;color:#12385b;font-size:14px;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px;">Comunidad de WhatsApp</strong><a href="${whatsappCommunityUrl}" style="color:#185fa5;text-decoration:none;word-break:break-word;">Unirme a la Comunidad de Afiliados</a></td></tr>`
     : "";
   const communityText = whatsappCommunityUrl ? `Comunidad de WhatsApp: ${whatsappCommunityUrl}` : "";
+  const salesLinksHtml = nicheAccesses.length
+    ? nicheAccesses.map(function (niche) {
+        if (!niche.salesUrl) return "";
+        return `<div style="margin:0 0 6px;"><strong style="color:#12385b;">${niche.label}:</strong> <a href="${niche.salesUrl}" style="color:#185fa5;text-decoration:none;word-break:break-word;">Ver landing y comprar</a></div>`;
+      }).filter(Boolean).join("")
+    : (options.affiliateLink
+        ? `<div><a href="${options.affiliateLink}" style="color:#185fa5;text-decoration:none;word-break:break-word;">${options.affiliateLink}</a></div>`
+        : "");
+  const salesLinksText = nicheAccesses.length
+    ? nicheAccesses.map(function (niche) {
+        return niche.salesUrl ? `${niche.label}: ${niche.salesUrl}` : "";
+      }).filter(Boolean).join("\n")
+    : (options.affiliateLink ? options.affiliateLink : "");
   const nicheRowsHtml = nicheAccesses.map(function (niche) {
     const salesLink = niche.salesUrl
       ? `<div style="margin:0 0 4px;"><a href="${niche.salesUrl}" style="color:#185fa5;text-decoration:none;word-break:break-word;">Ver landing y comprar</a></div>`
@@ -295,7 +308,7 @@ async function sendAffiliateOnboardingEmail(options) {
             <h2 style="margin:0 0 14px;font-size:24px;line-height:1.2;font-family:'Cormorant Garamond',Georgia,serif;color:#12385b;">Tus accesos principales</h2>
             <table role="presentation" cellspacing="0" cellpadding="0" border="0" style="width:100%;margin:0 0 18px;">
               <tr>
-                <td style="padding:0 0 14px;"><strong style="display:block;color:#12385b;font-size:14px;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px;">Enlace de ventas</strong><a href="${options.affiliateLink}" style="color:#185fa5;text-decoration:none;word-break:break-word;">${options.affiliateLink}</a></td>
+                <td style="padding:0 0 14px;"><strong style="display:block;color:#12385b;font-size:14px;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px;">Enlaces de ventas por nicho</strong>${salesLinksHtml}</td>
               </tr>
               <tr>
                 <td style="padding:0 0 14px;"><strong style="display:block;color:#12385b;font-size:14px;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px;">Portal privado</strong><a href="${options.portalUrl}" style="color:#185fa5;text-decoration:none;word-break:break-word;">${options.portalUrl}</a><div style="margin-top:6px;color:#6d7581;font-size:13px;line-height:1.7;">La primera vez que entres, activa tu contraseña. Después accederás siempre con tu email y esa contraseña.</div></td>
@@ -344,7 +357,8 @@ async function sendAffiliateOnboardingEmail(options) {
       "Tu acceso de afiliado ya está listo.",
       `Comisión base: 60% sobre la venta neta.`,
       `Código de afiliado: ${options.trackingCode}`,
-      `Enlace principal: ${options.affiliateLink}`,
+      "Enlaces de ventas por nicho:",
+      salesLinksText,
       `Portal: ${options.portalUrl}`,
       "Primera entrada al portal: activa tu contraseña y, a partir de ahí, accede siempre con tu email y contraseña.",
       `Kit: ${options.kitUrl}`,

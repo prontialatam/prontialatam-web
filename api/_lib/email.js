@@ -218,6 +218,7 @@ async function sendAffiliateOnboardingEmail(options) {
   const portalGuideUrl = options.portalGuideUrl || "";
   const stripeGuideUrl = options.stripeGuideUrl || "";
   const whatsappCommunityUrl = options.whatsappCommunityUrl || "";
+  const beginnerKitUrl = options.beginnerKitUrl || "";
   const nicheAccesses = Array.isArray(options.nicheAccesses) ? options.nicheAccesses.filter(Boolean) : [];
   const connectHtml = options.connectUrl
     ? `<tr><td style="padding:0 0 14px;"><strong style="display:block;color:#12385b;font-size:14px;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px;">Configurar cobros</strong><a href="${options.connectUrl}" style="color:#185fa5;text-decoration:none;word-break:break-word;">Activar Stripe Connect</a></td></tr>`
@@ -230,7 +231,7 @@ async function sendAffiliateOnboardingEmail(options) {
   const salesLinksHtml = nicheAccesses.length
     ? nicheAccesses.map(function (niche) {
         if (!niche.salesUrl) return "";
-        return `<div style="margin:0 0 6px;"><strong style="color:#12385b;">${niche.label}:</strong> <a href="${niche.salesUrl}" style="color:#185fa5;text-decoration:none;word-break:break-word;">Ver landing y comprar</a></div>`;
+        return `<div style="margin:0 0 6px;"><strong style="color:#12385b;">${niche.label}:</strong> <a href="${niche.salesUrl}" style="color:#185fa5;text-decoration:none;word-break:break-word;">Ver landing</a></div>`;
       }).filter(Boolean).join("")
     : (options.affiliateLink
         ? `<div><a href="${options.affiliateLink}" style="color:#185fa5;text-decoration:none;word-break:break-word;">${options.affiliateLink}</a></div>`
@@ -242,7 +243,7 @@ async function sendAffiliateOnboardingEmail(options) {
     : (options.affiliateLink ? options.affiliateLink : "");
   const nicheRowsHtml = nicheAccesses.map(function (niche) {
     const salesLink = niche.salesUrl
-      ? `<div style="margin:0 0 4px;"><a href="${niche.salesUrl}" style="color:#185fa5;text-decoration:none;word-break:break-word;">Ver landing y comprar</a></div>`
+      ? `<div style="margin:0 0 4px;"><a href="${niche.salesUrl}" style="color:#185fa5;text-decoration:none;word-break:break-word;">Ver landing</a></div>`
       : "";
     const kitLink = niche.kitUrl
       ? `<div style="margin:0 0 4px;"><a href="${niche.kitUrl}" style="color:#185fa5;text-decoration:none;word-break:break-word;">Descargar kit base</a></div>`
@@ -310,6 +311,9 @@ async function sendAffiliateOnboardingEmail(options) {
               <tr>
                 <td style="padding:0 0 14px;"><strong style="display:block;color:#12385b;font-size:14px;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px;">Enlaces de ventas por nicho</strong>${salesLinksHtml}</td>
               </tr>
+              ${beginnerKitUrl ? `<tr>
+                <td style="padding:0 0 14px;"><strong style="display:block;color:#12385b;font-size:14px;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px;">Kit gratuito para afiliados principiantes</strong><a href="${beginnerKitUrl}" style="color:#185fa5;text-decoration:none;word-break:break-word;">Descargar kit de venta de productos digitales</a><div style="margin-top:6px;color:#6d7581;font-size:13px;line-height:1.7;">Úsalo como recurso inicial para aprender el proceso, entender la operativa y empezar con una base clara desde cero.</div></td>
+              </tr>` : ""}
               <tr>
                 <td style="padding:0 0 14px;"><strong style="display:block;color:#12385b;font-size:14px;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px;">Portal privado</strong><a href="${options.portalUrl}" style="color:#185fa5;text-decoration:none;word-break:break-word;">${options.portalUrl}</a><div style="margin-top:6px;color:#6d7581;font-size:13px;line-height:1.7;">La primera vez que entres, activa tu contraseña. Después accederás siempre con tu email y esa contraseña.</div></td>
               </tr>
@@ -359,6 +363,7 @@ async function sendAffiliateOnboardingEmail(options) {
       `Código de afiliado: ${options.trackingCode}`,
       "Enlaces de ventas por nicho:",
       salesLinksText,
+      beginnerKitUrl ? `Kit gratuito para afiliados principiantes: ${beginnerKitUrl}` : "",
       `Portal: ${options.portalUrl}`,
       "Primera entrada al portal: activa tu contraseña y, a partir de ahí, accede siempre con tu email y contraseña.",
       `Kit: ${options.kitUrl}`,

@@ -100,6 +100,7 @@ module.exports = async function handler(req, res) {
     const portalUrl = buildProtectedPageUrl(siteUrl, "/portal-afiliados", connectOnboardingToken);
     const affiliateLink = `${siteUrl}/talleres-mecanicos?ref=${affiliate.tracking_code}`;
     const kitUrl = buildProtectedResourceUrl(siteUrl, "downloads/kit-base-afiliados-talleres.zip", connectOnboardingToken);
+    const beginnerKitUrl = buildProtectedResourceUrl(siteUrl, "downloads/kit-venta-productos-digitales-principiantes.zip", connectOnboardingToken);
     const connectUrl = `${siteUrl}/api/affiliate/connect/start?token=${connectOnboardingToken}`;
     const brandLogoUrl = `${siteUrl}/logo-prontia.jpg`;
     const dossierUrl = buildProtectedPageUrl(siteUrl, "/dossier-marca-afiliados", connectOnboardingToken);
@@ -115,6 +116,7 @@ module.exports = async function handler(req, res) {
       portalUrl,
       affiliateLink,
       kitUrl,
+      beginnerKitUrl,
       connectUrl,
       brandLogoUrl,
       dossierUrl,

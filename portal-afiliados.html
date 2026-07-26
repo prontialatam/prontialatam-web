@@ -1776,14 +1776,17 @@
         '/dossier-producto-restaurantes': 'productRestaurant',
         '/dossier-producto-estetica': 'productEstetica',
         '/dossier-producto-emprendedores': 'productEmprendedores',
+        '/dossier-producto-reposteria': 'productReposteria',
         '/playbook-afiliados-talleres': 'playbook',
         '/playbook-afiliados-restaurantes': 'playbookRestaurant',
         '/playbook-afiliados-estetica': 'playbookEstetica',
         '/playbook-afiliados-emprendedores': 'playbookEmprendedores',
+        '/playbook-afiliados-reposteria': 'playbookReposteria',
         '/biblioteca-social-talleres': 'social',
         '/biblioteca-social-restaurantes': 'socialRestaurant',
         '/biblioteca-social-estetica': 'socialEstetica',
         '/biblioteca-social-emprendedores': 'socialEmprendedores',
+        '/biblioteca-social-reposteria': 'socialReposteria',
         '/guia-portal-afiliados': 'guidePortal',
         '/guia-stripe-connect-afiliados': 'guideStripe',
         '/kit-principiantes-afiliados': 'beginnerKit'
@@ -1832,6 +1835,16 @@
           dossier: '/dossier-producto-emprendedores',
           playbook: '/playbook-afiliados-emprendedores',
           social: '/biblioteca-social-emprendedores'
+        },
+        {
+          key: 'reposteria',
+          label: 'Repostería y comida desde casa',
+          description: 'Kit de $37 USD para ordenar costos, precios, pedidos, WhatsApp y contenido con 120 prompts y un plan de 30 días.',
+          route: '/reposteria-negocio-desde-casa',
+          asset: 'downloads/kit-base-afiliados-reposteria.zip',
+          dossier: '/dossier-producto-reposteria',
+          playbook: '/playbook-afiliados-reposteria',
+          social: '/biblioteca-social-reposteria'
         }
       ];
 
@@ -1863,6 +1876,13 @@
           post: 'Redacta un post para emprendedores y pequeños negocios de LATAM que quieren usar IA para vender mejor, ahorrar tiempo y dejar de improvisar. Debe mencionar prompts, automatización y un plan de 30 días.',
           dm: 'Estoy recomendando un kit premium para emprendedores que quieren usar IA con una ruta realista: prompts, automatización y plan de 30 días. Si quieres, te comparto el enlace.',
           story: 'Crea una secuencia de 3 stories para emprendedores: 1) caos diario, 2) sistema con IA, 3) CTA para ver el kit premium.'
+        },
+        reposteria: {
+          stage: 'Repostería desde casa',
+          angle: 'Ayudar a pequeños negocios de comida a proteger margen, ordenar pedidos y convertir WhatsApp y contenido en un sistema comercial.',
+          post: 'Redacta un post para personas de LATAM que venden repostería o comida desde casa y todavía calculan precios, responden pedidos o publican sin un sistema claro. Explica que el kit incluye costos, pedidos, 120 prompts y un plan de 30 días.',
+          dm: 'Estoy compartiendo un kit práctico para quienes venden repostería o comida desde casa: ayuda a ordenar costos, pedidos, WhatsApp y contenido con IA. Si quieres, te paso la landing.',
+          story: 'Crea una secuencia de 3 stories para repostería desde casa: 1) vender sin conocer margen, 2) organizar precios y pedidos, 3) CTA para ver el kit de $37 USD.'
         }
       };
 
@@ -2288,6 +2308,86 @@
                 label: 'Cabecera horizontal para email',
                 kind: 'Wide',
                 fileName: 'email-header-emprendedores.jpg'
+              }
+            ]
+          }
+        },
+        reposteria: {
+          instagram: {
+            formats: ['Feed cuadrado', 'Story vertical'],
+            assets: [
+              {
+                path: 'downloads/affiliate-kit-reposteria/social/reposteria-feed-1080.jpg',
+                label: 'Creatividad principal de feed',
+                kind: 'Imagen',
+                fileName: 'instagram-feed-reposteria.jpg'
+              },
+              {
+                path: 'downloads/affiliate-kit-reposteria/social/reposteria-story-1080x1920.jpg',
+                label: 'Story vertical',
+                kind: 'Story',
+                fileName: 'instagram-story-reposteria.jpg'
+              }
+            ]
+          },
+          whatsapp: {
+            formats: ['Square 1080', 'WhatsApp'],
+            assets: [
+              {
+                path: 'downloads/affiliate-kit-reposteria/social/reposteria-feed-1080.jpg',
+                label: 'Pieza cuadrada para WhatsApp',
+                kind: 'Imagen',
+                fileName: 'whatsapp-reposteria.jpg'
+              }
+            ]
+          },
+          linkedin: {
+            formats: ['Horizontal 16:9', 'LinkedIn'],
+            assets: [
+              {
+                path: 'downloads/affiliate-kit-reposteria/social/reposteria-horizontal-1600x900.jpg',
+                label: 'Pieza horizontal para LinkedIn',
+                kind: 'Wide',
+                fileName: 'linkedin-reposteria.jpg'
+              }
+            ]
+          },
+          facebook: {
+            formats: ['Feed cuadrado', 'Horizontal amplio'],
+            assets: [
+              {
+                path: 'downloads/affiliate-kit-reposteria/social/reposteria-feed-1080.jpg',
+                label: 'Post cuadrado para Facebook',
+                kind: 'Imagen',
+                fileName: 'facebook-feed-reposteria.jpg'
+              },
+              {
+                path: 'downloads/affiliate-kit-reposteria/social/reposteria-horizontal-1600x900.jpg',
+                label: 'Formato ancho de apoyo',
+                kind: 'Wide',
+                fileName: 'facebook-wide-reposteria.jpg'
+              }
+            ]
+          },
+          tiktok: {
+            formats: ['Vertical 9:16', 'Story / reel'],
+            assets: [
+              {
+                path: 'downloads/affiliate-kit-reposteria/social/reposteria-story-1080x1920.jpg',
+                label: 'Creatividad vertical lista para reel',
+                kind: 'Vertical',
+                fileName: 'reel-reposteria.jpg'
+              }
+            ]
+          },
+          email: {
+            formats: ['Horizontal 16:9', 'Email / cabecera'],
+            assets: [
+              {
+                path: 'downloads/affiliate-kit-reposteria/social/reposteria-horizontal-1600x900.jpg',
+                label: 'Cabecera horizontal para email',
+                kind: 'Wide',
+                fileName: 'email-header-reposteria.jpg'
               }
             ]
           }

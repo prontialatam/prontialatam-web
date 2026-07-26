@@ -22,6 +22,8 @@ function isAllowedAsset(assetPath) {
     || assetPath.startsWith("downloads/affiliate-kit-estetica/")
     || assetPath === "downloads/kit-base-afiliados-emprendedores.zip"
     || assetPath.startsWith("downloads/affiliate-kit-emprendedores/")
+    || assetPath === "downloads/kit-base-afiliados-reposteria.zip"
+    || assetPath.startsWith("downloads/affiliate-kit-reposteria/")
     || assetPath === "downloads/kit-venta-productos-digitales-principiantes.zip"
     || assetPath.startsWith("downloads/kit-venta-digital-principiantes/");
 }

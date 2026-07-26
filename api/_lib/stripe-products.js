@@ -47,6 +47,22 @@ const PRODUCTS = {
     deliveryFilename: "kit-completo-premium-emprendedores-latam.zip",
     successPath: "/checkout-success",
     cancelPath: "/checkout-cancel"
+  },
+  "reposteria-comida-desde-casa": {
+    slug: "reposteria-comida-desde-casa",
+    name: "Kit IA para Repostería y Negocios de Comida desde Casa",
+    defaultAmount: 3700,
+    currency: "usd",
+    stripePriceEnv: "STRIPE_REPOSTERIA_USD_PRICE_ID",
+    supportEmail: "hola@prontialatam.com",
+    deliveryAssetUrl: "/reposteria-negocio-desde-casa",
+    deliveryPageUrl: "/reposteria-negocio-desde-casa",
+    secureDownload: true,
+    storageBucket: "paid-products",
+    storageObjectPath: "reposteria/kit-ia-reposteria-negocios-comida-desde-casa-v1.zip",
+    deliveryFilename: "kit-ia-reposteria-negocios-comida-desde-casa.zip",
+    successPath: "/checkout-success",
+    cancelPath: "/checkout-cancel"
   }
 };
 

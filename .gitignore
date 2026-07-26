@@ -1,0 +1,5 @@
+.DS_Store
+.vercel/
+node_modules/
+output/private/
+tmp/

@@ -42,6 +42,15 @@ function buildNicheAccesses(siteUrl, token, trackingCode) {
       dossierUrl: buildProtectedPageUrl(siteUrl, "/dossier-producto-emprendedores", token),
       playbookUrl: buildProtectedPageUrl(siteUrl, "/playbook-afiliados-emprendedores", token),
       socialUrl: buildProtectedPageUrl(siteUrl, "/biblioteca-social-emprendedores", token)
+    },
+    {
+      key: "reposteria",
+      label: "Repostería y comida desde casa",
+      salesUrl: `${siteUrl}/reposteria-negocio-desde-casa?ref=${trackingCode}`,
+      kitUrl: buildProtectedResourceUrl(siteUrl, "downloads/kit-base-afiliados-reposteria.zip", token),
+      dossierUrl: buildProtectedPageUrl(siteUrl, "/dossier-producto-reposteria", token),
+      playbookUrl: buildProtectedPageUrl(siteUrl, "/playbook-afiliados-reposteria", token),
+      socialUrl: buildProtectedPageUrl(siteUrl, "/biblioteca-social-reposteria", token)
     }
   ];
 }

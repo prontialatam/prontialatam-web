@@ -58,6 +58,18 @@ const PROTECTED_PAGES = {
     route: "/biblioteca-social-emprendedores",
     file: "biblioteca-social-emprendedores.html"
   },
+  productReposteria: {
+    route: "/dossier-producto-reposteria",
+    file: "dossier-producto-reposteria.html"
+  },
+  playbookReposteria: {
+    route: "/playbook-afiliados-reposteria",
+    file: "playbook-afiliados-reposteria.html"
+  },
+  socialReposteria: {
+    route: "/biblioteca-social-reposteria",
+    file: "biblioteca-social-reposteria.html"
+  },
   guidePortal: {
     route: "/guia-portal-afiliados",
     file: "guia-portal-afiliados.html"

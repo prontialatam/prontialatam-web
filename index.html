@@ -134,6 +134,19 @@
         "priceCurrency": "USD",
         "availability": "https://schema.org/InStock"
       }
+    },
+    {
+      "@type": "Product",
+      "position": 7,
+      "name": "Kit IA para Repostería y Negocios de Comida desde Casa",
+      "description": "Guía, 120 prompts, workbook y plantillas editables para calcular costos, organizar pedidos, vender por WhatsApp y crear contenido.",
+      "url": "https://www.prontialatam.com/reposteria-negocio-desde-casa",
+      "offers": {
+        "@type": "Offer",
+        "price": "37",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock"
+      }
     }
   ]
 }
@@ -1269,6 +1282,28 @@
   .product-card-estetica .product-desc { color: rgba(255,255,255,0.82); }
   .product-card-estetica .product-features li { color: rgba(255,255,255,0.85); }
   .product-card-estetica .product-features li::before { background: #ff9a1f; }
+
+  .product-card-reposteria {
+    background-image:
+      linear-gradient(to top, rgba(11,41,66,0.96) 0%, rgba(11,41,66,0.72) 50%, rgba(11,41,66,0.18) 100%),
+      url('assets/reposteria/reposteria-social-square.jpg');
+    background-size: cover;
+    background-position: center;
+    border: 2px solid rgba(240,167,46,0.5) !important;
+    box-shadow: 0 10px 34px rgba(11,41,66,0.28) !important;
+  }
+
+  .product-card-reposteria:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 44px rgba(11,41,66,0.34) !important;
+  }
+
+  .product-card-reposteria .product-price,
+  .product-card-reposteria .product-name { color: var(--white); }
+  .product-card-reposteria .product-price span,
+  .product-card-reposteria .product-desc,
+  .product-card-reposteria .product-features li { color: rgba(255,255,255,0.84); }
+  .product-card-reposteria .product-features li::before { background: #f0a72e; }
 
   /* New elegant backgrounds for other kits */
   .product-card-ventas {
@@ -3600,6 +3635,19 @@
           <li>Checklist de implementación</li>
         </ul>
         <a href="/emprendedores" class="btn-product btn-product-light">Ver landing y comprar →</a>
+      </div>
+      <div class="product-card product-card-reposteria">
+        <div class="product-featured-badge">Nuevo · Nicho en expansión</div>
+        <div class="product-price">37 USD <span>pago único</span></div>
+        <div class="product-name">Kit IA para Repostería y Negocios de Comida desde Casa</div>
+        <div class="product-desc">Precios, pedidos, WhatsApp y contenido con un sistema práctico de IA para pequeños negocios de comida en LATAM.</div>
+        <ul class="product-features">
+          <li>120 prompts en 12 categorías</li>
+          <li>Calculadora de costos y precios</li>
+          <li>Registro de pedidos y calendario</li>
+          <li>Plan de implementación de 30 días</li>
+        </ul>
+        <a href="/reposteria-negocio-desde-casa" class="btn-product btn-product-light">Ver landing y comprar →</a>
       </div>
       <div class="product-card product-card-hosteleria">
         <div class="product-price">20 USD <span>pago único</span></div>

@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kit IA para Repostería y Negocios de Comida desde Casa | ProntIA LATAM</title>
+  <meta name="description" content="120 prompts, calculadora de costos, registro de pedidos, WhatsApp, contenido y plan de 30 días para vender repostería y comida desde casa en LATAM.">
+  <meta property="og:title" content="Kit IA para Repostería y Negocios de Comida desde Casa">
+  <meta property="og:description" content="Convierte tu talento en una operación más ordenada: precios, pedidos, WhatsApp y contenido por $37 USD.">
+  <meta property="og:image" content="https://www.prontialatam.com/assets/reposteria/reposteria-social-horizontal.jpg">
+  <meta property="og:type" content="product">
+  <meta property="product:price:amount" content="37.00">
+  <meta property="product:price:currency" content="USD">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://www.prontialatam.com/assets/reposteria/reposteria-social-horizontal.jpg">
+  <link rel="canonical" href="https://www.prontialatam.com/reposteria-negocio-desde-casa">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="/logo-prontia.jpg" type="image/jpeg">
+  <link rel="stylesheet" href="/assets/css/commerce-pages.css">
+  <style>
+    :root {
+      --bakery-navy: #0b2942;
+      --bakery-teal: #0f6a73;
+      --bakery-terracotta: #c85d37;
+      --bakery-gold: #f0a72e;
+      --bakery-cream: #fff8ec;
+      --bakery-paper: #ffffff;
+    }
+    body { background: #fffdf8; }
+    .bakery-hero {
+      background:
+        radial-gradient(circle at 12% 12%, rgba(240,167,46,.2), transparent 28%),
+        linear-gradient(140deg, #081f33 0%, #0b4055 55%, #0f6a73 100%);
+      color: #fff;
+    }
+    .bakery-hero .title,
+    .bakery-hero .meta-pill strong { color: #fff; }
+    .bakery-hero .title em { color: #ffd18b; }
+    .bakery-hero .lede,
+    .bakery-hero .microcopy,
+    .bakery-hero .meta-pill span { color: rgba(255,255,255,.82); }
+    .bakery-hero .eyebrow { color: #ffd18b; }
+    .bakery-hero .meta-pill { background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.17); }
+    .bakery-hero .hero-card { padding: 0; overflow: hidden; background: #fff; }
+    .bakery-hero .hero-card img { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; }
+    .bakery-hero .hero-card-note { color: #18364b; padding: 1.15rem 1.25rem 1.3rem; }
+    .bakery-hero .hero-card-note .microcopy { color: #5d7180; }
+    .bakery-hero .btn-secondary { color: #fff; border-color: rgba(255,255,255,.48); background: rgba(255,255,255,.08); }
+    .bakery-proof {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      overflow: hidden;
+      border-radius: 22px;
+      background: rgba(11,41,66,.12);
+      box-shadow: 0 24px 60px rgba(11,41,66,.08);
+    }
+    .bakery-proof div { background: #fff; padding: 1.45rem; }
+    .bakery-proof strong { display: block; color: var(--bakery-navy); font-size: 1.08rem; }
+    .bakery-proof span { color: #61717d; font-size: .9rem; }
+    .bakery-card-accent { border-top: 4px solid var(--bakery-terracotta); }
+    .bakery-card-accent:nth-child(2n) { border-color: var(--bakery-gold); }
+    .bakery-card-accent:nth-child(3n) { border-color: var(--bakery-teal); }
+    .inside-visual {
+      border-radius: 26px;
+      overflow: hidden;
+      min-height: 420px;
+      background: url('/assets/reposteria/reposteria-hero.jpg') center / cover no-repeat;
+      position: relative;
+      box-shadow: 0 28px 65px rgba(11,41,66,.14);
+    }
+    .inside-visual::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 40%, rgba(6,31,51,.76));
+    }
+    .inside-visual-copy {
+      position: absolute;
+      z-index: 2;
+      left: 1.5rem;
+      right: 1.5rem;
+      bottom: 1.4rem;
+      color: #fff;
+    }
+    .inside-visual-copy strong { display: block; font-size: 1.45rem; }
+    .inside-visual-copy span { color: rgba(255,255,255,.8); }
+    .bakery-price-card { border: 2px solid rgba(200,93,55,.2); box-shadow: 0 28px 70px rgba(11,41,66,.12); }
+    .price-tag strong { color: var(--bakery-terracotta); }
+    .bakery-notice {
+      background: var(--bakery-navy);
+      color: #fff;
+      border: 0;
+    }
+    .bakery-notice h3 { color: #fff; }
+    .bakery-notice .trust-list li { color: rgba(255,255,255,.82); }
+    .bakery-notice .btn-secondary { color: #fff; border-color: rgba(255,255,255,.35); }
+    .day-card { position: relative; padding-top: 4rem; }
+    .day-card::before {
+      content: attr(data-week);
+      position: absolute;
+      top: 1.25rem;
+      left: 1.35rem;
+      color: var(--bakery-terracotta);
+      font-size: .78rem;
+      font-weight: 800;
+      letter-spacing: .12em;
+    }
+    @media (max-width: 800px) {
+      .bakery-proof { grid-template-columns: 1fr 1fr; }
+      .bakery-hero .hero-card img { aspect-ratio: 1 / 1; }
+    }
+    @media (max-width: 480px) {
+      .bakery-proof { grid-template-columns: 1fr; }
+      .inside-visual { min-height: 330px; }
+    }
+  </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "Kit IA para Repostería y Negocios de Comida desde Casa",
+    "description": "Guía, 120 prompts, workbook y plantillas editables para organizar costos, pedidos, WhatsApp y contenido.",
+    "image": "https://www.prontialatam.com/assets/reposteria/reposteria-portada.jpg",
+    "brand": {"@type": "Brand", "name": "ProntIA LATAM"},
+    "offers": {
+      "@type": "Offer",
+      "url": "https://www.prontialatam.com/reposteria-negocio-desde-casa",
+      "priceCurrency": "USD",
+      "price": "37.00",
+      "availability": "https://schema.org/InStock"
+    }
+  }
+  </script>
+</head>
+<body>
+  <div class="page-shell">
+    <header class="topbar">
+      <a href="/" class="brand"><img src="/logo-prontia.jpg" alt="ProntIA LATAM"><span>Recursos para negocios LATAM</span></a>
+      <nav class="topbar-links">
+        <a href="/">Inicio</a>
+        <a href="#incluye">Qué incluye</a>
+        <a href="#plan">Plan de 30 días</a>
+        <a href="#compra">Comprar</a>
+        <a href="/afiliados">Afiliados</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero bakery-hero">
+        <div class="container hero-grid">
+          <div>
+            <div class="eyebrow">Nuevo nicho · Repostería y comida desde casa</div>
+            <h1 class="title">Convierte tu talento en un negocio <em>más rentable y organizado</em></h1>
+            <p class="lede">Un sistema práctico con IA para calcular precios, ordenar pedidos, vender por WhatsApp y crear contenido que despierta antojo y confianza, sin depender de improvisar todos los días.</p>
+            <div class="hero-actions">
+              <button class="btn-primary" data-checkout-product="reposteria-comida-desde-casa" data-affiliate-input-target="#affiliateCodeInput" data-status-target="#checkoutStatusHero">Quiero el kit por $37 USD</button>
+              <a href="#incluye" class="btn-secondary">Ver todo el contenido</a>
+            </div>
+            <p id="checkoutStatusHero" class="inline-status"></p>
+            <div class="meta-list">
+              <div class="meta-pill"><strong>120 prompts</strong><span>Estrategia, precios, venta y contenido</span></div>
+              <div class="meta-pill"><strong>Pago único · $37 USD</strong><span>Sin suscripción</span></div>
+              <div class="meta-pill"><strong>Entrega protegida</strong><span>Descarga tras confirmar Stripe</span></div>
+            </div>
+          </div>
+          <aside class="hero-card">
+            <img src="/assets/reposteria/reposteria-portada.jpg" alt="Portada del Kit IA para Repostería y Negocios de Comida desde Casa">
+            <div class="hero-card-note">
+              <strong>Creado para pequeños negocios de LATAM.</strong>
+              <p class="microcopy">Úsalo con tortas, brownies, postres, galletas, cajas regalo, snacks o comida preparada desde casa.</p>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="bakery-proof">
+            <div><strong>43 páginas</strong><span>Entre guía, prompts y workbook</span></div>
+            <div><strong>4 plantillas</strong><span>CSV editables para tu operación</span></div>
+            <div><strong>12 categorías</strong><span>Prompts aplicados al negocio</span></div>
+            <div><strong>30 días</strong><span>Ruta concreta de implementación</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="section-head">
+            <h2>Saber cocinar no siempre significa saber cobrar</h2>
+            <p>El problema suele aparecer entre la cocina y la venta: costos incompletos, demasiadas opciones, mensajes interminables, pedidos sin registrar y contenido publicado sin estrategia.</p>
+          </div>
+          <div class="grid-3">
+            <article class="info-card bakery-card-accent">
+              <h3>Vendes, pero no ves el margen</h3>
+              <p>Ingredientes, empaque, energía, trabajo, comisiones y merma deben entrar en el cálculo.</p>
+            </article>
+            <article class="info-card bakery-card-accent">
+              <h3>WhatsApp consume el día</h3>
+              <p>La falta de preguntas, respuestas rápidas y confirmación escrita multiplica conversaciones y errores.</p>
+            </article>
+            <article class="info-card bakery-card-accent">
+              <h3>Publicas sin convertir</h3>
+              <p>Una foto bonita atrae; una oferta clara, una ocasión y un CTA concreto ayudan a cerrar.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="incluye">
+        <div class="container">
+          <div class="section-head">
+            <h2>Todo lo necesario para ordenar y vender mejor</h2>
+            <p>No es un curso de recetas. Es un sistema de negocio y marketing que aplicas a los productos que ya sabes preparar.</p>
+          </div>
+          <div class="grid-2">
+            <article class="info-card bakery-card-accent">
+              <h3>1. Guía maestra</h3>
+              <p>17 páginas para trabajar oferta, catálogo, costos, precios, WhatsApp, fotografía, campañas, pedidos, fidelización y métricas.</p>
+              <ul class="bullet-list">
+                <li>Fórmula de precio y margen.</li>
+                <li>Catálogo corto y rentable.</li>
+                <li>Mensajes y confirmación de pedidos.</li>
+                <li>Seguridad y comunicación responsable.</li>
+              </ul>
+            </article>
+            <article class="info-card bakery-card-accent">
+              <h3>2. Biblioteca de 120 prompts</h3>
+              <p>Prompts organizados por estrategia, costos, catálogo, WhatsApp, Instagram, Reels, campañas, fotografía, operación, fidelización, B2B y análisis.</p>
+              <ul class="bullet-list">
+                <li>Campos listos para personalizar.</li>
+                <li>Enfoque en datos reales del negocio.</li>
+                <li>Aplicables en ChatGPT y Claude.</li>
+                <li>Sin promesas de resultados garantizados.</li>
+              </ul>
+            </article>
+            <article class="info-card bakery-card-accent">
+              <h3>3. Workbook de implementación</h3>
+              <p>12 páginas imprimibles para convertir ideas en acciones, con fichas de producto, costos, pedidos, consultas, métricas y revisión mensual.</p>
+              <ul class="bullet-list">
+                <li>Plan de 30 días por semanas.</li>
+                <li>Registro de decisiones.</li>
+                <li>Seguimiento de consultas.</li>
+                <li>Resumen semanal.</li>
+              </ul>
+            </article>
+            <article class="info-card bakery-card-accent">
+              <h3>4. Plantillas editables</h3>
+              <p>Cuatro archivos CSV que puedes abrir en Excel, Google Sheets o Numbers.</p>
+              <ul class="bullet-list">
+                <li>Calculadora de costos y precios.</li>
+                <li>Registro de pedidos.</li>
+                <li>Calendario de contenido de 30 días.</li>
+                <li>Tablero semanal de ventas y margen.</li>
+              </ul>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container grid-2" style="align-items:center;">
+          <div class="inside-visual">
+            <div class="inside-visual-copy">
+              <strong>De una cocina productiva a una operación vendible</strong>
+              <span>Oferta, números, pedidos y comunicación trabajando juntos.</span>
+            </div>
+          </div>
+          <article class="info-card">
+            <div class="eyebrow">Resultados de implementación</div>
+            <h3>Qué puedes dejar preparado</h3>
+            <ul class="bullet-list">
+              <li>Un catálogo de tres niveles con producto estrella.</li>
+              <li>Precios calculados con trabajo, empaque y merma.</li>
+              <li>Respuestas rápidas y confirmación escrita en WhatsApp.</li>
+              <li>Un registro central de pedidos y saldos.</li>
+              <li>Una campaña de siete días con cupos reales.</li>
+              <li>Un calendario de contenido basado en deseo y confianza.</li>
+            </ul>
+            <p class="legal-copy">La IA acelera la organización y los mensajes; tú debes revisar ingredientes, alérgenos, conservación, permisos y normativa local.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="plan">
+        <div class="container">
+          <div class="section-head">
+            <h2>Tu ruta de 30 días</h2>
+            <p>Aplica el kit por etapas para no frenar tu producción.</p>
+          </div>
+          <div class="grid-2">
+            <article class="info-card day-card" data-week="SEMANA 1"><h3>Oferta y rentabilidad</h3><p>Elige tres productos, completa costos, define paquetes y comunica condiciones.</p></article>
+            <article class="info-card day-card" data-week="SEMANA 2"><h3>Pedidos y WhatsApp</h3><p>Crea respuestas rápidas, confirmaciones, registro de pedidos y política de anticipo.</p></article>
+            <article class="info-card day-card" data-week="SEMANA 3"><h3>Contenido y campaña</h3><p>Haz fotos, crea publicaciones, graba Reels y activa una campaña de siete días.</p></article>
+            <article class="info-card day-card" data-week="SEMANA 4"><h3>Recompra y mejora</h3><p>Pide opiniones, revisa métricas, corrige una variable y prepara el siguiente ciclo.</p></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="compra">
+        <div class="container pricing-wrap">
+          <article class="pricing-card bakery-price-card">
+            <div class="eyebrow">Acceso completo</div>
+            <h3>Kit IA para Repostería y Negocios de Comida desde Casa</h3>
+            <div class="price-tag"><strong>$37 USD</strong><span>pago único</span></div>
+            <p>El pago se procesa mediante Stripe. Al confirmarse, recibirás el acceso protegido al ZIP por pantalla y por email.</p>
+            <form class="affiliate-code-box" data-affiliate-code-form data-status-target="#affiliateCodeStatus">
+              <label>Código de afiliado<input id="affiliateCodeInput" type="text" data-affiliate-code-input placeholder="Ej.: maria-perez-a13f"></label>
+              <div class="cta-row affiliate-code-actions">
+                <button type="submit" class="btn-secondary">Aplicar código</button>
+                <button type="button" class="btn-ghost" data-affiliate-code-clear>Quitar código</button>
+              </div>
+              <p id="affiliateCodeStatus" class="inline-status">Si vienes recomendado por un afiliado, introduce su código para que la comisión quede registrada.</p>
+            </form>
+            <div class="cta-row">
+              <button class="btn-primary" data-checkout-product="reposteria-comida-desde-casa" data-affiliate-input-target="#affiliateCodeInput" data-status-target="#checkoutStatusPricing">Pagar de forma segura</button>
+              <a class="btn-ghost" href="mailto:hola@prontialatam.com?subject=Consulta%20Kit%20IA%20Reposteria">Resolver una duda</a>
+            </div>
+            <p id="checkoutStatusPricing" class="inline-status"></p>
+            <p class="legal-copy">Producto digital. No incluye recetas, licencias, asesoría sanitaria, nutricional, legal o fiscal. Los resultados dependen del mercado, producto, precio y ejecución.</p>
+          </article>
+          <aside class="notice-card bakery-notice">
+            <h3>Recibes inmediatamente</h3>
+            <ul class="trust-list">
+              <li>Guía maestra de 17 páginas.</li>
+              <li>120 prompts en 12 categorías.</li>
+              <li>Workbook de 12 páginas.</li>
+              <li>4 plantillas CSV editables.</li>
+              <li>Plan de implementación de 30 días.</li>
+              <li>Acceso de por vida a los archivos descargados.</li>
+            </ul>
+            <div class="cta-row"><a href="/afiliados" class="btn-secondary">Promocionarlo como afiliado</a></div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="section-head"><h2>Preguntas frecuentes</h2><p>Lo esencial antes de comprar.</p></div>
+          <div class="grid-2">
+            <article class="faq-card"><h3>¿Incluye recetas?</h3><p>No. Está enfocado en negocio, marketing y operación. Se aplica a tus propias recetas y productos.</p></article>
+            <article class="faq-card"><h3>¿Necesito experiencia con IA?</h3><p>No. Cada prompt indica qué datos debes completar y el plan empieza por tareas sencillas.</p></article>
+            <article class="faq-card"><h3>¿Sirve para comida salada?</h3><p>Sí, especialmente para pequeños negocios desde casa, adaptando conservación, permisos y operación a cada producto.</p></article>
+            <article class="faq-card"><h3>¿Puedo abrir los CSV en Google Sheets?</h3><p>Sí. También funcionan con Excel y Numbers; algunas fórmulas pueden requerir ajustar el separador regional.</p></article>
+            <article class="faq-card"><h3>¿La descarga está protegida?</h3><p>Sí. La web confirma el pago con Stripe y entrega el archivo desde almacenamiento privado.</p></article>
+            <article class="faq-card"><h3>¿Puedo venderlo como afiliado?</h3><p>Sí. Los afiliados aprobados reciben enlace trazable, dossier, playbook, copys e imágenes desde su portal.</p></article>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container"><p>ProntIA LATAM. Recursos prácticos de IA para negocios reales en Latinoamérica. <a href="/afiliados">Programa de afiliados</a>.</p></div>
+    </footer>
+  </div>
+  <script src="/assets/js/prontia-commerce.js"></script>
+</body>
+</html>

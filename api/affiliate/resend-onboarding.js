@@ -4,6 +4,8 @@ const { sendAffiliateOnboardingEmail } = require("../_lib/email");
 const { buildProtectedPageUrl, buildProtectedResourceUrl } = require("../_lib/affiliate-access");
 const { generateConnectOnboardingToken } = require("../_lib/stripe-connect");
 
+const DEFAULT_HOME_FOOD_KIT_PATH = "/reposteria-negocio-desde-casa";
+
 function buildNicheAccesses(siteUrl, token, trackingCode) {
   return [
     {
@@ -61,6 +63,13 @@ function buildAffiliateGuides(siteUrl, token) {
   };
 }
 
+function resolveOptionalUrl(siteUrl, value) {
+  const trimmed = String(value || "").trim();
+  if (!trimmed) return "";
+  if (/^https?:\/\//i.test(trimmed)) return trimmed;
+  return trimmed.startsWith("/") ? `${siteUrl}${trimmed}` : `${siteUrl}/${trimmed}`;
+}
+
 function isAuthorized(req, body) {
   const expectedToken = (process.env.AFFILIATE_APPROVAL_TOKEN || "").trim();
   const headerToken = (req.headers["x-affiliate-admin-token"] || "").trim();
@@ -110,6 +119,10 @@ module.exports = async function handler(req, res) {
     const affiliateLink = `${siteUrl}/talleres-mecanicos?ref=${affiliate.tracking_code}`;
     const kitUrl = buildProtectedResourceUrl(siteUrl, "downloads/kit-base-afiliados-talleres.zip", connectOnboardingToken);
     const beginnerKitUrl = buildProtectedResourceUrl(siteUrl, "downloads/kit-venta-productos-digitales-principiantes.zip", connectOnboardingToken);
+    const homeFoodKitUrl = resolveOptionalUrl(
+      siteUrl,
+      process.env.AFFILIATE_HOME_FOOD_KIT_URL || DEFAULT_HOME_FOOD_KIT_PATH
+    );
     const connectUrl = `${siteUrl}/api/affiliate/connect/start?token=${connectOnboardingToken}`;
     const brandLogoUrl = `${siteUrl}/logo-prontia.jpg`;
     const dossierUrl = buildProtectedPageUrl(siteUrl, "/dossier-marca-afiliados", connectOnboardingToken);
@@ -126,6 +139,7 @@ module.exports = async function handler(req, res) {
       affiliateLink,
       kitUrl,
       beginnerKitUrl,
+      homeFoodKitUrl,
       connectUrl,
       brandLogoUrl,
       dossierUrl,

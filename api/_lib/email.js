@@ -219,6 +219,7 @@ async function sendAffiliateOnboardingEmail(options) {
   const stripeGuideUrl = options.stripeGuideUrl || "";
   const whatsappCommunityUrl = options.whatsappCommunityUrl || "";
   const beginnerKitUrl = options.beginnerKitUrl || "";
+  const homeFoodKitUrl = options.homeFoodKitUrl || "";
   const nicheAccesses = Array.isArray(options.nicheAccesses) ? options.nicheAccesses.filter(Boolean) : [];
   const connectHtml = options.connectUrl
     ? `<tr><td style="padding:0 0 14px;"><strong style="display:block;color:#12385b;font-size:14px;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px;">Configurar cobros</strong><a href="${options.connectUrl}" style="color:#185fa5;text-decoration:none;word-break:break-word;">Activar Stripe Connect</a></td></tr>`
@@ -314,6 +315,9 @@ async function sendAffiliateOnboardingEmail(options) {
               ${beginnerKitUrl ? `<tr>
                 <td style="padding:0 0 14px;"><strong style="display:block;color:#12385b;font-size:14px;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px;">Kit gratuito para afiliados principiantes</strong><a href="${beginnerKitUrl}" style="color:#185fa5;text-decoration:none;word-break:break-word;">Descargar kit de venta de productos digitales</a><div style="margin-top:6px;color:#6d7581;font-size:13px;line-height:1.7;">Úsalo como recurso inicial para aprender el proceso, entender la operativa y empezar con una base clara desde cero.</div></td>
               </tr>` : ""}
+              ${homeFoodKitUrl ? `<tr>
+                <td style="padding:0 0 14px;"><strong style="display:block;color:#12385b;font-size:14px;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px;">Kit IA para Repostería y Negocios de Comida desde Casa</strong><a href="${homeFoodKitUrl}" style="color:#185fa5;text-decoration:none;word-break:break-word;">Abrir acceso del kit</a><div style="margin-top:6px;color:#6d7581;font-size:13px;line-height:1.7;">Compártelo con perfiles que venden repostería, postres o comida casera y necesitan una solución más práctica para captar y vender mejor.</div></td>
+              </tr>` : ""}
               <tr>
                 <td style="padding:0 0 14px;"><strong style="display:block;color:#12385b;font-size:14px;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px;">Portal privado</strong><a href="${options.portalUrl}" style="color:#185fa5;text-decoration:none;word-break:break-word;">${options.portalUrl}</a><div style="margin-top:6px;color:#6d7581;font-size:13px;line-height:1.7;">La primera vez que entres, activa tu contraseña. Después accederás siempre con tu email y esa contraseña.</div></td>
               </tr>
@@ -364,6 +368,7 @@ async function sendAffiliateOnboardingEmail(options) {
       "Enlaces de ventas por nicho:",
       salesLinksText,
       beginnerKitUrl ? `Kit gratuito para afiliados principiantes: ${beginnerKitUrl}` : "",
+      homeFoodKitUrl ? `Kit IA para Repostería y Negocios de Comida desde Casa: ${homeFoodKitUrl}` : "",
       `Portal: ${options.portalUrl}`,
       "Primera entrada al portal: activa tu contraseña y, a partir de ahí, accede siempre con tu email y contraseña.",
       `Kit: ${options.kitUrl}`,

@@ -6,6 +6,9 @@
     },
     "api/affiliate/resource.js": {
       "includeFiles": "downloads/**"
+    },
+    "api/affiliate/public-kit-download.js": {
+      "includeFiles": "downloads/**"
     }
   },
   "redirects": [

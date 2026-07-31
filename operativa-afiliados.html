@@ -357,6 +357,7 @@
           <div id="recentAffiliates" class="app-list"></div>
           <div id="recentOrders" class="app-list"></div>
           <div id="applicationsList" class="app-list"></div>
+          <div id="leadKitList" class="app-list"></div>
         </div>
       </section>
     </main>
@@ -374,6 +375,7 @@
       const recentAffiliates = document.getElementById('recentAffiliates');
       const recentOrders = document.getElementById('recentOrders');
       const opsSheetsPanel = document.getElementById('opsSheetsPanel');
+      const leadKitList = document.getElementById('leadKitList');
       const productDefaults = {
         'talleres-mecanicos': { label: 'Talleres Mecánicos', amount: 29 },
         'restaurantes-hosteleria': { label: 'Restaurantes y Hostelería', amount: 20 },
@@ -645,7 +647,8 @@
 
       function renderApplications(applications, adminToken) {
         const pendingApplications = (applications || []).filter(function (app) {
-          return String(app.status || '').toLowerCase() !== 'approved';
+          const normalized = String(app.status || '').toLowerCase();
+          return normalized !== 'approved' && normalized !== 'lead_kit';
         });
 
         if (!pendingApplications.length) {
@@ -733,9 +736,58 @@
         });
       }
 
+      function renderLeadKitApplications(applications) {
+        const leadKitApplications = (applications || []).filter(function (app) {
+          return String(app.status || '').toLowerCase() === 'lead_kit';
+        });
+
+        if (!leadKitApplications.length) {
+          renderEmptyPanel(leadKitList, 'Leads del kit gratuito', 'No hay nuevos registros del kit gratuito ahora mismo.');
+          return;
+        }
+
+        leadKitList.innerHTML = '' +
+          '<article class="ops-panel">' +
+            '<div class="ops-panel-header">' +
+              '<div>' +
+                '<h3>Leads del kit gratuito</h3>' +
+                '<p class="microcopy">Registros captados por la descarga inmediata del kit. Se muestran aparte para no mezclarlos con las solicitudes formales de afiliación.</p>' +
+              '</div>' +
+            '</div>' +
+            '<div class="ops-table-wrap">' +
+              '<table class="ops-table">' +
+                '<thead><tr><th>Lead</th><th>Estado</th><th>País</th><th>Canal</th><th>Fecha</th></tr></thead>' +
+                '<tbody>' + leadKitApplications.map(function (app, index) {
+          const detailId = 'lead-kit-detail-' + index;
+          return '' +
+            '<tr>' +
+              '<td><button type="button" class="row-toggle" aria-expanded="false" aria-controls="' + detailId + '">' + escapeHtml(app.full_name) + '</button><div class="microcopy">' + escapeHtml(app.email) + '</div></td>' +
+              '<td><span class="' + statusClass(app.status) + '">' + escapeHtml(app.status || '-') + '</span></td>' +
+              '<td>' + escapeHtml(app.country || '-') + '</td>' +
+              '<td>' + escapeHtml(app.main_channel || '-') + '</td>' +
+              '<td>' + escapeHtml(formatDate(app.created_at)) + '</td>' +
+            '</tr>' +
+            '<tr id="' + detailId + '" class="detail-row" hidden>' +
+              '<td colspan="5">' +
+                '<div class="detail-grid">' +
+                  detailItem('Email', app.email) +
+                  detailItem('Teléfono', (app.phone_country_code || '') + ' ' + (app.phone_number || '')) +
+                  detailItem('Canal principal', app.main_channel) +
+                  detailItem('Audiencia', app.audience_type) +
+                  detailItem('Notas', app.notes) +
+                  detailItem('ID registro', app.id) +
+                '</div>' +
+              '</td>' +
+            '</tr>';
+        }).join('') + '</tbody></table></div></article>';
+
+        bindRowToggles(leadKitList);
+      }
+
       function renderStats(stats) {
         const items = [
           ['Solicitudes pendientes', stats.pendingApplications || 0],
+          ['Leads kit gratuito', stats.leadKitLeads || 0],
           ['Afiliados aprobados', stats.approvedAffiliates || 0],
           ['Solicitudes no aprobadas', stats.rejectedApplications || 0],
           ['Ventas registradas', '$' + Number(stats.totalSales || 0).toFixed(2)],
@@ -1114,6 +1166,7 @@
           renderAffiliates(payload.affiliates || [], adminToken);
           renderOrders(payload.orders || [], adminToken);
           renderApplications(payload.applications || [], adminToken);
+          renderLeadKitApplications(payload.applications || []);
           setStatus(successMessage || 'Operativa cargada correctamente.', 'success');
         } catch (error) {
           setStatus(error.message || 'No se pudo cargar la operativa.', 'error');

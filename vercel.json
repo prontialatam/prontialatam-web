@@ -155,36 +155,6 @@
       "permanent": false
     },
     {
-      "source": "/dossier-producto-reposteria",
-      "destination": "/api/affiliate/page?page=productReposteria",
-      "permanent": false
-    },
-    {
-      "source": "/dossier-producto-reposteria.html",
-      "destination": "/api/affiliate/page?page=productReposteria",
-      "permanent": false
-    },
-    {
-      "source": "/playbook-afiliados-reposteria",
-      "destination": "/api/affiliate/page?page=playbookReposteria",
-      "permanent": false
-    },
-    {
-      "source": "/playbook-afiliados-reposteria.html",
-      "destination": "/api/affiliate/page?page=playbookReposteria",
-      "permanent": false
-    },
-    {
-      "source": "/biblioteca-social-reposteria",
-      "destination": "/api/affiliate/page?page=socialReposteria",
-      "permanent": false
-    },
-    {
-      "source": "/biblioteca-social-reposteria.html",
-      "destination": "/api/affiliate/page?page=socialReposteria",
-      "permanent": false
-    },
-    {
       "source": "/guia-portal-afiliados",
       "destination": "/api/affiliate/page?page=guidePortal",
       "permanent": false
@@ -273,6 +243,11 @@
       "source": "/downloads/kit-venta-digital-principiantes/:path*",
       "destination": "/api/affiliate/resource?asset=downloads/kit-venta-digital-principiantes/:path*",
       "permanent": false
+    },
+    {
+      "source": "/descargar/kit-gratis-afiliados",
+      "destination": "/api/affiliate/public-kit-download",
+      "permanent": false
     }
   ],
   "rewrites": [
@@ -289,16 +264,16 @@
       "destination": "/emprendedores.html"
     },
     {
-      "source": "/reposteria-negocio-desde-casa",
-      "destination": "/reposteria-negocio-desde-casa.html"
-    },
-    {
       "source": "/kit-agenda-llena-centros-estetica",
       "destination": "/kit-agenda-llena-centros-estetica.html"
     },
     {
       "source": "/afiliados",
       "destination": "/afiliados.html"
+    },
+    {
+      "source": "/kit-gratis-afiliados",
+      "destination": "/kit-gratis-afiliados.html"
     },
     {
       "source": "/operativa-afiliados",

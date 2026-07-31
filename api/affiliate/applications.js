@@ -104,6 +104,9 @@ module.exports = async function handler(req, res) {
     const pendingApplications = applications.filter(function (item) {
       return item.status === "pending";
     }).length;
+    const leadKitLeads = applications.filter(function (item) {
+      return String(item.status || "").toLowerCase() === "lead_kit";
+    }).length;
     const affiliatesWithBalances = affiliates.map(function (affiliate) {
       return Object.assign({}, affiliate, {
         payout_summary: summarizeAffiliateBalances(affiliate.id, orders, payouts),
@@ -121,6 +124,7 @@ module.exports = async function handler(req, res) {
       payouts,
       stats: {
         pendingApplications,
+        leadKitLeads,
         rejectedApplications,
         approvedAffiliates,
         totalSales: Number(totalSales.toFixed(2)),

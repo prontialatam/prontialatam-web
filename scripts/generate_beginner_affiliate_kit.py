@@ -10,6 +10,7 @@ from reportlab.lib.enums import TA_CENTER, TA_LEFT
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.lib.units import mm
+from reportlab.lib.utils import ImageReader
 from reportlab.platypus import (
     BaseDocTemplate, Frame, Image as RLImage, KeepTogether, PageBreak,
     PageTemplate, Paragraph, Spacer, Table, TableStyle
@@ -22,6 +23,10 @@ KIT_DIR = ROOT / "downloads" / "kit-venta-digital-principiantes"
 PDF_OUT = ROOT / "output" / "pdf" / "kit-venta-productos-digitales-principiantes-latam.pdf"
 ZIP_OUT = ROOT / "downloads" / "kit-venta-productos-digitales-principiantes.zip"
 HERO = ASSET_DIR / "hero-latam.png"
+LOGO_CANDIDATES = [
+    ROOT.parent / "LOGOS PRONTIA" / "LOGO.jpg",
+    ROOT / "logo-prontia.jpg",
+]
 
 PURPLE = colors.HexColor("#3B176B")
 PURPLE_2 = colors.HexColor("#6D28D9")
@@ -32,6 +37,17 @@ INK = colors.HexColor("#172033")
 MUTED = colors.HexColor("#5E6678")
 PALE = colors.HexColor("#F7F3FB")
 WHITE = colors.white
+
+
+def resolve_logo_path():
+    for candidate in LOGO_CANDIDATES:
+        if candidate.exists():
+            return candidate
+    raise FileNotFoundError("No se encontró el logo oficial de ProntIA LATAM para el PDF del kit.")
+
+
+LOGO_PATH = resolve_logo_path()
+LOGO_READER = ImageReader(str(LOGO_PATH))
 
 
 def font(size, bold=False):
@@ -112,13 +128,27 @@ class KitDocTemplate(BaseDocTemplate):
 
     def decorate_page(self, canvas, doc):
         canvas.saveState()
-        if doc.page > 1:
-            canvas.setFillColor(PURPLE)
-            canvas.rect(0, A4[1] - 10 * mm, A4[0], 10 * mm, stroke=0, fill=1)
-            canvas.setFillColor(MUTED)
-            canvas.setFont("Helvetica", 8)
-            canvas.drawString(18 * mm, 10 * mm, "ProntIA LATAM - Kit Venta de Productos Digitales para Principiantes")
-            canvas.drawRightString(A4[0] - 18 * mm, 10 * mm, str(doc.page))
+        header_top = A4[1] - 8 * mm
+        logo_size = 12 * mm
+        logo_x = 18 * mm
+        logo_y = header_top - logo_size
+
+        canvas.setStrokeColor(colors.HexColor("#E6DDF2"))
+        canvas.setLineWidth(0.6)
+        canvas.line(18 * mm, header_top - 14 * mm, A4[0] - 18 * mm, header_top - 14 * mm)
+        canvas.drawImage(LOGO_READER, logo_x, logo_y, width=logo_size, height=logo_size, preserveAspectRatio=True, mask="auto")
+
+        canvas.setFillColor(PURPLE)
+        canvas.setFont("Helvetica-Bold", 9.5)
+        canvas.drawString(33 * mm, header_top - 6 * mm, "ProntIA LATAM")
+        canvas.setFillColor(MUTED)
+        canvas.setFont("Helvetica", 8)
+        canvas.drawString(33 * mm, header_top - 10.2 * mm, "Kit Venta de Productos Digitales para Principiantes")
+
+        canvas.setFillColor(MUTED)
+        canvas.setFont("Helvetica", 8)
+        canvas.drawString(18 * mm, 10 * mm, "ProntIA LATAM - Kit Venta de Productos Digitales para Principiantes")
+        canvas.drawRightString(A4[0] - 18 * mm, 10 * mm, str(doc.page))
         canvas.restoreState()
 
 

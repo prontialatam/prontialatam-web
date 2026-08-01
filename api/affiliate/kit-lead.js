@@ -53,25 +53,25 @@ function buildApplicantEmail(options) {
   return {
     subject: options.kit.emailSubject,
     htmlContent: `
-      <div style="margin:0;background:#070b1d;padding:28px 16px;font-family:Arial,sans-serif;color:#172033;">
+      <div style="margin:0;background:#070b1d;padding:28px 16px;font-family:Arial,sans-serif;color:#111111;">
         <div style="max-width:680px;margin:0 auto;background:#ffffff;border-radius:22px;overflow:hidden;border:1px solid #ebe7df;">
-          <div style="background:linear-gradient(135deg,#160a36 0%,#08152e 58%,#ff6a00 100%);padding:28px 34px;color:#ffffff;">
+          <div style="background:#ffffff;padding:28px 34px 26px;color:#111111;border-bottom:1px solid #ebe7df;">
             <img src="${options.siteUrl}/logo-prontia.jpg" alt="ProntIA LATAM" style="display:block;width:126px;height:auto;margin:0 0 18px;">
-            <div style="font-size:12px;text-transform:uppercase;letter-spacing:.14em;color:#ffd7b0;margin-bottom:8px;">Kit gratis para afiliados</div>
-            <h1 style="margin:0;font-size:30px;line-height:1.08;">Tu material ya esta listo</h1>
-            <p style="margin:14px 0 0;font-size:16px;line-height:1.7;color:#f8efe7;">Hola ${options.fullName}, aqui tienes el acceso a <strong>${options.kit.title}</strong>.</p>
+            <div style="font-size:12px;text-transform:uppercase;letter-spacing:.14em;color:#ff6a00;font-weight:700;margin-bottom:8px;">Kit gratis para afiliados</div>
+            <h1 style="margin:0;font-size:30px;line-height:1.08;color:#111111;">Tu material ya esta listo</h1>
+            <p style="margin:14px 0 0;font-size:16px;line-height:1.7;color:#111111;">Hola ${options.fullName}, aqui tienes el acceso a <strong>${options.kit.title}</strong>.</p>
           </div>
           <div style="padding:30px 34px 12px;">
-            <p style="margin:0 0 18px;font-size:16px;line-height:1.75;">${supportBlock}</p>
+            <p style="margin:0 0 18px;font-size:16px;line-height:1.75;color:#111111;">${supportBlock}</p>
             <div style="margin:24px 0;">
               <a href="${kitUrl}" style="display:inline-block;background:#ff6a00;color:#ffffff;text-decoration:none;font-weight:700;padding:14px 20px;border-radius:12px;margin:0 10px 12px 0;">Descargar el kit gratis</a>
               ${secondaryAction}
             </div>
             <div style="background:#fff6ed;border:1px solid #ffd8b8;border-radius:16px;padding:18px 20px;margin:0 0 22px;">
               <strong style="display:block;color:#111827;margin-bottom:6px;">Siguiente paso recomendado</strong>
-              <span style="font-size:15px;line-height:1.7;">Completa la solicitud para que podamos revisar tu perfil, activar tu acceso privado y prepararte materiales por nicho.</span>
+              <span style="font-size:15px;line-height:1.7;color:#111111;">Completa la solicitud para que podamos revisar tu perfil, activar tu acceso privado y prepararte materiales por nicho.</span>
             </div>
-            <a href="${applicationUrl}" style="display:inline-block;color:#111827;font-weight:700;">Completar solicitud de afiliado</a>
+            <a href="${applicationUrl}" style="display:inline-block;color:#111111;font-weight:700;">Completar solicitud de afiliado</a>
           </div>
           <div style="padding:20px 34px 30px;color:#6b7280;font-size:13px;line-height:1.7;border-top:1px solid #ebe7df;">
             Equipo ProntIA LATAM<br>

@@ -1,0 +1,31 @@
+Prompts IA para producir contenido más rápido
+
+1. Actúa como estratega de contenidos para LATAM y crea 5 ideas de publicación sobre [producto] para [tipo de persona] con foco en conversación, no en venta directa.
+
+2. Convierte este problema del cliente en un post corto para Facebook con tono cercano y CTA a comentario: [problema].
+
+3. Escribe un Reel de 30 segundos con estructura gancho, problema, recomendación y CTA para [producto].
+
+4. Dame 10 ganchos de curiosidad para hablar de [tema] sin prometer resultados irreales.
+
+5. Crea una secuencia de 3 stories para mover a alguien desde interés inicial hasta mensaje privado sobre [tema].
+
+6. Redacta una respuesta a la objeción 'no tengo dinero' manteniendo empatía y sin presionar la venta.
+
+7. Convierte este testimonio en una publicación ética, sin exageraciones y con aprendizaje aplicable: [testimonio].
+
+8. Genera 5 CTA breves y humanos para cerrar una publicación sobre [tema] sin parecer spam.
+
+9. Adapta este copy a un tono más natural para [país LATAM]: [texto].
+
+10. Dame 3 ideas de contenido educativo, 3 de interacción y 3 de conversación para [nicho].
+
+11. Crea una tabla de 7 días con idea, formato, gancho y CTA para [producto] y [audiencia].
+
+12. Escribe una respuesta breve para un comentario positivo que abra conversación privada con elegancia.
+
+13. Resume en 5 puntos cómo explicar un producto digital sin sonar vendedor.
+
+14. Dame 8 preguntas que podría hacer a mi audiencia para entender qué le impide vender online.
+
+15. Transforma esta idea vaga en un carrusel claro de 5 diapositivas: [idea].

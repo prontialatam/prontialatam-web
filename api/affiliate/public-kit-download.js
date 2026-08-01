@@ -5,8 +5,7 @@ const {
   getAbsoluteProjectFile,
   getContentType
 } = require("../_lib/affiliate-access");
-
-const KIT_ASSET = "downloads/kit-venta-productos-digitales-principiantes.zip";
+const { getPublicKit } = require("../_lib/public-kits");
 
 module.exports = async function handler(req, res) {
   if (req.method !== "GET") {
@@ -15,7 +14,8 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    const filePath = getAbsoluteProjectFile(KIT_ASSET);
+    const kit = getPublicKit(String((req.query && req.query.kit) || "").trim());
+    const filePath = getAbsoluteProjectFile(kit.downloadAsset);
     if (!fileExists(filePath)) {
       res.statusCode = 404;
       return res.end("Recurso no encontrado");

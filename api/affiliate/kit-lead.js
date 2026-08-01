@@ -1,6 +1,7 @@
 const { getSiteUrl, parseJsonBody, sendJson } = require("../_lib/http");
 const supabase = require("../_lib/supabase");
 const { sendBrevoEmail } = require("../_lib/email");
+const { buildPublicKitDownloadUrl, getPublicKit } = require("../_lib/public-kits");
 
 function cleanText(value) {
   return String(value || "").replace(/\s+/g, " ").trim();
@@ -38,12 +39,19 @@ function getEmailIdentity() {
 }
 
 function buildApplicantEmail(options) {
-  const kitUrl = `${options.siteUrl}/descargar/kit-gratis-afiliados`;
-  const challengeUrl = `${options.siteUrl}/afiliados#reto-7-dias`;
+  const kitUrl = buildPublicKitDownloadUrl(options.siteUrl, options.kit.key);
+  const challengeUrl = options.kit.challengeRoute ? `${options.siteUrl}${options.kit.challengeRoute}` : "";
   const applicationUrl = `${options.siteUrl}/afiliados#solicitud`;
+  const secondaryAction = challengeUrl
+    ? `<a href="${challengeUrl}" style="display:inline-block;background:#111827;color:#ffffff;text-decoration:none;font-weight:700;padding:14px 20px;border-radius:12px;margin:0 10px 12px 0;">Ver reto de 7 dias</a>`
+    : "";
+  const secondaryText = challengeUrl ? `Reto de 7 dias: ${challengeUrl}` : "";
+  const supportBlock = challengeUrl
+    ? "Empieza por descargar el kit, revisar el metodo y guardar el reto de 7 dias. Despues, si quieres vender con ProntIA LATAM y optar al 60% de comision, completa la solicitud de afiliado."
+    : "Empieza por descargar el kit, revisar el calendario y adaptar los textos a tu nicho. Despues, si quieres vender con ProntIA LATAM y optar al 60% de comision, completa la solicitud de afiliado.";
 
   return {
-    subject: "Tu Kit Gratis + Reto de Activacion en 7 dias",
+    subject: options.kit.emailSubject,
     htmlContent: `
       <div style="margin:0;background:#070b1d;padding:28px 16px;font-family:Arial,sans-serif;color:#172033;">
         <div style="max-width:680px;margin:0 auto;background:#ffffff;border-radius:22px;overflow:hidden;border:1px solid #ebe7df;">
@@ -51,13 +59,13 @@ function buildApplicantEmail(options) {
             <img src="${options.siteUrl}/logo-prontia.jpg" alt="ProntIA LATAM" style="display:block;width:126px;height:auto;margin:0 0 18px;">
             <div style="font-size:12px;text-transform:uppercase;letter-spacing:.14em;color:#ffd7b0;margin-bottom:8px;">Kit gratis para afiliados</div>
             <h1 style="margin:0;font-size:30px;line-height:1.08;">Tu material ya esta listo</h1>
-            <p style="margin:14px 0 0;font-size:16px;line-height:1.7;color:#f8efe7;">Hola ${options.fullName}, aqui tienes el acceso al Kit Venta de Productos Digitales para Principiantes y al reto de primera activacion.</p>
+            <p style="margin:14px 0 0;font-size:16px;line-height:1.7;color:#f8efe7;">Hola ${options.fullName}, aqui tienes el acceso a <strong>${options.kit.title}</strong>.</p>
           </div>
           <div style="padding:30px 34px 12px;">
-            <p style="margin:0 0 18px;font-size:16px;line-height:1.75;">Empieza por descargar el kit, revisar el metodo y guardar el reto de 7 dias. Despues, si quieres vender con ProntIA LATAM y optar al 60% de comision, completa la solicitud de afiliado.</p>
+            <p style="margin:0 0 18px;font-size:16px;line-height:1.75;">${supportBlock}</p>
             <div style="margin:24px 0;">
               <a href="${kitUrl}" style="display:inline-block;background:#ff6a00;color:#ffffff;text-decoration:none;font-weight:700;padding:14px 20px;border-radius:12px;margin:0 10px 12px 0;">Descargar el kit gratis</a>
-              <a href="${challengeUrl}" style="display:inline-block;background:#111827;color:#ffffff;text-decoration:none;font-weight:700;padding:14px 20px;border-radius:12px;margin:0 10px 12px 0;">Ver reto de 7 dias</a>
+              ${secondaryAction}
             </div>
             <div style="background:#fff6ed;border:1px solid #ffd8b8;border-radius:16px;padding:18px 20px;margin:0 0 22px;">
               <strong style="display:block;color:#111827;margin-bottom:6px;">Siguiente paso recomendado</strong>
@@ -75,31 +83,33 @@ function buildApplicantEmail(options) {
     textContent: [
       `Hola ${options.fullName},`,
       "",
-      "Tu Kit Venta de Productos Digitales para Principiantes ya esta listo.",
+      `Tu recurso gratuito ya esta listo: ${options.kit.title}.`,
       `Descargar kit: ${kitUrl}`,
-      `Reto de 7 dias: ${challengeUrl}`,
+      secondaryText,
       "",
       "Siguiente paso recomendado: completa la solicitud de afiliado.",
       `Solicitud: ${applicationUrl}`
-    ].join("\n")
+    ].filter(Boolean).join("\n")
   };
 }
 
 function buildAdminEmail(options) {
   return {
-    subject: `Nuevo lead Kit Gratis: ${options.fullName}`,
+    subject: `Nuevo lead Kit Gratis: ${options.kit.shortTitle} | ${options.fullName}`,
     htmlContent: `
       <div style="margin:0;background:#f3f4f6;padding:28px 16px;font-family:Arial,sans-serif;color:#111827;">
         <div style="max-width:720px;margin:0 auto;background:#ffffff;border-radius:18px;overflow:hidden;border:1px solid #e5e7eb;">
           <div style="background:#111827;color:#ffffff;padding:22px 28px;">
             <div style="font-size:12px;text-transform:uppercase;letter-spacing:.14em;color:#ffb36b;">Lead magnet afiliados</div>
-            <h1 style="margin:8px 0 0;font-size:24px;">Nuevo registro para Kit Gratis + Reto</h1>
+            <h1 style="margin:8px 0 0;font-size:24px;">Nuevo registro para kit gratuito</h1>
           </div>
           <div style="padding:26px 28px;">
             <p><strong>Nombre:</strong> ${options.fullName}</p>
             <p><strong>Email:</strong> ${options.email}</p>
             <p><strong>WhatsApp:</strong> ${options.whatsapp}</p>
             <p><strong>Pais:</strong> ${options.country || "No indicado"}</p>
+            <p><strong>Kit solicitado:</strong> ${options.kit.title}</p>
+            <p><strong>Consentimiento comercial:</strong> ${options.marketingConsent ? "SI" : "NO"}</p>
             <p><strong>Origen:</strong> ${options.sourceSummary}</p>
             <p><strong>URL:</strong> ${options.pageUrl}</p>
             <div style="margin-top:18px;padding:16px;border-left:4px solid #ff6a00;background:#fff7ed;">
@@ -110,11 +120,13 @@ function buildAdminEmail(options) {
       </div>
     `,
     textContent: [
-      "Nuevo lead Kit Gratis + Reto",
+      "Nuevo lead de kit gratuito",
       `Nombre: ${options.fullName}`,
       `Email: ${options.email}`,
       `WhatsApp: ${options.whatsapp}`,
       `Pais: ${options.country || "No indicado"}`,
+      `Kit solicitado: ${options.kit.title}`,
+      `Consentimiento comercial: ${options.marketingConsent ? "SI" : "NO"}`,
       `Origen: ${options.sourceSummary}`,
       `URL: ${options.pageUrl}`
     ].join("\n")
@@ -141,12 +153,18 @@ module.exports = async function handler(req, res) {
     const utmMedium = cleanText(body.utmMedium);
     const utmCampaign = cleanText(body.utmCampaign);
     const utmContent = cleanText(body.utmContent);
+    const kitKey = cleanText(body.kitKey);
+    const marketingConsent = Boolean(body.marketingConsent);
+    const kit = getPublicKit(kitKey);
 
     if (!fullName || !email || !whatsapp) {
       return sendJson(res, 400, { error: "Indica nombre, email y WhatsApp." });
     }
     if (!isValidEmail(email)) {
       return sendJson(res, 400, { error: "Revisa el email. Parece incompleto." });
+    }
+    if (!marketingConsent) {
+      return sendJson(res, 400, { error: "Debes aceptar el consentimiento para recibir emails sobre el kit y recursos comerciales relacionados." });
     }
 
     const siteUrl = getSiteUrl(req);
@@ -159,21 +177,26 @@ module.exports = async function handler(req, res) {
 
     let insertResult = null;
     if (supabase.isConfigured()) {
+      const consentTimestamp = new Date().toISOString();
       insertResult = await supabase.insert("affiliate_applications", {
         full_name: fullName,
         email,
         country: country || "No indicado",
         phone_country_code: "Lead kit",
         phone_number: whatsapp,
-        main_channel: "Meta lead magnet - Kit Gratis + Reto",
-        audience_type: "Lead intermedio: Kit Venta de Productos Digitales para Principiantes",
+        main_channel: kit.mainChannel,
+        audience_type: kit.audienceType,
         notes: [
           "Estado inicial: lead_kit. No es todavia solicitud formal de afiliado.",
+          `Kit solicitado: ${kit.title}`,
           `WhatsApp: ${whatsapp}`,
           `Landing: ${pageUrl || "/kit-gratis-afiliados"}`,
           `Origen: ${sourceSummary}`,
+          `Consentimiento comercial: SI`,
+          `Fuente consentimiento: formulario ${kit.key}`,
+          `Fecha consentimiento: ${consentTimestamp}`,
           "",
-          "Accion recomendada: enviar seguimiento por WhatsApp/email para que complete /afiliados#solicitud."
+          kit.followUpAction
         ].join("\n"),
         status: "lead_kit"
       });
@@ -186,8 +209,8 @@ module.exports = async function handler(req, res) {
     };
 
     if (identity.senderEmail) {
-      const applicant = buildApplicantEmail({ fullName, siteUrl });
-      const admin = buildAdminEmail({ fullName, email, whatsapp, country, sourceSummary, pageUrl });
+      const applicant = buildApplicantEmail({ fullName, siteUrl, kit });
+      const admin = buildAdminEmail({ fullName, email, whatsapp, country, sourceSummary, pageUrl, kit, marketingConsent });
       const recipientEmail = (
         process.env.AFFILIATE_NOTIFICATION_TO_EMAIL ||
         process.env.AFFILIATE_APPLICATION_REPLY_TO ||
@@ -226,8 +249,13 @@ module.exports = async function handler(req, res) {
       ok: true,
       leadId: Array.isArray(insertResult) && insertResult[0] ? insertResult[0].id : null,
       emailResults,
-      downloadUrl: `${siteUrl}/descargar/kit-gratis-afiliados`,
-      nextUrl: `${siteUrl}/descargar/kit-gratis-afiliados`
+      kitKey: kit.key,
+      kitTitle: kit.title,
+      successTitle: kit.successTitle,
+      successBody: kit.successBody,
+      successCta: kit.successCta,
+      downloadUrl: buildPublicKitDownloadUrl(siteUrl, kit.key),
+      nextUrl: buildPublicKitDownloadUrl(siteUrl, kit.key)
     });
   } catch (error) {
     return sendJson(res, 500, { error: error.message || "No se pudo registrar el lead." });

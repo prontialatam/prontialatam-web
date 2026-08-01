@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kit Gratis + Reto de 7 días | ProntIA LATAM</title>
-  <meta name="description" content="Recibe gratis el Kit Venta de Productos Digitales para Principiantes y el acceso al reto de primera activación en 7 días de ProntIA LATAM.">
+  <title>Kits Gratuitos para Afiliados | ProntIA LATAM</title>
+  <meta name="description" content="Descarga gratis los kits para afiliados de ProntIA LATAM: inicia desde cero o consigue 30 días de contenido para generar tus primeras conversaciones de venta.">
   <link rel="icon" href="logo-prontia.jpg" type="image/jpeg">
   <style>
     :root {
@@ -140,6 +140,85 @@
       margin-top: 28px;
     }
 
+    .kit-selector {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      max-width: 780px;
+      margin-top: 28px;
+    }
+
+    .kit-option {
+      position: relative;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(255,255,255,.05);
+      backdrop-filter: blur(10px);
+      transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+    }
+
+    .kit-option:hover,
+    .kit-option.is-active {
+      transform: translateY(-2px);
+      border-color: rgba(255,106,0,.55);
+      box-shadow: 0 16px 36px rgba(0,0,0,.22);
+    }
+
+    .kit-option-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(255,106,0,.14);
+      color: var(--orange-soft);
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    .kit-option h3 {
+      margin: 0 0 8px;
+      font-size: 20px;
+      line-height: 1.15;
+    }
+
+    .kit-option p {
+      margin: 0 0 14px;
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 14px;
+    }
+
+    .kit-option ul {
+      margin: 0 0 18px;
+      padding-left: 18px;
+      color: #dce6f5;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .kit-option button {
+      width: 100%;
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 12px;
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      font: inherit;
+      font-weight: 900;
+      padding: 13px 14px;
+      cursor: pointer;
+    }
+
+    .kit-option.is-active button {
+      background: linear-gradient(135deg, #ff6a00, #ff9b27);
+      color: #160806;
+      border-color: transparent;
+    }
+
     .value-card {
       min-height: 118px;
       padding: 16px;
@@ -252,6 +331,53 @@
       margin: -2px 0 0;
     }
 
+    .selected-kit {
+      display: grid;
+      gap: 8px;
+      padding: 14px 15px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,179,107,.2);
+      background: rgba(255,106,0,.08);
+    }
+
+    .selected-kit small {
+      color: var(--orange-soft);
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    .selected-kit strong {
+      font-size: 18px;
+      line-height: 1.2;
+    }
+
+    .selected-kit span {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .consent-check {
+      display: grid;
+      grid-template-columns: 18px 1fr;
+      gap: 12px;
+      align-items: start;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+      font-weight: 500;
+    }
+
+    .consent-check input {
+      margin-top: 2px;
+      width: 18px;
+      height: 18px;
+      padding: 0;
+      accent-color: var(--orange);
+    }
+
     .status {
       display: none;
       padding: 14px 16px;
@@ -359,7 +485,8 @@
       }
 
       .value-grid,
-      .proof {
+      .proof,
+      .kit-selector {
         grid-template-columns: 1fr;
       }
     }
@@ -391,6 +518,10 @@
         display: none;
       }
 
+      .kit-selector {
+        margin-top: 18px;
+      }
+
       .form-head,
       form,
       .success {
@@ -407,27 +538,52 @@
         <img src="logo-prontia.jpg" alt="ProntIA LATAM">
         <span>ProntIA LATAM</span>
       </a>
-      <div class="trust"><span class="trust-dot"></span> Acceso gratuito + entrega por email</div>
+      <div class="trust"><span class="trust-dot"></span> Descarga inmediata + consentimiento claro</div>
     </header>
 
     <main class="hero">
       <section class="hero-copy">
-        <div class="eyebrow">Kit gratis + reto guiado</div>
-        <h1>Vende productos digitales <span>sin empezar desde cero</span></h1>
-        <p class="lede">Recibe el Kit Venta de Productos Digitales para Principiantes y el acceso al reto de primera activación en 7 días. Déjanos 3 datos y te enviamos el material para empezar hoy.</p>
+        <div class="eyebrow">2 kits gratuitos · descarga inmediata</div>
+        <h1>Elige tu kit gratuito y empieza a generar <span>acción real</span></h1>
+        <p class="lede">Descarga gratis el recurso que más encaja con tu momento: empezar desde cero o publicar durante 30 días para conseguir tus primeras conversaciones de venta. Dejas 3 datos, marcas el consentimiento y el material se descarga al instante.</p>
 
         <div class="value-grid" aria-label="Beneficios principales">
           <article class="value-card">
-            <strong>Kit práctico</strong>
-            <span>Guía, plan de acción, copys y recursos para entender cómo vender productos digitales en LATAM.</span>
+            <strong>Elección clara</strong>
+            <span>No entras en un embudo confuso: eliges el kit exacto que quieres y lo recibes en el momento.</span>
           </article>
           <article class="value-card">
-            <strong>Reto 7 días</strong>
-            <span>Una ruta simple para pasar de la teoría a tus primeras acciones comerciales.</span>
+            <strong>Material accionable</strong>
+            <span>Guías, calendarios, copies, ganchos y plantillas para empezar hoy mismo sin improvisar.</span>
           </article>
           <article class="value-card">
             <strong>Puerta al 60%</strong>
             <span>Si encajas, después podrás solicitar acceso al programa de afiliados de ProntIA LATAM.</span>
+          </article>
+        </div>
+
+        <div class="kit-selector" aria-label="Selecciona tu kit">
+          <article class="kit-option is-active" data-kit-option="principiantes">
+            <div class="kit-option-badge">Empezar desde cero</div>
+            <h3>Kit Venta de Productos Digitales para Principiantes</h3>
+            <p>Perfecto si todavía estás entendiendo cómo funciona la afiliación y necesitas una base práctica para arrancar con criterio.</p>
+            <ul>
+              <li>Método inicial y ruta de activación.</li>
+              <li>Plan de 30 días y checklist responsable.</li>
+              <li>Acceso al reto de 7 días.</li>
+            </ul>
+            <button type="button" data-select-kit="principiantes">Quiero este kit</button>
+          </article>
+          <article class="kit-option" data-kit-option="30d-contenido">
+            <div class="kit-option-badge">Publicar y conversar</div>
+            <h3>30 días de contenido para conseguir tus primeras conversaciones de venta</h3>
+            <p>Ideal si ya quieres vender, pero no sabes qué publicar, qué decir ni cómo mover a la gente a una conversación real.</p>
+            <ul>
+              <li>Calendario de 30 días listo para ejecutar.</li>
+              <li>Ganchos, CTA, guiones y mensajes de WhatsApp.</li>
+              <li>Prompts IA para producir contenido más rápido.</li>
+            </ul>
+            <button type="button" data-select-kit="30d-contenido">Quiero este kit</button>
           </article>
         </div>
 
@@ -441,11 +597,17 @@
 
       <aside class="form-panel" id="registro">
         <div class="form-head">
-          <h2>Recibe el Kit Gratis + acceso al reto</h2>
-          <p>Te enviaremos el acceso por email y usaremos tu WhatsApp para darte seguimiento si quieres avanzar al programa de afiliados.</p>
+          <h2>Recibe tu kit gratuito</h2>
+          <p>Te enviaremos el acceso por email y guardaremos tu consentimiento para enviarte recursos y seguimiento comercial relacionado con el kit que elijas.</p>
         </div>
 
         <form id="leadForm" novalidate>
+          <div class="selected-kit" id="selectedKitBox">
+            <small>Kit seleccionado</small>
+            <strong id="selectedKitTitle">Kit Venta de Productos Digitales para Principiantes</strong>
+            <span id="selectedKitDescription">Método, plan de acción, checklist y reto inicial para empezar con una base clara.</span>
+          </div>
+          <input type="hidden" name="kitKey" value="principiantes">
           <label>
             Nombre
             <input name="fullName" autocomplete="name" required placeholder="Tu nombre">
@@ -462,17 +624,21 @@
             Empresa
             <input name="company" tabindex="-1" autocomplete="off">
           </label>
+          <label class="consent-check">
+            <input name="marketingConsent" type="checkbox" value="yes" required>
+            <span>Acepto recibir por email contenidos, seguimiento y propuestas comerciales relacionadas con el kit descargado y el programa de afiliados de ProntIA LATAM.</span>
+          </label>
           <div class="status" id="formStatus" role="alert"></div>
-          <button class="submit" type="submit">Enviar mi kit gratis</button>
-          <p class="fineprint">Sin spam. Primero recibirás el kit y el reto. La solicitud completa de afiliado será un segundo paso opcional.</p>
+          <button class="submit" type="submit" id="submitButton">Descargar este kit gratis</button>
+          <p class="fineprint">Sin spam. Primero recibirás el kit elegido y, si quieres seguir avanzando, después podrás solicitar acceso al programa de afiliados.</p>
         </form>
 
         <div class="success" id="successBox">
           <div class="success-card">
-            <h3>Listo. El kit está preparado.</h3>
-            <p>La descarga del ZIP debería empezar ahora mismo. También te hemos enviado el acceso por email y, cuando estés listo, podrás completar la solicitud del programa de afiliados.</p>
+            <h3 id="successTitle">Listo. El kit está preparado.</h3>
+            <p id="successBody">La descarga del ZIP debería empezar ahora mismo. También te hemos enviado el acceso por email y, cuando estés listo, podrás completar la solicitud del programa de afiliados.</p>
             <div class="success-actions">
-              <a class="download-link" href="/descargar/kit-gratis-afiliados">Descargar el kit gratis</a>
+              <a class="download-link" id="successDownloadLink" href="/descargar/kit-gratis-afiliados?kit=principiantes">Descargar el kit gratis</a>
               <a class="application-link" href="/afiliados#solicitud">Completar solicitud de afiliado</a>
             </div>
           </div>
@@ -481,7 +647,7 @@
     </main>
 
     <footer>
-      ProntIA LATAM. Recursos educativos y programa de afiliados por nichos. Al enviar tus datos aceptas que podamos contactar contigo sobre el kit, el reto y el programa de afiliados.
+      ProntIA LATAM. Recursos educativos y programa de afiliados por nichos. Al enviar tus datos aceptas recibir comunicaciones sobre el kit descargado, recursos relacionados y el programa de afiliados.
     </footer>
   </div>
 
@@ -490,8 +656,44 @@
       var form = document.getElementById("leadForm");
       var statusBox = document.getElementById("formStatus");
       var successBox = document.getElementById("successBox");
-      var submitButton = form.querySelector("button[type='submit']");
+      var submitButton = document.getElementById("submitButton");
+      var selectedKitInput = form.querySelector("input[name='kitKey']");
+      var selectedKitTitle = document.getElementById("selectedKitTitle");
+      var selectedKitDescription = document.getElementById("selectedKitDescription");
+      var successTitle = document.getElementById("successTitle");
+      var successBody = document.getElementById("successBody");
+      var successDownloadLink = document.getElementById("successDownloadLink");
       var params = new URLSearchParams(window.location.search);
+      var kitButtons = document.querySelectorAll("[data-select-kit]");
+      var kitOptions = document.querySelectorAll("[data-kit-option]");
+      var kits = {
+        "principiantes": {
+          title: "Kit Venta de Productos Digitales para Principiantes",
+          description: "Método, plan de acción, checklist y reto inicial para empezar con una base clara.",
+          button: "Descargar el kit para principiantes"
+        },
+        "30d-contenido": {
+          title: "30 días de contenido para conseguir tus primeras conversaciones de venta",
+          description: "Calendario, ganchos, copies, guiones, CTA y mensajes para dejar de improvisar y empezar a conversar.",
+          button: "Descargar el Kit 30D"
+        }
+      };
+
+      function getKitConfig(kitKey) {
+        return kits[kitKey] || kits.principiantes;
+      }
+
+      function setSelectedKit(kitKey) {
+        var selectedKey = kits[kitKey] ? kitKey : "principiantes";
+        var config = getKitConfig(selectedKey);
+        selectedKitInput.value = selectedKey;
+        selectedKitTitle.textContent = config.title;
+        selectedKitDescription.textContent = config.description;
+        submitButton.textContent = config.button;
+        Array.prototype.forEach.call(kitOptions, function (option) {
+          option.classList.toggle("is-active", option.getAttribute("data-kit-option") === selectedKey);
+        });
+      }
 
       function showError(message) {
         statusBox.textContent = message;
@@ -503,6 +705,16 @@
         statusBox.className = "status";
       }
 
+      Array.prototype.forEach.call(kitButtons, function (button) {
+        button.addEventListener("click", function () {
+          var kitKey = button.getAttribute("data-select-kit");
+          setSelectedKit(kitKey);
+          document.getElementById("registro").scrollIntoView({ behavior: "smooth", block: "start" });
+        });
+      });
+
+      setSelectedKit(params.get("kit") || "principiantes");
+
       form.addEventListener("submit", function (event) {
         event.preventDefault();
         clearError();
@@ -513,6 +725,8 @@
           email: String(formData.get("email") || "").trim(),
           whatsapp: String(formData.get("whatsapp") || "").trim(),
           company: String(formData.get("company") || "").trim(),
+          kitKey: String(formData.get("kitKey") || "").trim(),
+          marketingConsent: formData.get("marketingConsent") === "yes",
           pageUrl: window.location.href,
           utmSource: params.get("utm_source") || "",
           utmMedium: params.get("utm_medium") || "",
@@ -522,6 +736,10 @@
 
         if (!payload.fullName || !payload.email || !payload.whatsapp) {
           showError("Completa nombre, email y WhatsApp para recibir el kit.");
+          return;
+        }
+        if (!payload.marketingConsent) {
+          showError("Debes aceptar el consentimiento para enviarte el kit y la información comercial relacionada.");
           return;
         }
 
@@ -544,7 +762,11 @@
           .then(function (data) {
             form.style.display = "none";
             successBox.className = "success is-visible";
-            var downloadUrl = data.downloadUrl || "/descargar/kit-gratis-afiliados";
+            successTitle.textContent = data.successTitle || "Listo. El kit está preparado.";
+            successBody.textContent = data.successBody || "La descarga del ZIP debería empezar ahora mismo.";
+            successDownloadLink.href = data.downloadUrl || "/descargar/kit-gratis-afiliados?kit=principiantes";
+            successDownloadLink.textContent = data.successCta || "Descargar el kit gratis";
+            var downloadUrl = data.downloadUrl || "/descargar/kit-gratis-afiliados?kit=principiantes";
             var downloadLink = document.createElement("a");
             downloadLink.href = downloadUrl;
             downloadLink.setAttribute("download", "");
@@ -558,7 +780,7 @@
           })
           .finally(function () {
             submitButton.disabled = false;
-            submitButton.textContent = "Enviar mi kit gratis";
+            submitButton.textContent = getKitConfig(selectedKitInput.value).button;
           });
       });
     }());

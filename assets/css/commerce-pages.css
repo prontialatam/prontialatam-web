@@ -1366,7 +1366,6 @@ textarea {
   .grid-3,
   .grid-2,
   .program-strip,
-  .challenge-grid,
   .resource-preview-grid,
   .form-grid.two,
   .meta-list,
@@ -1436,6 +1435,38 @@ textarea {
     align-items: flex-start;
     flex-direction: column;
   }
+
+  .challenge-grid.challenge-carousel {
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(18rem, 78vw);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    padding: 0.2rem 0 0.95rem;
+    margin: 0 -0.1rem;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(24, 95, 165, 0.45) rgba(230, 241, 251, 0.7);
+  }
+
+  .challenge-grid.challenge-carousel::-webkit-scrollbar {
+    height: 0.45rem;
+  }
+
+  .challenge-grid.challenge-carousel::-webkit-scrollbar-track {
+    background: rgba(230, 241, 251, 0.7);
+    border-radius: 999px;
+  }
+
+  .challenge-grid.challenge-carousel::-webkit-scrollbar-thumb {
+    background: rgba(24, 95, 165, 0.45);
+    border-radius: 999px;
+  }
+
+  .challenge-grid.challenge-carousel .challenge-day-card {
+    min-height: 100%;
+    scroll-snap-align: start;
+  }
 }
 
 @media (max-width: 640px) {
@@ -1471,6 +1502,12 @@ textarea {
 
   .application-shell {
     padding: 0.78rem;
+  }
+
+  .challenge-grid.challenge-carousel {
+    grid-auto-columns: minmax(16.5rem, 85vw);
+    gap: 0.9rem;
+    padding-bottom: 0.8rem;
   }
 
   .application-signal-row {

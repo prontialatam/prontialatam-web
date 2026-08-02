@@ -148,6 +148,68 @@
       margin-top: 28px;
     }
 
+    .kit-promo-visual {
+      position: relative;
+      margin-top: 22px;
+      max-width: 780px;
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 24px;
+      overflow: hidden;
+      background: rgba(255,255,255,.04);
+      box-shadow: 0 24px 60px rgba(0,0,0,.28);
+    }
+
+    .kit-promo-visual img {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+    }
+
+    .kit-promo-caption {
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      bottom: 18px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(10,14,30,.9), rgba(28,14,52,.76));
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,.1);
+    }
+
+    .kit-promo-caption strong {
+      display: block;
+      font-size: 16px;
+      margin-bottom: 4px;
+    }
+
+    .kit-promo-caption span {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .kit-promo-pill {
+      flex: 0 0 auto;
+      display: inline-flex;
+      align-items: center;
+      padding: 10px 13px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #ff6a00, #ff9b27);
+      color: #160806;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
     .kit-option {
       position: relative;
       padding: 18px;
@@ -213,40 +275,20 @@
       cursor: pointer;
     }
 
-    .kit-option-preview {
-      margin: 0 0 18px;
-      border: 1px solid rgba(255,255,255,.12);
+    .kit-option-media {
+      margin: -2px 0 14px;
       border-radius: 16px;
       overflow: hidden;
-      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
-      box-shadow: 0 14px 34px rgba(0,0,0,.2);
+      border: 1px solid rgba(255,255,255,.1);
+      background: rgba(255,255,255,.03);
+      aspect-ratio: 1.08 / 1;
     }
 
-    .kit-option-preview img {
+    .kit-option-media img {
       display: block;
       width: 100%;
-      height: auto;
-    }
-
-    .kit-option-preview-copy {
-      padding: 12px 14px 14px;
-      background: linear-gradient(180deg, rgba(7,7,22,.2), rgba(7,7,22,.45));
-    }
-
-    .kit-option-preview-copy strong {
-      display: block;
-      font-size: 13px;
-      color: var(--orange-soft);
-      text-transform: uppercase;
-      letter-spacing: .08em;
-      margin-bottom: 5px;
-    }
-
-    .kit-option-preview-copy span {
-      display: block;
-      color: #dce6f5;
-      font-size: 13px;
-      line-height: 1.5;
+      height: 100%;
+      object-fit: cover;
     }
 
     .kit-option.is-active button {
@@ -594,6 +636,24 @@
         margin-top: 18px;
       }
 
+      .kit-promo-visual {
+        margin-top: 18px;
+        border-radius: 20px;
+      }
+
+      .kit-promo-caption {
+        position: static;
+        flex-direction: column;
+        align-items: flex-start;
+        border-radius: 0;
+        border: 0;
+        border-top: 1px solid rgba(255,255,255,.08);
+      }
+
+      .kit-promo-pill {
+        white-space: normal;
+      }
+
       .form-head,
       form,
       .success {
@@ -634,8 +694,22 @@
           </article>
         </div>
 
+        <div class="kit-promo-visual" aria-label="Visión general de los kits gratuitos">
+          <img src="/assets/img/kit-30d-contenido/facebook-post-viral-kit-30d-ads-v2.jpg" alt="ProntIA LATAM ofrece dos kits gratuitos para empezar a vender productos digitales con apoyo real">
+          <div class="kit-promo-caption">
+            <div>
+              <strong>Dos rutas gratuitas para arrancar con criterio</strong>
+              <span>Elige si necesitas empezar desde cero o si ya quieres publicar y generar conversaciones de venta.</span>
+            </div>
+            <div class="kit-promo-pill">elige tu mejor punto de entrada</div>
+          </div>
+        </div>
+
         <div class="kit-selector" aria-label="Selecciona tu kit">
           <article class="kit-option is-active" data-kit-option="principiantes">
+            <div class="kit-option-media">
+              <img src="/assets/img/kit-afiliados-principiantes/kit-principiantes-square.jpg" alt="Portada del kit para principiantes de ProntIA LATAM">
+            </div>
             <div class="kit-option-badge">Empezar desde cero</div>
             <h3>Kit Venta de Productos Digitales para Principiantes</h3>
             <p>Perfecto si todavía estás entendiendo cómo funciona la afiliación y necesitas una base práctica para arrancar con criterio.</p>
@@ -647,6 +721,9 @@
             <button type="button" data-select-kit="principiantes">Quiero este kit</button>
           </article>
           <article class="kit-option" data-kit-option="30d-contenido">
+            <div class="kit-option-media">
+              <img src="/assets/img/kit-30d-contenido/kit-30d-square.jpg" alt="Portada del kit 30 días de contenido de ProntIA LATAM">
+            </div>
             <div class="kit-option-badge">Publicar y conversar</div>
             <h3>30 días de contenido para conseguir tus primeras conversaciones de venta</h3>
             <p>Ideal si ya quieres vender, pero no sabes qué publicar, qué decir ni cómo mover a la gente a una conversación real.</p>
@@ -655,13 +732,6 @@
               <li>Ganchos, CTA, guiones y mensajes de WhatsApp.</li>
               <li>Prompts IA para producir contenido más rápido.</li>
             </ul>
-            <div class="kit-option-preview">
-              <img src="/assets/img/kit-30d-contenido/facebook-post-viral-kit-30d.jpg" alt="Preview de la creatividad incluida en el Kit 30D de ProntIA LATAM">
-              <div class="kit-option-preview-copy">
-                <strong>Preview del material</strong>
-                <span>Dentro del kit también recibes creatividades listas para publicar y adaptar en Facebook, WhatsApp y otros canales.</span>
-              </div>
-            </div>
             <button type="button" data-select-kit="30d-contenido">Quiero este kit</button>
           </article>
         </div>

@@ -1,7 +1,36 @@
 const { getSiteUrl, parseJsonBody, sendJson } = require("../_lib/http");
 const supabase = require("../_lib/supabase");
-const { sendBrevoEmail } = require("../_lib/email");
+const { sendBrevoEmail, upsertBrevoContactForPublicKitLead } = require("../_lib/email");
 const { buildPublicKitDownloadUrl, getPublicKit } = require("../_lib/public-kits");
+
+const DISPOSABLE_EMAIL_DOMAINS = new Set([
+  "10minutemail.com",
+  "10minutemail.net",
+  "dispostable.com",
+  "emailondeck.com",
+  "fakeinbox.com",
+  "getairmail.com",
+  "guerrillamail.com",
+  "guerrillamailblock.com",
+  "guerrillamail.net",
+  "inboxkitten.com",
+  "maildrop.cc",
+  "mailinator.com",
+  "mailnesia.com",
+  "mintemail.com",
+  "moakt.com",
+  "sharklasers.com",
+  "spamgourmet.com",
+  "temp-mail.org",
+  "tempmail.com",
+  "tempmail.plus",
+  "tempmailo.com",
+  "throwawaymail.com",
+  "trashmail.com",
+  "yopmail.com",
+  "yopmail.fr",
+  "yopmail.net"
+]);
 
 function cleanText(value) {
   return String(value || "").replace(/\s+/g, " ").trim();
@@ -17,6 +46,40 @@ function isValidEmail(email) {
 
 function normalizePhoneDigits(value) {
   return String(value || "").replace(/[^\d]/g, "");
+}
+
+function getEmailDomain(email) {
+  return String(email || "").trim().toLowerCase().split("@")[1] || "";
+}
+
+function isDisposableEmail(email) {
+  const domain = getEmailDomain(email);
+  const extraBlockedDomains = String(process.env.PUBLIC_KIT_BLOCKED_EMAIL_DOMAINS || "")
+    .split(",")
+    .map((item) => String(item || "").trim().toLowerCase())
+    .filter(Boolean);
+
+  return DISPOSABLE_EMAIL_DOMAINS.has(domain) || extraBlockedDomains.includes(domain);
+}
+
+async function notifyWhatsappAutomation(payload) {
+  const webhookUrl = String(process.env.PUBLIC_KIT_WHATSAPP_AUTOMATION_WEBHOOK_URL || "").trim();
+  if (!webhookUrl) {
+    return { ok: false, skipped: true, reason: "missing_whatsapp_webhook_url" };
+  }
+
+  const response = await fetch(webhookUrl, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  });
+
+  if (!response.ok) {
+    const text = await response.text();
+    throw new Error(text || "No se pudo activar la automatización de WhatsApp");
+  }
+
+  return { ok: true };
 }
 
 function getEmailIdentity() {
@@ -151,6 +214,7 @@ module.exports = async function handler(req, res) {
 
     const fullName = cleanText(body.fullName);
     const email = cleanEmail(body.email);
+    const confirmEmail = cleanEmail(body.confirmEmail);
     const whatsappCountryCode = cleanText(body.whatsappCountryCode);
     const whatsappCountryName = cleanText(body.whatsappCountryName);
     const whatsappNumber = normalizePhoneDigits(body.whatsappNumber);
@@ -165,11 +229,17 @@ module.exports = async function handler(req, res) {
     const marketingConsent = Boolean(body.marketingConsent);
     const kit = getPublicKit(kitKey);
 
-    if (!fullName || !email || !whatsappCountryCode || !whatsappNumber) {
-      return sendJson(res, 400, { error: "Indica nombre, email, prefijo de WhatsApp y número." });
+    if (!fullName || !email || !confirmEmail || !whatsappCountryCode || !whatsappNumber) {
+      return sendJson(res, 400, { error: "Indica nombre, email, confirma tu email, prefijo de WhatsApp y número." });
     }
     if (!isValidEmail(email)) {
       return sendJson(res, 400, { error: "Revisa el email. Parece incompleto." });
+    }
+    if (email !== confirmEmail) {
+      return sendJson(res, 400, { error: "Los dos campos de email no coinciden." });
+    }
+    if (isDisposableEmail(email)) {
+      return sendJson(res, 400, { error: "Usa un email real y permanente para recibir el kit." });
     }
     if (!/^\+\d{1,4}$/.test(whatsappCountryCode)) {
       return sendJson(res, 400, { error: "Selecciona un prefijo de WhatsApp válido." });
@@ -222,6 +292,8 @@ module.exports = async function handler(req, res) {
       applicant: { ok: false, skipped: true, reason: "missing_sender_email" },
       admin: { ok: false, skipped: true, reason: "missing_sender_email" }
     };
+    let brevoContactResult = { ok: false, skipped: true, reason: "not_attempted" };
+    let whatsappAutomationResult = { ok: false, skipped: true, reason: "not_attempted" };
 
     if (identity.senderEmail) {
       const applicant = buildApplicantEmail({ fullName, email, siteUrl, kit });
@@ -266,6 +338,36 @@ module.exports = async function handler(req, res) {
       });
     }
 
+    try {
+      brevoContactResult = await upsertBrevoContactForPublicKitLead({
+        email,
+        fullName,
+        whatsapp,
+        whatsappQualified: true
+      });
+    } catch (error) {
+      brevoContactResult = { ok: false, skipped: false, reason: "brevo_sync_failed", error: error.message };
+    }
+
+    try {
+      whatsappAutomationResult = await notifyWhatsappAutomation({
+        source: "public_kit_lead",
+        submittedAt: new Date().toISOString(),
+        fullName,
+        email,
+        whatsapp,
+        whatsappCountryCode,
+        whatsappNumber,
+        country: country || "No indicado",
+        kitKey: kit.key,
+        kitTitle: kit.title,
+        pageUrl: pageUrl || `${siteUrl}/kit-gratis-afiliados`,
+        sourceSummary
+      });
+    } catch (error) {
+      whatsappAutomationResult = { ok: false, skipped: false, reason: "whatsapp_automation_failed", error: error.message };
+    }
+
     return sendJson(res, 200, {
       ok: true,
       leadId: Array.isArray(insertResult) && insertResult[0] ? insertResult[0].id : null,
@@ -275,6 +377,8 @@ module.exports = async function handler(req, res) {
       successTitle: kit.successTitle,
       successBody: `${kit.successBody} Lo hemos enviado a ${email}.`,
       successCta: kit.successCta,
+      brevoContactResult,
+      whatsappAutomationResult,
       nextUrl: `${siteUrl}/afiliados#solicitud`
     });
   } catch (error) {

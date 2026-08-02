@@ -15,6 +15,10 @@ function isValidEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
+function normalizePhoneDigits(value) {
+  return String(value || "").replace(/[^\d]/g, "");
+}
+
 function getEmailIdentity() {
   const senderEmail = (
     process.env.AFFILIATE_APPLICATION_FROM_EMAIL ||
@@ -39,7 +43,7 @@ function getEmailIdentity() {
 }
 
 function buildApplicantEmail(options) {
-  const kitUrl = buildPublicKitDownloadUrl(options.siteUrl, options.kit.key);
+  const kitUrl = buildPublicKitDownloadUrl(options.siteUrl, options.kit.key, options.email);
   const challengeUrl = options.kit.challengeRoute ? `${options.siteUrl}${options.kit.challengeRoute}` : "";
   const applicationUrl = `${options.siteUrl}/afiliados#solicitud`;
   const secondaryAction = challengeUrl
@@ -71,6 +75,7 @@ function buildApplicantEmail(options) {
               <strong style="display:block;color:#111827;margin-bottom:6px;">Siguiente paso recomendado</strong>
               <span style="font-size:15px;line-height:1.7;color:#111111;">Completa la solicitud para que podamos revisar tu perfil, activar tu acceso privado y prepararte materiales por nicho.</span>
             </div>
+            <p style="margin:0 0 18px;font-size:13px;line-height:1.7;color:#6b7280;">Por seguridad, este acceso se ha enviado solo a tu email y el enlace de descarga es personal.</p>
             <a href="${applicationUrl}" style="display:inline-block;color:#111111;font-weight:700;">Completar solicitud de afiliado</a>
           </div>
           <div style="padding:20px 34px 30px;color:#6b7280;font-size:13px;line-height:1.7;border-top:1px solid #ebe7df;">
@@ -146,8 +151,11 @@ module.exports = async function handler(req, res) {
 
     const fullName = cleanText(body.fullName);
     const email = cleanEmail(body.email);
-    const whatsapp = cleanText(body.whatsapp);
-    const country = cleanText(body.country);
+    const whatsappCountryCode = cleanText(body.whatsappCountryCode);
+    const whatsappCountryName = cleanText(body.whatsappCountryName);
+    const whatsappNumber = normalizePhoneDigits(body.whatsappNumber);
+    const whatsapp = `${whatsappCountryCode} ${whatsappNumber}`.trim();
+    const country = cleanText(body.country || whatsappCountryName);
     const pageUrl = cleanText(body.pageUrl);
     const utmSource = cleanText(body.utmSource);
     const utmMedium = cleanText(body.utmMedium);
@@ -157,11 +165,17 @@ module.exports = async function handler(req, res) {
     const marketingConsent = Boolean(body.marketingConsent);
     const kit = getPublicKit(kitKey);
 
-    if (!fullName || !email || !whatsapp) {
-      return sendJson(res, 400, { error: "Indica nombre, email y WhatsApp." });
+    if (!fullName || !email || !whatsappCountryCode || !whatsappNumber) {
+      return sendJson(res, 400, { error: "Indica nombre, email, prefijo de WhatsApp y número." });
     }
     if (!isValidEmail(email)) {
       return sendJson(res, 400, { error: "Revisa el email. Parece incompleto." });
+    }
+    if (!/^\+\d{1,4}$/.test(whatsappCountryCode)) {
+      return sendJson(res, 400, { error: "Selecciona un prefijo de WhatsApp válido." });
+    }
+    if (whatsappNumber.length < 7 || whatsappNumber.length > 15) {
+      return sendJson(res, 400, { error: "Revisa el número de WhatsApp. Parece incompleto." });
     }
     if (!marketingConsent) {
       return sendJson(res, 400, { error: "Debes aceptar el consentimiento para recibir emails sobre el kit y recursos comerciales relacionados." });
@@ -182,14 +196,15 @@ module.exports = async function handler(req, res) {
         full_name: fullName,
         email,
         country: country || "No indicado",
-        phone_country_code: "Lead kit",
-        phone_number: whatsapp,
+        phone_country_code: whatsappCountryCode,
+        phone_number: whatsappNumber,
         main_channel: kit.mainChannel,
         audience_type: kit.audienceType,
         notes: [
           "Estado inicial: lead_kit. No es todavia solicitud formal de afiliado.",
           `Kit solicitado: ${kit.title}`,
           `WhatsApp: ${whatsapp}`,
+          `Pais/prefijo: ${country || "No indicado"} (${whatsappCountryCode})`,
           `Landing: ${pageUrl || "/kit-gratis-afiliados"}`,
           `Origen: ${sourceSummary}`,
           `Consentimiento comercial: SI`,
@@ -209,7 +224,7 @@ module.exports = async function handler(req, res) {
     };
 
     if (identity.senderEmail) {
-      const applicant = buildApplicantEmail({ fullName, siteUrl, kit });
+      const applicant = buildApplicantEmail({ fullName, email, siteUrl, kit });
       const admin = buildAdminEmail({ fullName, email, whatsapp, country, sourceSummary, pageUrl, kit, marketingConsent });
       const recipientEmail = (
         process.env.AFFILIATE_NOTIFICATION_TO_EMAIL ||
@@ -245,6 +260,12 @@ module.exports = async function handler(req, res) {
       }
     }
 
+    if (!emailResults.applicant.ok) {
+      return sendJson(res, 502, {
+        error: "No pudimos enviarte el kit por email en este momento. Revisa el correo y vuelve a intentarlo en unos minutos."
+      });
+    }
+
     return sendJson(res, 200, {
       ok: true,
       leadId: Array.isArray(insertResult) && insertResult[0] ? insertResult[0].id : null,
@@ -252,10 +273,9 @@ module.exports = async function handler(req, res) {
       kitKey: kit.key,
       kitTitle: kit.title,
       successTitle: kit.successTitle,
-      successBody: kit.successBody,
+      successBody: `${kit.successBody} Lo hemos enviado a ${email}.`,
       successCta: kit.successCta,
-      downloadUrl: buildPublicKitDownloadUrl(siteUrl, kit.key),
-      nextUrl: buildPublicKitDownloadUrl(siteUrl, kit.key)
+      nextUrl: `${siteUrl}/afiliados#solicitud`
     });
   } catch (error) {
     return sendJson(res, 500, { error: error.message || "No se pudo registrar el lead." });

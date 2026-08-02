@@ -320,7 +320,8 @@
       font-weight: 700;
     }
 
-    input {
+    input,
+    select {
       width: 100%;
       border: 1px solid rgba(255,255,255,.16);
       border-radius: 8px;
@@ -331,9 +332,39 @@
       outline: none;
     }
 
-    input:focus {
+    input:focus,
+    select:focus {
       border-color: var(--orange);
       box-shadow: 0 0 0 4px rgba(255,106,0,.15);
+    }
+
+    select {
+      appearance: none;
+      background-image:
+        linear-gradient(45deg, transparent 50%, var(--orange-soft) 50%),
+        linear-gradient(135deg, var(--orange-soft) 50%, transparent 50%);
+      background-position:
+        calc(100% - 22px) calc(50% - 3px),
+        calc(100% - 16px) calc(50% - 3px);
+      background-size: 6px 6px, 6px 6px;
+      background-repeat: no-repeat;
+      padding-right: 42px;
+    }
+
+    .phone-row {
+      display: grid;
+      grid-template-columns: 220px minmax(0, 1fr);
+      gap: 12px;
+      align-items: end;
+    }
+
+    .phone-note {
+      display: block;
+      margin-top: 4px;
+      color: #92a0b6;
+      font-size: 12px;
+      line-height: 1.5;
+      font-weight: 500;
     }
 
     .hidden-field {
@@ -470,11 +501,6 @@
       text-decoration: none;
     }
 
-    .download-link {
-      background: var(--green);
-      color: #04130c;
-    }
-
     .application-link {
       background: rgba(255,255,255,.08);
       border: 1px solid var(--line);
@@ -523,6 +549,10 @@
       .value-grid,
       .proof,
       .kit-selector {
+        grid-template-columns: 1fr;
+      }
+
+      .phone-row {
         grid-template-columns: 1fr;
       }
     }
@@ -574,14 +604,14 @@
         <img src="logo-prontia.jpg" alt="ProntIA LATAM">
         <span>ProntIA LATAM</span>
       </a>
-      <div class="trust"><span class="trust-dot"></span> Descarga inmediata + consentimiento claro</div>
+      <div class="trust"><span class="trust-dot"></span> Entrega inmediata por email + consentimiento claro</div>
     </header>
 
     <main class="hero">
       <section class="hero-copy">
         <div class="eyebrow">2 kits gratuitos · descarga inmediata</div>
         <h1>Elige tu kit gratuito y empieza a generar <span>acción real</span></h1>
-        <p class="lede">Descarga gratis el recurso que más encaja con tu momento: empezar desde cero o publicar durante 30 días para conseguir tus primeras conversaciones de venta. Dejas 3 datos, marcas el consentimiento y el material se descarga al instante.</p>
+        <p class="lede">Elige el recurso que más encaja con tu momento: empezar desde cero o publicar durante 30 días para conseguir tus primeras conversaciones de venta. Dejas tus datos reales, marcas el consentimiento y te enviamos el acceso al instante por email.</p>
 
         <div class="value-grid" aria-label="Beneficios principales">
           <article class="value-card">
@@ -641,7 +671,7 @@
       <aside class="form-panel" id="registro">
         <div class="form-head">
           <h2>Recibe tu kit gratuito</h2>
-          <p>Te enviaremos el acceso por email y guardaremos tu consentimiento para enviarte recursos y seguimiento comercial relacionado con el kit que elijas.</p>
+          <p>Te enviaremos el acceso solo por email y guardaremos tu consentimiento para enviarte recursos y seguimiento comercial relacionado con el kit que elijas.</p>
         </div>
 
         <form id="leadForm" novalidate>
@@ -659,10 +689,43 @@
             Email
             <input name="email" type="email" autocomplete="email" required placeholder="tu@email.com">
           </label>
-          <label>
-            WhatsApp
-            <input name="whatsapp" type="tel" autocomplete="tel" required placeholder="+52 55 1234 5678">
-          </label>
+          <div class="phone-row">
+            <label>
+              Prefijo WhatsApp
+              <select name="whatsappCountryCode" required>
+                <option value="+54" data-country="Argentina">Argentina · +54</option>
+                <option value="+501" data-country="Belice">Belice · +501</option>
+                <option value="+591" data-country="Bolivia">Bolivia · +591</option>
+                <option value="+55" data-country="Brasil">Brasil · +55</option>
+                <option value="+56" data-country="Chile">Chile · +56</option>
+                <option value="+57" data-country="Colombia">Colombia · +57</option>
+                <option value="+506" data-country="Costa Rica">Costa Rica · +506</option>
+                <option value="+53" data-country="Cuba">Cuba · +53</option>
+                <option value="+593" data-country="Ecuador">Ecuador · +593</option>
+                <option value="+503" data-country="El Salvador">El Salvador · +503</option>
+                <option value="+594" data-country="Guayana Francesa">Guayana Francesa · +594</option>
+                <option value="+502" data-country="Guatemala">Guatemala · +502</option>
+                <option value="+592" data-country="Guyana">Guyana · +592</option>
+                <option value="+509" data-country="Haití">Haití · +509</option>
+                <option value="+504" data-country="Honduras">Honduras · +504</option>
+                <option value="+52" data-country="México" selected>México · +52</option>
+                <option value="+505" data-country="Nicaragua">Nicaragua · +505</option>
+                <option value="+507" data-country="Panamá">Panamá · +507</option>
+                <option value="+595" data-country="Paraguay">Paraguay · +595</option>
+                <option value="+51" data-country="Perú">Perú · +51</option>
+                <option value="+1" data-country="Puerto Rico">Puerto Rico · +1</option>
+                <option value="+1" data-country="República Dominicana">República Dominicana · +1</option>
+                <option value="+597" data-country="Surinam">Surinam · +597</option>
+                <option value="+598" data-country="Uruguay">Uruguay · +598</option>
+                <option value="+58" data-country="Venezuela">Venezuela · +58</option>
+              </select>
+            </label>
+            <label>
+              Número de WhatsApp
+              <input name="whatsappNumber" type="tel" inputmode="numeric" autocomplete="tel-national" required placeholder="5512345678">
+              <span class="phone-note">Escribe tu número sin repetir el prefijo y sin letras.</span>
+            </label>
+          </div>
           <label class="hidden-field">
             Empresa
             <input name="company" tabindex="-1" autocomplete="off">
@@ -672,16 +735,15 @@
             <span>Acepto recibir por email contenidos, seguimiento y propuestas comerciales relacionadas con el kit descargado y el programa de afiliados de ProntIA LATAM.</span>
           </label>
           <div class="status" id="formStatus" role="alert"></div>
-          <button class="submit" type="submit" id="submitButton">Descargar este kit gratis</button>
-          <p class="fineprint">Sin spam. Primero recibirás el kit elegido y, si quieres seguir avanzando, después podrás solicitar acceso al programa de afiliados.</p>
+          <button class="submit" type="submit" id="submitButton">Enviar y recibir el kit por email</button>
+          <p class="fineprint">Sin spam. Enviamos el acceso al email indicado y usamos tu WhatsApp real para seguimiento comercial responsable si decides continuar.</p>
         </form>
 
         <div class="success" id="successBox">
           <div class="success-card">
             <h3 id="successTitle">Listo. El kit está preparado.</h3>
-            <p id="successBody">La descarga del ZIP debería empezar ahora mismo. También te hemos enviado el acceso por email y, cuando estés listo, podrás completar la solicitud del programa de afiliados.</p>
+            <p id="successBody">Te hemos enviado el acceso por email. Revisa tu bandeja de entrada y, si no aparece en unos minutos, mira spam o promociones. Cuando quieras, podrás completar la solicitud del programa de afiliados.</p>
             <div class="success-actions">
-              <a class="download-link" id="successDownloadLink" href="/descargar/kit-gratis-afiliados?kit=principiantes">Descargar el kit gratis</a>
               <a class="application-link" href="/afiliados#solicitud">Completar solicitud de afiliado</a>
             </div>
           </div>
@@ -705,7 +767,7 @@
       var selectedKitDescription = document.getElementById("selectedKitDescription");
       var successTitle = document.getElementById("successTitle");
       var successBody = document.getElementById("successBody");
-      var successDownloadLink = document.getElementById("successDownloadLink");
+      var whatsappCountrySelect = form.querySelector("select[name='whatsappCountryCode']");
       var params = new URLSearchParams(window.location.search);
       var kitButtons = document.querySelectorAll("[data-select-kit]");
       var kitOptions = document.querySelectorAll("[data-kit-option]");
@@ -713,12 +775,12 @@
         "principiantes": {
           title: "Kit Venta de Productos Digitales para Principiantes",
           description: "Método, plan de acción, checklist y reto inicial para empezar con una base clara.",
-          button: "Descargar el kit para principiantes"
+          button: "Enviar y recibir el kit por email"
         },
         "30d-contenido": {
           title: "30 días de contenido para conseguir tus primeras conversaciones de venta",
           description: "Calendario, ganchos, copies, guiones, CTA y mensajes para dejar de improvisar y empezar a conversar.",
-          button: "Descargar el Kit 30D"
+          button: "Enviar y recibir el Kit 30D por email"
         }
       };
 
@@ -763,10 +825,14 @@
         clearError();
 
         var formData = new FormData(form);
+        var selectedCountryOption = whatsappCountrySelect.options[whatsappCountrySelect.selectedIndex];
         var payload = {
           fullName: String(formData.get("fullName") || "").trim(),
           email: String(formData.get("email") || "").trim(),
-          whatsapp: String(formData.get("whatsapp") || "").trim(),
+          whatsappCountryCode: String(formData.get("whatsappCountryCode") || "").trim(),
+          whatsappCountryName: selectedCountryOption ? String(selectedCountryOption.getAttribute("data-country") || "").trim() : "",
+          whatsappNumber: String(formData.get("whatsappNumber") || "").trim(),
+          country: selectedCountryOption ? String(selectedCountryOption.getAttribute("data-country") || "").trim() : "",
           company: String(formData.get("company") || "").trim(),
           kitKey: String(formData.get("kitKey") || "").trim(),
           marketingConsent: formData.get("marketingConsent") === "yes",
@@ -777,8 +843,8 @@
           utmContent: params.get("utm_content") || ""
         };
 
-        if (!payload.fullName || !payload.email || !payload.whatsapp) {
-          showError("Completa nombre, email y WhatsApp para recibir el kit.");
+        if (!payload.fullName || !payload.email || !payload.whatsappCountryCode || !payload.whatsappNumber) {
+          showError("Completa nombre, email, prefijo y número de WhatsApp para recibir el kit.");
           return;
         }
         if (!payload.marketingConsent) {
@@ -806,17 +872,7 @@
             form.style.display = "none";
             successBox.className = "success is-visible";
             successTitle.textContent = data.successTitle || "Listo. El kit está preparado.";
-            successBody.textContent = data.successBody || "La descarga del ZIP debería empezar ahora mismo.";
-            successDownloadLink.href = data.downloadUrl || "/descargar/kit-gratis-afiliados?kit=principiantes";
-            successDownloadLink.textContent = data.successCta || "Descargar el kit gratis";
-            var downloadUrl = data.downloadUrl || "/descargar/kit-gratis-afiliados?kit=principiantes";
-            var downloadLink = document.createElement("a");
-            downloadLink.href = downloadUrl;
-            downloadLink.setAttribute("download", "");
-            downloadLink.style.display = "none";
-            document.body.appendChild(downloadLink);
-            downloadLink.click();
-            document.body.removeChild(downloadLink);
+            successBody.textContent = data.successBody || "Te hemos enviado el acceso por email.";
           })
           .catch(function (error) {
             showError(error.message || "Ha ocurrido un error. Inténtalo de nuevo.");

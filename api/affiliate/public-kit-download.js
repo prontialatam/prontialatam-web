@@ -5,7 +5,7 @@ const {
   getAbsoluteProjectFile,
   getContentType
 } = require("../_lib/affiliate-access");
-const { getPublicKit } = require("../_lib/public-kits");
+const { getPublicKit, verifyPublicKitDownloadAccess } = require("../_lib/public-kits");
 
 module.exports = async function handler(req, res) {
   if (req.method !== "GET") {
@@ -14,7 +14,18 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    const kit = getPublicKit(String((req.query && req.query.kit) || "").trim());
+    const kitKey = String((req.query && req.query.kit) || "").trim();
+    const email = String((req.query && req.query.email) || "").trim();
+    const expires = String((req.query && req.query.expires) || "").trim();
+    const token = String((req.query && req.query.token) || "").trim();
+    const access = verifyPublicKitDownloadAccess(kitKey, email, expires, token);
+
+    if (!access.ok) {
+      res.statusCode = 403;
+      return res.end("Acceso no autorizado");
+    }
+
+    const kit = getPublicKit(kitKey);
     const filePath = getAbsoluteProjectFile(kit.downloadAsset);
     if (!fileExists(filePath)) {
       res.statusCode = 404;

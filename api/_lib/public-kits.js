@@ -1,3 +1,7 @@
+const crypto = require("crypto");
+
+const PUBLIC_KIT_LINK_TTL_SECONDS = 7 * 24 * 60 * 60;
+
 const KITS = {
   principiantes: {
     key: "principiantes",
@@ -13,8 +17,8 @@ const KITS = {
     challengeRoute: "/afiliados#reto-7-dias",
     emailSubject: "Tu kit gratuito para empezar en afiliados ya esta listo",
     successTitle: "Listo. Tu kit para principiantes está preparado.",
-    successBody: "La descarga del ZIP debería empezar ahora mismo. También te hemos enviado el acceso por email para que lo revises con calma.",
-    successCta: "Descargar el kit para principiantes"
+    successBody: "Te acabamos de enviar el acceso por email. Revisa tu bandeja de entrada y, si no aparece en unos minutos, mira spam o promociones.",
+    successCta: "Ir al programa de afiliados"
   },
   "30d-contenido": {
     key: "30d-contenido",
@@ -30,8 +34,8 @@ const KITS = {
     challengeRoute: "",
     emailSubject: "Tu kit 30D de contenido ya esta listo",
     successTitle: "Listo. Tu Kit 30D ya está preparado.",
-    successBody: "La descarga del ZIP debería empezar ahora mismo. También te hemos enviado el acceso por email para que empieces hoy mismo a publicar con estructura.",
-    successCta: "Descargar el Kit 30D"
+    successBody: "Te acabamos de enviar el acceso por email para que empieces a publicar con estructura. Si no lo ves en unos minutos, revisa spam o promociones.",
+    successCta: "Ir al programa de afiliados"
   }
 };
 
@@ -44,14 +48,69 @@ function listPublicKits() {
   return Object.values(KITS);
 }
 
-function buildPublicKitDownloadUrl(siteUrl, key) {
+function getPublicKitDownloadSecret() {
+  return (
+    process.env.PUBLIC_KIT_DOWNLOAD_SECRET ||
+    process.env.AFFILIATE_APPROVAL_TOKEN ||
+    ""
+  ).trim();
+}
+
+function buildSignedKitToken(key, email, expiresAt) {
+  const secret = getPublicKitDownloadSecret();
+  if (!secret) return "";
+  return crypto
+    .createHmac("sha256", secret)
+    .update(`${key}:${String(email || "").toLowerCase()}:${String(expiresAt || "")}`)
+    .digest("hex");
+}
+
+function buildPublicKitDownloadUrl(siteUrl, key, email) {
   const kit = getPublicKit(key);
-  return new URL(kit.downloadRoute, siteUrl).toString();
+  const expiresAt = Math.floor(Date.now() / 1000) + PUBLIC_KIT_LINK_TTL_SECONDS;
+  const url = new URL(kit.downloadRoute, siteUrl);
+  const normalizedEmail = String(email || "").trim().toLowerCase();
+  const token = buildSignedKitToken(kit.key, normalizedEmail, expiresAt);
+  url.searchParams.set("email", normalizedEmail);
+  url.searchParams.set("expires", String(expiresAt));
+  url.searchParams.set("token", token);
+  return url.toString();
+}
+
+function verifyPublicKitDownloadAccess(key, email, expiresAt, token) {
+  const secret = getPublicKitDownloadSecret();
+  if (!secret) {
+    return { ok: false, reason: "missing_secret" };
+  }
+
+  const normalizedEmail = String(email || "").trim().toLowerCase();
+  const normalizedToken = String(token || "").trim();
+  const normalizedExpires = Number(expiresAt);
+
+  if (!normalizedEmail || !normalizedToken || !Number.isFinite(normalizedExpires)) {
+    return { ok: false, reason: "missing_params" };
+  }
+
+  if (normalizedExpires < Math.floor(Date.now() / 1000)) {
+    return { ok: false, reason: "expired" };
+  }
+
+  const expectedToken = buildSignedKitToken(key, normalizedEmail, normalizedExpires);
+  if (!expectedToken || normalizedToken.length !== expectedToken.length) {
+    return { ok: false, reason: "invalid_token" };
+  }
+
+  if (!crypto.timingSafeEqual(Buffer.from(normalizedToken), Buffer.from(expectedToken))) {
+    return { ok: false, reason: "invalid_token" };
+  }
+
+  return { ok: true };
 }
 
 module.exports = {
   KITS,
   getPublicKit,
   listPublicKits,
-  buildPublicKitDownloadUrl
+  buildPublicKitDownloadUrl,
+  verifyPublicKitDownloadAccess
 };

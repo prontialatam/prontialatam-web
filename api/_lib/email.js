@@ -1,5 +1,37 @@
+function getBrevoApiKey() {
+  return (process.env.BREVO_API_KEY || "").trim();
+}
+
+async function brevoRequest(path, options) {
+  const apiKey = getBrevoApiKey();
+  if (!apiKey) {
+    return { ok: false, skipped: true, reason: "missing_brevo_api_key" };
+  }
+
+  const response = await fetch(`https://api.brevo.com/v3${path}`, {
+    method: options.method || "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "api-key": apiKey,
+      ...(options.headers || {})
+    },
+    body: options.body ? JSON.stringify(options.body) : undefined
+  });
+
+  if (!response.ok) {
+    const text = await response.text();
+    throw new Error(text || `Brevo request failed: ${path}`);
+  }
+
+  if (response.status === 204) {
+    return { ok: true, data: null };
+  }
+
+  return { ok: true, data: await response.json() };
+}
+
 async function sendBrevoEmail(payload) {
-  const apiKey = (process.env.BREVO_API_KEY || "").trim();
+  const apiKey = getBrevoApiKey();
   if (!apiKey) {
     return { ok: false, skipped: true, reason: "missing_brevo_api_key" };
   }
@@ -19,6 +51,48 @@ async function sendBrevoEmail(payload) {
   }
 
   return { ok: true };
+}
+
+function parseBrevoListIds(value) {
+  return String(value || "")
+    .split(",")
+    .map((item) => Number(String(item || "").trim()))
+    .filter((item) => Number.isFinite(item) && item > 0);
+}
+
+async function upsertBrevoContactForPublicKitLead(options) {
+  const email = String(options.email || "").trim().toLowerCase();
+  if (!email) {
+    return { ok: false, skipped: true, reason: "missing_email" };
+  }
+
+  const listIds = [
+    ...parseBrevoListIds(process.env.BREVO_PUBLIC_KIT_LEADS_LIST_ID),
+    ...(options.whatsappQualified
+      ? parseBrevoListIds(process.env.BREVO_PUBLIC_KIT_WHATSAPP_LIST_ID)
+      : [])
+  ];
+
+  if (!listIds.length) {
+    return { ok: false, skipped: true, reason: "missing_brevo_public_kit_lists" };
+  }
+
+  const attributes = {
+    FIRSTNAME: String(options.fullName || "").trim(),
+    SMS: String(options.whatsapp || "").trim()
+  };
+
+  return brevoRequest("/contacts", {
+    method: "POST",
+    body: {
+      email,
+      attributes,
+      listIds,
+      updateEnabled: true,
+      emailBlacklisted: false,
+      smsBlacklisted: false
+    }
+  });
 }
 
 function resolveEmailIdentity(prefix, fallbackPrefix) {
@@ -606,6 +680,7 @@ module.exports = {
   sendAffiliateApplicationAdminNotificationEmail,
   sendAffiliateApplicationReceivedEmail,
   sendBrevoEmail,
+  upsertBrevoContactForPublicKitLead,
   sendAffiliateOnboardingEmail,
   sendPurchaseAdminNotificationEmail,
   sendPurchaseConfirmationEmail

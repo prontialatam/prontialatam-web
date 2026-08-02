@@ -351,11 +351,16 @@
       padding-right: 42px;
     }
 
+    .email-row,
     .phone-row {
       display: grid;
-      grid-template-columns: 220px minmax(0, 1fr);
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 12px;
       align-items: end;
+    }
+
+    .phone-row {
+      grid-template-columns: 220px minmax(0, 1fr);
     }
 
     .phone-note {
@@ -552,6 +557,7 @@
         grid-template-columns: 1fr;
       }
 
+      .email-row,
       .phone-row {
         grid-template-columns: 1fr;
       }
@@ -661,7 +667,7 @@
         </div>
 
         <div class="proof">
-          <div class="proof-item"><strong>3 datos</strong>Sin formulario largo de entrada</div>
+          <div class="proof-item"><strong>Email validado</strong>Doble confirmación para enviar bien el acceso</div>
           <div class="proof-item"><strong>Gratis</strong>Sin pago inicial</div>
           <div class="proof-item"><strong>LATAM</strong>Enfoque para mercados hispanos</div>
           <div class="proof-item"><strong>IA</strong>Recursos y guiones en español</div>
@@ -685,10 +691,16 @@
             Nombre
             <input name="fullName" autocomplete="name" required placeholder="Tu nombre">
           </label>
-          <label>
-            Email
-            <input name="email" type="email" autocomplete="email" required placeholder="tu@email.com">
-          </label>
+          <div class="email-row">
+            <label>
+              Email
+              <input name="email" type="email" autocomplete="email" required placeholder="tu@email.com">
+            </label>
+            <label>
+              Confirma tu email
+              <input name="confirmEmail" type="email" autocomplete="email" required placeholder="repite tu@email.com">
+            </label>
+          </div>
           <div class="phone-row">
             <label>
               Prefijo WhatsApp
@@ -736,7 +748,7 @@
           </label>
           <div class="status" id="formStatus" role="alert"></div>
           <button class="submit" type="submit" id="submitButton">Enviar y recibir el kit por email</button>
-          <p class="fineprint">Sin spam. Enviamos el acceso al email indicado y usamos tu WhatsApp real para seguimiento comercial responsable si decides continuar.</p>
+          <p class="fineprint">Sin spam. Enviamos el acceso solo al email confirmado y usamos tu WhatsApp real para seguimiento comercial responsable si decides continuar.</p>
         </form>
 
         <div class="success" id="successBox">
@@ -829,6 +841,7 @@
         var payload = {
           fullName: String(formData.get("fullName") || "").trim(),
           email: String(formData.get("email") || "").trim(),
+          confirmEmail: String(formData.get("confirmEmail") || "").trim(),
           whatsappCountryCode: String(formData.get("whatsappCountryCode") || "").trim(),
           whatsappCountryName: selectedCountryOption ? String(selectedCountryOption.getAttribute("data-country") || "").trim() : "",
           whatsappNumber: String(formData.get("whatsappNumber") || "").trim(),
@@ -843,8 +856,12 @@
           utmContent: params.get("utm_content") || ""
         };
 
-        if (!payload.fullName || !payload.email || !payload.whatsappCountryCode || !payload.whatsappNumber) {
-          showError("Completa nombre, email, prefijo y número de WhatsApp para recibir el kit.");
+        if (!payload.fullName || !payload.email || !payload.confirmEmail || !payload.whatsappCountryCode || !payload.whatsappNumber) {
+          showError("Completa nombre, email, confirmación de email, prefijo y número de WhatsApp para recibir el kit.");
+          return;
+        }
+        if (payload.email.toLowerCase() !== payload.confirmEmail.toLowerCase()) {
+          showError("Los dos campos de email deben coincidir.");
           return;
         }
         if (!payload.marketingConsent) {

@@ -22,6 +22,10 @@ const PROTECTED_PAGES = {
     route: "/dossier-producto-estetica",
     file: "dossier-producto-estetica.html"
   },
+  productDental: {
+    route: "/dossier-producto-dental",
+    file: "dossier-producto-dental.html"
+  },
   productEmprendedores: {
     route: "/dossier-producto-emprendedores",
     file: "dossier-producto-emprendedores.html"
@@ -38,6 +42,10 @@ const PROTECTED_PAGES = {
     route: "/playbook-afiliados-estetica",
     file: "playbook-afiliados-estetica.html"
   },
+  playbookDental: {
+    route: "/playbook-afiliados-dental",
+    file: "playbook-afiliados-dental.html"
+  },
   playbookEmprendedores: {
     route: "/playbook-afiliados-emprendedores",
     file: "playbook-afiliados-emprendedores.html"
@@ -53,6 +61,10 @@ const PROTECTED_PAGES = {
   socialEstetica: {
     route: "/biblioteca-social-estetica",
     file: "biblioteca-social-estetica.html"
+  },
+  socialDental: {
+    route: "/biblioteca-social-dental",
+    file: "biblioteca-social-dental.html"
   },
   socialEmprendedores: {
     route: "/biblioteca-social-emprendedores",

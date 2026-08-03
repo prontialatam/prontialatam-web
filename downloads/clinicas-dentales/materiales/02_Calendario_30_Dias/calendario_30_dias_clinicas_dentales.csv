@@ -1,0 +1,31 @@
+Dia,Objetivo,Accion,Canal,Mensaje base,KPI
+1,Ordenar recepción,"Configurar CRM, respuestas rápidas y agenda - Auditar los últimos 30 WhatsApps",WhatsApp,Detecta preguntas repetidas y respuestas que pierden citas.,Consultas clasificadas
+2,Ordenar recepción,"Configurar CRM, respuestas rápidas y agenda - Configurar etiquetas del CRM",Sheets/Excel,"Nuevo, citado, asistió, presupuesto, aceptado, reactivar.",CRM preparado
+3,Ordenar recepción,"Configurar CRM, respuestas rápidas y agenda - Crear respuesta de bienvenida",WhatsApp,"Gracias por escribirnos. Para orientarte mejor, ¿qué tratamiento te interesa y en qué zona estás?",Tiempo de respuesta
+4,Ordenar recepción,"Configurar CRM, respuestas rápidas y agenda - Confirmar citas de mañana",WhatsApp,"Te esperamos mañana a las [hora]. Si necesitas cambiar, avísanos hoy para liberar el espacio.",Confirmaciones
+5,Ordenar recepción,"Configurar CRM, respuestas rápidas y agenda - Publicar campaña de diagnóstico",Instagram/Facebook,¿Hace más de 6 meses que no revisas tu salud dental? Agenda una valoración.,Mensajes recibidos
+6,Ordenar recepción,"Configurar CRM, respuestas rápidas y agenda - Reactivar pacientes antiguos",WhatsApp,"Hola [nombre], vimos que hace tiempo no vienes a control. ¿Quieres que revisemos agenda esta semana?",Reactivados
+7,Ordenar recepción,"Configurar CRM, respuestas rápidas y agenda - Pedir reseñas a pacientes satisfechos",Google,Tu opinión ayuda a otros pacientes a confiar en la clínica.,Reseñas solicitadas
+8,Ordenar recepción,"Configurar CRM, respuestas rápidas y agenda - Auditar los últimos 30 WhatsApps",WhatsApp,Detecta preguntas repetidas y respuestas que pierden citas.,Consultas clasificadas
+9,Captar demanda,Publicar campañas por tratamiento y dolor - Configurar etiquetas del CRM,Sheets/Excel,"Nuevo, citado, asistió, presupuesto, aceptado, reactivar.",CRM preparado
+10,Captar demanda,Publicar campañas por tratamiento y dolor - Crear respuesta de bienvenida,WhatsApp,"Gracias por escribirnos. Para orientarte mejor, ¿qué tratamiento te interesa y en qué zona estás?",Tiempo de respuesta
+11,Captar demanda,Publicar campañas por tratamiento y dolor - Confirmar citas de mañana,WhatsApp,"Te esperamos mañana a las [hora]. Si necesitas cambiar, avísanos hoy para liberar el espacio.",Confirmaciones
+12,Captar demanda,Publicar campañas por tratamiento y dolor - Publicar campaña de diagnóstico,Instagram/Facebook,¿Hace más de 6 meses que no revisas tu salud dental? Agenda una valoración.,Mensajes recibidos
+13,Captar demanda,Publicar campañas por tratamiento y dolor - Reactivar pacientes antiguos,WhatsApp,"Hola [nombre], vimos que hace tiempo no vienes a control. ¿Quieres que revisemos agenda esta semana?",Reactivados
+14,Captar demanda,Publicar campañas por tratamiento y dolor - Pedir reseñas a pacientes satisfechos,Google,Tu opinión ayuda a otros pacientes a confiar en la clínica.,Reseñas solicitadas
+15,Captar demanda,Publicar campañas por tratamiento y dolor - Auditar los últimos 30 WhatsApps,WhatsApp,Detecta preguntas repetidas y respuestas que pierden citas.,Consultas clasificadas
+16,Captar demanda,Publicar campañas por tratamiento y dolor - Configurar etiquetas del CRM,Sheets/Excel,"Nuevo, citado, asistió, presupuesto, aceptado, reactivar.",CRM preparado
+17,Convertir presupuestos,Hacer seguimiento y explicar valor - Crear respuesta de bienvenida,WhatsApp,"Gracias por escribirnos. Para orientarte mejor, ¿qué tratamiento te interesa y en qué zona estás?",Tiempo de respuesta
+18,Convertir presupuestos,Hacer seguimiento y explicar valor - Confirmar citas de mañana,WhatsApp,"Te esperamos mañana a las [hora]. Si necesitas cambiar, avísanos hoy para liberar el espacio.",Confirmaciones
+19,Convertir presupuestos,Hacer seguimiento y explicar valor - Publicar campaña de diagnóstico,Instagram/Facebook,¿Hace más de 6 meses que no revisas tu salud dental? Agenda una valoración.,Mensajes recibidos
+20,Convertir presupuestos,Hacer seguimiento y explicar valor - Reactivar pacientes antiguos,WhatsApp,"Hola [nombre], vimos que hace tiempo no vienes a control. ¿Quieres que revisemos agenda esta semana?",Reactivados
+21,Convertir presupuestos,Hacer seguimiento y explicar valor - Pedir reseñas a pacientes satisfechos,Google,Tu opinión ayuda a otros pacientes a confiar en la clínica.,Reseñas solicitadas
+22,Convertir presupuestos,Hacer seguimiento y explicar valor - Auditar los últimos 30 WhatsApps,WhatsApp,Detecta preguntas repetidas y respuestas que pierden citas.,Consultas clasificadas
+23,Convertir presupuestos,Hacer seguimiento y explicar valor - Configurar etiquetas del CRM,Sheets/Excel,"Nuevo, citado, asistió, presupuesto, aceptado, reactivar.",CRM preparado
+24,Convertir presupuestos,Hacer seguimiento y explicar valor - Crear respuesta de bienvenida,WhatsApp,"Gracias por escribirnos. Para orientarte mejor, ¿qué tratamiento te interesa y en qué zona estás?",Tiempo de respuesta
+25,Reactivar y fidelizar,"Reseñas, referidos y pacientes antiguos - Confirmar citas de mañana",WhatsApp,"Te esperamos mañana a las [hora]. Si necesitas cambiar, avísanos hoy para liberar el espacio.",Confirmaciones
+26,Reactivar y fidelizar,"Reseñas, referidos y pacientes antiguos - Publicar campaña de diagnóstico",Instagram/Facebook,¿Hace más de 6 meses que no revisas tu salud dental? Agenda una valoración.,Mensajes recibidos
+27,Reactivar y fidelizar,"Reseñas, referidos y pacientes antiguos - Reactivar pacientes antiguos",WhatsApp,"Hola [nombre], vimos que hace tiempo no vienes a control. ¿Quieres que revisemos agenda esta semana?",Reactivados
+28,Reactivar y fidelizar,"Reseñas, referidos y pacientes antiguos - Pedir reseñas a pacientes satisfechos",Google,Tu opinión ayuda a otros pacientes a confiar en la clínica.,Reseñas solicitadas
+29,Reactivar y fidelizar,"Reseñas, referidos y pacientes antiguos - Auditar los últimos 30 WhatsApps",WhatsApp,Detecta preguntas repetidas y respuestas que pierden citas.,Consultas clasificadas
+30,Reactivar y fidelizar,"Reseñas, referidos y pacientes antiguos - Configurar etiquetas del CRM",Sheets/Excel,"Nuevo, citado, asistió, presupuesto, aceptado, reactivar.",CRM preparado

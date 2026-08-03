@@ -379,7 +379,8 @@
       const productDefaults = {
         'talleres-mecanicos': { label: 'Talleres Mecánicos', amount: 29 },
         'restaurantes-hosteleria': { label: 'Restaurantes y Hostelería', amount: 20 },
-        'centros-estetica': { label: 'Centros de Estética', amount: 37 }
+        'centros-estetica': { label: 'Centros de Estética', amount: 37 },
+        'clinicas-dentales': { label: 'Clínicas Dentales', amount: 47 }
       };
 
       function setStatus(message, type) {
@@ -1034,11 +1035,13 @@
           const detailId = 'order-detail-' + index;
           const niche = order.product_slug === 'centros-estetica'
             ? 'Estética'
-            : order.product_slug === 'talleres-mecanicos'
-              ? 'Talleres'
-              : order.product_slug === 'restaurantes-hosteleria'
-                ? 'Restaurantes'
-                : order.product_slug || '-';
+            : order.product_slug === 'clinicas-dentales'
+              ? 'Dental'
+              : order.product_slug === 'talleres-mecanicos'
+                ? 'Talleres'
+                : order.product_slug === 'restaurantes-hosteleria'
+                  ? 'Restaurantes'
+                  : order.product_slug || '-';
           const metadata = order.source_metadata && typeof order.source_metadata === 'object' ? order.source_metadata : {};
           const isTestOrder = Boolean(metadata.is_test_order);
           return '' +

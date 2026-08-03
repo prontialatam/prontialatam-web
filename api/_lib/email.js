@@ -419,7 +419,7 @@ async function sendAffiliateOnboardingEmail(options) {
               <li>Material gráfico listo para feed, stories, reels, formatos anchos y WhatsApp.</li>
               <li>Copies y argumentos comerciales para vender sin improvisar.</li>
               <li>Código de afiliado y trazabilidad de ventas.</li>
-              <li>Base documental por nicho para talleres, restaurantes y centros de estética.</li>
+              <li>Base documental por nicho para talleres, restaurantes, centros de estética, clínicas dentales y repostería.</li>
             </ul>
 
             <div style="margin:0 0 18px;padding:24px 24px 22px;background:linear-gradient(135deg,#f8f3ea 0%,#fffdf9 100%);border:1px solid #e4dacb;border-radius:20px;box-shadow:inset 0 1px 0 rgba(255,255,255,0.7);">

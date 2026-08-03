@@ -1,0 +1,5 @@
+Objeción: No sé usar IA.
+Respuesta: El kit trae prompts y plantillas listas para copiar y adaptar.
+
+Objeción: Mi clínica ya tiene agenda.
+Respuesta: Entonces el foco es reducir huecos, mejorar seguimiento y recuperar presupuestos.

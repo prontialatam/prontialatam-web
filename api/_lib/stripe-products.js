@@ -32,6 +32,18 @@ const PRODUCTS = {
     successPath: "/checkout-success",
     cancelPath: "/checkout-cancel"
   },
+  "clinicas-dentales": {
+    slug: "clinicas-dentales",
+    name: "Kit Agenda Dental Llena 30 Días",
+    defaultAmount: 4700,
+    currency: "usd",
+    stripePriceEnv: "STRIPE_DENTAL_PRICE_ID",
+    supportEmail: "hola@prontialatam.com",
+    deliveryAssetUrl: "/downloads/kit-agenda-dental-llena-30-dias.zip",
+    deliveryPageUrl: "/kit-agenda-dental-llena-30-dias",
+    successPath: "/checkout-success",
+    cancelPath: "/checkout-cancel"
+  },
   "emprendedores": {
     slug: "emprendedores",
     name: "Kit Completo Premium para Emprendedores LATAM",

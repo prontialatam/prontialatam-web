@@ -138,6 +138,19 @@
     {
       "@type": "Product",
       "position": 7,
+      "name": "Kit Agenda Dental Llena 30 Días",
+      "description": "Kit descargable para clínicas dentales en LATAM con agenda de 30 días, captación de pacientes, WhatsApp, presupuestos, reseñas, campañas y CRM.",
+      "url": "https://www.prontialatam.com/clinicas-dentales",
+      "offers": {
+        "@type": "Offer",
+        "price": "47",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock"
+      }
+    },
+    {
+      "@type": "Product",
+      "position": 8,
       "name": "Kit IA para Repostería y Negocios de Comida desde Casa",
       "description": "Guía, 120 prompts, workbook y plantillas editables para calcular costos, organizar pedidos, vender por WhatsApp y crear contenido.",
       "url": "https://www.prontialatam.com/reposteria-negocio-desde-casa",
@@ -1282,6 +1295,28 @@
   .product-card-estetica .product-desc { color: rgba(255,255,255,0.82); }
   .product-card-estetica .product-features li { color: rgba(255,255,255,0.85); }
   .product-card-estetica .product-features li::before { background: #ff9a1f; }
+
+  .product-card-dental {
+    background-image:
+      linear-gradient(to top, rgba(6,48,64,0.94) 0%, rgba(6,48,64,0.70) 50%, rgba(20,88,120,0.20) 100%),
+      url('assets/dental/producto_vertical_kit_agenda_dental_llena.jpg');
+    background-size: cover;
+    background-position: center 40%;
+    border: none !important;
+    box-shadow: 0 8px 30px rgba(6,48,64,0.22) !important;
+  }
+
+  .product-card-dental:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(6,48,64,0.3) !important;
+  }
+
+  .product-card-dental .product-price { color: var(--white); }
+  .product-card-dental .product-price span { color: rgba(255,255,255,0.68); }
+  .product-card-dental .product-name { color: var(--white); }
+  .product-card-dental .product-desc { color: rgba(255,255,255,0.84); }
+  .product-card-dental .product-features li { color: rgba(255,255,255,0.86); }
+  .product-card-dental .product-features li::before { background: #63d3e6; }
 
   .product-card-reposteria {
     background-image:
@@ -3684,6 +3719,19 @@
           <li>CRM/KPIs editable y descarga inmediata</li>
         </ul>
         <a href="/centros-estetica" class="btn-product btn-product-light">Ver landing y comprar →</a>
+      </div>
+      <div class="product-card product-card-dental">
+        <div class="product-featured-badge">Nuevo · Clínicas dentales</div>
+        <div class="product-price">47 USD <span>pago único lanzamiento</span></div>
+        <div class="product-name">Kit Agenda Dental Llena 30 Días</div>
+        <div class="product-desc">Captación, WhatsApp, presupuestos, reseñas y seguimiento para convertir consultas en pacientes agendados.</div>
+        <ul class="product-features">
+          <li>Plan comercial dental de 30 días</li>
+          <li>100 prompts y mensajes de WhatsApp</li>
+          <li>Bonos, financiación y campañas por tratamiento</li>
+          <li>CRM/KPIs editable y descarga inmediata</li>
+        </ul>
+        <a href="/clinicas-dentales" class="btn-product btn-product-light">Ver landing y comprar →</a>
       </div>
     </div>
   </div>

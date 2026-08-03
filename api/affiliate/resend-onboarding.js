@@ -36,6 +36,15 @@ function buildNicheAccesses(siteUrl, token, trackingCode) {
       socialUrl: buildProtectedPageUrl(siteUrl, "/biblioteca-social-estetica", token)
     },
     {
+      key: "dental",
+      label: "Clínicas dentales",
+      salesUrl: `${siteUrl}/clinicas-dentales?ref=${trackingCode}`,
+      kitUrl: buildProtectedResourceUrl(siteUrl, "downloads/kit-base-afiliados-dental.zip", token),
+      dossierUrl: buildProtectedPageUrl(siteUrl, "/dossier-producto-dental", token),
+      playbookUrl: buildProtectedPageUrl(siteUrl, "/playbook-afiliados-dental", token),
+      socialUrl: buildProtectedPageUrl(siteUrl, "/biblioteca-social-dental", token)
+    },
+    {
       key: "emprendedores",
       label: "Emprendedores",
       salesUrl: `${siteUrl}/emprendedores?ref=${trackingCode}`,

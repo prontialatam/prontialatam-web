@@ -1775,16 +1775,19 @@
         '/dossier-producto-talleres': 'product',
         '/dossier-producto-restaurantes': 'productRestaurant',
         '/dossier-producto-estetica': 'productEstetica',
+        '/dossier-producto-dental': 'productDental',
         '/dossier-producto-emprendedores': 'productEmprendedores',
         '/dossier-producto-reposteria': 'productReposteria',
         '/playbook-afiliados-talleres': 'playbook',
         '/playbook-afiliados-restaurantes': 'playbookRestaurant',
         '/playbook-afiliados-estetica': 'playbookEstetica',
+        '/playbook-afiliados-dental': 'playbookDental',
         '/playbook-afiliados-emprendedores': 'playbookEmprendedores',
         '/playbook-afiliados-reposteria': 'playbookReposteria',
         '/biblioteca-social-talleres': 'social',
         '/biblioteca-social-restaurantes': 'socialRestaurant',
         '/biblioteca-social-estetica': 'socialEstetica',
+        '/biblioteca-social-dental': 'socialDental',
         '/biblioteca-social-emprendedores': 'socialEmprendedores',
         '/biblioteca-social-reposteria': 'socialReposteria',
         '/guia-portal-afiliados': 'guidePortal',
@@ -1825,6 +1828,16 @@
           dossier: '/dossier-producto-estetica',
           playbook: '/playbook-afiliados-estetica',
           social: '/biblioteca-social-estetica'
+        },
+        {
+          key: 'dental',
+          label: 'Clínicas dentales',
+          description: 'Kit premium para clínicas dentales que necesitan más primeras visitas, seguimiento de presupuestos y agenda llena con IA.',
+          route: '/clinicas-dentales',
+          asset: 'downloads/kit-base-afiliados-dental.zip',
+          dossier: '/dossier-producto-dental',
+          playbook: '/playbook-afiliados-dental',
+          social: '/biblioteca-social-dental'
         },
         {
           key: 'emprendedores',
@@ -1869,6 +1882,13 @@
           post: 'Escribe un post para centros de estética en LATAM sobre cómo usar IA para responder dudas, crear contenido y hacer seguimiento sin sonar impersonal. Incluye CTA para descubrir el kit.',
           dm: 'Estoy compartiendo un kit aplicado a centros de estética para mejorar contenido, seguimiento y conversación comercial con ayuda de IA. Si te interesa verlo, te paso la landing.',
           story: 'Crea 3 stories para centros de estética con enfoque en agenda, confianza y seguimiento por WhatsApp.'
+        },
+        dental: {
+          stage: 'Clínicas dentales',
+          angle: 'Ayudar a clínicas dentales a llenar agenda, recuperar presupuestos sin respuesta y convertir consultas de WhatsApp en primeras visitas.',
+          post: 'Redacta un post para propietarios y doctores de clínicas dentales en LATAM que tienen tratamientos rentables, pero pierden pacientes por falta de seguimiento, contenido y respuestas comerciales claras. Presenta el kit como una solución práctica de IA para agenda, WhatsApp, presupuestos, reseñas y campañas de 30 días.',
+          dm: 'Estoy compartiendo un kit específico para clínicas dentales que quieren mejorar agenda, seguimiento de presupuestos, WhatsApp y campañas sin cargar más al equipo. Si quieres, te paso la landing para verlo.',
+          story: 'Crea 3 stories para clínicas dentales: 1) consultas que no se convierten en cita, 2) seguimiento con IA y mensajes claros, 3) CTA para ver el Kit Agenda Dental Llena 30 Días.'
         },
         emprendedores: {
           stage: 'Emprendedores',
@@ -2233,6 +2253,86 @@
                 label: 'Cabecera horizontal para email',
                 kind: 'Wide',
                 fileName: 'email-header-estetica.jpg'
+              }
+            ]
+          }
+        },
+        dental: {
+          instagram: {
+            formats: ['Feed cuadrado', 'Vertical'],
+            assets: [
+              {
+                path: 'downloads/affiliate-kit-dental/social/producto_cuadrado_kit_agenda_dental_llena.jpg',
+                label: 'Creatividad principal de feed',
+                kind: 'Imagen',
+                fileName: 'instagram-feed-dental.jpg'
+              },
+              {
+                path: 'downloads/affiliate-kit-dental/social/producto_vertical_kit_agenda_dental_llena.jpg',
+                label: 'Versión story / reel vertical',
+                kind: 'Story',
+                fileName: 'instagram-story-dental.jpg'
+              }
+            ]
+          },
+          whatsapp: {
+            formats: ['Square 1080', 'WhatsApp'],
+            assets: [
+              {
+                path: 'downloads/affiliate-kit-dental/social/producto_cuadrado_kit_agenda_dental_llena.jpg',
+                label: 'Creatividad cuadrada para WhatsApp',
+                kind: 'Imagen',
+                fileName: 'whatsapp-dental.jpg'
+              }
+            ]
+          },
+          linkedin: {
+            formats: ['Horizontal amplio', 'LinkedIn'],
+            assets: [
+              {
+                path: 'downloads/affiliate-kit-dental/social/header_banner_kit_agenda_dental_llena.jpg',
+                label: 'Pieza horizontal para LinkedIn',
+                kind: 'Wide',
+                fileName: 'linkedin-dental.jpg'
+              }
+            ]
+          },
+          facebook: {
+            formats: ['Feed cuadrado', 'Horizontal amplio'],
+            assets: [
+              {
+                path: 'downloads/affiliate-kit-dental/social/producto_cuadrado_kit_agenda_dental_llena.jpg',
+                label: 'Post cuadrado para Facebook',
+                kind: 'Imagen',
+                fileName: 'facebook-feed-dental.jpg'
+              },
+              {
+                path: 'downloads/affiliate-kit-dental/social/header_banner_kit_agenda_dental_llena.jpg',
+                label: 'Formato ancho de apoyo',
+                kind: 'Wide',
+                fileName: 'facebook-wide-dental.jpg'
+              }
+            ]
+          },
+          tiktok: {
+            formats: ['Vertical 9:16', 'Story / reel'],
+            assets: [
+              {
+                path: 'downloads/affiliate-kit-dental/social/producto_vertical_kit_agenda_dental_llena.jpg',
+                label: 'Creatividad vertical lista para reel',
+                kind: 'Vertical',
+                fileName: 'reel-dental.jpg'
+              }
+            ]
+          },
+          email: {
+            formats: ['Horizontal amplio', 'Email / cabecera'],
+            assets: [
+              {
+                path: 'downloads/affiliate-kit-dental/social/header_banner_kit_agenda_dental_llena.jpg',
+                label: 'Cabecera horizontal para email',
+                kind: 'Wide',
+                fileName: 'email-header-dental.jpg'
               }
             ]
           }

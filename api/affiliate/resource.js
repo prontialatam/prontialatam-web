@@ -20,6 +20,8 @@ function isAllowedAsset(assetPath) {
     || assetPath.startsWith("downloads/affiliate-kit-restaurantes/")
     || assetPath === "downloads/kit-base-afiliados-estetica.zip"
     || assetPath.startsWith("downloads/affiliate-kit-estetica/")
+    || assetPath === "downloads/kit-base-afiliados-dental.zip"
+    || assetPath.startsWith("downloads/affiliate-kit-dental/")
     || assetPath === "downloads/kit-base-afiliados-emprendedores.zip"
     || assetPath.startsWith("downloads/affiliate-kit-emprendedores/")
     || assetPath === "downloads/kit-base-afiliados-reposteria.zip"

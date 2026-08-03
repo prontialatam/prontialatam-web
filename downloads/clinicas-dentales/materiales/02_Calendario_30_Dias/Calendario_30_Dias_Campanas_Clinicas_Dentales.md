@@ -1,0 +1,32 @@
+# Calendario 30 Días
+
+- Día 1: Configurar CRM, respuestas rápidas y agenda - Auditar los últimos 30 WhatsApps (WhatsApp). KPI: Consultas clasificadas
+- Día 2: Configurar CRM, respuestas rápidas y agenda - Configurar etiquetas del CRM (Sheets/Excel). KPI: CRM preparado
+- Día 3: Configurar CRM, respuestas rápidas y agenda - Crear respuesta de bienvenida (WhatsApp). KPI: Tiempo de respuesta
+- Día 4: Configurar CRM, respuestas rápidas y agenda - Confirmar citas de mañana (WhatsApp). KPI: Confirmaciones
+- Día 5: Configurar CRM, respuestas rápidas y agenda - Publicar campaña de diagnóstico (Instagram/Facebook). KPI: Mensajes recibidos
+- Día 6: Configurar CRM, respuestas rápidas y agenda - Reactivar pacientes antiguos (WhatsApp). KPI: Reactivados
+- Día 7: Configurar CRM, respuestas rápidas y agenda - Pedir reseñas a pacientes satisfechos (Google). KPI: Reseñas solicitadas
+- Día 8: Configurar CRM, respuestas rápidas y agenda - Auditar los últimos 30 WhatsApps (WhatsApp). KPI: Consultas clasificadas
+- Día 9: Publicar campañas por tratamiento y dolor - Configurar etiquetas del CRM (Sheets/Excel). KPI: CRM preparado
+- Día 10: Publicar campañas por tratamiento y dolor - Crear respuesta de bienvenida (WhatsApp). KPI: Tiempo de respuesta
+- Día 11: Publicar campañas por tratamiento y dolor - Confirmar citas de mañana (WhatsApp). KPI: Confirmaciones
+- Día 12: Publicar campañas por tratamiento y dolor - Publicar campaña de diagnóstico (Instagram/Facebook). KPI: Mensajes recibidos
+- Día 13: Publicar campañas por tratamiento y dolor - Reactivar pacientes antiguos (WhatsApp). KPI: Reactivados
+- Día 14: Publicar campañas por tratamiento y dolor - Pedir reseñas a pacientes satisfechos (Google). KPI: Reseñas solicitadas
+- Día 15: Publicar campañas por tratamiento y dolor - Auditar los últimos 30 WhatsApps (WhatsApp). KPI: Consultas clasificadas
+- Día 16: Publicar campañas por tratamiento y dolor - Configurar etiquetas del CRM (Sheets/Excel). KPI: CRM preparado
+- Día 17: Hacer seguimiento y explicar valor - Crear respuesta de bienvenida (WhatsApp). KPI: Tiempo de respuesta
+- Día 18: Hacer seguimiento y explicar valor - Confirmar citas de mañana (WhatsApp). KPI: Confirmaciones
+- Día 19: Hacer seguimiento y explicar valor - Publicar campaña de diagnóstico (Instagram/Facebook). KPI: Mensajes recibidos
+- Día 20: Hacer seguimiento y explicar valor - Reactivar pacientes antiguos (WhatsApp). KPI: Reactivados
+- Día 21: Hacer seguimiento y explicar valor - Pedir reseñas a pacientes satisfechos (Google). KPI: Reseñas solicitadas
+- Día 22: Hacer seguimiento y explicar valor - Auditar los últimos 30 WhatsApps (WhatsApp). KPI: Consultas clasificadas
+- Día 23: Hacer seguimiento y explicar valor - Configurar etiquetas del CRM (Sheets/Excel). KPI: CRM preparado
+- Día 24: Hacer seguimiento y explicar valor - Crear respuesta de bienvenida (WhatsApp). KPI: Tiempo de respuesta
+- Día 25: Reseñas, referidos y pacientes antiguos - Confirmar citas de mañana (WhatsApp). KPI: Confirmaciones
+- Día 26: Reseñas, referidos y pacientes antiguos - Publicar campaña de diagnóstico (Instagram/Facebook). KPI: Mensajes recibidos
+- Día 27: Reseñas, referidos y pacientes antiguos - Reactivar pacientes antiguos (WhatsApp). KPI: Reactivados
+- Día 28: Reseñas, referidos y pacientes antiguos - Pedir reseñas a pacientes satisfechos (Google). KPI: Reseñas solicitadas
+- Día 29: Reseñas, referidos y pacientes antiguos - Auditar los últimos 30 WhatsApps (WhatsApp). KPI: Consultas clasificadas
+- Día 30: Reseñas, referidos y pacientes antiguos - Configurar etiquetas del CRM (Sheets/Excel). KPI: CRM preparado

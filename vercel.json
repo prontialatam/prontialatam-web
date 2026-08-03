@@ -128,6 +128,36 @@
       "permanent": false
     },
     {
+      "source": "/dossier-producto-dental",
+      "destination": "/api/affiliate/page?page=productDental",
+      "permanent": false
+    },
+    {
+      "source": "/dossier-producto-dental.html",
+      "destination": "/api/affiliate/page?page=productDental",
+      "permanent": false
+    },
+    {
+      "source": "/playbook-afiliados-dental",
+      "destination": "/api/affiliate/page?page=playbookDental",
+      "permanent": false
+    },
+    {
+      "source": "/playbook-afiliados-dental.html",
+      "destination": "/api/affiliate/page?page=playbookDental",
+      "permanent": false
+    },
+    {
+      "source": "/biblioteca-social-dental",
+      "destination": "/api/affiliate/page?page=socialDental",
+      "permanent": false
+    },
+    {
+      "source": "/biblioteca-social-dental.html",
+      "destination": "/api/affiliate/page?page=socialDental",
+      "permanent": false
+    },
+    {
       "source": "/dossier-producto-emprendedores",
       "destination": "/api/affiliate/page?page=productEmprendedores",
       "permanent": false
@@ -218,6 +248,16 @@
       "permanent": false
     },
     {
+      "source": "/downloads/kit-base-afiliados-dental.zip",
+      "destination": "/api/affiliate/resource?asset=downloads/kit-base-afiliados-dental.zip",
+      "permanent": false
+    },
+    {
+      "source": "/downloads/affiliate-kit-dental/:path*",
+      "destination": "/api/affiliate/resource?asset=downloads/affiliate-kit-dental/:path*",
+      "permanent": false
+    },
+    {
       "source": "/downloads/kit-base-afiliados-emprendedores.zip",
       "destination": "/api/affiliate/resource?asset=downloads/kit-base-afiliados-emprendedores.zip",
       "permanent": false
@@ -263,12 +303,20 @@
       "destination": "/centros-estetica.html"
     },
     {
+      "source": "/clinicas-dentales",
+      "destination": "/clinicas-dentales.html"
+    },
+    {
       "source": "/emprendedores",
       "destination": "/emprendedores.html"
     },
     {
       "source": "/kit-agenda-llena-centros-estetica",
       "destination": "/kit-agenda-llena-centros-estetica.html"
+    },
+    {
+      "source": "/kit-agenda-dental-llena-30-dias",
+      "destination": "/kit-agenda-dental-llena-30-dias.html"
     },
     {
       "source": "/afiliados",
